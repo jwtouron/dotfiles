@@ -152,7 +152,7 @@ Ignores CHAR at point."
 
 ;; smart-tab-mode
 (setq smart-tab-using-hippie-expand t)
-(global-smart-tab-mode t)
+(add-to-list 'smart-tab-disabled-major-modes 'haskell-mode)
 
 ;; scrolling moves half a window at a time
 (defun window-half-height ()
