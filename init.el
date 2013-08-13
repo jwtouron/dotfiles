@@ -206,12 +206,13 @@ Ignores CHAR at point."
                                                            "\u03BB") nil))))))
 
 ;; js-mode
-(eval-after-load 'js
-  (font-lock-add-keywords
-   'js-mode `(("\\(function *\\)("
-               (0 (progn (compose-region (match-beginning 1)
-                                         (match-end 1) "\u03BB")
-                         nil))))))
+(add-hook 'js-mode-hook
+          (lambda ()
+            (font-lock-add-keywords
+             'js-mode `(("\\(function *\\)("
+                         (0 (progn (compose-region (match-beginning 1)
+                                                   (match-end 1) "\u03BB")
+                                   nil)))))))
 (add-hook 'js-mode-hook (lambda () (setq js-indent-level 4)))
 
 ;; python-mode
