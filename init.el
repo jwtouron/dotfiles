@@ -76,6 +76,9 @@
 
 ;; clojure-mode
 (add-hook 'clojure-mode-hook 'paredit-mode)
+(add-hook 'clojure-mode-hook (lambda () (define-clojure-indent
+                                          (lazy-seq 'defun)
+                                          (cond 'defun))))
 
 ;; emacs-lisp-mode
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
