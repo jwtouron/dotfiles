@@ -31,6 +31,7 @@
                       mediawiki
                       multiple-cursors
                       nrepl
+                      nzenburn-theme
                       paredit
                       slamhound
                       smart-tab
@@ -232,4 +233,4 @@ Ignores CHAR at point."
 (setq lua-indent-level 4)
 
 ;; load desired theme
-(load-theme 'zenburn t)
+(load-theme 'nzenburn t)
