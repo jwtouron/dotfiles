@@ -43,7 +43,6 @@
                       starter-kit-lisp
                       starter-kit-ruby
                       yaml-mode
-                      yasnippet-bundle
                       zenburn-theme))
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -192,12 +191,6 @@ Ignores CHAR at point."
                   return font)))
   (when font
     (set-frame-font (format "%s-10" font))))
-
-;; yasnippet
-(when (require 'yasnippet nil 'noerror)
-  (progn
-    (yas/load-directory "~/.emacs.d/snippets")
-    (add-to-list 'hippie-expand-try-functions-list 'yas/hippie-try-expand)))
 
 ;; change fn to lambda in clojure-mode
 (defun esk-pretty-fn ()
