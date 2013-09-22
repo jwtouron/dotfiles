@@ -33,6 +33,7 @@
                       nrepl
                       nzenburn-theme
                       paredit
+                      scala-mode
                       slamhound
                       smart-tab
                       solarized-theme
