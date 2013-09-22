@@ -1,3 +1,0 @@
-#name: post
-# --
-:post [${1:expr*}]

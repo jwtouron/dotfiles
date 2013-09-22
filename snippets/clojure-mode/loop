@@ -1,5 +1,0 @@
-#name: loop
-# --
-(loop [${1:bindings*}]
-  $0
-  (recur${2:exprs*}))

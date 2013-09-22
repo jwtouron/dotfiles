@@ -1,3 +1,0 @@
-#name: pre
-# --
-:pre [${1:expr*}]
