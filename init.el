@@ -278,5 +278,8 @@ Ignores CHAR at point."
                                                    '(scala-indent:align-parameters t)
                                                    '(scala-indent:align-forms t))))
 
+;; set default buffer encoding
+(setq default-buffer-file-coding-system 'utf-8-unix)
+
 ;; load desired theme
 (load-theme 'nzenburn t)
