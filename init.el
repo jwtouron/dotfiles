@@ -87,6 +87,13 @@
                                           (lazy-seq 'defun)
                                           (cond 'defun))))
 
+(defun helm-clojure-headlines ()
+  "Display headlines for the current Clojure file."
+  (interactive)
+  (helm :sources '(((name . "Clojure Headlines")
+                    (volatile)
+                    (headline "^[;(]")))))
+
 ;; emacs-lisp-mode
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
@@ -277,6 +284,13 @@ Ignores CHAR at point."
                              (custom-set-variables '(scala-indent:indent-value-expression t)
                                                    '(scala-indent:align-parameters t)
                                                    '(scala-indent:align-forms t))))
+
+(defun helm-scala-headlines ()
+  "Display headlines for the current Clojure file."
+  (interactive)
+  (helm :sources '(((name . "Scala Headlines")
+                    (volatile)
+                    (headline "^[[:space:]]*\\(object\\|def\\|class\\|case\\|import\\|package\\|abstract\\|va[rl]\\)")))))
 
 ;; set default buffer encoding
 (setq default-buffer-file-coding-system 'utf-8-unix)
