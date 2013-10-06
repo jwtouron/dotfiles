@@ -36,7 +36,7 @@
                       nrepl
                       nzenburn-theme
                       paredit
-                      scala-mode
+                      scala-mode2
                       slamhound
                       smart-tab
                       solarized-theme
@@ -272,6 +272,11 @@ Ignores CHAR at point."
   (sleep-for .1)
   (scala-run-scala scala-interpreter)
   (previous-multiframe-window))
+
+(add-hook 'scala-mode-hook (lambda ()
+                             (custom-set-variables '(scala-indent:indent-value-expression t)
+                                                   '(scala-indent:align-parameters t)
+                                                   '(scala-indent:align-forms t))))
 
 ;; load desired theme
 (load-theme 'nzenburn t)
