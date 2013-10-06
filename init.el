@@ -2,6 +2,8 @@
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
 ;; fetch the list of packages available
@@ -23,6 +25,7 @@
                       ghc
                       ghci-completion
                       haskell-mode
+                      helm
                       hippie-expand-haskell
                       key-chord
                       lua-mode
@@ -74,6 +77,9 @@
 
 ;; save every n keystrokes
 (setq auto-save-interval 20)
+
+;; helm-mode
+(helm-mode 1)
 
 ;; clojure-mode
 (add-hook 'clojure-mode-hook 'paredit-mode)
