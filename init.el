@@ -80,6 +80,8 @@
 
 ;; helm-mode
 (helm-mode 1)
+(global-set-key (kbd "C-c C-h m") 'helm-mini)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 
 ;; clojure-mode
 (add-hook 'clojure-mode-hook 'paredit-mode)
