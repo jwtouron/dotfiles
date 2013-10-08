@@ -247,42 +247,6 @@ Ignores CHAR at point."
 (setq lua-indent-level 4)
 
 ;; scala-mode
-(defun my-scala-load-file (ag)
-  (interactive "P")
-  (unless (scala-interpreter-running-p-1)
-    (scala-run-scala scala-interpreter)
-    (previous-multiframe-window))
-  (save-buffer)
-  (let ((file-name (if current-prefix-arg
-                       (car (comint-get-source "Load Scala file: " scala-prev-l/c-dir/file
-                                               '(scala-mode) t))
-                     buffer-file-name)))
-    (when current-prefix-arg
-      (comint-check-source file-name))
-    (setq scala-prev-l/c-dir/file (cons (file-name-directory file-name)
-                                        (file-name-nondirectory file-name)))
-    (scala-send-string ":load %s" file-name)))
-(add-hook 'scala-mode-hook (lambda () (define-key scala-mode-map (kbd "C-c C-l") 'my-scala-load-file)))
-
-(defun my-scala-eval-buffer ()
-  (interactive)
-  (unless (scala-interpreter-running-p-1)
-    (scala-run-scala scala-interpreter)
-    (previous-multiframe-window))
-  (let* ((s (buffer-string))
-         (s (replace-regexp-in-string "^[[:space:]]*\n" "" s))
-         (s (replace-regexp-in-string "^/.*\n" "" s)))
-    (comint-send-string scala-inf-buffer-name s)
-    (comint-send-string scala-inf-buffer-name "\n")))
-(add-hook 'scala-mode-hook (lambda () (define-key scala-mode-map (kbd "C-c C-b") 'my-scala-eval-buffer)))
-
-(defun my-scala-restart ()
-  (interactive)
-  (scala-quit-interpreter)
-  (sleep-for .1)
-  (scala-run-scala scala-interpreter)
-  (previous-multiframe-window))
-
 (add-hook 'scala-mode-hook (lambda ()
                              (custom-set-variables '(scala-indent:indent-value-expression t)
                                                    '(scala-indent:align-parameters t)
