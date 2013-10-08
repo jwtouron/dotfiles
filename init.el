@@ -294,6 +294,7 @@ Ignores CHAR at point."
   (helm :sources '(((name . "Scala Headlines")
                     (volatile)
                     (headline "^[[:space:]]*\\(object\\|def\\|class\\|case\\|import\\|package\\|abstract\\|va[rl]\\)")))))
+(add-hook 'scala-mode-hook (lambda () (define-key scala-mode-map (kbd "C-c C-h h") 'helm-scala-headlines)))
 
 ;; set default buffer encoding
 (setq default-buffer-file-coding-system 'utf-8-unix)
