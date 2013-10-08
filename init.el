@@ -170,6 +170,7 @@ Ignores CHAR at point."
 (setq bm-cycle-all-buffers t)
 
 ;; smart-tab-mode
+(require 'smart-tab)
 (setq smart-tab-using-hippie-expand t)
 (global-smart-tab-mode 1)
 (add-to-list 'smart-tab-disabled-major-modes 'haskell-mode)
