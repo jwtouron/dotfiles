@@ -103,7 +103,6 @@
 ;; nrepl-mode
 (add-hook 'nrepl-mode-hook 'paredit-mode)
 (add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
-(setq nrepl-popup-stacktraces nil)
 
 ;; remove line highlighting
 (remove-hook 'prog-mode-hook 'esk-turn-on-hi-line-mode)
