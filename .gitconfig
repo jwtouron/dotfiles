@@ -1,0 +1,16 @@
+[gui]
+[gui]
+[gui]
+[user]
+	email = johntouron@gmail.com
+	name = John Touron
+[core]
+	autocrlf = false
+	editor = vim
+	safecrlf = true
+[push]
+	default = simple
+[alias]
+	up = "!git remote update -p; git merge --ff-only @{u}"
+	logd = !git log --decorate
+	showd = !git show --decorate
