@@ -26,7 +26,7 @@ if [[ "$terminfo[colors]" -ge 8 ]]; then
   colors
 fi
 
-export PROMPT="%{${fg_bold[green]}%}%n@%m%{$reset_color%}%(?.. [%?])%# "
+export PROMPT="%{${fg_bold[green]}%}%n@%m%{$reset_color%}%# "
 export RPROMPT="%{${fg_bold[cyan]}%}%~%{$reset_color%}"
 
 # Change title of MinTTY to current dir
