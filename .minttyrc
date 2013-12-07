@@ -1,0 +1,5 @@
+CursorType=block
+CursorBlinks=no
+Font=DejaVu Sans Mono
+FontHeight=10
+RightClickAction=paste
