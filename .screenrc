@@ -1,0 +1,4 @@
+hardstatus string "screen %n (%t)%? [%h]%?"
+caption always '%{yb} %H %{k}|%L=%= %{w}%?%-Lw%45L>%?%{=b bR}[%{W}%n%f
+%t%?(%u)%?%{=b bR}]%{= bw}%?%+Lw%?%?%=%-30= %{k}|%{Y}%l%{k}|%{=b C}
+%m/%d %c %{W}'
