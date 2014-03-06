@@ -14,5 +14,6 @@
 	up = "!git remote update -p; git merge --ff-only @{u}"
 	logd = !git log --decorate
 	showd = !git show --decorate
+	graph = log --oneline --graph --decorate --all
 [color]
 	ui = true
