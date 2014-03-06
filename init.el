@@ -29,7 +29,6 @@
                       ghc
                       ghci-completion
                       haskell-mode
-                      helm
                       hippie-expand-haskell
                       key-chord
                       lua-mode
@@ -78,11 +77,6 @@
 
 ;; save every n keystrokes
 (setq auto-save-interval 20)
-
-;; helm-mode
-(helm-mode 1)
-(global-set-key (kbd "C-c C-h m") 'helm-mini)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
 
 ;; clojure-mode
 (add-hook 'clojure-mode-hook 'paredit-mode)
