@@ -20,6 +20,7 @@
                       cljsbuild-mode
                       clojure-mode
                       clojurescript-mode
+                      flycheck
                       flymake
                       flymake-cursor
                       flymake-easy
@@ -173,6 +174,9 @@ Ignores CHAR at point."
 (setq smart-tab-using-hippie-expand t)
 (global-smart-tab-mode 1)
 (add-to-list 'smart-tab-disabled-major-modes 'haskell-mode)
+
+;; flycheck
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; scrolling moves half a window at a time
 (defun window-half-height ()
