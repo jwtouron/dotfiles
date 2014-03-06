@@ -244,22 +244,5 @@ Ignores CHAR at point."
 ;; lua-mode
 (setq lua-indent-level 4)
 
-;; scala-mode
-(add-hook 'scala-mode-hook (lambda ()
-                             (custom-set-variables '(scala-indent:indent-value-expression t)
-                                                   '(scala-indent:align-parameters t)
-                                                   '(scala-indent:align-forms t))))
-
-(defun helm-scala-headlines ()
-  "Display headlines for the current Clojure file."
-  (interactive)
-  (helm :sources '(((name . "Scala Headlines")
-                    (volatile)
-                    (headline "^[[:space:]]*\\(object\\|def\\|class\\|case\\|import\\|package\\|abstract\\|va[rl]\\)")))))
-(add-hook 'scala-mode-hook (lambda () (define-key scala-mode-map (kbd "C-c C-h h") 'helm-scala-headlines)))
-
-;; set default buffer encoding
-(setq default-buffer-file-coding-system 'utf-8-unix)
-
 ;; load desired theme
 (load-theme 'nzenburn t)
