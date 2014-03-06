@@ -58,6 +58,25 @@
 ;; Non-package-managed elisp files
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+(defun smart-open-line ()
+  "Insert an empty line after the current line.
+Position the cursor at its beginning, according to the current mode."
+  (interactive)
+  (move-end-of-line nil)
+  (newline-and-indent))
+(global-set-key (kbd "M-O") 'smart-open-line)
+
+(defun smart-open-line-above ()
+  "Insert an empty line above the current line.
+Position the cursor at it's beginning, according to the current mode."
+  (interactive)
+  (move-end-of-line nil)
+  (delete-horizontal-space)
+  (move-beginning-of-line nil)
+  (open-line 1)
+  (indent-according-to-mode))
+(global-set-key (kbd "M-o") 'smart-open-line-above)
+
 (global-hl-line-mode 1)
 
 ;; thrift-mode
