@@ -141,23 +141,6 @@ Position the cursor at it's beginning, according to the current mode."
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "C-j") 'newline)
 
-;; change zap-to-char to leave the character being zapped to
-(defun zap-up-to-char (arg char)
-  "Kill up to, but not including ARGth occurrence of CHAR.
-Case is ignored if `case-fold-search' is non-nil in the current buffer.
-Goes backward if ARG is negative; error if CHAR not found.
-Ignores CHAR at point."
-  (interactive "p\ncZap up to char: ")
-  (let ((direction (if (>= arg 0) 1 -1)))
-    (kill-region (point)
-                 (progn
-                   (forward-char direction)
-                   (unwind-protect
-                       (search-forward (char-to-string char) nil nil arg)
-                     (backward-char direction))
-                   (point)))))
-(global-set-key (kbd "M-z") 'zap-up-to-char)
-
 ;; dired-mode - enter doesn't open a new buffer
 (put 'dired-find-alternate-file 'disabled nil)
 (add-hook 'dired-mode-hook (lambda () (local-set-key (kbd "RET") #'dired-find-alternate-file)))
