@@ -83,8 +83,8 @@
 ;; clojure-mode
 (add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook (lambda () (define-clojure-indent
-                                          (lazy-seq 'defun)
-                                          (cond 'defun))))
+                                     (lazy-seq 'defun)
+                                     (cond 'defun))))
 
 (defun helm-clojure-headlines ()
   "Display headlines for the current Clojure file."
