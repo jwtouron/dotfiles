@@ -227,7 +227,6 @@ Ignores CHAR at point."
                          (0 (progn (compose-region (match-beginning 1)
                                                    (match-end 1) "\u03BB")
                                    nil)))))))
-(add-hook 'js-mode-hook (lambda () (setq js-indent-level 4)))
 
 ;; python-mode
 (setq python-remove-cwd-from-path nil)
