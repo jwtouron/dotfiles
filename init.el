@@ -260,8 +260,5 @@ Ignores CHAR at point."
             (define-key haskell-mode-map (kbd "C-c >") 'haskell-move-nested-right)
             (define-key haskell-mode-map (kbd "C-c <") 'haskell-move-nested-left)))
 
-;; lua-mode
-(setq lua-indent-level 4)
-
 ;; load desired theme
 (load-theme 'nzenburn t)
