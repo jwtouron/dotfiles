@@ -28,6 +28,7 @@ fi
 
 export PROMPT="%{${fg_bold[green]}%}%n@%m%{$reset_color%}%# "
 export RPROMPT="%{${fg_bold[cyan]}%}%~%{$reset_color%}"
+export nodosfilewarning=1
 
 # Change title of MinTTY to current dir
 function settitle() {
