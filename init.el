@@ -79,12 +79,6 @@ Position the cursor at it's beginning, according to the current mode."
 
 (global-hl-line-mode 1)
 
-;; thrift-mode
-(require 'thrift-mode)
-
-;; yaml mode
-(require 'yaml-mode)
-
 ;; multiple-cursors
 (require 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -98,20 +92,6 @@ Position the cursor at it's beginning, according to the current mode."
 
 ;; save every n keystrokes
 (setq auto-save-interval 20)
-
-;; clojure-mode
-(add-hook 'clojure-mode-hook 'paredit-mode)
-(add-hook 'clojure-mode-hook (lambda () (define-clojure-indent
-                                     (lazy-seq 'defun)
-                                     (cond 'defun))))
-
-;; emacs-lisp-mode
-(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
-
-;; nrepl-mode
-(add-hook 'nrepl-mode-hook 'paredit-mode)
-(add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
 
 ;; remove line highlighting
 (remove-hook 'prog-mode-hook 'esk-turn-on-hi-line-mode)
@@ -150,9 +130,6 @@ Position the cursor at it's beginning, according to the current mode."
 
 ;; always show row/column numbers
 (setq column-number-mode t)
-
-;; c-mode
-(setq c-default-style "stroustrup")
 
 ;; bm (bookmarks)
 (global-set-key (kbd "C-.") 'bm-toggle)
@@ -207,12 +184,39 @@ Position the cursor at it's beginning, according to the current mode."
   (when font
     (set-frame-font (format "%s-10" font))))
 
-;; change fn to lambda in clojure-mode
+;;;; Language specific settings
+
+;; c-mode
+(setq c-default-style "stroustrup")
+
+;; clojure-mode
+(add-hook 'clojure-mode-hook 'paredit-mode)
+(add-hook 'clojure-mode-hook (lambda () (define-clojure-indent
+                                     (lazy-seq 'defun)
+                                     (cond 'defun))))
+
+(add-hook 'nrepl-mode-hook 'paredit-mode)
+(add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
+
 (defun esk-pretty-fn ()
   (font-lock-add-keywords nil `(("(\\(fn\\>\\)"
                                  (0 (progn (compose-region (match-beginning 1)
                                                            (match-end 1)
                                                            "\u03BB") nil))))))
+
+;; emacs-lisp-mode
+(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+
+;; haskell-mode
+(add-hook 'haskell-mode-hook
+          (lambda ()
+            (setq haskell-font-lock-symbols 'unicode)
+            (setq haskell-program-name "ghci")
+            (turn-on-haskell-doc-mode)
+            (turn-on-haskell-indent)
+            (define-key haskell-mode-map (kbd "C-c >") 'haskell-move-nested-right)
+            (define-key haskell-mode-map (kbd "C-c <") 'haskell-move-nested-left)))
 
 ;; js-mode
 (add-hook 'js-mode-hook
@@ -226,15 +230,11 @@ Position the cursor at it's beginning, according to the current mode."
 ;; python-mode
 (setq python-remove-cwd-from-path nil)
 
-;; haskell-mode
-(add-hook 'haskell-mode-hook
-          (lambda ()
-            (setq haskell-font-lock-symbols 'unicode)
-            (setq haskell-program-name "ghci")
-            (turn-on-haskell-doc-mode)
-            (turn-on-haskell-indent)
-            (define-key haskell-mode-map (kbd "C-c >") 'haskell-move-nested-right)
-            (define-key haskell-mode-map (kbd "C-c <") 'haskell-move-nested-left)))
+;; thrift-mode
+(require 'thrift-mode)
+
+;; yaml mode
+(require 'yaml-mode)
 
 ;; load desired theme
 (load-theme 'nzenburn t)
