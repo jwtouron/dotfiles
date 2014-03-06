@@ -105,13 +105,6 @@ Position the cursor at it's beginning, according to the current mode."
                                      (lazy-seq 'defun)
                                      (cond 'defun))))
 
-(defun helm-clojure-headlines ()
-  "Display headlines for the current Clojure file."
-  (interactive)
-  (helm :sources '(((name . "Clojure Headlines")
-                    (volatile)
-                    (headline "^[;(]")))))
-
 ;; emacs-lisp-mode
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
