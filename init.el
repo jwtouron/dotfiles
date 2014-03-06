@@ -1,3 +1,6 @@
+;; required for several packages
+(require 'cl)
+
 ;; package management
 (require 'package)
 (add-to-list 'package-archives
@@ -51,9 +54,6 @@
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
-
-;; required for several packages
-(require 'cl)
 
 ;; Non-package-managed elisp files
 (add-to-list 'load-path "~/.emacs.d/lisp/")
