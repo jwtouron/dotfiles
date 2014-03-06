@@ -148,7 +148,7 @@ Position the cursor at it's beginning, according to the current mode."
 
 ;; scrolling moves half a window at a time
 (defun window-half-height ()
-  (max 1 (/ (1- (window-height (selected-window))) 2)))
+  (/ (window-height (selected-window)) 2))
 (global-set-key (kbd "C-v")
                 (lambda ()
                   (interactive)
