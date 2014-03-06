@@ -176,13 +176,8 @@ Position the cursor at it's beginning, according to the current mode."
 (key-chord-define-global "JJ" 'switch-to-previous-buffer)
 (key-chord-mode +1)
 
-;; use DejaVu Sans Mono if available
-(defvar my-desired-fonts '("DejaVu Sans Mono"))
-(let ((font (loop for font in my-desired-fonts
-                  when (member font (font-family-list))
-                  return font)))
-  (when font
-    (set-frame-font (format "%s-10" font))))
+;; use DejaVu Sans Mono
+(set-frame-font (format "%s-10" "DejaVu Sans Mono"))
 
 ;;;; Language specific settings
 
