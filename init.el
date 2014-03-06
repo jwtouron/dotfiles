@@ -58,6 +58,8 @@
 ;; Non-package-managed elisp files
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+(global-hl-line-mode 1)
+
 ;; thrift-mode
 (require 'thrift-mode)
 
