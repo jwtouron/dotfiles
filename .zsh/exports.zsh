@@ -6,7 +6,6 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_13.jdk/Contents/Home
 export ANDROID_SDK_ROOT=/opt/boxen/homebrew/opt/android-sdk
 
 # Setup terminal, and turn on colors
-export TERM=xterm-256color
 export CLICOLOR=1
 export LSCOLORS=Gxfxcxdxbxegedabagacad
 
