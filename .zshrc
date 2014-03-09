@@ -1,45 +1,15 @@
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-setopt appendhistory autocd beep extendedglob nomatch notify
-bindkey -e
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/john/.zshrc'
+source ~/.zsh/colors.zsh
+source ~/.zsh/setopt.zsh
+source ~/.zsh/exports.zsh
+source ~/.zsh/prompt.zsh
+source ~/.zsh/completion.zsh
+source ~/.zsh/aliases.zsh
+source ~/.zsh/bindkeys.zsh
+source ~/.zsh/functions.zsh
+source ~/.zsh/history.zsh
+source ~/.zsh/zsh_hooks.zsh
+source ~/.zsh/hitch.zsh
+source /opt/boxen/env.sh
 
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-
-setopt correctall
-
-# Autocompletion colors
-zmodload -i zsh/complist
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-autoload -U promptinit
-promptinit
-
-autoload colors zsh/terminfo
-if [[ "$terminfo[colors]" -ge 8 ]]; then
-  colors
-fi
-
-export PROMPT="%{${fg_bold[green]}%}%n@%m%{$reset_color%}%# "
-export RPROMPT="%{${fg_bold[cyan]}%}%~%{$reset_color%}"
-export nodosfilewarning=1
-
-# Change title of MinTTY to current dir
-function settitle() {
-    echo -ne "\033]2;"$1"\007"
-}
-function chpwd() {
-    settitle $(cygpath -m `pwd`)
-}
-settitle $(cygpath -m `pwd`)
-
-alias ls='ls --color=auto'
-
-alias gitk='cmd /c gitk'
-alias emacs='cmd /c emacs'
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
