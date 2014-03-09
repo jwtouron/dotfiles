@@ -29,4 +29,11 @@ function git_prompt_info {
   fi
 }
 
-PROMPT='%~%<< $(git_prompt_info)${PR_BOLD_WHITE}>%{${reset_color}%} '
+loc="$PR_BOLD_GREEN%n@%m%{$reset_color%}"
+dir="$PR_BOLD_CYAN%1~%{$reset_color%}"
+git="$(git_prompt_info)"
+PROMPT='$loc $dir $git$PR_BOLD_WHITE%#%{$reset_color%} '
+
+check="$(echo -e "\xe2\x9c\x93")"
+cross="$(echo -e "\xe2\x9c\x97")"
+RPROMPT='%(?.$PR_BOLD_GREEN$check $?.$PR_BOLD_RED$cross $?)%{$reset_color%}'
