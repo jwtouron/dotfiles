@@ -54,7 +54,7 @@ git_prompt_string() {
 
 loc="$PR_BOLD_GREEN%n@%m%{$reset_color%}"
 dir="$PR_BOLD_CYAN%1~%{$reset_color%}"
-git="$(git_prompt_info)"
+git="$(git_prompt_string)"
 PROMPT='$loc $dir $(git_prompt_string)$PR_BOLD_WHITE%#%{$reset_color%} '
 
 check="$(echo -e "\xe2\x9c\x93")"
