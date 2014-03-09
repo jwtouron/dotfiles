@@ -10,22 +10,22 @@ function git_prompt_info {
 
   if [[ -f .git/MERGE_HEAD ]]; then
     if [[ ${gitst} =~ "unmerged" ]]; then
-      gitstatus=" %{$fg[red]%}unmerged%{$reset_color%}"
+      gitstatus=" $PR_BOLD_REDunmerged%{$reset_color%}"
     else
-      gitstatus=" %{$fg[green]%}merged%{$reset_color%}"
+      gitstatus=" $PR_BOLD_GREENmerged%{$reset_color%}"
     fi
   elif [[ ${gitst} =~ "Changes to be committed" ]]; then
-    gitstatus=" %{$fg[blue]%}!%{$reset_color%}"
+    gitstatus=" $PR_BOLD_BLUE!%{$reset_color%}"
   elif [[ ${gitst} =~ "use \"git add" ]]; then
-    gitstatus=" %{$fg[red]%}!%{$reset_color%}"
+    gitstatus=" $PR_BOLD_RED!%{$reset_color%}"
   elif [[ -n `git checkout HEAD 2> /dev/null | grep ahead` ]]; then
-    gitstatus=" %{$fg[yellow]%}*%{$reset_color%}"
+    gitstatus=" $PR_BOLD_YELLOW*%{$reset_color%}"
   else
     gitstatus=''
   fi
 
   if [[ -n $ref ]]; then
-    echo "%{$fg_bold[green]%}/${ref#refs/heads/}%{$reset_color%}$gitstatus$pairname"
+    echo "$PR_BOLD_GREEN/${ref#refs/heads/}%{$reset_color%}$gitstatus$pairname"
   fi
 }
 
