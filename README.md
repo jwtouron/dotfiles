@@ -1,4 +1,4 @@
-home
+dotfiles
 ====
 
-Files in my home directory
+My configuration files.
