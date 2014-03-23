@@ -22,11 +22,6 @@
                       clojure-mode
                       clojurescript-mode
                       flycheck
-                      flymake
-                      flymake-cursor
-                      flymake-easy
-                      flymake-haskell-multi
-                      flymake-hlint
                       ghc
                       ghci-completion
                       haskell-mode
