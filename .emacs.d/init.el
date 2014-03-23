@@ -131,6 +131,8 @@ Position the cursor at it's beginning, according to the current mode."
 (global-set-key (kbd "C-,") 'bm-next)
 (setq bm-highlight-style 'bm-highlight-only-fringe)
 (setq bm-cycle-all-buffers t)
+(setq bm-recenter t)
+(setq bm-goto-position nil)
 
 ;; smart-tab-mode
 (require 'smart-tab)
