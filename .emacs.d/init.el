@@ -15,6 +15,7 @@
 
 ;; install desired packages
 (defvar my-packages '(ace-jump-mode
+                      better-defaults
                       bm
                       clj-refactor
                       cljsbuild-mode
@@ -43,12 +44,6 @@
                       slamhound
                       smart-tab
                       solarized-theme
-                      starter-kit
-                      starter-kit-bindings
-                      starter-kit-eshell
-                      starter-kit-js
-                      starter-kit-lisp
-                      starter-kit-ruby
                       yaml-mode
                       zenburn-theme))
 (dolist (p my-packages)
