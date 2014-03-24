@@ -26,6 +26,7 @@
                       ghc
                       ghci-completion
                       haskell-mode
+                      hi2
                       hippie-expand-haskell
                       key-chord
                       lua-mode
@@ -217,9 +218,10 @@ Position the cursor at it's beginning, according to the current mode."
             (setq haskell-font-lock-symbols 'unicode)
             (setq haskell-program-name "ghci")
             (turn-on-haskell-doc-mode)
-            (turn-on-haskell-indent)
             (define-key haskell-mode-map (kbd "C-c >") 'haskell-move-nested-right)
-            (define-key haskell-mode-map (kbd "C-c <") 'haskell-move-nested-left)))
+            (define-key haskell-mode-map (kbd "C-c <") 'haskell-move-nested-left)
+            (turn-on-hi2)
+            (set-up-haskell-hippie-expand)))
 
 ;; js-mode
 (add-hook 'js-mode-hook
