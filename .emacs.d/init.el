@@ -17,6 +17,7 @@
 (defvar my-packages '(ace-jump-mode
                       better-defaults
                       bm
+                      cider
                       clj-refactor
                       cljsbuild-mode
                       clojure-mode
@@ -32,7 +33,6 @@
                       markdown-mode
                       mediawiki
                       multiple-cursors
-                      nrepl
                       nzenburn-theme
                       paredit
                       scala-mode2
@@ -182,14 +182,18 @@ Position the cursor at it's beginning, according to the current mode."
                                      (lazy-seq 'defun)
                                      (cond 'defun))))
 
-(add-hook 'nrepl-mode-hook 'paredit-mode)
-(add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
-
 (defun esk-pretty-fn ()
   (font-lock-add-keywords nil `(("(\\(fn\\>\\)"
                                  (0 (progn (compose-region (match-beginning 1)
                                                            (match-end 1)
                                                            "\u03BB") nil))))))
+
+(add-hook 'cider-repl-mode-hook 'paredit-mode)
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(setq cider-repl-popup-stacktraces t)
+
+(add-hook 'nrepl-mode-hook 'paredit-mode)
+(add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
 
 ;; emacs-lisp-mode
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
