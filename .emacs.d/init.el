@@ -135,8 +135,20 @@ Position the cursor at it's beginning, according to the current mode."
 (global-smart-tab-mode 1)
 (add-to-list 'smart-tab-disabled-major-modes 'haskell-mode)
 
+;; replace yes-or-no-p with y-or-n-p
+(defalias 'yes-or-no-p 'y-or-n-p)
+
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; ido
+(setq ido-everywhere t)
+
+;; enable iswitchb
+(iswitchb-mode 1)
+
+;; indicate end of file
+(setq default-indicate-empty-lines t)
 
 ;; scrolling moves half a window at a time
 (defun window-half-height ()
