@@ -68,6 +68,7 @@ Position the cursor at it's beginning, according to the current mode."
   (indent-according-to-mode))
 (global-set-key (kbd "M-o") 'smart-open-line-above)
 
+;; highlight every line
 (global-hl-line-mode 1)
 
 ;; multiple-cursors
