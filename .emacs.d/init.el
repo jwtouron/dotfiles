@@ -146,6 +146,9 @@ Position the cursor at it's beginning, according to the current mode."
 ;; ido
 (setq ido-everywhere t)
 
+;; don't show the emacs start screen
+(setq inhibit-startup-message t)
+
 ;; enable iswitchb
 (iswitchb-mode 1)
 
