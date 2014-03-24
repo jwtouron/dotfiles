@@ -22,9 +22,11 @@
                       cljsbuild-mode
                       clojure-mode
                       clojurescript-mode
+                      elixir-mode
                       flycheck
                       ghc
                       ghci-completion
+                      go-mode
                       haskell-mode
                       hi2
                       hippie-expand-haskell
@@ -36,6 +38,7 @@
                       multiple-cursors
                       nzenburn-theme
                       paredit
+                      rust-mode
                       scala-mode2
                       slamhound
                       smart-tab
