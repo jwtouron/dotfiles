@@ -202,6 +202,14 @@ Position the cursor at its beginning, according to the current mode."
 ;;; c-mode
 (setq c-default-style "stroustrup")
 
+;;; cc-mode
+(add-hook 'c++-mode-hook
+          (lambda ()
+            (c-add-style "my-cc-style"
+                         '("stroustrup"
+                           (c-offsets-alist . ((innamespace . [0])))))
+            (c-set-style "my-cc-style")))
+
 ;;; clojure-mode
 (add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook (lambda () (define-clojure-indent
