@@ -1,7 +1,7 @@
-;; required for several packages
+;;; required for several packages
 (require 'cl)
 
-;; package management
+;;; package management
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
@@ -9,11 +9,11 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-;; fetch the list of packages available
+;;; fetch the list of packages available
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;; install desired packages
+;;; install desired packages
 (defvar my-packages '(ace-jump-mode
                       better-defaults
                       bm
@@ -51,7 +51,7 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
-;; Non-package-managed elisp files
+;;; Non-package-managed elisp files
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 (defun smart-open-line ()
@@ -73,30 +73,30 @@ Position the cursor at its beginning, according to the current mode."
   (indent-according-to-mode))
 (global-set-key (kbd "M-o") 'smart-open-line-above)
 
-;; highlight every line
+;;; highlight every line
 (global-hl-line-mode 1)
 
-;; multiple-cursors
+;;; multiple-cursors
 (require 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-;; turn off auto-fill-mode - starter-kit adds these hooks
+;;; turn off auto-fill-mode - starter-kit adds these hooks
 (remove-hook 'prog-mode-hook 'esk-local-comment-auto-fill)
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)
 
-;; save every n keystrokes
+;;; save every n keystrokes
 (setq auto-save-interval 20)
 
-;; remove line highlighting
+;;; remove line highlighting
 (remove-hook 'prog-mode-hook 'esk-turn-on-hi-line-mode)
 
-;; remove word highlighting
+;;; remove word highlighting
 (remove-hook 'prog-mode-hook 'esk-turn-on-idle-highlight-mode)
 
-;; incremental searches always put point at search string beginning on exit
+;;; incremental searches always put point at search string beginning on exit
 (add-hook 'isearch-mode-end-hook 'my-goto-match-beginning)
 
 (defun my-goto-match-beginning ()
@@ -108,27 +108,27 @@ Position the cursor at its beginning, according to the current mode."
   (when (and isearch-forward isearch-other-end)
     (goto-char isearch-other-end)))
 
-;; whitespace
+;;; whitespace
 (setq-default show-trailing-whitespace t)
 (setq whitespace-style '(tabs tab-mark))
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'text-mode-hook 'whitespace-mode)
 
-;; smarter indentation
+;;; smarter indentation
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "C-j") 'newline)
 
-;; dired-mode - enter doesn't open a new buffer
+;;; dired-mode - enter doesn't open a new buffer
 (put 'dired-find-alternate-file 'disabled nil)
 (add-hook 'dired-mode-hook (lambda () (local-set-key (kbd "RET") #'dired-find-alternate-file)))
 
-;; automatically load files as they change on disk
+;;; automatically load files as they change on disk
 (global-auto-revert-mode t)
 
-;; always show row/column numbers
+;;; always show row/column numbers
 (setq column-number-mode t)
 
-;; bm (bookmarks)
+;;; bm (bookmarks)
 (global-set-key (kbd "C-.") 'bm-toggle)
 (global-set-key (kbd "C-,") 'bm-next)
 (setq bm-highlight-style 'bm-highlight-only-fringe)
@@ -136,35 +136,35 @@ Position the cursor at its beginning, according to the current mode."
 (setq bm-recenter t)
 (setq bm-goto-position nil)
 
-;; smart-tab-mode
+;;; smart-tab-mode
 (require 'smart-tab)
 (setq smart-tab-using-hippie-expand t)
 (global-smart-tab-mode 1)
 (add-to-list 'smart-tab-disabled-major-modes 'haskell-mode)
 
-;; replace yes-or-no-p with y-or-n-p
+;;; replace yes-or-no-p with y-or-n-p
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; flycheck
+;;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (setq flycheck-indication-mode nil)
 
-;; ido
+;;; ido
 (setq ido-use-virtual-buffers t)
 (ido-ubiquitous-mode t)
 
-;; smex
+;;; smex
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
-;; don't show the emacs start screen
+;;; don't show the emacs start screen
 (setq inhibit-startup-message t)
 
-;; indicate end of file
+;;; indicate end of file
 (setq default-indicate-empty-lines t)
 
-;; scrolling moves half a window at a time
+;;; scrolling moves half a window at a time
 (defun window-half-height ()
   (/ (window-height (selected-window)) 2))
 (global-set-key (kbd "C-v")
@@ -178,13 +178,13 @@ Position the cursor at its beginning, according to the current mode."
                   (previous-line (window-half-height))
                   (recenter)))
 
-;; switch-to-previous-buffer
+;;; switch-to-previous-buffer
 (defun switch-to-previous-buffer ()
   "Switch to last buffer visited"
   (interactive)
   (switch-to-buffer (other-buffer)))
 
-;; key chords
+;;; key chords
 (require 'key-chord)
 (key-chord-define-global "jj" 'ace-jump-word-mode)
 (key-chord-define-global "jl" 'ace-jump-line-mode)
@@ -194,15 +194,15 @@ Position the cursor at its beginning, according to the current mode."
 (key-chord-define-global "JJ" 'switch-to-previous-buffer)
 (key-chord-mode +1)
 
-;; use DejaVu Sans Mono
+;;; use DejaVu Sans Mono
 (set-frame-font (format "%s-10" "DejaVu Sans Mono"))
 
 ;;;; Language specific settings
 
-;; c-mode
+;;; c-mode
 (setq c-default-style "stroustrup")
 
-;; clojure-mode
+;;; clojure-mode
 (add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook (lambda () (define-clojure-indent
                                      (lazy-seq 'defun)
@@ -221,11 +221,11 @@ Position the cursor at its beginning, according to the current mode."
 (add-hook 'nrepl-mode-hook 'paredit-mode)
 (add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
 
-;; emacs-lisp-mode
+;;; emacs-lisp-mode
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
 
-;; haskell-mode
+;;; haskell-mode
 (add-hook 'haskell-mode-hook
           (lambda ()
             (setq haskell-font-lock-symbols 'unicode)
@@ -236,7 +236,7 @@ Position the cursor at its beginning, according to the current mode."
             (turn-on-hi2)
             (set-up-haskell-hippie-expand)))
 
-;; js-mode
+;;; js-mode
 (add-hook 'js-mode-hook
           (lambda ()
             (font-lock-add-keywords
@@ -245,14 +245,14 @@ Position the cursor at its beginning, according to the current mode."
                                                    (match-end 1) "\u03BB")
                                    nil)))))))
 
-;; python-mode
+;;; python-mode
 (setq python-remove-cwd-from-path nil)
 
-;; thrift-mode
+;;; thrift-mode
 (require 'thrift-mode)
 
-;; yaml mode
+;;; yaml mode
 (require 'yaml-mode)
 
-;; load desired theme
+;;; load desired theme
 (load-theme 'nzenburn t)
