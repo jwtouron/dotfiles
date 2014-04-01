@@ -161,9 +161,6 @@ Position the cursor at its beginning, according to the current mode."
 ;; don't show the emacs start screen
 (setq inhibit-startup-message t)
 
-;; enable iswitchb
-(iswitchb-mode 1)
-
 ;; indicate end of file
 (setq default-indicate-empty-lines t)
 
