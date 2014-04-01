@@ -212,9 +212,9 @@ Position the cursor at its beginning, according to the current mode."
 
 ;;; clojure-mode
 (add-hook 'clojure-mode-hook 'paredit-mode)
-(add-hook 'clojure-mode-hook (lambda () (define-clojure-indent
-                                     (lazy-seq 'defun)
-                                     (cond 'defun))))
+(add-hook 'clojure-mode-hook
+          (lambda () (mapc (lambda (x) (put-clojure-indent x 'defun))
+                           '(lazy-seq cond dosync))))
 
 (defun esk-pretty-fn ()
   (font-lock-add-keywords nil `(("(\\(fn\\>\\)"
