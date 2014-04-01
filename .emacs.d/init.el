@@ -150,6 +150,7 @@ Position the cursor at its beginning, according to the current mode."
 (setq flycheck-indication-mode nil)
 
 ;; ido
+(setq ido-use-virtual-buffers t)
 (ido-ubiquitous-mode t)
 
 ;; smex
