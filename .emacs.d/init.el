@@ -147,6 +147,7 @@ Position the cursor at its beginning, according to the current mode."
 
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
+(setq flycheck-indication-mode nil)
 
 ;; ido
 (ido-ubiquitous-mode t)
