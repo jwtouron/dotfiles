@@ -30,6 +30,7 @@
                       haskell-mode
                       hi2
                       hippie-expand-haskell
+                      ido-ubiquitous
                       key-chord
                       lua-mode
                       magit
@@ -147,7 +148,7 @@ Position the cursor at its beginning, according to the current mode."
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; ido
-(setq ido-everywhere t)
+(ido-ubiquitous-mode t)
 
 ;; don't show the emacs start screen
 (setq inhibit-startup-message t)
