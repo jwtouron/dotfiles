@@ -43,6 +43,7 @@
                       scala-mode2
                       slamhound
                       smart-tab
+                      smex
                       solarized-theme
                       yaml-mode
                       zenburn-theme))
@@ -149,6 +150,11 @@ Position the cursor at its beginning, according to the current mode."
 
 ;; ido
 (ido-ubiquitous-mode t)
+
+;; smex
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;; don't show the emacs start screen
 (setq inhibit-startup-message t)
