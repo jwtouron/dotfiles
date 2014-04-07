@@ -214,7 +214,7 @@ Position the cursor at its beginning, according to the current mode."
 (key-chord-mode +1)
 
 ;;; use DejaVu Sans Mono
-(set-frame-font (format "%s-10" "DejaVu Sans Mono"))
+(ignore-errors (set-frame-font (format "%s-10" "DejaVu Sans Mono")))
 
 ;;;; Language specific settings
 
