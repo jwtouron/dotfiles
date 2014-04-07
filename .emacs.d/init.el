@@ -260,6 +260,7 @@ Position the cursor at its beginning, according to the current mode."
             (turn-on-haskell-doc-mode)
             (define-key haskell-mode-map (kbd "C-c >") 'haskell-move-nested-right)
             (define-key haskell-mode-map (kbd "C-c <") 'haskell-move-nested-left)
+            (setq hi2-show-indentations nil)
             (turn-on-hi2)
             (set-up-haskell-hippie-expand)))
 
