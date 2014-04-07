@@ -71,6 +71,9 @@
     (unless (string= "" input) (insert input))))
 (global-set-key (kbd "C-c C-q") 'my-macro-query)
 
+;; join-line
+(global-set-key (kbd "C-c C-q") 'join-line)
+
 (defun smart-open-line ()
   "Insert an empty line after the current line.
 Position the cursor at its beginning, according to the current mode."
