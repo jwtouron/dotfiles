@@ -54,6 +54,11 @@
 ;;; Non-package-managed elisp files
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+;;; compile
+(setq compilation-scroll-output t)
+(setq compilation-auto-jump-to-first-error t)
+(global-set-key (kbd "C-c C-c") 'compile)
+
 (defun smart-open-line ()
   "Insert an empty line after the current line.
 Position the cursor at its beginning, according to the current mode."
@@ -156,7 +161,6 @@ Position the cursor at its beginning, according to the current mode."
 ;;; smex
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;;; don't show the emacs start screen
 (setq inhibit-startup-message t)
