@@ -59,6 +59,18 @@
 (setq compilation-auto-jump-to-first-error t)
 (global-set-key (kbd "C-c C-c") 'compile)
 
+;;; macros
+(defun my-macro-query (arg)
+  "Prompt for input using minibuffer during kbd macro execution.
+    With prefix argument, allows you to select what prompt string to use.
+    If the input is non-empty, it is inserted at point."
+  (interactive "P")
+  (let* ((prompt (if arg (read-from-minibuffer "PROMPT: ") "Input: "))
+         (input (minibuffer-with-setup-hook (lambda () (kbd-macro-query t))
+                  (read-from-minibuffer prompt))))
+    (unless (string= "" input) (insert input))))
+(global-set-key (kbd "C-c C-q") 'my-macro-query)
+
 (defun smart-open-line ()
   "Insert an empty line after the current line.
 Position the cursor at its beginning, according to the current mode."
