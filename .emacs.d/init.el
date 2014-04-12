@@ -104,18 +104,8 @@ Position the cursor at its beginning, according to the current mode."
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-;;; turn off auto-fill-mode - starter-kit adds these hooks
-(remove-hook 'prog-mode-hook 'esk-local-comment-auto-fill)
-(remove-hook 'text-mode-hook 'turn-on-auto-fill)
-
 ;;; save every n keystrokes
 (setq auto-save-interval 20)
-
-;;; remove line highlighting
-(remove-hook 'prog-mode-hook 'esk-turn-on-hi-line-mode)
-
-;;; remove word highlighting
-(remove-hook 'prog-mode-hook 'esk-turn-on-idle-highlight-mode)
 
 ;;; incremental searches always put point at search string beginning on exit
 (add-hook 'isearch-mode-end-hook 'my-goto-match-beginning)
@@ -245,9 +235,6 @@ Position the cursor at its beginning, according to the current mode."
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 (setq cider-repl-popup-stacktraces t)
-
-(add-hook 'nrepl-mode-hook 'paredit-mode)
-(add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
 
 ;;; emacs-lisp-mode
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
