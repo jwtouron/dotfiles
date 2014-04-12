@@ -55,9 +55,10 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 ;;; compile
-(setq compilation-scroll-output t)
+(setq compilation-ask-about-save nil)
 (setq compilation-auto-jump-to-first-error t)
-(global-set-key (kbd "C-c C-c") 'compile)
+(setq compilation-scroll-output t)
+(add-hook 'prog-mode-hook (lambda () (local-set-key (kbd "C-c C-c") 'compile)))
 
 ;;; macros
 (defun my-macro-query (arg)
