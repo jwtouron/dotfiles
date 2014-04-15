@@ -58,7 +58,7 @@
 (setq compilation-ask-about-save nil)
 (setq compilation-auto-jump-to-first-error t)
 (setq compilation-scroll-output t)
-(add-hook 'prog-mode-hook (lambda () (local-set-key (kbd "C-c C-c") 'compile)))
+(add-hook 'prog-mode-hook (lambda () (local-set-key (kbd "C-c c") 'compile)))
 
 ;;; macros
 (defun my-macro-query (arg)
@@ -70,10 +70,10 @@
          (input (minibuffer-with-setup-hook (lambda () (kbd-macro-query t))
                   (read-from-minibuffer prompt))))
     (unless (string= "" input) (insert input))))
-(global-set-key (kbd "C-c C-q") 'my-macro-query)
+(global-set-key (kbd "C-c q") 'my-macro-query)
 
 ;; join-line
-(global-set-key (kbd "C-c C-q") 'join-line)
+(global-set-key (kbd "C-c j") 'join-line)
 
 (defun smart-open-line ()
   "Insert an empty line after the current line.
