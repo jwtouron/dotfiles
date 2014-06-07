@@ -14,11 +14,12 @@
   (package-refresh-contents))
 
 ;;; install desired packages
-(defvar my-packages '(ace-jump-mode
+(defvar my-packages '(ac-nrepl
+                      ace-jump-mode
+                      auto-complete
                       better-defaults
                       bm
                       cider
-                      clj-refactor
                       cljsbuild-mode
                       clojure-mode
                       clojurescript-mode
@@ -28,8 +29,6 @@
                       ghci-completion
                       go-mode
                       haskell-mode
-                      hi2
-                      hippie-expand-haskell
                       ido-ubiquitous
                       key-chord
                       lua-mode
@@ -37,8 +36,10 @@
                       markdown-mode
                       mediawiki
                       multiple-cursors
+                      noctilux-theme
                       nzenburn-theme
                       paredit
+                      rainbow-delimiters
                       rust-mode
                       scala-mode2
                       slamhound
@@ -75,27 +76,14 @@
 ;; join-line
 (global-set-key (kbd "C-c j") 'join-line)
 
-(defun smart-open-line ()
-  "Insert an empty line after the current line.
-Position the cursor at its beginning, according to the current mode."
-  (interactive)
-  (move-end-of-line nil)
-  (newline-and-indent))
-(global-set-key (kbd "M-O") 'smart-open-line)
-
-(defun smart-open-line-above ()
-  "Insert an empty line above the current line.
-Position the cursor at its beginning, according to the current mode."
-  (interactive)
-  (move-end-of-line nil)
-  (delete-horizontal-space)
-  (move-beginning-of-line nil)
-  (open-line 1)
-  (indent-according-to-mode))
-(global-set-key (kbd "M-o") 'smart-open-line-above)
-
 ;;; highlight every line
 (global-hl-line-mode 1)
+
+;;; turn off blinking cursor
+(blink-cursor-mode 0)
+
+;;; tags
+(global-set-key (kbd "C-c t") 'find-tag)
 
 ;;; multiple-cursors
 (require 'multiple-cursors)
@@ -107,17 +95,14 @@ Position the cursor at its beginning, according to the current mode."
 ;;; save every n keystrokes
 (setq auto-save-interval 20)
 
-;;; incremental searches always put point at search string beginning on exit
-(add-hook 'isearch-mode-end-hook 'my-goto-match-beginning)
-
-(defun my-goto-match-beginning ()
-  (when (and isearch-forward isearch-other-end)
-    (goto-char isearch-other-end)))
-
-(defadvice isearch-exit (after my-goto-match-beginning activate)
-  "Go to beginning of match."
-  (when (and isearch-forward isearch-other-end)
-    (goto-char isearch-other-end)))
+;;; paredit
+(setq paredit-space-for-delimiter-predicates
+      '((lambda (del endp)
+          (if (member major-mode '(haskell-mode clojure-mode emacs-lisp-mode
+                                   common-lisp-mode scheme-mode lisp-mode))
+              t
+              nil))))
+(add-hook 'prog-mode-hook 'paredit-mode)
 
 ;;; whitespace
 (setq-default show-trailing-whitespace t)
@@ -153,8 +138,23 @@ Position the cursor at its beginning, according to the current mode."
 (global-smart-tab-mode 1)
 (add-to-list 'smart-tab-disabled-major-modes 'haskell-mode)
 
+;;; hippie-expand
+(setq hippie-expand-try-functions-list
+      '(try-expand-dabbrev-visible
+        try-expand-dabbrev
+        try-expand-dabbrev-all-buffers))
+
 ;;; replace yes-or-no-p with y-or-n-p
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+;;; rainbow delimiters
+(global-rainbow-delimiters-mode)
+
+;;; General Auto-Complete
+(require 'auto-complete-config)
+(setq ac-delay 0.0)
+(setq ac-quick-help-delay 0.5)
+(ac-config-default)
 
 ;;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -167,6 +167,11 @@ Position the cursor at its beginning, according to the current mode."
 ;;; smex
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+
+;;; tramp
+(if (string-equal system-type "windows-nt")
+    (setq tramp-encoding-shell "/bin/sh")
+  (setq tramp-encoding-shell "cmd\\.exe"))
 
 ;;; don't show the emacs start screen
 (setq inhibit-startup-message t)
@@ -221,7 +226,6 @@ Position the cursor at its beginning, according to the current mode."
             (c-set-style "my-cc-style")))
 
 ;;; clojure-mode
-(add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook
           (lambda () (mapc (lambda (x) (put-clojure-indent x 'defun))
                            '(lazy-seq cond dosync))))
@@ -236,8 +240,18 @@ Position the cursor at its beginning, according to the current mode."
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 (setq cider-repl-popup-stacktraces t)
 
+;; ac-nrepl (Auto-complete for the nREPL)
+(require 'ac-nrepl)
+(add-hook 'cider-mode-hook 'ac-nrepl-setup)
+(add-hook 'cider-repl-mode-hook 'ac-nrepl-setup)
+(add-to-list 'ac-modes 'cider-mode)
+(add-to-list 'ac-modes 'cider-repl-mode)
+
+;; Popping-up contextual documentation
+(eval-after-load "cider"
+  '(define-key cider-mode-map (kbd "C-c d") 'ac-nrepl-popup-doc))
+
 ;;; emacs-lisp-mode
-(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
 
 ;;; haskell-mode
@@ -248,9 +262,7 @@ Position the cursor at its beginning, according to the current mode."
             (turn-on-haskell-doc-mode)
             (define-key haskell-mode-map (kbd "C-c >") 'haskell-move-nested-right)
             (define-key haskell-mode-map (kbd "C-c <") 'haskell-move-nested-left)
-            (setq hi2-show-indentations nil)
-            (turn-on-hi2)
-            (set-up-haskell-hippie-expand)))
+            (turn-on-haskell-indentation)))
 
 ;;; js-mode
 (add-hook 'js-mode-hook
@@ -271,4 +283,4 @@ Position the cursor at its beginning, according to the current mode."
 (require 'yaml-mode)
 
 ;;; load desired theme
-(load-theme 'nzenburn t)
+(load-theme 'noctilux t)
