@@ -12,6 +12,6 @@
 	default = tracking
 [alias]
 	up = "!git remote update -p; git merge --ff-only @{u}"
-	graph = log --graph --pretty="tformat:%C(yellow)%h%Creset\\ %Cgreen(%ar)%Creset\\ %C(cyan)<%an>%Creset\\ %C(auto)%d%Creset\\ %s"
+	graph = log --graph --pretty="tformat:%C(yellow)%h%Creset\\ %Cgreen(%ar)%Creset\\ %C(cyan)<%an>%Creset\\ %C(auto)%d%Creset\\ %s" --all
 [color]
 	ui = auto
