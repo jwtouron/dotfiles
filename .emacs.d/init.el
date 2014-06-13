@@ -23,6 +23,7 @@
                       cljsbuild-mode
                       clojure-mode
                       clojurescript-mode
+                      color-theme-sanityinc-tomorrow
                       elixir-mode
                       flycheck
                       ghc
@@ -283,4 +284,4 @@
 (require 'yaml-mode)
 
 ;;; load desired theme
-(load-theme 'noctilux t)
+(load-theme 'sanityinc-tomorrow-eighties t)
