@@ -174,6 +174,10 @@
     (setq tramp-encoding-shell "/bin/sh")
   (setq tramp-encoding-shell "cmd\\.exe"))
 
+;;; Windows
+(when (and (string-equal system-type "windows-nt") (not (getenv "COMSPEC")))
+  (setenv "COMSPEC" "cmd.exe"))
+
 ;;; don't show the emacs start screen
 (setq inhibit-startup-message t)
 
