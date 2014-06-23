@@ -291,4 +291,4 @@
 (require 'yaml-mode)
 
 ;;; load desired theme
-(load-theme 'sanityinc-tomorrow-eighties t)
+(load-theme 'nzenburn t)
