@@ -40,6 +40,7 @@
                       noctilux-theme
                       nzenburn-theme
                       paredit
+                      paredit-everywhere
                       rainbow-delimiters
                       rust-mode
                       scala-mode2
@@ -96,14 +97,11 @@
 ;; save every n keystrokes
 (setq auto-save-interval 20)
 
-;; paredit
-(setq paredit-space-for-delimiter-predicates
-      '((lambda (del endp)
-          (if (member major-mode '(haskell-mode clojure-mode emacs-lisp-mode
-                                   common-lisp-mode scheme-mode lisp-mode))
-              t
-              nil))))
-(add-hook 'prog-mode-hook 'paredit-mode)
+;; paredit-everywhere
+(add-hook 'prog-mode-hook 'paredit-everywhere-mode)
+
+;; electric-pair
+(add-hook 'prog-mode-hook 'electric-pair-mode)
 
 ;; whitespace
 (setq-default show-trailing-whitespace t)
@@ -232,8 +230,11 @@
 
 ;; clojure-mode
 (add-hook 'clojure-mode-hook
-          (lambda () (mapc (lambda (x) (put-clojure-indent x 'defun))
-                           '(lazy-seq cond dosync))))
+          (lambda ()
+            (progn
+              (mapc (lambda (x) (put-clojure-indent x 'defun))
+                    '(lazy-seq cond dosync))
+              (paredit-mode))))
 
 (defun esk-pretty-fn ()
   (font-lock-add-keywords nil `(("(\\(fn\\>\\)"
@@ -253,6 +254,7 @@
   '(add-to-list 'ac-modes 'cider-repl-mode))
 
 ;; emacs-lisp-mode
+(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
 
 ;; haskell-mode
