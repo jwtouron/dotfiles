@@ -291,4 +291,4 @@
 (require 'yaml-mode)
 
 ;; load desired theme
-(load-theme 'nzenburn t)
+(load-theme 'zenburn t)
