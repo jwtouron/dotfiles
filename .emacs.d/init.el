@@ -182,14 +182,11 @@
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
-;; tramp
-(if (string-equal system-type "windows-nt")
-    (setq tramp-encoding-shell "/bin/sh")
-  (setq tramp-encoding-shell "cmd\\.exe"))
-
 ;; Windows
-(when (and (string-equal system-type "windows-nt") (not (getenv "COMSPEC")))
-  (setenv "COMSPEC" "cmd.exe"))
+(when (string-equal system-type "windows-nt")
+  (when (not (getenv "COMSPEC"))
+    (setenv "COMSPEC" "cmd.exe"))
+  (setq tramp-encoding-shell "cmd\\.exe"))
 
 ;; don't show the emacs start screen
 (setq inhibit-startup-message t)
