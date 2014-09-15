@@ -110,7 +110,22 @@
 (add-hook 'text-mode-hook 'whitespace-mode)
 
 ;; smarter indentation
-(global-set-key (kbd "RET") 'newline-and-indent)
+(defun my-smart-newline-and-indent ()
+  (interactive)
+  (let* ((tokens '(("(" . ")") ("{" . "}") ("[" . "]")))
+         (before-point (buffer-substring-no-properties (line-beginning-position) (point)))
+         (after-point (buffer-substring-no-properties (point) (line-end-position)))
+         (point-between-tokens (reduce (lambda (b tokens)
+                                         (or b (and (string-suffix-p (car tokens) before-point)
+                                                    (string-prefix-p (cdr tokens) after-point))))
+                                       tokens :initial-value nil)))
+    (if point-between-tokens
+        (progn (newline-and-indent)
+               (newline-and-indent)
+               (previous-line)
+               (indent-according-to-mode))
+      (newline-and-indent))))
+(global-set-key (kbd "RET") 'my-smart-newline-and-indent)
 (global-set-key (kbd "C-j") 'newline)
 
 ;; dired-mode - enter doesn't open a new buffer
