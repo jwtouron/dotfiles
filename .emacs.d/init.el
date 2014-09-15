@@ -277,7 +277,8 @@
             (turn-on-haskell-doc-mode)
             (define-key haskell-mode-map (kbd "C-c >") 'haskell-move-nested-right)
             (define-key haskell-mode-map (kbd "C-c <") 'haskell-move-nested-left)
-            (turn-on-haskell-indentation)))
+            (turn-on-haskell-indentation)
+            (inf-haskell-mode)))
 
 ;; js-mode
 (add-hook 'js-mode-hook
