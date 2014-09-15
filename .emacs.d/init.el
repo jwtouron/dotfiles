@@ -85,7 +85,7 @@
 (blink-cursor-mode 0)
 
 ;; tags
-(global-set-key (kbd "C-c t") 'find-tag)
+(add-hook 'prog-mode-hook (lambda () (local-set-key (kbd "C-c t") 'find-tag)))
 
 ;; multiple-cursors
 (require 'multiple-cursors)
