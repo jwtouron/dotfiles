@@ -57,6 +57,15 @@
 ;; Non-package-managed elisp files
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+(defun my-string-suffix-p (str1 str2 &optional ignore-case)
+  "Implementation of string-suffix-p for versions of Emacs prior to 24.4"
+  (let ((begin2 (- (length str2) (length str1)))
+        (end2 (length str2)))
+    (when (< begin2 0) (setq begin2 0))
+    (eq t (compare-strings str1 nil nil
+                           str2 begin2 end2
+                           ignore-case))))
+
 ;; compile
 (setq compilation-ask-about-save nil)
 (setq compilation-auto-jump-to-first-error t)
@@ -116,7 +125,7 @@
          (before-point (buffer-substring-no-properties (line-beginning-position) (point)))
          (after-point (buffer-substring-no-properties (point) (line-end-position)))
          (point-between-tokens (reduce (lambda (b tokens)
-                                         (or b (and (string-suffix-p (car tokens) before-point)
+                                         (or b (and (my-string-suffix-p (car tokens) before-point)
                                                     (string-prefix-p (cdr tokens) after-point))))
                                        tokens :initial-value nil)))
     (if point-between-tokens
