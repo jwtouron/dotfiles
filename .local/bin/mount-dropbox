@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rclone mount mydropbox: "$HOME/Dropbox" >/dev/null

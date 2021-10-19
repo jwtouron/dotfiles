@@ -1,0 +1,425 @@
+[colors]
+i3blue = #285577
+
+# Tomorrow Night
+background = #1d1f21
+background-alt = #373b41
+foreground = #c5c8c6
+module1 = #cc6666
+module2 = #b5bd68
+module3 = #f0c674
+module4 = #81a2be
+module5 = #b294bb
+module6 = #8abeb7
+module7 = #cc6666
+alert = #cc6666
+
+# Chalkboard
+; background = #29262f
+; background-alt = #073642
+; foreground = #d9e6f2
+; module1 = #c37372
+; module2 = #72c373
+; module3 = #c2c372
+; module4 = #7372c3
+; module5 = #c372c2
+; module6 = #72c2c3
+; alert = #c2c372
+
+# Gruvbox
+; background = #282828
+; background-alt = #3c3836
+; foreground = #ebdbb2
+; ; foreground = #a89984
+; module1 = #cc241d
+; module2 = #98971a
+; module3 = #d79921
+; module4 = #458588
+; module5 = #b16286
+; module6 = #689d6a
+; alert = #d79921
+
+# Modus Vivendi
+; background = #000000
+; background-alt = #595959
+; foreground = #ffffff
+; module1 = #ff8059
+; module2 = #44bc44
+; module3 = #d0bc00
+; module4 = #2fafff
+; module5 = #feacd0
+; module6 = #00d3d0
+; alert = #d0bc00
+
+# Material Darker
+; background = #212121
+; background-alt = #303030
+; foreground = #b2ccd6
+; module1 = #FF5370
+; module2 = #F78C6C
+; module3 = #FFCB6B
+; module4 = #C3E88D
+; module5 = #82AAFF
+; module6 = #C792EA
+; alert = #FFCB6B
+
+[bar/herbstluftwm]
+monitor = ${env:MONITOR}
+;monitor-fallback = HDMI1
+;width = 100%
+height = 30
+;offset-x = 0.5%
+;offset-y = 5px
+;radius = 15
+fixed-center = true
+bottom = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 2
+line-color = #f00
+
+wm-restack = bspwm
+override-redirect = true
+
+; Enable support for inter-process messaging
+; See the Messaging wiki page for more details.
+enable-ipc = true
+
+border-size = 0
+;border-left-size = 0
+;border-right-size = 25
+;border-top-size = 0
+;border-bottom-size = 25
+border-color = #00000000
+
+padding = 1
+
+module-margin = 1
+
+;https://github.com/jaagr/polybar/wiki/Fonts
+font-0 = "Noto Sans:size=10;2"
+font-1 = "fixed:size=10;2"
+font-2 = "FontAwesome:size=10;2"
+font-3 = "Noto Color Emoji:size=10:scale=10;2"
+font-4 = "mono:size=10;2"
+
+modules-left = ewmh
+;modules-center = xwindow
+modules-right = pulseaudio cpu2 memory2 update weather date powermenu-herbstluftwm
+
+tray-detached = false
+tray-position = right
+tray-background = ${colors.background-alt}
+
+scroll-up = herbstclient use_index -1
+scroll-down = herbstclient use_index +1
+
+[bar/spectrwm]
+monitor = ${env:MONITOR}
+;monitor-fallback = HDMI1
+width = 100%
+height = 30
+;offset-x = 1%
+;offset-y = 1%
+radius = 0.0
+fixed-center = true
+bottom = true
+;separator = |
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 2
+line-color = #f00
+
+wm-restack = bspwm
+override-redirect = true
+
+;; Enable support for inter-process messaging
+;; See the Messaging wiki page for more details.
+enable-ipc = true
+
+border-size = 0
+;border-left-size = 0
+;border-right-size = 25
+;border-top-size = 0
+;border-bottom-size = 25
+border-color = #00000000
+
+padding-left = 0
+padding-right = 1
+
+module-margin-left = 3
+module-margin-right = 3
+
+;;https://github.com/jaagr/polybar/wiki/Fonts
+font-0 = "fixed:size=10;2"
+font-1 = "Symbola:size=10;2"
+font-2 = "FontAwesome:size=10;2"
+
+modules-left = ewmh
+modules-center = xwindow
+modules-right = pulseaudio cpu memory date powermenu
+
+tray-detached = false
+tray-offset-x = 0
+tray-offset-y = 0
+tray-padding = 2
+tray-maxsize = 20
+tray-scale = 1.0
+tray-position = right
+tray-background = ${colors.background}
+
+scroll-up = spectrwm-desknext
+scroll-down = spectrwm-deskprev
+
+[bar/i3]
+monitor = ${env:MONITOR:}
+fixed-center = false
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 2
+
+module-margin = 1
+
+font-0 = fixed:pixelsize=10;2
+font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-2 = siji:pixelsize=10;2
+font-3 = FontAwesome:style=Regular;pixelsize=10;2
+
+modules-left = i3
+; modules-center = xwindow
+modules-right = pulseaudio cpu memory date powermenu
+
+tray-position = right
+tray-padding = 1
+tray-background = ${colors.background-alt}
+
+wm-restack = i3
+
+;override-redirect = true
+
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+
+bottom = true
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+
+pin-workspaces = true
+
+label-mode-padding = 2
+label-mode-foreground = ${colors.foreground}
+label-mode-background = ${colors.background-alt}
+
+; focused = Active workspace on focused monitor
+label-focused = %index%
+label-focused-background = ${colors.background-alt}
+label-focused-underline = ${colors.foreground}
+label-focused-padding = 2
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index%
+label-unfocused-padding = 2
+
+; visible = Active workspace on unfocused monitor
+label-visible = %index%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:50:...%
+format-padding = 2
+format-background = ${colors.background-alt}
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = " "
+format-underline = ${colors.module2}
+label = %percentage:2%%
+
+[module/cpu2]
+type = custom/script
+exec = ~/.config/polybar/cpu.sh
+format-underline = ${colors.module2}
+interval = 1
+click-left = xterm -class xterm-popup -geometry 120x36 -e htop
+
+[module/memory]
+type = internal/memory
+interval = 2
+format = <label> <bar-used>
+format-prefix = " "
+format-underline = ${colors.module3}
+label = %percentage_used%%
+
+bar-used-indicator =
+bar-used-width = 5
+bar-used-foreground-0 = #00ff00
+bar-used-foreground-1 = #adff2f
+bar-used-foreground-2 = #ffff00
+bar-used-foreground-3 = #ff0000
+bar-used-fill = " "
+bar-used-empty = " "
+; bar-used-fill = ||
+; bar-used-empty = ||
+; bar-used-fill = " "
+; bar-used-empty = " "
+bar-used-empty-foreground = #444444
+
+[module/memory2]
+type = custom/script
+exec = ~/.config/polybar/memory.sh
+format-underline = ${colors.module3}
+interval = 1
+click-left = xterm -class xterm-popup -geometry 120x36 -e htop && exit
+
+[module/update]
+type = custom/script
+exec = ~/.config/polybar/updates.sh
+format-underline = ${colors.module4}
+interval = 3600
+click-left = ~/.config/polybar/updates.sh click-left
+click-right = ~/.config/polybar/updates.sh click-right
+
+[module/date]
+type = custom/script
+exec = date +"%a, %d %b %Y, %H:%M"
+format-underline = ${colors.module6}
+click-left = yad --calendar --undecorated --no-buttons --mouse --close-on-unfocus --posy='-30'
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume = <ramp-volume> <label-volume>
+label-volume = %percentage%%
+
+label-muted =  0%
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
+click-right = pavucontrol
+format-volume-underline = ${colors.module1}
+format-muted-underline = ${colors.module1}
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = ADP1
+full-at = 99
+
+label-full = %percentage%%
+format-full = <ramp-capacity> <label-full>
+format-full-underline = ${colors.module2}
+
+label-charging = %percentage%% (%time:0:5%)
+format-charging-prefix = " "
+format-charging = <ramp-capacity> <label-charging>
+format-charging-underline = ${colors.module2}
+
+label-discharging = %percentage%% (%time:0:5%)
+format-discharging = <ramp-capacity> <label-discharging>
+format-discharging-underline = ${colors.module2}
+
+ramp-capacity-0 = 
+ramp-capacity-1 = ︋
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+[module/weather]
+type = custom/script
+exec = ~/.config/polybar/weather.sh
+interval = 1800
+format-underline = ${colors.module5}
+click-left = xterm -class xterm-popup -geometry 125x45 -e ~/.config/polybar/weather-click.sh
+exec-if = ping -c 1 wttr.in
+
+[module/powermenu]
+type = custom/text
+content = "  "
+content-underline = ${colors.module7}
+content-padding = 1
+click-left = ~/.local/bin/wmscripts/powermenu.sh
+
+[module/powermenu-herbstluftwm]
+type = custom/text
+content = "  "
+content-underline = ${colors.module7}
+content-padding = 1
+click-left = ~/.config/herbstluftwm/powermenu.sh
+
+[module/ewmh]
+type = internal/xworkspaces
+
+pin-workspaces = false
+enable-click = true
+enable-scroll = true
+reverse-scroll = true
+
+icon-0 = 1;
+icon-1 = 2;
+icon-2 = 3;
+icon-3 = 4;
+icon-4 = 5;
+#icon-5 = 6;
+format = <label-state>
+label-monitor = %name%
+
+label-active = %name%
+label-active-foreground = #3eb489
+label-active-background = ${colors.background-alt}
+label-active-underline = #3eb489
+;label-active-underline = #789161
+;label-active-underline = #6790eb
+label-active-padding = 2
+
+label-occupied = %name%
+label-occupied-foreground = ${colors.foreground}
+label-occupied-background = ${colors.background}
+label-occupied-underline = ${colors.foreground}
+label-occupied-padding = 2
+
+label-urgent = %name%
+label-urgent-foreground = ${colors.foreground}
+label-urgent-background = ${colors.alert}
+label-urgent-underline = ${colors.alert}
+label-urgent-padding = 2
+
+label-empty = %name%
+label-empty-foreground = ${colors.foreground}
+label-empty-padding = 2
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = false
+
+;[global/wm]
+;margin-top = 5
+;margin-bottom = 5
+
+
+; vim:ft=dosini

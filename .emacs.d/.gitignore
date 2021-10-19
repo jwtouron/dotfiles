@@ -1,0 +1,14 @@
+anaconda-mode/
+auto-save-list/
+backups/
+elpa/
+ido.last
+places
+projectile-bookmarks.eld
+projectile.cache
+recentf
+semanticdb/
+/GPATH
+/GTAGS
+/GRTAGS
+session*

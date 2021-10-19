@@ -1,0 +1,524 @@
+;; -*- lexical-binding: t; -*-
+;; TODO: avoid package-initialize
+;; TODO: lazy-load on-demand packages, one every x seconds (2?)
+
+;;; miscellaneous preparation
+
+(add-to-list #'load-path "~/.emacs.d/lisp")
+
+(require 'my-defuns)
+
+;; speed up startup time
+
+(let ((orig-percent gc-cons-percentage)
+      (orig-alist file-name-handler-alist))
+  (setq gc-cons-percentage 1
+        file-name-handler-alist nil)
+  (add-hook 'after-init-hook
+            (lambda ()
+              (setq gc-cons-percentage orig-percent
+                    file-name-handler-alist orig-alist)
+              (use-package gcmh
+                :init (gcmh-mode 1)
+                :config (add-hook 'focus-out-hook #'gcmh-idle-garbage-collect)))))
+
+;; Force "lisp" at the head to reduce startup time
+(defun update-load-path (&rest _)
+  (push (expand-file-name "lisp" user-emacs-directory) load-path))
+(advice-add #'package-initialize :after #'update-load-path)
+(update-load-path)
+
+;;; package
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(package-initialize)
+
+;;; use-package
+
+(unless (package-installed-p 'use-package)
+  (unless package-archive-contents
+    (package-refresh-contents))
+  (package-install 'use-package))
+
+(use-package use-package
+  :custom
+  (use-package-always-defer t)
+  (use-package-always-ensure t))
+
+(use-package use-package-ensure-system-package)
+
+;; Temporarily work around keyring errors on startup
+;; (setq package-check-signature nil)
+;; (use-package gnu-elpa-keyring-update
+;;   :demand t)
+
+;;; packages
+
+(require 'my-init-better-defaults)
+
+(use-package ace-window)
+
+(use-package all-the-icons)
+;; (all-the-icons-install-fonts)
+
+(use-package auto-yasnippet)
+
+(use-package avy)
+
+(use-package beacon
+  :init (beacon-mode t))
+
+(use-package comment-dwim-2
+  :bind ("M-;" . comment-dwim-2))
+
+(use-package company
+  :custom
+  (company-idle-delay nil)
+  (company-tooltip-align-annotations t)
+  :config
+  (define-key company-mode-map (kbd "TAB") 'company-indent-or-complete-common)
+  (define-key company-mode-map (kbd "M-/") 'company-complete)
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous))
+
+(use-package company-prescient
+  :after company
+  :hook (company-mode . company-prescient-mode))
+
+(use-package counsel)
+
+(use-package crux)
+
+;; deadgrep-edit-mode
+(use-package deadgrep
+  :init (add-hook 'deadgrep-mode-hook (lambda () (setq-local deadgrep--search-type 'regexp))))
+
+(use-package devdocs)
+
+(use-package dired+
+  :hook (dired-mode . (lambda () (require 'dired+)))
+  :load-path "lisp"
+  :config (toggle-diredp-find-file-reuse-dir 1))
+
+(use-package dired-ranger
+  :demand t)
+
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode))
+
+(use-package dot-mode
+  :init (global-dot-mode t))
+
+(use-package double-saber
+  :init
+  (defhydra double-saber-hydra (:color blue :columns 3)
+    "double-saber"
+    ("n" double-saber-narrow "Narrow")
+    ("d" double-saber-delete "Delete")
+    ("q" nil "quit"))
+  (with-eval-after-load "rg"
+    (add-hook 'rg-mode-hook
+              (lambda ()
+                (double-saber-mode)
+                (setq-local double-saber-start-line 5)
+                (setq-local double-saber-end-text "rg finished"))))
+  :config
+  (define-key double-saber-mode-map (kbd "x") 'double-saber-hydra/body)
+  (define-key double-saber-mode-map (kbd "d") nil))
+
+(use-package dumb-jump
+  :functions dumb-jump-hydra/body
+  ;; :bind (("M-g o" . dumb-jump-go-other-window)
+  ;;       ("M-g j" . dumb-jump-go)
+  ;;       ("M-g i" . dumb-jump-go-prompt)
+  ;;       ("M-g x" . dumb-jump-go-prefer-external)
+  ;;       ("M-g z" . dumb-jump-go-prefer-external-other-window))
+  :hook (prog-mode . dumb-jump-mode)
+  :custom (dumb-jump-prefer-searcher 'rg)
+  :config
+  (with-eval-after-load 'ivy
+    (customize-set-variable 'dumb-jump-selector 'ivy))
+  (defhydra dumb-jump-hydra (:color blue :columns 3)
+    "Dumb Jump"
+    ("j" dumb-jump-go "Go")
+    ("o" dumb-jump-go-other-window "Other window")
+    ("e" dumb-jump-go-prefer-external "Go external")
+    ("x" dumb-jump-go-prefer-external-other-window "Go external other window")
+    ("i" dumb-jump-go-prompt "Prompt")
+    ("l" dumb-jump-quick-look "Quick look")
+    ("b" dumb-jump-back "Back")
+    ("q" nil "quit"))
+  (bind-key "C-M-j" #'dumb-jump-hydra/body dumb-jump-mode-map))
+
+(use-package easy-kill
+  :init (global-set-key [remap kill-ring-save] 'easy-kill))
+
+(use-package editorconfig)
+
+(use-package eldoc-box
+  :if nil
+  :hook (prog-mode . eldoc-box-hover-mode)
+  :init (when (boundp 'x-gtk-resize-child-frames)
+          (setq x-gtk-resize-child-frames 'resize-mode)))
+
+(use-package expand-region
+  :commands (er/mark-symbol)
+  :bind ("C-=" . (lambda () (interactive) (er/expand-region 1) (hydra-expand-region/body)))
+  :init
+  (defhydra hydra-expand-region ()
+    "expand-region"
+    ("=" er/expand-region "er/expand-region")
+    ("C-=" er/expand-region "er/expand-region")
+    ("-" er/contract-region "er/contract-region")
+    ("C--" er/contract-region "er/contract-region")))
+
+(use-package eyebrowse)
+
+(use-package flycheck
+  :custom
+  (flycheck-check-syntax-automatically '(save mode-enabled))
+  (flycheck-flake8-maximum-line-length 120))
+
+(use-package flycheck-inline
+  :if nil
+  :after (flycheck)
+  :hook (flycheck-mode . flycheck-inline-mode))
+
+(use-package flycheck-popup-tip
+  ;; :if nil
+  :after (flycheck)
+  :hook (flycheck-mode . flycheck-popup-tip-mode))
+
+(use-package flycheck-pos-tip
+  :if nil ;; good, not great
+  :after flycheck
+  :custom ((flycheck-pos-tip-max-width 60))
+  :init (flycheck-pos-tip-mode))
+
+(use-package flycheck-posframe
+  :if nil ;; might need emacs 27
+  :after flycheck
+  :hook (flycheck-mode . flycheck-posframe-mode))
+
+(use-package ggtags)
+
+(use-package goto-last-change
+  :bind (("C-x C-\\" . goto-last-change)))
+
+(use-package hydra
+  :init
+  (defhydra hydra-window ()
+    "Resize current window"
+    ("=" enlarge-window "Enlarge")
+    ("-" shrink-window "Shrink")))
+
+(use-package ialign)
+
+(use-package indent-guide)
+
+(use-package ivy
+  :bind ("M-x" . counsel-M-x)
+  :init
+  (ivy-mode 1)
+  :custom
+  (ivy-virtual-abbreviate 'full)
+  ;; (ivy-use-virtual-buffers t)
+  ;; :config
+  ;; (require 'f)
+  ;; (plist-put ivy--display-transformers-list 'ivy-switch-buffer
+  ;;            (lambda (str)
+  ;;              ;; my specific formatting
+  ;;              (let* ((buf (get-buffer str))
+  ;;                     (dir (when buf (f-canonical (buffer-local-value 'default-directory buf))))
+  ;;                     (proj-dir (projectile-project-root dir))
+  ;;                     (proj-name (projectile-project-name proj-dir))
+  ;;                     (buffer-file-name (buffer-file-name buf))
+  ;;                     (file-name (f-filename str))
+  ;;                     (out (cond
+  ;;                           ((and proj-dir proj-name)
+  ;;                            (format "%-25s %s" (format "[%s]" proj-name) str))
+  ;;                           (t (format "%-25s %s" "" str)))))
+  ;;                ;; formatting copied from ivy.el
+  ;;                (cond
+  ;;                 ((and (not (ignore-errors (file-remote-p buffer-file-name)))
+  ;;                       (not (verify-visited-file-modtime buf)))
+  ;;                  (ivy-append-face out 'ivy-modified-outside-buffer))
+  ;;                 ((buffer-modified-p buf)
+  ;;                  (ivy-append-face out 'ivy-modified-buffer))
+  ;;                 (t out)))))
+  )
+
+(use-package ivy-prescient
+  :after counsel
+  :hook (ivy-mode . ivy-prescient-mode))
+
+(use-package ivy-rich
+  :hook (ivy-mode . ivy-rich-mode)
+  :config (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+
+(use-package macrostep)
+
+(use-package magit
+  :init
+  (global-set-key (kbd "C-x g") 'magit-status))
+
+(use-package multiple-cursors
+  :bind (("C-S-c C-S-c" . 'mc/edit-lines)
+         ("C->"         . 'mc/mark-next-like-this)
+         ("C-M->"       . 'mc/skip-to-next-like-this)
+         ("C-<"         . 'mc/mark-previous-like-this)
+         ("C-M-<"       . 'mc/skip-to-previous-like-this)
+         ("C-c C-<"     . 'mc/mark-all-like-this)
+         ("C-c C->"     . 'mc/mark-all-in-region-regexp)))
+
+(use-package neotree)
+
+(use-package paredit)
+
+(use-package projectile
+  :init (projectile-global-mode t)
+  :custom
+  (projectile-enable-caching t)
+  (projectile-completion-system 'ivy)
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  ;; (define-key projectile-mode-map (kbd "C-; p") 'projectile-command-map)
+  (cond
+   ((executable-find "fd")
+    (progn
+      (customize-set-variable 'projectile-generic-command "fd . --color=never --type f -0 -H -E .git")
+      (customize-set-variable 'projectile-git-command projectile-generic-command)
+      (customize-set-variable 'projectile-git-submodule-command nil)
+      ;; ensure Windows users get fd's benefits
+      (customize-set-variable 'projectile-indexing-method 'alien)))
+   ((executable-find "rg")
+    (progn
+      (customize-set-variable
+       'projectile-generic-command (concat "rg -0 --files --color=never --hidden"
+                                           (cl-loop for dir in projectile-globally-ignored-directories
+                                                    concat (format " --glob '!%s'" dir))))
+      (customize-set-variable 'projectile-git-command projectile-generic-command)
+      (customize-set-variable 'projectile-git-submodule-command nil)
+      ;; ensure Windows users get rg's benefits
+      (customize-set-variable 'projectile-indexing-method 'alien)))))
+
+(use-package quickrun
+  :bind (("C-<f5>" . quickrun)
+         ("C-c x" . quickrun)))
+
+(use-package restclient)
+
+(use-package rg
+  :ensure-system-package rg)
+
+(use-package sesman)
+
+(use-package smartscan
+  :init (global-smartscan-mode t))
+
+(use-package string-inflection)
+
+(use-package undo-tree
+  :init (global-undo-tree-mode 1))
+
+(use-package visual-regexp
+  :commands (vr--interactive-get-args)
+  :bind (("M-%" . vr/query-replace)
+         ("C-M-%" . vr/replace))
+  :init
+  (defun vm (regexp start end)
+    (interactive
+     (vr--interactive-get-args 'vr--mode-regexp 'vr--calling-func-mc-mark))
+    (vr/mc-mark regexp start end)))
+
+(use-package wgrep :if nil)
+
+(use-package wgrep-ag
+  :if nil
+  :after rg
+  :init (add-hook 'rg-mode-hook 'wgrep-ag-setup))
+
+(use-package which-key
+  :init (which-key-mode))
+
+(use-package yasnippet
+  :if nil
+  :init (add-hook 'prog-mode-hook 'yas-minor-mode)
+  :config (yas-reload-all))
+
+(use-package yasnippet-snippets :if nil)
+
+;;; languages
+
+;; C/C++
+
+(add-hook 'c-mode-hook (lambda () (setq c-default-style "stroustrup")))
+(add-hook 'c++-mode-hook (lambda () (setq c-default-style "stroustrup")))
+(setq c-basic-offset 4)
+
+(use-package irony
+  :hook
+  (c++-mode . irony-mode)
+  (c-mode . irony-mode)
+  (irony-mode-hook . irony-cdb-autosetup-compile-options))
+
+(use-package flycheck-irony
+  :init
+  (with-eval-after-load 'flycheck
+    (add-hook 'flycheck-mode-hook 'flycheck-irony-setup)))
+
+(use-package company-irony
+  :init
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'company-irony)))
+
+(use-package irony-eldoc
+  :hook (irony-mode . 'irony-eldoc))
+
+;; C#
+
+(use-package csharp-mode)
+
+(use-package omnisharp
+  :init
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends '(company-omnisharp :with company-dabbrev-code)))
+  (add-hook 'csharp-mode-hook 'omnisharp-mode))
+
+;; Clojure
+
+(use-package clojure-mode
+  :hook ((clojure-mode . company-mode)
+         (clojure-mode . paredit-mode))
+  :config
+  (with-eval-after-load 'rg
+    (add-to-list 'rg-custom-type-aliases '("edn" . "*.edn")))
+  (dolist (sym '(div label p ul li a input button span))
+    (put-clojure-indent sym :defn))
+  (dolist (sym '(:require :import))
+    (put-clojure-indent sym 0))
+  (define-key clojure-mode-map (kbd "C-; m d")
+    (lambda ()
+      (interactive)
+      (let* ((var-info (cider-var-info (cider-symbol-at-point)))
+             (ns (nrepl-dict-get var-info "ns"))
+             (name (nrepl-dict-get var-info "name")))
+        (browse-url (format "http://clojuredocs.org/%s/%s" ns name)))))
+  (define-key clojure-mode-map (kbd "C-; m i i")
+    (lambda () (interactive) (cider-interactive-eval "(try (require '[orchestra.spec.test :as _jt_stest]) (catch Exception _ (require '[clojure.spec.test.alpha :as _jt_stest]))) (_jt_stest/instrument)")))
+  (define-key clojure-mode-map (kbd "C-; m i u")
+    (lambda () (interactive) (cider-interactive-eval "(try (require '[orchestra.spec.test :as _jt_stest]) (catch Exception _ (require '[clojure.spec.test.alpha :as _jt_stest]))) (_jt_stest/unstrument)"))))
+
+(use-package cider
+  :after (clojure company)
+  :init
+  (defun my-cider-repl-mode-setup ()
+    (paredit-mode)
+    (smartscan-mode -1))
+  (add-hook 'cider-repl-mode-hook 'my-cider-repl-mode-setup)
+  :config
+  (define-key cider-repl-mode-map (kbd "M-p") 'cider-repl-previous-input)
+  (define-key cider-repl-mode-map (kbd "M-n") 'cider-repl-next-input))
+
+;; elm
+(use-package elm-mode
+  :config (add-to-list 'company-backends 'company-elm))
+
+
+;; emacs lisp
+(use-package emacs-lisp-mode
+  :ensure nil
+  :hook ((emacs-lisp-mode . company-mode)
+         (emacs-lisp-mode . paredit-mode)))
+
+;; haskell
+
+(use-package haskell-mode
+  :ensure-system-package ((stack . "curl -sSL https://get.haskellstack.org/ | sh")
+                          (brittany . "stack install brittany"))
+  :hook ((haskell-mode . company-mode)
+         (haskell-mode . flycheck-mode)
+         ;; (haskell-mode . haskell-indentation-mode)
+         ;; (haskell-mode . haskell-doc-mode)
+         )
+  :custom
+  (haskell-process-auto-import-loaded-modules t)
+  (haskell-stylish-on-save t)
+  (haskell-mode-stylish-haskell-path "brittany")
+  (haskell-mode-stylish-haskell-args '("--indent" "2" "--columns" "100"))
+  :config
+  (define-key haskell-mode-map (kbd "C-c m b") 'haskell-interactive-bring)
+  (define-key haskell-mode-map (kbd "C-c m h") 'hoogle)
+  (define-key haskell-mode-map (kbd "C-c m i") 'haskell-process-do-info)
+  (define-key haskell-mode-map (kbd "C-c m t") 'haskell-process-do-type)
+  (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-file))
+
+(use-package dante
+  :if nil
+  :after haskell-mode
+  :hook (haskell-mode . dante-mode)
+  :config
+  (setq dante-methods '(stack))
+  (define-key haskell-mode-map (kbd "C-; m e") 'dante-eval-block)
+  (dolist (flag '("-Wall" "-fdefer-typed-holes" "-fdefer-type-errors"))
+    (add-to-list 'dante-load-flags flag))
+  (with-eval-after-load 'company
+    (setq company-backends (delete 'dante-company company-backends)))
+  ;; (with-eval-after-load 'flycheck
+  ;;   (setq flycheck-checkers (delete 'haskell-dante flycheck-checkers)))
+  )
+
+(use-package company-ghci
+  :after company
+  :init (add-to-list 'company-backends 'company-ghci))
+
+;; python
+
+(use-package anaconda-mode
+  :hook ((python-mode . company-mode)
+         (python-mode . flycheck-mode)
+         (python-mode . anaconda-mode)
+         (python-mode . anaconda-eldoc-mode))
+  :config (setq anaconda-mode-localhost-address "localhost"))
+
+(use-package company-anaconda
+  :after company
+  :init (add-to-list 'company-backends 'company-anaconda))
+
+(use-package python
+  :custom (python-shell-interpreter "python3"))
+
+(use-package pyvenv)
+
+;; rust
+(use-package rust-mode
+  :hook ((rust-mode . company-mode)
+         (rust-mode . flycheck-mode)))
+
+(use-package racer
+  :after rust-mode
+  :hook ((rust-mode . racer-mode)
+         (racer-mode . eldoc-mode))
+  :init (add-hook 'rust-mode-hook (lambda () (setq-local eldoc-idle-delay 1))))
+
+(use-package company-racer
+  :after (rust-mode company)
+  :init (add-to-list 'company-backends 'company-racer))
+
+(use-package flycheck-rust
+  :after (rust-mode flycheck)
+  :hook (flycheck-mode . flycheck-rust-setup))
+
+;;; theme
+(require 'my-init-theme)
+
+;;; keybindings
+(require 'my-init-keybindings)
+
+(message "Emacs is ready")
+
+(provide 'init)
+
+;;; init ends here

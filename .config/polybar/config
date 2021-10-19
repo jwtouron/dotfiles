@@ -1,0 +1,279 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[nord]
+
+polar-night1 = #2E3440
+polar-night2 = #3B4252
+polar-night3 = #434C5E
+polar-night4 = #4C566A
+
+frost1 = #8FBCBB
+frost2 = #88C0D0
+frost3 = #81A1C1
+frost4 = #5E81AC
+
+aurora1 = #BF616A
+aurora2 = #D08770
+aurora3 = #EBCB8B
+aurora4 = #A3BE8C
+aurora5 = #B48EAD
+
+[bar/i3]
+monitor = ${env:MONITOR}
+
+height = 30px
+
+background = ${nord.polar-night1}
+
+line-size = 5
+
+padding = 1
+
+modules-left = i3
+modules-right = pulseaudio sep cpu void void memory void void updates sep weather sep date sep powermenu-i3
+
+tray-position = right
+tray-background = ${nord.polar-night2}
+
+font-0 = MesloLGMDZ Nerd Font:style=Regular:size=10;2
+font-1 = FiraCode Nerd Font:style=Regular:size=10;2
+font-2 = DejaVuSansMono Nerd Font:style=Book:size=10;2
+
+[bar/herbstluftwm]
+monitor = ${env:MONITOR}
+
+height = 30px
+
+background = ${nord.polar-night1}
+
+line-size = 5
+
+padding = 1
+
+modules-left = ewmh
+modules-right = pulseaudio sep cpu void void memory void void updates sep weather sep date sep powermenu
+
+tray-position = right
+tray-background = ${nord.polar-night2}
+
+font-0 = MesloLGMDZ Nerd Font:style=Regular:size=10;2
+font-1 = FiraCode Nerd Font:style=Regular:size=10;2
+font-2 = DejaVuSansMono Nerd Font:style=Book:size=10;2
+
+[module/left]
+type = custom/text
+content-foreground = ${nord.polar-night2}
+content-background = ${nord.polar-night1}
+content-overline = ${nord.polar-night1}
+content-underline = ${nord.polar-night1}
+content = ""
+
+[module/right]
+type = custom/text
+content-foreground = ${nord.polar-night2}
+content-background = ${nord.polar-night1}
+content-overline = ${nord.polar-night1}
+content-underline = ${nord.polar-night1}
+content = ""
+
+[module/sep]
+type = custom/text
+content = " "
+
+[module/void]
+type = custom/text
+content = " "
+content-background = ${nord.polar-night2}
+content-overline = ${nord.polar-night1}
+content-underline = ${nord.polar-night1}
+
+[module/i3]
+type = internal/i3
+
+pin-workspaces = true
+show-urgent = true
+
+format = <label-state><label-mode>
+format-foreground = ${nord.polar-night2}
+format-background = ${nord.polar-night1}
+format-underline = ${nord.polar-night1}
+format-overline = ${nord.polar-night1}
+
+label-mode-padding = 1
+label-mode-foreground = ${nord.aurora1}
+label-mode-background = ${nord.polar-night2}
+
+label-focused = %name%
+label-focused-foreground = ${nord.aurora3}
+label-focused-background = ${nord.polar-night2}
+label-focused-padding = 1
+
+label-unfocused = %name%
+label-unfocused-background = ${nord.polar-night2}
+label-unfocused-foreground = ${nord.frost3}
+label-unfocused-padding = 1
+
+label-visible = %name%
+label-visible-background = ${nord.polar-night2}
+label-visible-foreground = ${nord.frost3}
+label-visible-padding = 1
+
+label-urgent = %name%
+label-urgent-foreground = ${nord.aurora1}
+label-urgent-background = ${nord.polar-night2}
+label-urgent-underline = ${nord.aurora1}
+label-urgent-overline = ${nord.aurora1}
+label-urgent-padding = 1
+
+[module/ewmh]
+type = internal/xworkspaces
+
+reverse-scroll = true
+
+label-active = %name%
+label-active-foreground = ${nord.aurora3}
+label-active-background = ${nord.polar-night2}
+label-active-underline = ${nord.polar-night1}
+label-active-overline = ${nord.polar-night1}
+label-active-padding = 1
+
+label-occupied = %name%
+label-occupied-foreground = ${nord.aurora4}
+label-occupied-background = ${nord.polar-night2}
+label-occupied-underline = ${nord.polar-night1}
+label-occupied-overline = ${nord.polar-night1}
+label-occupied-padding = 1
+
+label-urgent = %name%
+label-urgent-foreground = ${nord.aurora1}
+label-urgent-background = ${nord.polar-night2}
+label-urgent-underline = ${nord.aurora1}
+label-urgent-overline = ${nord.aurora1}
+label-urgent-padding = 1
+
+label-empty = %name%
+label-empty-foreground = ${nord.frost3}
+label-empty-background = ${nord.polar-night2}
+label-empty-underline = ${nord.polar-night1}
+label-empty-overline = ${nord.polar-night1}
+label-empty-padding = 1
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume = <ramp-volume> <label-volume>
+label-volume = "%percentage%% "
+
+label-muted = "  0% "
+
+ramp-volume-0 = " "
+ramp-volume-1 = " "
+ramp-volume-2 = " "
+
+click-right = pavucontrol
+
+format-volume-foreground = ${nord.frost1}
+format-volume-background = ${nord.polar-night2}
+format-volume-underline = ${nord.polar-night1}
+format-volume-overline = ${nord.polar-night1}
+
+format-muted-foreground = ${nord.aurora1}
+format-muted-background = ${nord.polar-night2}
+format-muted-underline = ${nord.polar-night1}
+format-muted-overline = ${nord.polar-night1}
+
+[module/cpu]
+type = custom/script
+exec = ~/.config/polybar/cpu.sh
+interval = 1
+click-left = xterm -class xterm-popup -geometry 120x36 -e htop
+
+format-foreground = ${nord.aurora5}
+format-background = ${nord.polar-night2}
+format-underline = ${nord.polar-night1}
+format-overline = ${nord.polar-night1}
+
+[module/memory]
+type = custom/script
+exec = ~/.config/polybar/memory.sh
+interval = 1
+click-left = xterm -class xterm-popup -geometry 120x36 -e htop
+
+format-foreground = ${nord.aurora5}
+format-background = ${nord.polar-night2}
+format-underline = ${nord.polar-night1}
+format-overline = ${nord.polar-night1}
+
+[module/updates]
+type = custom/script
+exec = ~/.config/polybar/updates.sh
+interval = 3600
+click-left = ~/.config/polybar/updates.sh click-left
+click-right = ~/.config/polybar/updates.sh click-right
+
+format-background = ${nord.polar-night2}
+format-foreground = ${nord.aurora5}
+format-underline = ${nord.polar-night1}
+format-overline = ${nord.polar-night1}
+
+[module/weather]
+type = custom/script
+exec = ~/.config/polybar/weather.sh
+interval = 1800
+click-left = xterm -class xterm-popup -geometry 125x45 -e ~/.config/polybar/weather-click.sh
+exec-if = ping -c 1 wttr.in
+
+format-foreground = ${nord.frost2}
+format-background = ${nord.polar-night2}
+format-underline = ${nord.polar-night1}
+format-overline = ${nord.polar-night1}
+
+[module/date]
+type = custom/script
+exec = date +" %a, %d %b %Y, %H:%M "
+click-left = yad --calendar --undecorated --no-buttons --mouse --close-on-unfocus
+
+format-foreground = ${nord.aurora4}
+format-background = ${nord.polar-night2}
+format-overline = ${nord.polar-night1}
+format-underline = ${nord.polar-night1}
+
+[module/powermenu-i3]
+type = custom/text
+content = ""
+click-left = ~/.config/i3/powermenu.sh
+
+content-padding = 1
+content-background = ${nord.polar-night2}
+content-foreground = ${nord.aurora1}
+content-underline = ${nord.polar-night1}
+content-overline = ${nord.polar-night1}
+
+[module/powermenu-herbstluftwm]
+type = custom/text
+content = ""
+click-left = ~/.config/herbstluftwm/powermenu.sh
+
+content-padding = 1
+content-background = ${nord.polar-night2}
+content-foreground = ${nord.aurora1}
+content-underline = ${nord.polar-night1}
+content-overline = ${nord.polar-night1}
+
+; vim:ft=dosini

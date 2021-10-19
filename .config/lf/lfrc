@@ -1,0 +1,13 @@
+set drawbox
+set hidden
+set ifs "\n"
+
+cmd newfold ${{
+    set -f
+    read newd
+    mkdir -- "$newd"
+    mv -- $fx "$newd"
+}}
+
+cmd open-with %"$@" $fx
+map ` push :open-with<space>

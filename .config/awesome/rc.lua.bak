@@ -1,0 +1,252 @@
+-- If LuaRocks is installed, make sure that packages installed through it are
+-- found (e.g. lgi). If LuaRocks is not installed, do nothing.
+pcall(require, "luarocks.loader")
+
+-- Standard awesome library
+local gears = require("gears")
+local awful = require("awful")
+require("awful.autofocus")
+-- Widget and layout library
+local wibox = require("wibox")
+-- Theme handling library
+local beautiful = require("beautiful")
+-- Notification library
+local naughty = require("naughty")
+local sharedtags = require("sharedtags")
+local wibar = require("wibar")
+
+-- {{{ Error handling
+-- Check if awesome encountered an error during startup and fell back to
+-- another config (This code will only ever execute for the fallback config)
+if awesome.startup_errors then
+    naughty.notify({ preset = naughty.config.presets.critical,
+                     title = "Oops, there were errors during startup!",
+                     text = awesome.startup_errors })
+end
+
+-- Handle runtime errors after startup
+do
+    local in_error = false
+    awesome.connect_signal("debug::error", function (err)
+        -- Make sure we don't go into an endless error loop
+        if in_error then return end
+        in_error = true
+
+        naughty.notify({ preset = naughty.config.presets.critical,
+                         title = "Oops, an error happened!",
+                         text = tostring(err) })
+        in_error = false
+    end)
+end
+-- }}}
+
+-- {{{ Variable definitions
+-- Themes define colours, icons, font and wallpapers.
+beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.border_width = 2
+
+-- Returns the path of program, or nil if cannot be found.
+local function get_path(program)
+    local path = os.getenv("PATH")
+    for dir in string.gmatch(os.getenv("PATH"), "[^:]+") do
+        local full_path = dir .. "/" .. program
+        if gears.filesystem.file_executable(full_path) then
+            return full_path
+        end
+    end
+    return nil
+end
+
+-- Returns the program whose path is first found or nil, if none can be found.
+local function find_one_of(programs)
+    for i = 1, #programs do
+        if get_path(programs[i]) then
+            return programs[i]
+        end
+    end
+    return nil
+end
+
+-- Global values
+local terminal = find_one_of({"kitty", "st-tabbed", "termite", "xterm"})
+local browser = find_one_of({"brave", "brave-browser", "firefox"})
+local editor = os.getenv("EDITOR") or "vim"
+local editor_cmd = terminal .. " -e " .. editor
+local modkey = "Mod4"
+
+-- Table of layouts to cover with awful.layout.inc, order matters.
+awful.layout.layouts = {
+    -- awful.layout.suit.floating,
+    awful.layout.suit.tile,
+    -- awful.layout.suit.tile.left,
+    -- awful.layout.suit.tile.bottom,
+    -- awful.layout.suit.tile.top,
+    -- awful.layout.suit.fair,
+    -- awful.layout.suit.fair.horizontal,
+    -- awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.max,
+    -- awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.magnifier,
+    -- awful.layout.suit.corner.nw,
+    -- awful.layout.suit.corner.ne,
+    -- awful.layout.suit.corner.sw,
+    -- awful.layout.suit.corner.se,
+}
+-- }}}
+
+local function set_wallpaper(s)
+    -- Wallpaper
+    if beautiful.wallpaper then
+        local wallpaper = beautiful.wallpaper
+        -- If wallpaper is a function, call it with the screen
+        if type(wallpaper) == "function" then
+            wallpaper = wallpaper(s)
+        end
+        gears.wallpaper.maximized(wallpaper, s, true)
+    end
+end
+
+-- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
+screen.connect_signal("property::geometry", set_wallpaper)
+
+awful.screen.connect_for_each_screen(function(s) set_wallpaper(s) end)
+
+wibar.init()
+
+local tags = sharedtags({
+    { name = "1", layout = awful.layout.layouts[1] },
+    { name = "2", layout = awful.layout.layouts[1] },
+    { name = "3", layout = awful.layout.layouts[1] },
+    { name = "4", layout = awful.layout.layouts[1] },
+    { name = "5", layout = awful.layout.layouts[1] },
+    { name = "6", layout = awful.layout.layouts[1] },
+    { name = "7", layout = awful.layout.layouts[1] },
+    { name = "8", layout = awful.layout.layouts[1] },
+    { name = "9", layout = awful.layout.layouts[1] },
+})
+
+-- {{{ Mouse bindings
+root.buttons(gears.table.join(
+    -- awful.button({ }, 3, function () mymainmenu:toggle() end),
+    awful.button({ }, 4, awful.tag.viewnext),
+    awful.button({ }, 5, awful.tag.viewprev)
+))
+-- }}}
+
+local keys = require("keybindings").init({
+    tags = tags,
+    modkey = modkey,
+    browser = browser,
+    terminal = terminal,
+    logout_popup = wibar.logout_popup})
+
+clientbuttons = gears.table.join(
+    awful.button({ }, 1, function (c)
+        c:emit_signal("request::activate", "mouse_click", {raise = true})
+    end),
+    awful.button({ modkey }, 1, function (c)
+        c:emit_signal("request::activate", "mouse_click", {raise = true})
+        awful.mouse.client.move(c)
+    end),
+    awful.button({ modkey }, 3, function (c)
+        if c.floating then
+            c:emit_signal("request::activate", "mouse_click", {raise = true})
+            awful.mouse.client.resize(c)
+        end
+    end)
+)
+
+-- Set keys
+root.keys(keys.global)
+-- }}}
+
+-- {{{ Rules
+-- Rules to apply to new clients (through the "manage" signal).
+awful.rules.rules = {
+    -- All clients will match this rule.
+    { rule = { },
+      properties = { border_width = beautiful.border_width,
+                     border_color = beautiful.border_normal,
+                     focus = awful.client.focus.filter,
+                     raise = true,
+                     keys = keys.client,
+                     buttons = clientbuttons,
+                     screen = awful.screen.preferred,
+                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
+     }
+    },
+
+    -- Floating clients.
+    { rule_any = {
+        instance = {
+          "DTA",  -- Firefox addon DownThemAll.
+          "copyq",  -- Includes session name in class.
+          "pinentry",
+        },
+        class = {
+          "Arandr",
+          "Blueman-manager",
+          "Gpick",
+          "Kruler",
+          "MessageWin",  -- kalarm.
+          "Sxiv",
+          "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
+          "Wpa_gui",
+          "veromix",
+          "xtightvncviewer"},
+
+        -- Note that the name property shown in xprop might be set slightly after creation of the client
+        -- and the name shown there might not match defined rules here.
+        name = {
+          "Event Tester",  -- xev.
+        },
+        role = {
+          "AlarmWindow",  -- Thunderbird's calendar.
+          "ConfigManager",  -- Thunderbird's about:config.
+          "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+        }
+      }, properties = { floating = true }},
+
+    -- Set Firefox to always map on the tag named "2" on screen 1.
+    -- { rule = { class = "Firefox" },
+    --   properties = { screen = 1, tag = "2" } },
+}
+-- }}}
+
+-- {{{ Signals
+-- Signal function to execute when a new client appears.
+client.connect_signal("manage", function (c)
+    -- Set the windows at the slave,
+    -- i.e. put it at the end of others instead of setting it master.
+    -- if not awesome.startup then awful.client.setslave(c) end
+
+    if awesome.startup
+      and not c.size_hints.user_position
+      and not c.size_hints.program_position then
+        -- Prevent clients from being unreachable after screen count changes.
+        awful.placement.no_offscreen(c)
+    end
+end)
+
+-- Enable sloppy focus, so that focus follows mouse.
+client.connect_signal("mouse::enter", function(c)
+    c:emit_signal("request::activate", "mouse_enter", {raise = false})
+end)
+
+client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+-- }}}
+
+gears.timer {
+    timeout = 30,
+    autostart = true,
+    callback = function() collectgarbage() end
+}
+
+beautiful.useless_gap = 5
+beautiful.border_focus = '#005577'
+beautiful.border_normal = '#7f7f7f'
+awful.spawn.with_shell('nm-applet &')
+awful.spawn.with_shell('picom &')
+awful.spawn.with_shell('sleep 0.25 && nitrogen --restore &')

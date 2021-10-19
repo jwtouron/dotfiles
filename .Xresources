@@ -1,0 +1,93 @@
+! Nord
+! #define FOREGROUND   #D8DEE9
+! #define BACKGROUND   #2E3440
+! #define CURSOR_COLOR #D8DEE9
+! #define COLOR0       #3B4252
+! #define COLOR1       #BF616A
+! #define COLOR2       #A3BE8C
+! #define COLOR3       #EBCB8B
+! #define COLOR4       #81A1C1
+! #define COLOR5       #B48EAD
+! #define COLOR6       #88C0D0
+! #define COLOR7       #E5E9F0
+! #define COLOR8       #4C566A
+! #define COLOR9       #BF616A
+! #define COLOR10      #A3BE8C
+! #define COLOR11      #EBCB8B
+! #define COLOR12      #81A1C1
+! #define COLOR13      #B48EAD
+! #define COLOR14      #8FBCBB
+! #define COLOR15      #ECEFF4
+
+! Tomorrow Night
+#define FOREGROUND   #c5c8c6
+#define BACKGROUND   #1d1f21
+#define CURSOR_COLOR #b294bb
+#define COLOR0       #1d1f21
+#define COLOR1       #cc6666
+#define COLOR2       #b5bd68
+#define COLOR3       #f0c674
+#define COLOR4       #81a2be
+#define COLOR5       #b294bb
+#define COLOR6       #8abeb7
+#define COLOR7       #c5c8c6
+#define COLOR8       #969896
+#define COLOR9       #cc6666
+#define COLOR10      #b5bd68
+#define COLOR11      #f0c674
+#define COLOR12      #81a2be
+#define COLOR13      #b294bb
+#define COLOR14      #8abeb7
+#define COLOR15      #ffffff
+
+*.foreground: FOREGROUND
+*.background: BACKGROUND
+*.cursorColor: CURSOR_COLOR
+*.color0:     COLOR0
+*.color1:     COLOR1
+*.color2:     COLOR2
+*.color3:     COLOR3
+*.color4:     COLOR4
+*.color5:     COLOR5
+*.color6:     COLOR6
+*.color7:     COLOR7
+*.color8:     COLOR8
+*.color9:     COLOR9
+*.color10:    COLOR10
+*.color11:    COLOR11
+*.color12:    COLOR12
+*.color13:    COLOR13
+*.color14:    COLOR14
+*.color15:    COLOR15
+
+! st
+st*.font: \n\
+    DejaVu Sans Mono:style=Book:pixelsize=14:antialias=true:autohint=true \n\
+    mono:pixelsize=14:antialias=true:autohint=true
+
+! URxvt
+URxvt.font: xft:DejaVu Sans Mono:style=Book:size=11, xft:Symbola:size=11, xft:mono:size=11
+URxvt.letterSpace: -1
+URxvt.perl-ext-common: tabbed,resize-font
+URxvt.scrollBar: false
+
+! XTerm
+XTerm.vt100.faceName: DejaVu Sans Mono:style=Book \n\
+                      mono
+XTerm.vt100.faceSize: 11
+XTerm.termName: xterm-256color
+XTerm.vt100.metaSendsEscape: true
+XTerm.vt100.backarrowKey: false
+XTerm.ttyModes: erase ^?
+
+XTerm.vt100.translations: #override \n\
+    Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>V: insert-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>Up: scroll-back(1, line) \n\
+    Ctrl Shift <Key>Down: scroll-forw(1, line)
+
+! xterm-popup
+xterm-popup.vt100.faceName: DejaVu Sans Mono:style=Book \n\
+                            mono
+xterm-popup.vt100.faceSize: 11
+xterm-popup.termName: xterm-256color

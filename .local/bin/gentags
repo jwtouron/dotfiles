@@ -1,0 +1,2 @@
+#!/usr/bin/sh
+ctags -R --fields=+iaSl --extras=+q --python-kinds=-iv --c++-kinds=+p $*

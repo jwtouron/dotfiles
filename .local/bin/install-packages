@@ -1,0 +1,50 @@
+# vim: set ft=sh:
+
+packages="arandr
+awesome
+calcurse
+cbatticon
+dunst
+emacs
+firefox
+fzf
+htop
+i3
+i3blocks
+jq
+kitty
+lxappearance
+nitrogen
+pcmanfm
+picom
+polybar
+ripgrep
+tree
+vim
+xterm
+zsh"
+
+if type pacman >/dev/null; then
+    packages="$packages
+awesome-terminal-fonts
+base-devel
+fd
+p7zip
+procs
+starship
+ttf-nerd-fonts-symbols
+yad-eos"
+
+    sudo pacman --needed -S $(echo "$packages" | xargs)
+
+elif type apt >/deve/null; then
+    packages="$packages
+build-essential
+fd-find
+fonts-font-awesome
+p7zip-full
+yad"
+
+    sudo apt install $(echo "$packages" | xargs)
+
+fi

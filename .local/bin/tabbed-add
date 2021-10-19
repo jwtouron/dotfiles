@@ -1,0 +1,11 @@
+#!/bin/sh
+
+srcwin=$(xdotool getactivewindow)
+dstwin=$(xdotool selectwindow)
+
+if [ "$(xprop -id $dstwin | awk -F', ' '/^WM_CLASS/ { print $2 }')" = '"tabbed"' ]; then
+    xdotool windowreparent "$srcwin" "$dstwin"
+else
+    echo "Destination isn't tabbed!"
+    exit 1
+fi
