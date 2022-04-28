@@ -33,7 +33,7 @@
 
 ;; org
 
-(customize-set-variable 'org-agenda-files '("~/Dropbox/org/agenda.org"))
+(customize-set-variable 'org-agenda-files '("~/Documents/org/agenda.org"))
 
 ;; performance
 
