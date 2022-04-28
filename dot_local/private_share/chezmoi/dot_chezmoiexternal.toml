@@ -1,5 +1,5 @@
 [".local/bin/git-sync"]
-    type = "file"
-    url = "https://raw.githubusercontent.com/simonthum/git-sync/master/git-sync"
-    executable = true
-    refreshPeriod = "168h"
+type = "file"
+url = "https://raw.githubusercontent.com/simonthum/git-sync/master/git-sync"
+executable = true
+refreshPeriod = "168h"
