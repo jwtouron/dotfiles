@@ -4,7 +4,7 @@ command -v pacman >/dev/null || exit 0
 
 sudo mkdir -p /etc/pacman.d/hooks || exit 1
 
-cat << EOF | sudo tee /etc/pacman.d/hooks/paccache-cleanup.hook
+cat << EOF | sudo tee /etc/pacman.d/hooks/paccache-cleanup.hook >/dev/null
 [Trigger]
 Operation = Upgrade
 Type = Package
