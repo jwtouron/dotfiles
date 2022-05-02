@@ -100,4 +100,20 @@ is already narrowed."
       (message "Native JSON is available")
     (message "Native JSON is *not* available")))
 
+;;;###autoload
+(defun my-split-window-below (arg)
+  (interactive "P")
+  (let ((new-win (split-window-below)))
+    (when arg
+      (select-window new-win)
+      (counsel-find-file))))
+
+;;;###autoload
+(defun my-split-window-right (arg)
+  (interactive "P")
+  (let ((new-win (split-window-right)))
+    (when arg
+      (select-window new-win)
+      (counsel-find-file))))
+
 (provide 'my-defuns)
