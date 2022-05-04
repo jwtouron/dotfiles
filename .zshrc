@@ -60,3 +60,4 @@ source ~/.config/fzf/functions.sh
 
 # Must be last line in config
 source $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
