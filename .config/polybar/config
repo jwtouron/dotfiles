@@ -223,7 +223,7 @@ format-overline = ${nord.polar-night1}
 [module/updates]
 type = custom/script
 exec = ~/.config/polybar/updates.sh
-interval = 3600
+interval = 43200  # 12 hours
 click-left = ~/.config/polybar/updates.sh click-left
 click-right = ~/.config/polybar/updates.sh click-right
 
