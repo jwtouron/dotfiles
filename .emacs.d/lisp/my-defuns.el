@@ -43,9 +43,9 @@ is already narrowed."
   (align-regexp beg end "\\(\\s-*\\)\\S-+" 1 1 t))
 
 (defconst my--rg-grep-command
-  "find '%s' -type f %s -exec rg --color never -n --no-heading -e '%s' \"{}\" +")
+  "rg --color never -n --no-heading --with-filename %s -e '%s' '%s'")
 (defconst my--grep-grep-command
-  "find '%s' -type f %s -exec grep -E --color=never -nH --null -e '%s' \"{}\" +")
+  "grep -r -E --color=never -n --with-filename %s -e '%s' '%s'")
 
 (defvar my-grep-command-history
   (let ((grep-command (if (executable-find "rg")
@@ -63,7 +63,8 @@ is already narrowed."
   (let ((grep-command
          (if arg
              (read-string "grep command: " (car my-grep-command-history) 'my-grep-command-history)
-           (let* ((search-str (read-string "Search for: "))
+           (let* ((has-rg (executable-find "rg"))
+                  (search-str (read-string "Search for: "))
                   (default-glob-str (if-let ((bfn (buffer-file-name))
                                              (ext (file-name-extension bfn)))
                                         (format "*.%s" ext)
@@ -73,13 +74,16 @@ is already narrowed."
                              nil
                            (split-string glob-str  ",")))
                   (dir (read-directory-name "Start directory: " (projectile-project-root)))
+                  (glob-lambda (if has-rg
+                                   (lambda (s) (format "-g '%s'" s))
+                                 (lambda (s) (format "--include='%s'" s))))
                   (find-glob-str (if globs
-                                     (format "\\( -iname '%s' \\)" (string-join globs "' -o -iname '"))
+                                     (string-join (mapcar glob-lambda globs) " ")
                                    ""))
-                  (grep-command (if (executable-find "rg")
+                  (grep-command (if has-rg
                                     my--rg-grep-command
                                   my--grep-grep-command)))
-             (format grep-command dir find-glob-str search-str)))))
+             (format grep-command find-glob-str search-str dir)))))
     (my--grep-update-command-history grep-command)
     (grep-find grep-command)))
 
