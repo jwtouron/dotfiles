@@ -103,6 +103,9 @@
     ("b" dumb-jump-back "Back")
     ("q" nil "Quit")))
 
+(use-package easy-kill
+  :init (global-set-key [remap kill-ring-save] 'easy-kill))
+
 (use-package expand-region
   :bind ("C-=" . #'my-expand-region)
   :init
@@ -230,11 +233,6 @@ C-c C-o ivy-occur"))))
 
 (use-package paredit)
 
-(use-package phi-search
-  :bind (("C-s" . phi-search)
-         ("C-r" . phi-search-backward)
-         ("M-%" . phi-replace-query)))
-
 (use-package prescient)
 
 (use-package projectile
@@ -274,7 +272,6 @@ C-c C-o ivy-occur"))))
   :config (setq auto-save-default nil))
 
 (use-package visual-regexp
-  :if nil
   :bind (("M-%" . vr/query-replace)
          ("C-M-%" . vr/replace)))
 
