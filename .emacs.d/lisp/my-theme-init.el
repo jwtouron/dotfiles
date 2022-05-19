@@ -1,8 +1,12 @@
+(use-package arjen-grey-theme
+  :init (load-theme 'arjen-grey t))
+
 (use-package color-theme-sanityinc-tomorrow
   :if nil
   :init (load-theme 'sanityinc-tomorrow-night t))
 
 (use-package gruber-darker-theme
+  :if nil
   :init (load-theme 'gruber-darker t))
 
 (use-package modus-themes

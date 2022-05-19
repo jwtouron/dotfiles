@@ -224,7 +224,16 @@ C-c C-o ivy-occur"))))
     ("<drag-mouse-1>" ignore)
     ("q" nil)))
 
+(use-package org-modern
+  :hook ((org-mode . org-modern-mode)
+         (org-agenda-finalize . org-modern-agenda)))
+
 (use-package paredit)
+
+(use-package phi-search
+  :bind (("C-s" . phi-search)
+         ("C-r" . phi-search-backward)
+         ("M-%" . phi-replace-query)))
 
 (use-package prescient)
 
@@ -265,6 +274,7 @@ C-c C-o ivy-occur"))))
   :config (setq auto-save-default nil))
 
 (use-package visual-regexp
+  :if nil
   :bind (("M-%" . vr/query-replace)
          ("C-M-%" . vr/replace)))
 
