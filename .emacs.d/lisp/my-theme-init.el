@@ -1,5 +1,6 @@
 (use-package arjen-grey-theme
-  :init (load-theme 'arjen-grey t))
+  :init (load-theme 'arjen-grey t)
+  :config (set-face-background hl-line-face "#2f4f4f"))
 
 (use-package color-theme-sanityinc-tomorrow
   :if nil
