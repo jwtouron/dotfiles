@@ -106,6 +106,20 @@
 (use-package easy-kill
   :init (global-set-key [remap kill-ring-save] 'easy-kill))
 
+(use-package elfeed
+  :custom (elfeed-feeds
+           '(("https://reddit.com/r/linux/.rss" linux)
+             ("https://reddit.com/r/programming/.rss" programming)
+             ("https://reddit.com/r/clojure/.rss" clojure)
+             ("https://reddit.com/r/haskell/.rss" haskell)
+             ("https://reddit.com/r/vim/.rss" vim)
+             ("https://reddit.com/r/emacs/.rss" emacs)))
+  :config (elfeed-goodies/setup))
+
+(use-package elfeed-goodies
+  :custom ((elfeed-goodies/entry-pane-position 'bottom)
+           (elfeed-goodies/powerline-default-separator nil)))
+
 (use-package expand-region
   :bind ("C-=" . #'my-expand-region)
   :init
@@ -121,7 +135,8 @@
     ("-" er/contract-region "er/contract-region")
     ("C--" er/contract-region "er/contract-region")))
 
-(use-package flycheck)
+(use-package flycheck
+  :custom (flycheck-check-syntax-automatically '(mode-enabled save)))
 
 (use-package flycheck-pos-tip
   :hook (flycheck-mode . flycheck-pos-tip-mode)
