@@ -107,6 +107,8 @@
   :init (global-set-key [remap kill-ring-save] 'easy-kill))
 
 (use-package elfeed
+  :bind (:map elfeed-show-mode-map
+              ("e" . eww))
   :custom (elfeed-feeds
            '(("https://reddit.com/r/linux/.rss" linux)
              ("https://reddit.com/r/programming/.rss" programming)
