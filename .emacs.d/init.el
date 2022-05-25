@@ -116,7 +116,23 @@
              ("https://reddit.com/r/haskell/.rss" haskell)
              ("https://reddit.com/r/vim/.rss" vim)
              ("https://reddit.com/r/emacs/.rss" emacs)))
-  :config (elfeed-goodies/setup))
+;;  :hook (elfeed-new-entry-hook . add-reddit-comments)
+  :init
+  ;; (defun add-reddit-comments (entry)
+  ;;   (let* ((original (elfeed-deref (elfeed-entry-content entry)))
+  ;;          (feed (elfeed-deref (elfeed-entry-feed)))
+  ;;          ;;(replace (replace-regexp-in-string "keyboard" "leopard" original))
+  ;;          )
+  ;;     ;;(setf (elfeed-entry-content entry) (elfeed-ref replace))
+  ;;     (setf (elfeed-entry-content entry) (elfeed-ref (format "%s\n%s" feed original)))
+  ;;     ))
+  ;; (add-hook 'elfeed-new-entry-hook 'add-reddit-comments)
+  :config
+  (elfeed-goodies/setup)
+  ;; (defun add-reddit-comments (entry)
+  ;;   (message "add-reddit-comments"))
+  ;;(advice-add 'elfeed-search-show-entry :before 'add-reddit-comments)
+  )
 
 (use-package elfeed-goodies
   :custom ((elfeed-goodies/entry-pane-position 'bottom)
