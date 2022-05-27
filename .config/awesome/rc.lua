@@ -159,7 +159,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 function make_separator()
     return wibox.widget.separator({
         orientation = 'vertical',
-        forced_width = 11,
+        forced_width = 5,
         color = '#005577',
         span_ratio = 0.8})
 end
@@ -223,7 +223,7 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "bottom", screen = s })
+    s.mywibox = awful.wibar({ position = "top", screen = s })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -583,10 +583,10 @@ gears.timer {
     callback = function() collectgarbage() end
 }
 
--- beautiful.useless_gap = 5
+beautiful.useless_gap = 5
 beautiful.border_focus = '#005577'
 beautiful.border_normal = '#7f7f7f'
 awful.spawn.with_shell('killall -q cbatticon; cbatticon')
 awful.spawn.once('nm-applet')
-awful.spawn.once('picom')
+-- awful.spawn.once('picom')
 awful.spawn.with_shell('sleep 0.25 && nitrogen --restore &')
