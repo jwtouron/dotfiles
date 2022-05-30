@@ -105,6 +105,7 @@ hc keybind $Mod-BackSpace   cycle_monitor
 hc keybind $Mod-Tab         cycle_all +1
 hc keybind $Mod-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
+hc keybind $Mod-Alt-c cycle -1
 hc keybind $Mod-i jumpto urgent
 
 hc keybind $Mod-Shift-o spawn ~/.local/bin/launch.sh
