@@ -118,6 +118,27 @@
              ("https://reddit.com/r/emacs/.rss" emacs)))
 ;;  :hook (elfeed-new-entry-hook . add-reddit-comments)
   :init
+  
+;; (lexical-let ((comment-uri-regex "<a *href=\"\\([^\"]*comments[^\"]*\\)[^[]*\\[comments\\]"))
+;;   (defun add-reddit-comments (entry)
+;;     (let ((reddit-comments-added (elfeed-meta entry :reddit-comments-added)))
+;;       (when (not reddit-comments-added)
+;;         (let* ((content (elfeed-deref (elfeed-entry-content entry)))
+;;                (match-pos (string-match comment-uri-regex content))
+;;                (comment-url (match-string 1 content))
+;;                (buff-str ""))
+;;           ;; (message comment-url)
+;;           (when (and match-pos comment-url)
+;;             (message (with-current-buffer (url-retrieve-synchronously comment-url t)
+;;                  (buffer-string)
+;;                ;;(message (format "%s" (buffer-string)))
+;;                ))
+;;             (message buff-str))
+;;           )))
+;;     entry))
+
+;; (advice-add 'elfeed-show-entry :before 'add-reddit-comments)
+
   ;; (defun add-reddit-comments (entry)
   ;;   (let* ((original (elfeed-deref (elfeed-entry-content entry)))
   ;;          (feed (elfeed-deref (elfeed-entry-feed)))
