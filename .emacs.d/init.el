@@ -234,6 +234,7 @@ C-c C-o ivy-occur"))))
   :bind (("C-S-c C-S-c" . hydra-multiple-cursors/body)
          ("C-c m" . hydra-multiple-cursors/body))
   :config
+  (setq mc/always-run-for-all t)
   (defhydra hydra-multiple-cursors (:hint nil)
     "
  Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
@@ -265,6 +266,20 @@ C-c C-o ivy-occur"))))
          (org-agenda-finalize . org-modern-agenda)))
 
 (use-package paredit)
+
+(use-package popper
+  :bind (("C-`"   . popper-toggle-latest)
+         ("M-`"   . popper-cycle)
+         ("C-M-`" . popper-toggle-type))
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          help-mode
+          compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1))
 
 (use-package prescient)
 
