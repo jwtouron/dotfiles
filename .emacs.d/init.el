@@ -103,9 +103,6 @@
     ("b" dumb-jump-back "Back")
     ("q" nil "Quit")))
 
-(use-package easy-kill
-  :init (global-set-key [remap kill-ring-save] 'easy-kill))
-
 (use-package elfeed
   :bind (:map elfeed-show-mode-map
               ("e" . eww))
