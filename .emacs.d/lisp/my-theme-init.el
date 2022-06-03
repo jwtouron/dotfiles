@@ -1,4 +1,5 @@
 (use-package arjen-grey-theme
+  :if nil
   :init (load-theme 'arjen-grey t)
   :config (set-face-background hl-line-face "#2f4f4f"))
 
@@ -11,7 +12,6 @@
   :init (load-theme 'gruber-darker t))
 
 (use-package modus-themes
-  :if nil
   :init (modus-themes-load-themes)
   :config (modus-themes-load-vivendi))
 

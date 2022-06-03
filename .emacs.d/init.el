@@ -28,11 +28,6 @@
 (use-package ace-window
   :bind ("C-x o" . 'ace-window))
 
-(use-package all-the-icons
-  :if (display-graphic-p))
-;; Run `all-the-icons-install-fonts' to install
-;; On windows: this will only download the fonts--they must be installed manually
-
 (use-package avy
   :bind ("C-;" . 'avy-goto-char-timer))
 
@@ -106,51 +101,16 @@
 (use-package elfeed
   :bind (:map elfeed-show-mode-map
               ("e" . eww))
-  :custom (elfeed-feeds
-           '(("https://reddit.com/r/linux/.rss" linux)
-             ("https://reddit.com/r/programming/.rss" programming)
-             ("https://reddit.com/r/clojure/.rss" clojure)
-             ("https://reddit.com/r/haskell/.rss" haskell)
-             ("https://reddit.com/r/vim/.rss" vim)
-             ("https://reddit.com/r/emacs/.rss" emacs)))
-;;  :hook (elfeed-new-entry-hook . add-reddit-comments)
-  :init
-  
-;; (lexical-let ((comment-uri-regex "<a *href=\"\\([^\"]*comments[^\"]*\\)[^[]*\\[comments\\]"))
-;;   (defun add-reddit-comments (entry)
-;;     (let ((reddit-comments-added (elfeed-meta entry :reddit-comments-added)))
-;;       (when (not reddit-comments-added)
-;;         (let* ((content (elfeed-deref (elfeed-entry-content entry)))
-;;                (match-pos (string-match comment-uri-regex content))
-;;                (comment-url (match-string 1 content))
-;;                (buff-str ""))
-;;           ;; (message comment-url)
-;;           (when (and match-pos comment-url)
-;;             (message (with-current-buffer (url-retrieve-synchronously comment-url t)
-;;                  (buffer-string)
-;;                ;;(message (format "%s" (buffer-string)))
-;;                ))
-;;             (message buff-str))
-;;           )))
-;;     entry))
-
-;; (advice-add 'elfeed-show-entry :before 'add-reddit-comments)
-
-  ;; (defun add-reddit-comments (entry)
-  ;;   (let* ((original (elfeed-deref (elfeed-entry-content entry)))
-  ;;          (feed (elfeed-deref (elfeed-entry-feed)))
-  ;;          ;;(replace (replace-regexp-in-string "keyboard" "leopard" original))
-  ;;          )
-  ;;     ;;(setf (elfeed-entry-content entry) (elfeed-ref replace))
-  ;;     (setf (elfeed-entry-content entry) (elfeed-ref (format "%s\n%s" feed original)))
-  ;;     ))
-  ;; (add-hook 'elfeed-new-entry-hook 'add-reddit-comments)
-  :config
-  (elfeed-goodies/setup)
-  ;; (defun add-reddit-comments (entry)
-  ;;   (message "add-reddit-comments"))
-  ;;(advice-add 'elfeed-search-show-entry :before 'add-reddit-comments)
-  )
+  :custom ((elfeed-feeds
+            '(("https://reddit.com/r/linux/.rss" linux)
+              ("https://reddit.com/r/programming/.rss" programming)
+              ("https://reddit.com/r/clojure/.rss" clojure)
+              ("https://clojure.org/feed.xml" clojure)
+              ("https://reddit.com/r/haskell/.rss" haskell)
+              ("https://reddit.com/r/vim/.rss" vim)
+              ("https://reddit.com/r/emacs/.rss" emacs)))
+           (elfeed-search-filter "@2-days-ago +unread"))
+  :config (elfeed-goodies/setup))
 
 (use-package elfeed-goodies
   :custom ((elfeed-goodies/entry-pane-position 'bottom)
@@ -171,8 +131,7 @@
     ("-" er/contract-region "er/contract-region")
     ("C--" er/contract-region "er/contract-region")))
 
-(use-package flycheck
-  :custom (flycheck-check-syntax-automatically '(mode-enabled save)))
+(use-package flycheck)
 
 (use-package flycheck-pos-tip
   :hook (flycheck-mode . flycheck-pos-tip-mode)
@@ -214,7 +173,11 @@
     ("+" enlarge-window "enlarge-window")
     ("=" enlarge-window "enlarge-window")
     ("-" shrink-window "shrink-window")
-    ("q" nil "quit")))
+    ("q" nil "quit"))
+  (defhydra hydra-zoom (global-map "<f2>")
+    "zoom"
+    ("=" text-scale-increase "increase")
+    ("-" text-scale-decrease "decrease")))
 
 (use-package ivy
   :diminish 'ivy-mode
