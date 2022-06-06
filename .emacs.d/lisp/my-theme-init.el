@@ -12,7 +12,12 @@
   :init (load-theme 'gruber-darker t))
 
 (use-package minimal-theme
-  :init (load-theme 'minimal t))
+  :if nil
+  :init (load-theme 'minimal t)
+  :config
+  (set-face-attribute 'region nil :background "grey40")
+  (set-face-attribute 'font-lock-comment-face nil :foreground "grey32")
+  (set-face-attribute 'font-lock-comment-delimiter-face nil :foreground "grey32"))
 
 (use-package modus-themes
   :if nil
@@ -22,6 +27,9 @@
 (use-package nord-theme
   :if nil
   :init (load-theme 'nord t))
+
+(use-package tao-theme
+  :init (load-theme 'tao-yin t))
 
 (use-package vscode-dark-plus-theme
   :if nil
