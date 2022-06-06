@@ -109,12 +109,7 @@
               ("https://reddit.com/r/haskell/.rss" haskell)
               ("https://reddit.com/r/vim/.rss" vim)
               ("https://reddit.com/r/emacs/.rss" emacs)))
-           (elfeed-search-filter "@2-days-ago +unread"))
-  :config (elfeed-goodies/setup))
-
-(use-package elfeed-goodies
-  :custom ((elfeed-goodies/entry-pane-position 'bottom)
-           (elfeed-goodies/powerline-default-separator nil)))
+           (elfeed-search-filter "@2-days-ago +unread")))
 
 (use-package expand-region
   :bind ("C-=" . #'my-expand-region)
