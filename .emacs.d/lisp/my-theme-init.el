@@ -11,7 +11,11 @@
   :if nil
   :init (load-theme 'gruber-darker t))
 
+(use-package minimal-theme
+  :init (load-theme 'minimal t))
+
 (use-package modus-themes
+  :if nil
   :init (modus-themes-load-themes)
   :config (modus-themes-load-vivendi))
 
