@@ -29,6 +29,7 @@
   :init (load-theme 'nord t))
 
 (use-package tao-theme
+  :custom (tao-theme-use-sepia nil)
   :init (load-theme 'tao-yin t))
 
 (use-package vscode-dark-plus-theme
