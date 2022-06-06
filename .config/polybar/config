@@ -49,9 +49,9 @@ background-darker = ${grayscale.1}
 background-lighter = ${grayscale.2}
 widget-foreground = ${grayscale.6}
 workspace-active-fg = ${grayscale.6}
-workspace-active-bg = ${grayscale.3}
-workspace-occupied-fg = ${grayscale.5}
-workspace-empty-fg = ${grayscale.4}
+workspace-active-bg = ${grayscale.2}
+workspace-occupied-fg = ${grayscale.4}
+workspace-empty-fg = ${grayscale.1}
 
 [bar/i3]
 monitor = ${env:MONITOR}
