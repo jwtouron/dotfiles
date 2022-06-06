@@ -34,12 +34,30 @@ aurora3 = #EBCB8B
 aurora4 = #A3BE8C
 aurora5 = #B48EAD
 
+[grayscale]
+
+1 = #000000
+2 = #333333
+3 = #666666
+4 = #999999
+5 = #cccccc
+6 = #ffffff
+
+[colors]
+
+background-darker = ${grayscale.1}
+background-lighter = ${grayscale.2}
+widget-foreground = ${grayscale.6}
+workspace-active = ${grayscale.6}
+workspace-occupied = ${grayscale.5}
+workspace-empty = ${grayscale.3}
+
 [bar/i3]
 monitor = ${env:MONITOR}
 
 height = 30px
 
-background = ${nord.polar-night1}
+background = ${colors.background-darker}
 
 line-size = 5
 
@@ -49,7 +67,7 @@ modules-left = i3
 modules-right = pulseaudio sep cpu void void memory void void updates sep weather sep date sep powermenu-i3
 
 tray-position = right
-tray-background = ${nord.polar-night2}
+tray-background = ${colors.background-lighter}
 
 font-0 = MesloLGMDZ Nerd Font:style=Regular:size=10;2
 font-1 = FiraCode Nerd Font:style=Regular:size=10;2
@@ -60,7 +78,7 @@ monitor = ${env:MONITOR}
 
 height = 30px
 
-background = ${nord.polar-night1}
+background = ${colors.background-darker}
 
 line-size = 5
 
@@ -70,7 +88,7 @@ modules-left = ewmh
 modules-right = pulseaudio sep cpu void void memory void void updates sep weather sep date sep powermenu-herbstluftwm
 
 tray-position = right
-tray-background = ${nord.polar-night2}
+tray-background = ${colors.background-lighter}
 
 font-0 = MesloLGMDZ Nerd Font:style=Regular:size=10;2
 font-1 = FiraCode Nerd Font:style=Regular:size=10;2
@@ -78,18 +96,18 @@ font-2 = DejaVuSansMono Nerd Font:style=Book:size=10;2
 
 [module/left]
 type = custom/text
-content-foreground = ${nord.polar-night2}
-content-background = ${nord.polar-night1}
-content-overline = ${nord.polar-night1}
-content-underline = ${nord.polar-night1}
+content-foreground = ${colors.background-lighter}
+content-background = ${colors.background-darker}
+content-overline = ${colors.background-darker}
+content-underline = ${colors.background-darker}
 content = ""
 
 [module/right]
 type = custom/text
-content-foreground = ${nord.polar-night2}
-content-background = ${nord.polar-night1}
-content-overline = ${nord.polar-night1}
-content-underline = ${nord.polar-night1}
+content-foreground = ${colors.background-lighter}
+content-background = ${colors.background-darker}
+content-overline = ${colors.background-darker}
+content-underline = ${colors.background-darker}
 content = ""
 
 [module/sep]
@@ -99,9 +117,9 @@ content = " "
 [module/void]
 type = custom/text
 content = " "
-content-background = ${nord.polar-night2}
-content-overline = ${nord.polar-night1}
-content-underline = ${nord.polar-night1}
+content-background = ${colors.background-lighter}
+content-overline = ${colors.background-darker}
+content-underline = ${colors.background-darker}
 
 [module/i3]
 type = internal/i3
@@ -110,33 +128,33 @@ pin-workspaces = true
 show-urgent = true
 
 format = <label-state><label-mode>
-format-foreground = ${nord.polar-night2}
-format-background = ${nord.polar-night1}
-format-underline = ${nord.polar-night1}
-format-overline = ${nord.polar-night1}
+format-foreground = ${colors.background-lighter}
+format-background = ${colors.background-darker}
+format-underline = ${colors.background-darker}
+format-overline = ${colors.background-darker}
 
 label-mode-padding = 1
 label-mode-foreground = ${nord.aurora1}
-label-mode-background = ${nord.polar-night2}
+label-mode-background = ${colors.background-lighter}
 
 label-focused = %name%
 label-focused-foreground = ${nord.aurora3}
-label-focused-background = ${nord.polar-night2}
+label-focused-background = ${colors.background-lighter}
 label-focused-padding = 1
 
 label-unfocused = %name%
-label-unfocused-background = ${nord.polar-night2}
+label-unfocused-background = ${colors.background-lighter}
 label-unfocused-foreground = ${nord.frost3}
 label-unfocused-padding = 1
 
 label-visible = %name%
-label-visible-background = ${nord.polar-night2}
+label-visible-background = ${colors.background-lighter}
 label-visible-foreground = ${nord.frost3}
 label-visible-padding = 1
 
 label-urgent = %name%
 label-urgent-foreground = ${nord.aurora1}
-label-urgent-background = ${nord.polar-night2}
+label-urgent-background = ${colors.background-lighter}
 label-urgent-underline = ${nord.aurora1}
 label-urgent-overline = ${nord.aurora1}
 label-urgent-padding = 1
@@ -147,31 +165,31 @@ type = internal/xworkspaces
 reverse-scroll = true
 
 label-active = %name%
-label-active-foreground = ${nord.aurora3}
-label-active-background = ${nord.polar-night2}
-label-active-underline = ${nord.polar-night1}
-label-active-overline = ${nord.polar-night1}
+label-active-foreground = ${colors.workspace-active}
+label-active-background = ${colors.background-lighter}
+label-active-underline = ${colors.background-darker}
+label-active-overline = ${colors.background-darker}
 label-active-padding = 1
 
 label-occupied = %name%
-label-occupied-foreground = ${nord.aurora4}
-label-occupied-background = ${nord.polar-night2}
-label-occupied-underline = ${nord.polar-night1}
-label-occupied-overline = ${nord.polar-night1}
+label-occupied-foreground = ${colors.workspace-occupied}
+label-occupied-background = ${colors.background-lighter}
+label-occupied-underline = ${colors.background-darker}
+label-occupied-overline = ${colors.background-darker}
 label-occupied-padding = 1
 
 label-urgent = %name%
-label-urgent-foreground = ${nord.aurora1}
-label-urgent-background = ${nord.polar-night2}
-label-urgent-underline = ${nord.aurora1}
-label-urgent-overline = ${nord.aurora1}
+label-urgent-foreground = #f00
+label-urgent-background = ${colors.background-lighter}
+label-urgent-underline = #f00
+label-urgent-overline = #f00
 label-urgent-padding = 1
 
 label-empty = %name%
-label-empty-foreground = ${nord.frost3}
-label-empty-background = ${nord.polar-night2}
-label-empty-underline = ${nord.polar-night1}
-label-empty-overline = ${nord.polar-night1}
+label-empty-foreground = ${colors.workspace-empty}
+label-empty-background = ${colors.background-lighter}
+label-empty-underline = ${colors.background-darker}
+label-empty-overline = ${colors.background-darker}
 label-empty-padding = 1
 
 [module/pulseaudio]
@@ -188,15 +206,15 @@ ramp-volume-2 = " "
 
 click-right = pavucontrol
 
-format-volume-foreground = ${nord.frost1}
-format-volume-background = ${nord.polar-night2}
-format-volume-underline = ${nord.polar-night1}
-format-volume-overline = ${nord.polar-night1}
+format-volume-foreground = ${colors.widget-foreground}
+format-volume-background = ${colors.background-lighter}
+format-volume-underline = ${colors.background-darker}
+format-volume-overline = ${colors.background-darker}
 
-format-muted-foreground = ${nord.aurora1}
-format-muted-background = ${nord.polar-night2}
-format-muted-underline = ${nord.polar-night1}
-format-muted-overline = ${nord.polar-night1}
+format-muted-foreground = #f55
+format-muted-background = ${colors.background-lighter}
+format-muted-underline = ${colors.background-darker}
+format-muted-overline = ${colors.background-darker}
 
 [module/cpu]
 type = custom/script
@@ -204,10 +222,10 @@ exec = ~/.config/polybar/cpu.sh
 interval = 1
 click-left = xterm -class xterm-popup -geometry 120x36 -e htop
 
-format-foreground = ${nord.aurora5}
-format-background = ${nord.polar-night2}
-format-underline = ${nord.polar-night1}
-format-overline = ${nord.polar-night1}
+format-foreground = ${colors.widget-foreground}
+format-background = ${colors.background-lighter}
+format-underline = ${colors.background-darker}
+format-overline = ${colors.background-darker}
 
 [module/memory]
 type = custom/script
@@ -215,10 +233,10 @@ exec = ~/.config/polybar/memory.sh
 interval = 1
 click-left = xterm -class xterm-popup -geometry 120x36 -e htop
 
-format-foreground = ${nord.aurora5}
-format-background = ${nord.polar-night2}
-format-underline = ${nord.polar-night1}
-format-overline = ${nord.polar-night1}
+format-foreground = ${colors.widget-foreground}
+format-background = ${colors.background-lighter}
+format-underline = ${colors.background-darker}
+format-overline = ${colors.background-darker}
 
 [module/updates]
 type = custom/script
@@ -227,10 +245,10 @@ interval = 21600  # 6 hours
 click-left = ~/.config/polybar/updates.sh click-left
 click-right = ~/.config/polybar/updates.sh click-right
 
-format-background = ${nord.polar-night2}
-format-foreground = ${nord.aurora5}
-format-underline = ${nord.polar-night1}
-format-overline = ${nord.polar-night1}
+format-background = ${colors.background-lighter}
+format-foreground = ${colors.widget-foreground}
+format-underline = ${colors.background-darker}
+format-overline = ${colors.background-darker}
 
 [module/weather]
 type = custom/script
@@ -239,20 +257,20 @@ interval = 1800
 click-left = xterm -class xterm-popup -geometry 125x45 -e ~/.config/polybar/weather-click.sh
 exec-if = ping -c 1 wttr.in
 
-format-foreground = ${nord.frost2}
-format-background = ${nord.polar-night2}
-format-underline = ${nord.polar-night1}
-format-overline = ${nord.polar-night1}
+format-foreground = ${colors.widget-foreground}
+format-background = ${colors.background-lighter}
+format-underline = ${colors.background-darker}
+format-overline = ${colors.background-darker}
 
 [module/date]
 type = custom/script
 exec = date +" %a, %d %b %Y, %H:%M "
 click-left = yad --calendar --undecorated --no-buttons --mouse --close-on-unfocus
 
-format-foreground = ${nord.aurora4}
-format-background = ${nord.polar-night2}
-format-overline = ${nord.polar-night1}
-format-underline = ${nord.polar-night1}
+format-foreground = ${colors.widget-foreground}
+format-background = ${colors.background-lighter}
+format-overline = ${colors.background-darker}
+format-underline = ${colors.background-darker}
 
 [module/powermenu-i3]
 type = custom/text
@@ -260,10 +278,10 @@ content = ""
 click-left = ~/.config/i3/powermenu.sh
 
 content-padding = 1
-content-background = ${nord.polar-night2}
+content-background = ${colors.background-lighter}
 content-foreground = ${nord.aurora1}
-content-underline = ${nord.polar-night1}
-content-overline = ${nord.polar-night1}
+content-underline = ${colors.background-darker}
+content-overline = ${colors.background-darker}
 
 [module/powermenu-herbstluftwm]
 type = custom/text
@@ -271,9 +289,9 @@ content = ""
 click-left = ~/.config/herbstluftwm/powermenu.sh
 
 content-padding = 1
-content-background = ${nord.polar-night2}
-content-foreground = ${nord.aurora1}
-content-underline = ${nord.polar-night1}
-content-overline = ${nord.polar-night1}
+content-background = ${colors.background-lighter}
+content-foreground = #f55
+content-underline = ${colors.background-darker}
+content-overline = ${colors.background-darker}
 
 ; vim:ft=dosini
