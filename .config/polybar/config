@@ -48,9 +48,10 @@ aurora5 = #B48EAD
 background-darker = ${grayscale.1}
 background-lighter = ${grayscale.2}
 widget-foreground = ${grayscale.6}
-workspace-active = ${grayscale.6}
-workspace-occupied = ${grayscale.5}
-workspace-empty = ${grayscale.3}
+workspace-active-fg = ${grayscale.6}
+workspace-active-bg = ${grayscale.3}
+workspace-occupied-fg = ${grayscale.5}
+workspace-empty-fg = ${grayscale.4}
 
 [bar/i3]
 monitor = ${env:MONITOR}
@@ -165,14 +166,14 @@ type = internal/xworkspaces
 reverse-scroll = true
 
 label-active = %name%
-label-active-foreground = ${colors.workspace-active}
-label-active-background = ${colors.background-lighter}
+label-active-foreground = ${colors.workspace-active-fg}
+label-active-background = ${colors.workspace-active-bg}
 label-active-underline = ${colors.background-darker}
 label-active-overline = ${colors.background-darker}
 label-active-padding = 1
 
 label-occupied = %name%
-label-occupied-foreground = ${colors.workspace-occupied}
+label-occupied-foreground = ${colors.workspace-occupied-fg}
 label-occupied-background = ${colors.background-lighter}
 label-occupied-underline = ${colors.background-darker}
 label-occupied-overline = ${colors.background-darker}
@@ -186,7 +187,7 @@ label-urgent-overline = #f00
 label-urgent-padding = 1
 
 label-empty = %name%
-label-empty-foreground = ${colors.workspace-empty}
+label-empty-foreground = ${colors.workspace-empty-fg}
 label-empty-background = ${colors.background-lighter}
 label-empty-underline = ${colors.background-darker}
 label-empty-overline = ${colors.background-darker}
