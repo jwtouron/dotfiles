@@ -137,7 +137,7 @@ hc attr theme.title_depth 3  # space below the title's baseline
 hc attr theme.active.color '#cccccc'
 hc attr theme.title_color '#333333'
 hc attr theme.normal.color '#323232'
-hc attr theme.urgent.color '#f55'
+hc attr theme.urgent.color '#CE2029'
 hc attr theme.tab_color '#1F1F1F'
 hc attr theme.active.tab_color '#333333'
 hc attr theme.active.tab_outer_color '#666666'

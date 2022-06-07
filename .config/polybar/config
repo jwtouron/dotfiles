@@ -52,6 +52,7 @@ workspace-active-fg = ${grayscale.6}
 workspace-active-bg = ${grayscale.2}
 workspace-occupied-fg = ${grayscale.4}
 workspace-empty-fg = ${grayscale.1}
+urgent = #CE2029
 
 [bar/i3]
 monitor = ${env:MONITOR}
@@ -180,10 +181,10 @@ label-occupied-overline = ${colors.background-darker}
 label-occupied-padding = 1
 
 label-urgent = %name%
-label-urgent-foreground = #f00
+label-urgent-foreground = ${colors.urgent}
 label-urgent-background = ${colors.background-lighter}
-label-urgent-underline = #f00
-label-urgent-overline = #f00
+label-urgent-underline = ${colors.urgent}
+label-urgent-overline = ${colors.urgent}
 label-urgent-padding = 1
 
 label-empty = %name%
