@@ -49,7 +49,7 @@
   (pulse-momentary-highlight-one-line (point)))
 (dolist (command '(scroll-up-command
                    scroll-down-command
-		   recenter-top-bottom
+                   recenter-top-bottom
                    other-window
                    ace-window))
   (advice-add command :after #'pulse-line))
@@ -89,6 +89,12 @@
 (global-hl-line-mode)
 (load custom-file t)
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
+
+(advice-add 'shell
+            :around
+            (lambda (shell-fn &optional buffer)
+              (let ((process-environment (nconc (cl-copy-list process-environment) (list "PAGER="))))
+                (funcall shell-fn buffer))))
 
 ;; Non-pressing initialization
 

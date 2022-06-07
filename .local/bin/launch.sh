@@ -2,9 +2,9 @@
 
 browser() (
     for browser in \
-        "firefox" \
         "brave" \
         "brave-browser" \
+        "firefox" \
         "chromium" \
         "chromium-browser" \
         "google-chrome"
