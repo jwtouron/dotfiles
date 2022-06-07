@@ -50,6 +50,16 @@ zumount() {
     sudo umount "$mount_point"
 }
 
+zuu() {
+    devs=$(for dev in `udiskie-info -a`; do
+               echo "$dev"
+               lsblk -alnp | awk -v "dev=^$dev" '$0 ~ dev {if (match($NF, "^/"))  print $NF}';
+           done)
+    choice=$(echo -n "$devs" | fzf)
+    [ -z "$choice" ] && return
+    udiskie-umount "$choice"
+}
+
 zvim() (
     files=$(fd -H -t f . $1 | fzf -m)
     [ -n "$files" ] && echo "$files" | tr '\n' '\0' | xargs -o -0 vim --
