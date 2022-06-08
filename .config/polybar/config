@@ -54,7 +54,7 @@ workspace-active-fg = ${grayscale.6}
 workspace-active-bg = ${grayscale.2}
 workspace-occupied-fg = ${grayscale.5}
 workspace-empty-fg = ${grayscale.3}
-urgent = #CE2029
+urgent = #ff0000
 
 [bar/i3]
 monitor = ${env:MONITOR}
