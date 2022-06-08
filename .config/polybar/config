@@ -42,6 +42,8 @@ aurora5 = #B48EAD
 4 = #999999
 5 = #cccccc
 6 = #ffffff
+slategray = #708090
+xanadu = #738678
 
 [colors]
 
@@ -50,8 +52,8 @@ background-lighter = ${grayscale.2}
 widget-foreground = ${grayscale.6}
 workspace-active-fg = ${grayscale.6}
 workspace-active-bg = ${grayscale.2}
-workspace-occupied-fg = ${grayscale.4}
-workspace-empty-fg = ${grayscale.1}
+workspace-occupied-fg = ${grayscale.5}
+workspace-empty-fg = ${grayscale.3}
 urgent = #CE2029
 
 [bar/i3]
