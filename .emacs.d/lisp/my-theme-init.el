@@ -42,7 +42,10 @@
   :init (load-theme 'tao-yin t))
 
 (use-package tron-legacy-theme
-  :init (load-theme 'tron-legacy t))
+  :init
+  (setq tron-legacy-theme-vivid-cursor t
+        tron-legacy-theme-softer-bg t)
+  (load-theme 'tron-legacy t))
 
 (use-package vscode-dark-plus-theme
   :if nil
