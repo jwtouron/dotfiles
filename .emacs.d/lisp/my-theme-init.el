@@ -12,6 +12,7 @@
   :init (load-theme 'gruber-darker t))
 
 (use-package minimal-theme
+  :if nil
   :init (load-theme 'minimal t)
   :config
   (progn
@@ -28,10 +29,20 @@
   :if nil
   :init (load-theme 'nord t))
 
+(use-package spaceway-theme
+  :if nil
+  :ensure nil
+  :init
+  (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/spaceway"))
+  (load-theme 'spaceway t))
+
 (use-package tao-theme
   :if nil
   :custom (tao-theme-use-sepia nil)
   :init (load-theme 'tao-yin t))
+
+(use-package tron-legacy-theme
+  :init (load-theme 'tron-legacy t))
 
 (use-package vscode-dark-plus-theme
   :if nil
