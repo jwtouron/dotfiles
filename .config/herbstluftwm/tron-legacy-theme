@@ -5,9 +5,9 @@ hc() {
 hc set frame_bg_active_color '#b0ccdc'
 
 hc attr theme.active.color '#b0ccdc'
-hc attr theme.title_color '#192533'
+hc attr theme.title_color '#17181b'
 
-hc attr theme.active.tab_color '#192533'
+hc attr theme.active.tab_color '#17181b'
 hc attr theme.active.tab_outer_color '#cbecff'
 hc attr theme.active.tab_title_color '#b0ccdc'
 hc attr theme.normal.title_color '#b0ccdc'
