@@ -1,0 +1,15 @@
+hc() {
+    herbstclient "$@"
+}
+
+hc set frame_bg_active_color '#cccccc'
+
+hc attr theme.active.color '#cccccc'
+hc attr theme.title_color '#333333'
+
+hc attr theme.active.tab_color '#333333'
+hc attr theme.active.tab_outer_color '#666666'
+hc attr theme.active.tab_title_color '#cccccc'
+hc attr theme.normal.title_color '#cccccc'
+
+hc attr theme.active.inner_color '#ffffff'

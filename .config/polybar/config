@@ -34,6 +34,32 @@ aurora3 = #EBCB8B
 aurora4 = #A3BE8C
 aurora5 = #B48EAD
 
+[tron-legacy]
+
+fg0 = #90ACBC
+fg1 = #B0CCDC
+fg2 = #BBCCDD
+fg3 = #BBF0EF
+fg4 = #CBECFF
+bg0 = #000000
+bg1 = #17181b
+bg2 = #192533
+bg3 = #1B324B
+bg4 = #2B4255
+hl-line = #0E2638
+str = #387AAA
+
+[colors]
+
+background-darker = ${tron-legacy.bg1}
+background-lighter = ${tron-legacy.bg2}
+widget-foreground = ${tron-legacy.fg2}
+workspace-active-fg = ${tron-legacy.fg4}
+workspace-active-bg = ${tron-legacy.bg2}
+workspace-occupied-fg = ${tron-legacy.fg0}
+workspace-empty-fg = ${tron-legacy.str}
+urgent = #ff0000
+
 [grayscale]
 
 1 = #000000
@@ -45,7 +71,7 @@ aurora5 = #B48EAD
 slategray = #708090
 xanadu = #738678
 
-[colors]
+; [colors]
 
 background-darker = ${grayscale.1}
 background-lighter = ${grayscale.2}
