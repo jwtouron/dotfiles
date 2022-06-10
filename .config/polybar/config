@@ -53,7 +53,7 @@ str = #387AAA
 
 background-darker = ${tron-legacy.bg1}
 background-lighter = ${tron-legacy.bg2}
-widget-foreground = ${tron-legacy.fg2}
+widget-foreground = ${tron-legacy.fg1}
 workspace-active-fg = ${tron-legacy.fg4}
 workspace-active-bg = ${tron-legacy.bg2}
 workspace-occupied-fg = ${tron-legacy.fg0}
