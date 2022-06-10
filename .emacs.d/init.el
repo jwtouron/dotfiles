@@ -23,7 +23,7 @@
 (require 'my-defuns)
 (require 'my-defcustoms)
 (require 'my-emacs-init)
-(require 'my-theme-init)
+(require 'my-init-cemov)
 
 (use-package ace-window
   :bind ("C-x o" . 'ace-window))
@@ -44,28 +44,36 @@
 
 (use-package citre)
 
-(use-package company
-  :hook (after-init . global-company-mode)
-  :bind (:map company-mode-map
-              ("M-/" . company-complete-common))
-  :custom ((company-minimum-prefix-length 1)
-           (company-idle-delay nil)))
+;; (use-package company
+;;   :hook (after-init . global-company-mode)
+;;   :bind (:map company-mode-map
+;;               ("M-/" . company-complete-common))
+;;   :custom ((company-minimum-prefix-length 1)
+;;            (company-idle-delay nil)))
 
 (use-package comment-dwim-2
   :bind (("M-;" . comment-dwim-2)))
 
-(use-package counsel
-  :init (counsel-mode)
-  :config
-  (setq counsel-describe-function-function #'helpful-callable)
-  (setq counsel-describe-variable-function #'helpful-variable))
+(use-package corfu
+  :hook (minibuffer-setup-hook . corfu-enable-in-minibuffer)
+  :init
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      (corfu-mode 1)))
+  (global-corfu-mode))
+
+;; (use-package counsel
+;;   :init (counsel-mode)
+;;   :config
+;;   (setq counsel-describe-function-function #'helpful-callable)
+;;   (setq counsel-describe-variable-function #'helpful-variable))
 
 (use-package crux
   :bind (("C-a" . crux-move-beginning-of-line)
          ("C-x x r" . crux-rename-file-and-buffer)))
 
 (use-package dabbrev
-  :if nil
   :ensure nil
   :bind (("M-/" . dabbrev-completion)
          ("C-M-/" . dabbrev-expand)))
@@ -73,14 +81,14 @@
 (use-package diminish)
 
 (use-package dot-mode
-  :defer 1
   :diminish 'dot-mode
-  :init (global-dot-mode t))
+  :init (global-dot-mode t)
+  :config (define-key dot-mode-map (kbd "C-M-.") nil))
 
 (use-package dumb-jump
   :bind (("C-M-j" . dumb-jump-hydra/body))
   :hook (prog-mode . dumb-jump-mode)
-  :custom (dumb-jump-selector 'ivy)
+;;  :custom (dumb-jump-selector 'ivy)
   :init
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (when (and (boundp 'xref-show-definitions-function)
@@ -97,6 +105,8 @@
     ("l" dumb-jump-quick-look "Quick look")
     ("b" dumb-jump-back "Back")
     ("q" nil "Quit")))
+
+(use-package eglot)
 
 (use-package elfeed
   :bind (:map elfeed-show-mode-map
@@ -174,41 +184,46 @@
     ("=" text-scale-increase "increase")
     ("-" text-scale-decrease "decrease")))
 
-(use-package ivy
-  :diminish 'ivy-mode
-  :init
-  (setq ivy-use-virtual-buffers t
-        enable-recursive-minibuffers t)
-  (ivy-mode)
-  :config
-  (defun my-ivy-help ()
-    (interactive)
-    (with-help-window (help-buffer)
-      (princ "ivy:
+;; (use-package ivy
+;;   :diminish 'ivy-mode
+;;   :init
+;;   (setq ivy-use-virtual-buffers t
+;;         enable-recursive-minibuffers t)
+;;   (ivy-mode)
+;;   :config
+;;   (defun my-ivy-help ()
+;;     (interactive)
+;;     (with-help-window (help-buffer)
+;;       (princ "ivy:
 
-C-c C-o ivy-occur"))))
+;; C-c C-o ivy-occur"))))
 
-(use-package ivy-prescient
-  :init (ivy-prescient-mode))
+;; (use-package ivy-prescient
+;;   :init (ivy-prescient-mode))
 
 (use-package helpful
   :bind (("C-h k" . helpful-key)
          ("C-h F" . helpful-function)
          ("C-h C" . helpful-command)))
 
-(use-package lsp-mode
-  :custom ((lsp-enable-snippet nil)
-           (lsp-enable-symbol-highlighting nil)
-           (lsp-headerline-breadcrumb-enable nil)
-           (lsp-keymap-prefix "C-c l")
-           (lsp-lens-enable nil))
-  :hook (lsp-mode . lsp-enable-which-key-integration))
+;; (use-package lsp-mode
+;;   :custom ((lsp-enable-snippet nil)
+;;            (lsp-enable-symbol-highlighting nil)
+;;            (lsp-headerline-breadcrumb-enable nil)
+;;            (lsp-keymap-prefix "C-c l")
+;;            (lsp-lens-enable nil))
+;;   :hook (lsp-mode . lsp-enable-which-key-integration))
 
 (use-package magit)
 
 (use-package multiple-cursors
-  :bind (("C-S-c C-S-c" . hydra-multiple-cursors/body)
-         ("C-c m" . hydra-multiple-cursors/body))
+  :bind (("C-S-m C-S-m" . hydra-multiple-cursors/body)
+         ("C-S-c C-S-c" . mc/edit-lines)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-S-c C-<" . mc/mark-all-in-region-regexp)
+         ;;("C-c m" . hydra-multiple-cursors/body) ;; overridden by consult keybinding
+         )
   :config
   (setq mc/always-run-for-all t)
   (defhydra hydra-multiple-cursors (:hint nil)
@@ -323,3 +338,4 @@ You can edit the text in the grep buffer after typing C-c C-p . After that the c
   :init (which-key-mode))
 
 (require 'my-language-init)
+(require 'my-theme-init)
