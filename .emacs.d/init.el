@@ -282,8 +282,6 @@
          ("C-c p" . 'projectile-command-map)))
   :init (projectile-mode +1))
 
-(use-package quickrun)
-
 (use-package rainbow-mode)
 
 (use-package rg)
