@@ -336,4 +336,5 @@ You can edit the text in the grep buffer after typing C-c C-p . After that the c
   :init (which-key-mode))
 
 (require 'my-language-init)
+(require 'my-init-fun)
 (require 'my-theme-init)
