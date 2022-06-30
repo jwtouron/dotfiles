@@ -34,6 +34,17 @@ aurora3 = #EBCB8B
 aurora4 = #A3BE8C
 aurora5 = #B48EAD
 
+[colors]
+
+background-darker = ${nord.polar-night1}
+background-lighter = ${nord.polar-night2}
+widget-foreground = ${nord.frost2}
+workspace-active-fg = ${nord.aurora3}
+workspace-active-bg = ${nord.polar-night2}
+workspace-occupied-fg = ${nord.aurora4}
+workspace-empty-fg = ${nord.frost4}
+urgent = #ff0000
+
 [tron-legacy]
 
 fg0 = #90ACBC
@@ -49,7 +60,7 @@ bg4 = #2B4255
 hl-line = #0E2638
 str = #387AAA
 
-[colors]
+; [colors]
 
 background-darker = ${tron-legacy.bg1}
 background-lighter = ${tron-legacy.bg2}

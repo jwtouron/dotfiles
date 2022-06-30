@@ -8,7 +8,6 @@
   :init (load-theme 'sanityinc-tomorrow-night t))
 
 (use-package gruber-darker-theme
-  :if nil
   :init (load-theme 'gruber-darker t))
 
 (use-package minimal-theme
@@ -42,6 +41,7 @@
   :init (load-theme 'tao-yin t))
 
 (use-package tron-legacy-theme
+  :if nil
   :init
   (setq tron-legacy-theme-vivid-cursor t
         tron-legacy-theme-softer-bg t)
