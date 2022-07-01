@@ -126,7 +126,7 @@ hc set frame_bg_active_color '#345F0C'
 hc set frame_border_width 1
 hc set always_show_frame on
 hc set frame_bg_transparent on
-hc set frame_transparent_width 1
+hc set frame_transparent_width 2
 hc set frame_gap 5
 
 #hc attr theme.padding_top 0  # space below the title's baseline (i.e. text depth)
@@ -160,6 +160,7 @@ done
 hc attr theme.tiling.outer_width 1
 hc attr theme.background_color '#141414'
 
+source ~/.config/herbstluftwm/tomorrow-night-theme
 #source ~/.config/herbstluftwm/tron-legacy-theme
 
 hc set window_gap 0

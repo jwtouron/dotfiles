@@ -34,7 +34,7 @@ aurora3 = #EBCB8B
 aurora4 = #A3BE8C
 aurora5 = #B48EAD
 
-[colors]
+; [colors]
 
 background-darker = ${nord.polar-night1}
 background-lighter = ${nord.polar-night2}
@@ -44,6 +44,37 @@ workspace-active-bg = ${nord.polar-night2}
 workspace-occupied-fg = ${nord.aurora4}
 workspace-empty-fg = ${nord.frost4}
 urgent = #ff0000
+
+[tomorrow-night]
+
+background = #1d1f21
+current-line = #282a2e
+selection = #373b41
+foreground = #c5c8c6
+comment = #969896
+red = #cc6666
+orange = #de935f
+yellow = #f0c674
+green = #b5bd68
+aqua = #8abeb7
+blue = #81a2be
+purple = #b294bb
+
+[colors]
+
+background-darker = ${tomorrow-night.background}
+background-lighter = ${tomorrow-night.current-line}
+workspace-active-fg = ${tomorrow-night.yellow}
+workspace-active-bg = ${tomorrow-night.current-line}
+workspace-occupied-fg = ${tomorrow-night.aqua}
+workspace-empty-fg = ${tomorrow-night.comment}
+urgent = #ff0000
+pulseaudio = ${tomorrow-night.orange}
+cpu = ${tomorrow-night.green}
+memory = ${tomorrow-night.green}
+updates = ${tomorrow-night.green}
+weather = ${tomorrow-night.aqua}
+date = ${tomorrow-night.purple}
 
 [tron-legacy]
 
@@ -247,7 +278,7 @@ ramp-volume-2 = " "
 
 click-right = pavucontrol
 
-format-volume-foreground = ${colors.widget-foreground}
+format-volume-foreground = ${colors.pulseaudio}
 format-volume-background = ${colors.background-lighter}
 format-volume-underline = ${colors.background-darker}
 format-volume-overline = ${colors.background-darker}
@@ -263,7 +294,7 @@ exec = ~/.config/polybar/cpu.sh
 interval = 1
 click-left = xterm -class xterm-popup -geometry 120x36 -e htop
 
-format-foreground = ${colors.widget-foreground}
+format-foreground = ${colors.cpu}
 format-background = ${colors.background-lighter}
 format-underline = ${colors.background-darker}
 format-overline = ${colors.background-darker}
@@ -274,7 +305,7 @@ exec = ~/.config/polybar/memory.sh
 interval = 1
 click-left = xterm -class xterm-popup -geometry 120x36 -e htop
 
-format-foreground = ${colors.widget-foreground}
+format-foreground = ${colors.memory}
 format-background = ${colors.background-lighter}
 format-underline = ${colors.background-darker}
 format-overline = ${colors.background-darker}
@@ -287,7 +318,7 @@ click-left = ~/.config/polybar/updates.sh click-left
 click-right = ~/.config/polybar/updates.sh click-right
 
 format-background = ${colors.background-lighter}
-format-foreground = ${colors.widget-foreground}
+format-foreground = ${colors.updates}
 format-underline = ${colors.background-darker}
 format-overline = ${colors.background-darker}
 
@@ -298,7 +329,7 @@ interval = 1800
 click-left = xterm -class xterm-popup -geometry 125x45 -e ~/.config/polybar/weather-click.sh
 exec-if = ping -c 1 wttr.in
 
-format-foreground = ${colors.widget-foreground}
+format-foreground = ${colors.weather}
 format-background = ${colors.background-lighter}
 format-underline = ${colors.background-darker}
 format-overline = ${colors.background-darker}
@@ -308,7 +339,7 @@ type = custom/script
 exec = date +" %a, %d %b %Y, %H:%M "
 click-left = yad --calendar --undecorated --no-buttons --mouse --close-on-unfocus
 
-format-foreground = ${colors.widget-foreground}
+format-foreground = ${colors.date}
 format-background = ${colors.background-lighter}
 format-overline = ${colors.background-darker}
 format-underline = ${colors.background-darker}

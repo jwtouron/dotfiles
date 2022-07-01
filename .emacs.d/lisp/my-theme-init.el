@@ -8,6 +8,7 @@
   :init (load-theme 'sanityinc-tomorrow-night t))
 
 (use-package gruber-darker-theme
+  :if nil
   :init (load-theme 'gruber-darker t))
 
 (use-package minimal-theme
@@ -29,7 +30,6 @@
   :init (load-theme 'nord t))
 
 (use-package spaceway-theme
-  :if nil
   :ensure nil
   :init
   (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/spaceway"))

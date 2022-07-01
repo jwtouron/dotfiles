@@ -43,9 +43,9 @@ is already narrowed."
   (align-regexp beg end "\\(\\s-*\\)\\S-+" 1 1 t))
 
 (defconst my--rg-grep-command
-  "rg --color never -n --no-heading --with-filename %s -e '%s' '%s'")
+  "rg --color never -n --no-heading --with-filename %s -e '%s' \"%s\"")
 (defconst my--grep-grep-command
-  "grep -r -E --color=never -n --with-filename %s -e '%s' '%s'")
+  "grep -r -E --color=never -n --with-filename %s -e '%s' \"%s\"")
 
 (defvar my-grep-command-history
   (let ((grep-command (if (executable-find "rg")
