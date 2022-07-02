@@ -69,12 +69,12 @@ workspace-active-bg = ${tomorrow-night.current-line}
 workspace-occupied-fg = ${tomorrow-night.aqua}
 workspace-empty-fg = ${tomorrow-night.comment}
 urgent = #ff0000
-pulseaudio = ${tomorrow-night.orange}
-cpu = ${tomorrow-night.green}
-memory = ${tomorrow-night.green}
-updates = ${tomorrow-night.green}
+pulseaudio = ${tomorrow-night.blue}
+cpu = ${tomorrow-night.purple}
+memory = ${tomorrow-night.purple}
+updates = ${tomorrow-night.purple}
 weather = ${tomorrow-night.aqua}
-date = ${tomorrow-night.purple}
+date = ${tomorrow-night.green}
 
 [tron-legacy]
 
