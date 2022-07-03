@@ -2,11 +2,11 @@
 
 browser() (
     for browser in \
-        "firefox" \
         "brave" \
         "brave-browser" \
         "chromium" \
         "chromium-browser" \
+        "firefox" \
         "google-chrome"
     do
         if type "$browser" >/dev/null 2>&1; then
