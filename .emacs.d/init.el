@@ -23,7 +23,7 @@
 (require 'my-defuns)
 (require 'my-defcustoms)
 (require 'my-emacs-init)
-(require 'my-init-cemov)
+;; (require 'my-init-cemov)
 
 (use-package ace-window
   :bind ("C-x o" . 'ace-window))
@@ -63,11 +63,8 @@
       (corfu-mode 1)))
   (global-corfu-mode))
 
-;; (use-package counsel
-;;   :init (counsel-mode)
-;;   :config
-;;   (setq counsel-describe-function-function #'helpful-callable)
-;;   (setq counsel-describe-variable-function #'helpful-variable))
+(use-package counsel
+  :init (counsel-mode))
 
 (use-package crux
   :bind (("C-a" . crux-move-beginning-of-line)
@@ -184,27 +181,24 @@
     ("=" text-scale-increase "increase")
     ("-" text-scale-decrease "decrease")))
 
-;; (use-package ivy
-;;   :diminish 'ivy-mode
-;;   :init
-;;   (setq ivy-use-virtual-buffers t
-;;         enable-recursive-minibuffers t)
-;;   (ivy-mode)
-;;   :config
-;;   (defun my-ivy-help ()
-;;     (interactive)
-;;     (with-help-window (help-buffer)
-;;       (princ "ivy:
-
-;; C-c C-o ivy-occur"))))
-
-;; (use-package ivy-prescient
-;;   :init (ivy-prescient-mode))
-
 (use-package helpful
   :bind (("C-h k" . helpful-key)
          ("C-h F" . helpful-function)
          ("C-h C" . helpful-command)))
+
+(use-package ivy
+  :init (ivy-mode)
+  :config
+  (setq ivy-use-virtual-buffers t
+        enable-recursive-minibuffers t)
+  (defun my-ivy-help ()
+    (interactive)
+    (with-help-window (help-buffer)
+      (princ "C-c C-o ivy-occur"))))
+
+(use-package ivy-prescient
+  :after counsel
+  :init (ivy-prescient-mode))
 
 ;; (use-package lsp-mode
 ;;   :custom ((lsp-enable-snippet nil)
