@@ -1,6 +1,6 @@
 " Plugins
 
-call plug#begin($HOME . '/.vim/plugged')
+call plug#begin()
 Plug 'airblade/vim-rooter'
 Plug 'andrewradev/bufferize.vim'
 Plug 'ap/vim-css-color'
@@ -34,16 +34,9 @@ Plug 'wellle/targets.vim'
 " LSP
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Colorschemes
-Plug 'ayu-theme/ayu-vim'
 Plug 'chriskempson/base16-vim'
-Plug 'CreaturePhil/vim-handmade-hero'
-Plug 'djjcast/mirodark'
-Plug 'flazz/vim-colorschemes'
-Plug 'hardselius/warlock'
 Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
-Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'sainnhe/forest-night'
-Plug 'sainnhe/sonokai'
+Plug 'tomasiser/vim-code-dark'
 " Languages
 " Clojure
 Plug 'tpope/vim-fireplace'
@@ -116,7 +109,7 @@ let g:haskell_indent_in = 0
 
 " lightline
 
-let g:lightline = {}
+" let g:lightline = {}
 
 " let g:lightline.component_expand = {
 "       \  'linter_checking': 'lightline#ale#checking',
@@ -143,7 +136,7 @@ let g:lightline = {}
 " rooter
 
 let g:rooter_change_directory_for_non_project_files = 'current'
-let g:rooter_patterns = ['.projections.json']
+let g:rooter_patterns = ['.projections.json', '.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json']
 
 " vimwiki
 
@@ -215,8 +208,8 @@ augroup END
 command! BW :b# | bw#
 command! SW :w | sudo tee %
 
-highlight CursorLine cterm=None ctermbg=237 ctermfg=None
-highlight cursorLineNr cterm=None ctermbg=None
+" highlight CursorLine cterm=None ctermbg=237 ctermfg=None
+" highlight cursorLineNr cterm=None ctermbg=None
 
 " Make colors work in different terminal environments
 if exists('+termguicolors') && ($TERM =~# "-256color$")
@@ -225,7 +218,6 @@ if exists('+termguicolors') && ($TERM =~# "-256color$")
   set termguicolors
 endif
 
-colorscheme base16-tomorrow-night
-" colorscheme hybrid_reverse
+colorscheme codedark
 
 highlight Normal guibg=NONE ctermbg=NONE
