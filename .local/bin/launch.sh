@@ -4,9 +4,9 @@ browser() (
     for browser in \
         "brave" \
         "brave-browser" \
+        "firefox" \
         "chromium" \
         "chromium-browser" \
-        "firefox" \
         "google-chrome"
     do
         if type "$browser" >/dev/null 2>&1; then
