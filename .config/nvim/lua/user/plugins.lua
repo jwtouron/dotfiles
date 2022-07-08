@@ -10,11 +10,11 @@ return require('packer').startup(function(use)
     use { 'nvim-lua/plenary.nvim' }
 
     use { "ahmedkhalf/project.nvim", config = function() require("project_nvim").setup() end }
-    use { 'ap/vim-css-color' }
     use { 'bronson/vim-trailing-whitespace' }
     use { 'lewis6991/impatient.nvim' } -- speed up startup time
     use { 'moll/vim-bbye' }
     use { 'nelstrom/vim-visual-star-search' }
+    use { 'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
     use { 'numToStr/Comment.nvim', config = function() require('Comment').setup() end }
     use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true }, config = function() require('lualine').setup() end }
     use { 'nvim-telescope/telescope.nvim', requires = { {'nvim-lua/plenary.nvim'} } }
