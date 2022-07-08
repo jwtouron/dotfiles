@@ -1,3 +1,8 @@
+local status_ok, _ = pcall(require, 'lspconfig')
+if not status_ok then
+    return
+end
+
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
@@ -52,3 +57,13 @@ require('lspconfig')['rust_analyzer'].setup{
         ["rust-analyzer"] = {}
     }
 }
+
+for _, server in pairs {
+    "clangd",
+    "sumneko_lua",
+} do
+    require('lspconfig')[server].setup{
+        on_attach = on_attach,
+        flags = lsp_flags,
+    }
+end

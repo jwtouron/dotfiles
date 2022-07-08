@@ -1,6 +1,6 @@
-require("impatient") -- Must be very first
+require("user.impatient")
 
-require("user.plugins") -- Should probably be second
+require("user.plugins")
 
 require("user.options")
 require("user.keymaps")
