@@ -21,6 +21,7 @@ vim.opt.showmode = false
 vim.opt.signcolumn = "yes"
 vim.opt.smartcase = true
 vim.opt.swapfile = false
+vim.opt.termguicolors = true
 vim.opt.updatetime = 1000 -- 300
 vim.opt.virtualedit = { "block" }
 vim.opt.wrap = false
