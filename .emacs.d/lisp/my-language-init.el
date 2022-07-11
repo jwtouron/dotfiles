@@ -75,6 +75,10 @@
   :commands 'dante-mode
   :hook (haskell-mode . dante-mode))
 
+;; lisp
+
+(add-hook 'lisp-mode-hook #'paredit-mode)
+
 ;; lua
 
 (use-package lua-mode

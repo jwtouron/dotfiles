@@ -141,7 +141,7 @@ modules-right = pulseaudio sep cpu void void memory void void updates sep weathe
 tray-position = right
 tray-background = ${colors.background-lighter}
 
-font-0 = MesloLGMDZ Nerd Font:style=Regular:size=10;2
+font-0 = MesloLGSDZ Nerd Font:style=Regular:size=10;2
 font-1 = FiraCode Nerd Font:style=Regular:size=10;2
 font-2 = DejaVuSansMono Nerd Font:style=Book:size=10;2
 
@@ -162,7 +162,7 @@ modules-right = pulseaudio sep cpu void void memory void void updates sep weathe
 tray-position = right
 tray-background = ${colors.background-lighter}
 
-font-0 = MesloLGMDZ Nerd Font:style=Regular:size=10;2
+font-0 = MesloLGSDZ Nerd Font:style=Regular:size=10;2
 font-1 = FiraCode Nerd Font:style=Regular:size=10;2
 font-2 = DejaVuSansMono Nerd Font:style=Book:size=10;2
 
