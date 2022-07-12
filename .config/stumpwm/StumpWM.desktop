@@ -1,0 +1,7 @@
+# cp ~/.config/stumpwm/StumpWM.desktop /usr/share/xsessions
+[Desktop Entry]
+Encoding=UTF-8
+Name=StumpWM
+Comment=Login using StumpWM
+Exec=stumpwm
+Type=XSession

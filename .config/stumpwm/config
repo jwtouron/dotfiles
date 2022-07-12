@@ -1,0 +1,24 @@
+;; -*-lisp-*-
+
+;; (load #p"~/quicklisp/setup.lisp")
+
+(load #p"~/.config/stumpwm/functions.lisp")
+(load #p"~/.config/stumpwm/contrib.lisp")
+(load #p"~/.config/stumpwm/keybindings.lisp")
+(load #p"~/.config/stumpwm/mode-line.lisp")
+
+;;; General Settings
+
+(setf *input-window-gravity* :center
+      *message-window-gravity* :center
+      *mouse-focus-policy* :sloppy
+      *window-border-style* :tight)
+
+;;; Startup Programs
+
+(run-shell-command "nm-applet &")
+(run-shell-command "nitrogen --restore &")
+(run-shell-command "picom &")
+(run-shell-command "killall -q -w cbatticon; [ \"$(cbatticon -p | wc -l)\" -gt 1 ] && cbatticon &")
+(run-shell-command "killall -q -w udiskie; udiskie -s &")
+(run-shell-command "killall -q -w volumeicon; volumeicon &")
