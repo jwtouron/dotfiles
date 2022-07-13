@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
 # Copyright (C) 2007 Jonathan Moore Liles
 #
@@ -56,7 +56,7 @@ wait_result ()
 
     if echo "$RESULT" | grep -q '= $'
     then
-	return 0
+	return 1
     fi
 
     echo "$RESULT" |
@@ -180,7 +180,7 @@ else
         tput me sgr0
         echo \ for a list of commands.
 
-	while read -p '> ' REPLY
+	while { echo -n '> '; read REPLY; }
 	do
 	    tput md bold
 	    tput AF setaf 2
