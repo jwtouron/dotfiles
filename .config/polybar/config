@@ -166,6 +166,30 @@ font-0 = MesloLGSDZ Nerd Font:style=Regular:size=10;2
 font-1 = FiraCode Nerd Font:style=Regular:size=10;2
 font-2 = DejaVuSansMono Nerd Font:style=Book:size=10;2
 
+[bar/stumpwm]
+monitor = ${env:MONITOR}
+
+override-redirect = false
+enable-ipc = true
+
+height = 30px
+
+background = ${colors.background-darker}
+
+line-size = 5
+
+padding = 1
+
+modules-left = ewmh
+modules-right = pulseaudio sep cpu void void memory void void updates sep weather sep date sep powermenu-herbstluftwm
+
+tray-position = right
+tray-background = ${colors.background-lighter}
+
+font-0 = MesloLGSDZ Nerd Font:style=Regular:size=10;2
+font-1 = FiraCode Nerd Font:style=Regular:size=10;2
+font-2 = DejaVuSansMono Nerd Font:style=Book:size=10;2
+
 [module/left]
 type = custom/text
 content-foreground = ${colors.background-lighter}

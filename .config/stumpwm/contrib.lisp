@@ -12,8 +12,12 @@
 ;;; Gaps
 
 (load-module "swm-gaps")
-(setf swm-gaps:*inner-gaps-size* 5
-      swm-gaps:*outer-gaps-size* 5
+(setf swm-gaps:*inner-gaps-size* 10
+      swm-gaps:*outer-gaps-size* 10
       swm-gaps:*head-gaps-size* 0)
 (when *initializing*
   (swm-gaps:toggle-gaps))
+
+;;(defcommand toggle-gaps ()
+;;  nil
+;;  (swm-gaps:toggle-gaps))
