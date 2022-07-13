@@ -4,6 +4,7 @@
 
 (define-key *root-map* (kbd "b") "browser")
 (define-key *root-map* (kbd "c") "terminal")
+(define-key *root-map* (kbd "q") "powermenu")
 (define-key *root-map* (kbd "v") "hsplit")
 (define-key *root-map* (kbd "V") "version")
 

@@ -3,6 +3,9 @@
   :init (load-theme 'arjen-grey t)
   :config (set-face-background hl-line-face "#2f4f4f"))
 
+(use-package atom-one-dark-theme
+  :init (load-theme 'atom-one-dark t))
+
 (use-package color-theme-sanityinc-tomorrow
   :if nil
   :init (load-theme 'sanityinc-tomorrow-night t))
@@ -30,6 +33,7 @@
   :init (load-theme 'nord t))
 
 (use-package spaceway-theme
+  :if nil
   :ensure nil
   :init
   (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/spaceway"))

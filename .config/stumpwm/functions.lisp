@@ -24,3 +24,7 @@
     (when (executable-p terminal)
       (uiop:launch-program terminal)
       (return))))
+
+(defcommand powermenu ()
+  nil
+  (run-shell-command "~/.config/stumpwm/powermenu.sh"))
