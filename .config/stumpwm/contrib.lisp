@@ -21,3 +21,7 @@
 ;;(defcommand toggle-gaps ()
 ;;  nil
 ;;  (swm-gaps:toggle-gaps))
+
+;;; stump-volume-control
+
+(load-module "stump-volume-control")

@@ -47,3 +47,11 @@
 (define-key *top-map* (kbd "s-)") "gmove 10")
 
 (define-key *top-map* (kbd "s-f") "fullscreen")
+(define-key *top-map* (kbd "s-m") "mode-line")
+
+;;; Requires stump-volume-control contrib module
+(define-key *top-map* (kbd "XF86AudioRaiseVolume") "volume-up")
+(define-key *top-map* (kbd "s-]") "volume-up")
+(define-key *top-map* (kbd "XF86AudioLowerVolume") "volume-down")
+(define-key *top-map* (kbd "s-[") "volume-down")
+(define-key *top-map* (kbd "XF86AudioMute") "volume-toggle-mute")
