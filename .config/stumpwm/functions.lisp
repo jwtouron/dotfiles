@@ -45,3 +45,16 @@
 (define-stumpwm-command "gbackward" ()
   (move-group-backward)
   (echo-groups (current-screen) *group-format*))
+
+(defcommand gselect-new (name)
+  ((:string "Group name: "))
+  (when (not (stumpwm::select-group (current-screen) name))
+    (gnewbg name))
+  (gselect name))
+
+(defcommand gmove-new (to-group)
+  ((:string "Group name: "))
+  (let ((current (current-window)))
+    (when (not (stumpwm::select-group (current-screen) to-group))
+      (gnewbg to-group))
+    (move-window-to-group current to-group)))
