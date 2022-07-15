@@ -79,6 +79,7 @@
 (global-set-key (kbd "<C-mouse-5>") nil)
 (global-set-key (kbd "C-x 2") 'my-split-window-below)
 (global-set-key (kbd "C-x 3") 'my-split-window-right)
+(global-set-key (kbd "C-z") nil)
 (if (boundp 'use-short-answers)
     (setq use-short-answers t)
   (defalias 'yes-or-no-p 'y-or-n-p))
