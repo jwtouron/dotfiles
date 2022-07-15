@@ -8,4 +8,5 @@
   ;; (run-shell-command "pgrep cbatticon || [ \"$(cbatticon -p | wc -l)\" -gt 1 ] && cbatticon &")
   (run-shell-command "pgrep udiskie || udiskie; udiskie -s &")
 
-  (run-shell-command "pgrep polybar || for m in $(polybar --list-monitors | cut -d\":\" -f1); do MONITOR=$m polybar --reload stumpwm; done"))
+  ;;(run-shell-command "pgrep polybar || for m in $(polybar --list-monitors | cut -d\":\" -f1); do MONITOR=$m polybar --reload stumpwm; done")
+  )

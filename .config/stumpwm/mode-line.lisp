@@ -6,7 +6,8 @@
 (load-module "mem")
 ;;(setf mem:*mem-modeline-fmt* "MEM: %b %p")
 
-(setf *mode-line-foreground-color* "#bfbfbf"
+(setf *mode-line-foreground-color* "Gray75"
+      *mode-line-pad-y* 5
       *mode-line-timeout* 1
       *time-modeline-string* "%a, %d %b %Y, %H:%M")
 
@@ -28,4 +29,5 @@
             (enable-mode-line screen head t)))
 
 (load-module "stumptray") ; (ql:quickload “xembed”)
+(setf *tray-win-background* (nth 6 stumpwm:*colors*))
 (stumptray::stumptray)

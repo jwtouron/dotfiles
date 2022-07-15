@@ -6,5 +6,5 @@
 (load #p"~/.config/stumpwm/contrib.lisp")
 (load #p"~/.config/stumpwm/keybindings.lisp")
 (load #p"~/.config/stumpwm/settings.lisp")
+(load #p"~/.config/stumpwm/mode-line.lisp")
 (load #p"~/.config/stumpwm/startup-programs.lisp")
-;;(load #p"~/.config/stumpwm/mode-line.lisp")
