@@ -20,25 +20,46 @@
 ! #define COLOR15      #ECEFF4
 
 ! Tomorrow Night
-#define FOREGROUND   #c5c8c6
-#define BACKGROUND   #1d1f21
-#define CURSOR_COLOR #b294bb
-#define COLOR0       #1d1f21
-#define COLOR1       #cc6666
-#define COLOR2       #b5bd68
-#define COLOR3       #f0c674
-#define COLOR4       #81a2be
-#define COLOR5       #b294bb
-#define COLOR6       #8abeb7
-#define COLOR7       #c5c8c6
-#define COLOR8       #969896
-#define COLOR9       #cc6666
-#define COLOR10      #b5bd68
-#define COLOR11      #f0c674
-#define COLOR12      #81a2be
-#define COLOR13      #b294bb
-#define COLOR14      #8abeb7
-#define COLOR15      #ffffff
+! #define FOREGROUND   #c5c8c6
+! #define BACKGROUND   #1d1f21
+! #define CURSOR_COLOR #b294bb
+! #define COLOR0       #1d1f21
+! #define COLOR1       #cc6666
+! #define COLOR2       #b5bd68
+! #define COLOR3       #f0c674
+! #define COLOR4       #81a2be
+! #define COLOR5       #b294bb
+! #define COLOR6       #8abeb7
+! #define COLOR7       #c5c8c6
+! #define COLOR8       #969896
+! #define COLOR9       #cc6666
+! #define COLOR10      #b5bd68
+! #define COLOR11      #f0c674
+! #define COLOR12      #81a2be
+! #define COLOR13      #b294bb
+! #define COLOR14      #8abeb7
+! #define COLOR15      #ffffff
+
+! Atom One Dark
+#define FOREGROUND         #ABB2BF
+#define BACKGROUND         #282C34
+#define CURSOR_COLOR       #528BFF
+#define COLOR0             #000000
+#define COLOR1             #BE5046
+#define COLOR2             #98C379
+#define COLOR3             #D19A66
+#define COLOR4             #61AFEF
+#define COLOR5             #C678DD
+#define COLOR6             #56B6C2
+#define COLOR7             #9DA5B4
+#define COLOR8             #3E4451
+#define COLOR9             #E06C75
+#define COLOR10            #98C379
+#define COLOR11            #E5C07B
+#define COLOR12            #61AFEF
+#define COLOR13            #C678DD
+#define COLOR14            #56B6C2
+#define COLOR15            #FFFFFF
 
 *.foreground: FOREGROUND
 *.background: BACKGROUND

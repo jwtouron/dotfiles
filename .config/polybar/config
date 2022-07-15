@@ -34,17 +34,6 @@ aurora3 = #EBCB8B
 aurora4 = #A3BE8C
 aurora5 = #B48EAD
 
-; [colors]
-
-background-darker = ${nord.polar-night1}
-background-lighter = ${nord.polar-night2}
-widget-foreground = ${nord.frost2}
-workspace-active-fg = ${nord.aurora3}
-workspace-active-bg = ${nord.polar-night2}
-workspace-occupied-fg = ${nord.aurora4}
-workspace-empty-fg = ${nord.frost4}
-urgent = #ff0000
-
 [tomorrow-night]
 
 background = #1d1f21
@@ -59,22 +48,6 @@ green = #b5bd68
 aqua = #8abeb7
 blue = #81a2be
 purple = #b294bb
-
-[colors]
-
-background-darker = ${tomorrow-night.background}
-background-lighter = ${tomorrow-night.current-line}
-workspace-active-fg = ${tomorrow-night.yellow}
-workspace-active-bg = ${tomorrow-night.current-line}
-workspace-occupied-fg = ${tomorrow-night.aqua}
-workspace-empty-fg = ${tomorrow-night.comment}
-urgent = #ff0000
-pulseaudio = ${tomorrow-night.blue}
-cpu = ${tomorrow-night.purple}
-memory = ${tomorrow-night.purple}
-updates = ${tomorrow-night.purple}
-weather = ${tomorrow-night.aqua}
-date = ${tomorrow-night.green}
 
 [tron-legacy]
 
@@ -91,17 +64,6 @@ bg4 = #2B4255
 hl-line = #0E2638
 str = #387AAA
 
-; [colors]
-
-background-darker = ${tron-legacy.bg1}
-background-lighter = ${tron-legacy.bg2}
-widget-foreground = ${tron-legacy.fg1}
-workspace-active-fg = ${tron-legacy.fg4}
-workspace-active-bg = ${tron-legacy.bg2}
-workspace-occupied-fg = ${tron-legacy.fg0}
-workspace-empty-fg = ${tron-legacy.str}
-urgent = #ff0000
-
 [grayscale]
 
 1 = #000000
@@ -113,16 +75,37 @@ urgent = #ff0000
 slategray = #708090
 xanadu = #738678
 
-; [colors]
+[atom-one-dark]
 
-background-darker = ${grayscale.1}
-background-lighter = ${grayscale.2}
-widget-foreground = ${grayscale.6}
-workspace-active-fg = ${grayscale.6}
-workspace-active-bg = ${grayscale.2}
-workspace-occupied-fg = ${grayscale.5}
-workspace-empty-fg = ${grayscale.3}
-urgent = #ff0000
+background-darker     = #121417
+background-lighter    = #282C34
+workspace-active-fg   = #E5C07B
+workspace-active-bg   = ${atom-one-dark.background-lighter}
+workspace-occupied-fg = #528BFF
+workspace-empty-fg    = #9DA5B4
+urgent                = #E06C75
+pulseaudio            = #56B6C2
+cpu                   = #C678DD
+memory                = #C678DD
+updates               = #C678DD
+weather               = #61AFEF
+date                  = #98C379
+
+[colors]
+
+background-darker     = ${atom-one-dark.background-darker}
+background-lighter    = ${atom-one-dark.background-lighter}
+workspace-active-fg   = ${atom-one-dark.workspace-active-fg}
+workspace-active-bg   = ${atom-one-dark.workspace-active-bg}
+workspace-occupied-fg = ${atom-one-dark.workspace-occupied-fg}
+workspace-empty-fg    = ${atom-one-dark.workspace-empty-fg}
+urgent                = ${atom-one-dark.urgen}
+pulseaudio            = ${atom-one-dark.pulseaudio}
+cpu                   = ${atom-one-dark.cpu}
+memory                = ${atom-one-dark.memory}
+updates               = ${atom-one-dark.updates}
+weather               = ${atom-one-dark.weather}
+date                  = ${atom-one-dark.date}
 
 [bar/i3]
 monitor = ${env:MONITOR}
