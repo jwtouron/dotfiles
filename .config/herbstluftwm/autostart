@@ -160,8 +160,7 @@ done
 hc attr theme.tiling.outer_width 1
 hc attr theme.background_color '#141414'
 
-source ~/.config/herbstluftwm/tomorrow-night-theme
-#source ~/.config/herbstluftwm/tron-legacy-theme
+source ~/.config/herbstluftwm/minimal-theme
 
 hc set window_gap 0
 hc set frame_padding 0
