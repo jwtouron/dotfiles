@@ -29,5 +29,5 @@
             (enable-mode-line screen head t)))
 
 (load-module "stumptray") ; (ql:quickload “xembed”)
-(setf *tray-win-background* (nth 6 stumpwm:*colors*))
+(setf stumptray::*tray-viwin-background* "#666666")
 (stumptray::stumptray)
