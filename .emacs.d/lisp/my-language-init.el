@@ -116,8 +116,13 @@
 
 (use-package python
   :ensure nil
-  :custom (python-shell-interpreter "python3")
-  :hook ((python-mode . electric-pair-local-mode)))
+  :hook ((python-mode . electric-pair-local-mode))
+  :config
+  (if (executable-find "ipython3")
+      (setq python-shell-interpreter "ipython3"
+            python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
+    (setq python-interpreter "python3")))
+
 
 ;; yaml
 
