@@ -79,6 +79,11 @@
 
 (add-hook 'lisp-mode-hook #'paredit-mode)
 
+(use-package sly
+  :init
+  (setq inferior-lisp-program "sbcl"
+        sly-default-lisp 'roswell))
+
 ;; lua
 
 (use-package lua-mode
