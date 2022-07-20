@@ -23,15 +23,14 @@
 (require 'my-defuns)
 (require 'my-defcustoms)
 (require 'my-emacs-init)
-(require 'my-keybindings)
+;; (require 'my-keybindings)
 ;; (require 'my-init-cemov)
 
 (use-package ace-window
   :bind ("C-x o" . 'ace-window))
 
 (use-package avy
-  ;; :bind ("C-;" . 'avy-goto-char-timer)
-  )
+  :bind ("C-;" . 'avy-goto-char-timer))
 
 (use-package calfw
   :commands (cfw:open-calendar-buffer))
