@@ -8,11 +8,11 @@
          ("C-;" . execute-extended-command)
 
          ;; buffer
-         ("bb" . counsel-buffer-or-recentf)
+         ("bb" . ivy-switch-buffer)
          ("bB" . (lambda ()
                    (interactive)
                    (select-window (split-window-below))
-                   (counsel-buffer-or-recentf)))
+                   (ivy-switch-buffer)))
          ("bk" . kill-this-buffer)
 
          ;; flycheck
@@ -23,6 +23,10 @@
          ;; ("cn" . flycheck-next-error)
          ;; ("cp" . flycheck-previous-error)
 
+         ;; errors
+         ("en" . my-next-error)
+         ("ep" . my-previous-error)
+
          ;; file
          ("fe" . crux-find-user-init-file)
          ("ff" . find-file)
@@ -31,9 +35,9 @@
          ("fS" . save-buffer)
 
          ;; help
-         ("hf" . describe-function)
+         ("hf" . counsel-describe-function)
          ("hk" . describe-key)
-         ("hv" . describe-variable)
+         ("hv" . counsel-describe-variable)
 
          ("j" . avy-goto-char-timer)
 
@@ -65,7 +69,6 @@
          ("w1" . delete-other-windows)
          ;; ("wr" . hydra-window/body)
          ("ws" . split-window-below)
-         ("wS" . (lambda () (interactive) (select-window (split-window-below))))
          ("wv" . split-window-right)
          ("ww" . ace-window)
          )))
