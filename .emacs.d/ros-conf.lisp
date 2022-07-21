@@ -1,2 +1,7 @@
 (defun my-add-to-local-project (&optional dir)
-  (pushnew (or dir (uiop:getcwd)) ql:*local-project-directories*))
+  (when (not dir)
+    (let ((dir (uiop:getcwd)))
+      (loop while (and (not (uiop:directory-files dir #p"*.asd"))
+                       (not (equal dir (uiop:pathname-root dir))))
+            do (setf dir (uiop:pathname-parent-directory-pathname dir)))
+      (pushnew dir ql:*local-project-directories*))))
