@@ -56,13 +56,20 @@
   :bind (("M-;" . comment-dwim-2)))
 
 (use-package corfu
-  :hook (minibuffer-setup-hook . corfu-enable-in-minibuffer)
+  :hook (minibuffer-setup . corfu-enable-in-minibuffer)
   :init
   (defun corfu-enable-in-minibuffer ()
     "Enable Corfu in the minibuffer if `completion-at-point' is bound."
     (when (where-is-internal #'completion-at-point (list (current-local-map)))
       (corfu-mode 1)))
   (global-corfu-mode))
+
+(use-package corfu-doc
+  :hook (corfu-mode . corfu-doc-mode)
+  :bind (:map corfu-map
+              ("M-p" . corfu-doc-scroll-down)
+              ("M-n" . corfu-doc-scroll-up)
+              ("M-d" . corfu-doc-toggle)))
 
 (use-package counsel
   :init (counsel-mode))
@@ -255,6 +262,7 @@
 (use-package paredit)
 
 (use-package popper
+  :if nil
   :bind (("C-`"   . popper-toggle-latest)
          ("M-`"   . popper-cycle)
          ("C-M-`" . popper-toggle-type))
@@ -267,6 +275,10 @@
           compilation-mode))
   (popper-mode +1)
   (popper-echo-mode +1))
+
+(use-package popwin
+  :defer 1
+  :init (popwin-mode 1))
 
 (use-package prescient)
 
@@ -296,7 +308,7 @@
 
 (use-package smartscan
   :defer 1
-  :config (global-smartscan-mode 1))
+  :hook (prog-mode . smartscan-mode))
 
 (use-package super-save
   :defer 1

@@ -81,6 +81,7 @@
 
 (use-package sly
   :custom (sly-default-lisp 'roswell)
+  :hook (sly-mode . paredit-mode)
   :init
   (let ((ros-config (concat user-emacs-directory
                             "ros-conf.lisp")))
