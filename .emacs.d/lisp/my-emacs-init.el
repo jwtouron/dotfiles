@@ -31,6 +31,20 @@
             (local-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
             (local-set-key (kbd "C-c f d") 'flymake-show-buffer-diagnostics)))
 
+(advice-add 'flymake-goto-next-error :after
+            (defun flymake-goto-next-error-repeated (&rest _)
+              (set-transient-map
+               (let ((map (make-sparse-keymap)))
+                 (define-key map (kbd "n") 'flymake-goto-next-error)
+                 map))))
+
+(advice-add 'flymake-goto-prev-error :after
+            (defun flymake-goto-prev-error-repeated (&rest _)
+              (set-transient-map
+               (let ((map (make-sparse-keymap)))
+                 (define-key map (kbd "p") 'flymake-goto-prev-error)
+                 map))))
+
 ;; grep
 
 (with-eval-after-load "grep"
@@ -38,6 +52,9 @@
     (grep-apply-setting 'grep-command "rg -n --no-heading -. -e ")
     (grep-apply-setting 'grep-find-command '("find . -type f -exec rg -n --no-heading -e '' \\{\\} +" . 45))))
 (global-set-key (kbd "C-c g") 'my-grep)
+
+;; minibuffer
+(add-hook 'minibuffer-mode-hook 'paredit-mode)
 
 ;; org
 
@@ -107,10 +124,12 @@
 
 ;; Non-pressing initialization
 
-(let ((fn (lambda ()
-            (global-so-long-mode 1)
-            (recentf-mode 1)
-            (savehist-mode 1))))
+(flet ((fn ()
+           (global-so-long-mode 1)
+           (recentf-mode 1)
+           (savehist-mode 1)
+           (when (fbound-p 'repeat-mode)
+             (repeat-mode 1))))
   (add-hook 'after-init-hook
             (lambda ()
               (run-with-idle-timer 1 nil fn))))
