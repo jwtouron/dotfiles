@@ -36,12 +36,14 @@
               (set-transient-map
                (let ((map (make-sparse-keymap)))
                  (define-key map (kbd "n") 'flymake-goto-next-error)
+                 (define-key map (kbd "p") 'flymake-goto-prev-error)
                  map))))
 
 (advice-add 'flymake-goto-prev-error :after
             (defun flymake-goto-prev-error-repeated (&rest _)
               (set-transient-map
                (let ((map (make-sparse-keymap)))
+                 (define-key map (kbd "n") 'flymake-goto-next-error)
                  (define-key map (kbd "p") 'flymake-goto-prev-error)
                  map))))
 
@@ -52,9 +54,6 @@
     (grep-apply-setting 'grep-command "rg -n --no-heading -. -e ")
     (grep-apply-setting 'grep-find-command '("find . -type f -exec rg -n --no-heading -e '' \\{\\} +" . 45))))
 (global-set-key (kbd "C-c g") 'my-grep)
-
-;; minibuffer
-(add-hook 'minibuffer-mode-hook 'paredit-mode)
 
 ;; org
 
