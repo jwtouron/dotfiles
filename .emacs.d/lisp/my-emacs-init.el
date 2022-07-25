@@ -23,6 +23,14 @@
 (require 'dired+)
 (diredp-toggle-find-file-reuse-dir 1)
 
+;; flymake
+
+(add-hook 'flymake-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c f n") 'flymake-goto-next-error)
+            (local-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
+            (local-set-key (kbd "C-c f d") 'flymake-show-buffer-diagnostics)))
+
 ;; grep
 
 (with-eval-after-load "grep"
