@@ -29,7 +29,8 @@
 
 (use-package elisp-mode
   :ensure nil
-  :hook ((emacs-lisp-mode . paredit-mode)))
+  :hook ((emacs-lisp-mode . flymake-mode)
+         (emacs-lisp-mode . paredit-mode)))
 
 ;; go
 
@@ -118,7 +119,16 @@
 
 ;; Rust
 
-(use-package rust-mode)
+(use-package rust-mode
+  :hook (rust-mode . my--init-rust-mode)
+  :bind (:map rust-mode-map
+              ("C-c m r" . 'rust-run)
+              ("C-c m c" . 'rust-compile)
+              ("C-c m t" . 'rust-test)
+              ("C-c m k" . 'rust-check))
+  :config
+  (defun my--init-rust-mode ()
+    (electric-pair-local-mode)))
 
 (use-package cargo-mode
   :config

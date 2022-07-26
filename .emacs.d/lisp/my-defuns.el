@@ -120,4 +120,14 @@ is already narrowed."
       (select-window new-win)
       (counsel-find-file))))
 
+;;;###autoload
+(defmacro advice-add-repeat-mode (func &rest bindings)
+  `(advice-add ',func :after
+               (lambda (&rest _)
+                 (set-transient-map
+                  (let ((map (make-sparse-keymap)))
+                    (dolist (binding (quote ,bindings))
+                      (define-key map (kbd (car binding)) (cdr binding)))
+                    map)))))
+
 (provide 'my-defuns)

@@ -86,30 +86,41 @@
 (use-package diminish)
 
 (use-package dot-mode
+  :if nil
   :diminish 'dot-mode
   :init (global-dot-mode t)
   :config (define-key dot-mode-map (kbd "C-M-.") nil))
 
 (use-package dumb-jump
-  :bind (("C-M-j" . dumb-jump-hydra/body))
+  :bind-keymap ("C-M-j" . my--dumb-jump-mode-map)
+  :bind (:map my--dumb-jump-mode-map
+              ("j" . dumb-jump-go)
+              ("o" . dumb-jump-go-other-window)
+              ("e" . dumb-jump-go-prefer-external)
+              ("x" . dumb-jump-go-prefer-external-other-window)
+              ("i" . dumb-jump-go-prompt)
+              ("l" . dumb-jump-quick-look))
   :hook (prog-mode . dumb-jump-mode)
-;;  :custom (dumb-jump-selector 'ivy)
+  ;;  :custom (dumb-jump-selector 'ivy)
   :init
+  (defvar my--dumb-jump-mode-map (make-sparse-keymap))
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (when (and (boundp 'xref-show-definitions-function)
              (fboundp 'xref-show-definitions-completing-read))
     (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
   :config
-  (defhydra dumb-jump-hydra (:color blue :columns 3)
-    "Dumb Jump"
-    ("j" dumb-jump-go "Go")
-    ("o" dumb-jump-go-other-window "Other window")
-    ("e" dumb-jump-go-prefer-external "Go external")
-    ("x" dumb-jump-go-prefer-external-other-window "Go external other window")
-    ("i" dumb-jump-go-prompt "Prompt")
-    ("l" dumb-jump-quick-look "Quick look")
-    ("b" dumb-jump-back "Back")
-    ("q" nil "Quit")))
+  (advice-add-repeat-mode dumb-jump-go
+                          ("b" . dumb-jump-back))
+  (advice-add-repeat-mode dumb-jump-go-other-window
+                          ("b" . dumb-jump-back))
+  (advice-add-repeat-mode dumb-jump-go-prefer-external
+                          ("b" . dumb-jump-back))
+  (advice-add-repeat-mode dumb-jump-go-prefer-external-other-window
+                          ("b" . dumb-jump-back))
+  (advice-add-repeat-mode dumb-jump-go-prompt
+                          ("b" . dumb-jump-back))
+  (advice-add-repeat-mode dumb-jump-quick-look
+                          ("b" . dumb-jump-back)))
 
 (use-package eglot)
 
@@ -128,83 +139,29 @@
            (elfeed-search-filter "@2-days-ago +unread")))
 
 (use-package expand-region
-  :bind ("C-=" . #'my-expand-region)
-  :init
-  (defun my-expand-region ()
-    (interactive)
-    (er/expand-region 1)
-    (hydra-expand-region/body))
-  :config
-  (defhydra hydra-expand-region ()
-    "expand-region"
-    ("=" er/expand-region "er/expand-region")
-    ("C-=" er/expand-region "er/expand-region")
-    ("-" er/contract-region "er/contract-region")
-    ("C--" er/contract-region "er/contract-region")))
+  :bind ("C-=" . er/expand-region))
 
 (use-package flymake
   :ensure nil
-  :hook ((flymake-mode . (lambda ()
-                           (local-set-key (kbd "C-c f n") 'flymake-goto-next-error)
-                           (local-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
-                           (local-set-key (kbd "C-c f d") 'flymake-show-buffer-diagnostics))))
+  :hook ((flymake-mode . my--init-flymake-mode))
   :config
-  (advice-add 'flymake-goto-next-error :after
-              (defun flymake-goto-next-error-repeated (&rest _)
-                (set-transient-map
-                 (let ((map (make-sparse-keymap)))
-                   (define-key map (kbd "n") 'flymake-goto-next-error)
-                   (define-key map (kbd "p") 'flymake-goto-prev-error)
-                   map))))
-  (advice-add 'flymake-goto-prev-error :after
-              (defun flymake-goto-prev-error-repeated (&rest _)
-                (set-transient-map
-                 (let ((map (make-sparse-keymap)))
-                   (define-key map (kbd "n") 'flymake-goto-next-error)
-                   (define-key map (kbd "p") 'flymake-goto-prev-error)
-                   map)))))
+  (defun my--init-flymake-mode ()
+    (local-set-key (kbd "C-c f n") 'flymake-goto-next-error)
+    (local-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
+    (local-set-key (kbd "C-c f d") 'flymake-show-buffer-diagnostics))
+  (advice-add-repeat-mode flymake-goto-next-error
+                          ("n" . flymake-goto-next-error)
+                          ("p" . flymake-goto-prev-error))
+  (advice-add-repeat-mode flymake-goto-prev-error
+                          ("n" . flymake-goto-next-error)
+                          ("p" . flymake-goto-prev-error)))
 
 (use-package gcmh
   :defer 1
   :diminish 'gcmh-mode
   :config (gcmh-mode 1))
 
-(use-package hydra
-  :bind (("M-g n" . my-next-error)
-         ("M-g M-n" . my-next-error)
-         ("M-g p" . my-previous-error)
-         ("M-g M-p" . my-previous-error)
-         ("C-x `" . my-next-error)
-
-         ("C-x ^" . hydra-size-window/body))
-  :init
-  (defun my-next-error ()
-    (interactive)
-    (next-error)
-    (hydra-navigate-errors/body))
-  (defun my-previous-error ()
-    (interactive)
-    (previous-error)
-    (hydra-navigate-errors/body))
-  :config
-  (defhydra hydra-navigate-errors ()
-    "navigate-errors"
-    ("n" next-error "next-error")
-    ("M-n" next-error "next-error")
-    ("p" previous-error "previous-error")
-    ("M-p" previous-error "previous-error")
-    ("`" next-error "next-error")
-    ("S-`" previous-error "previous-error"))
-  (defhydra hydra-size-window ()
-    "Change window size"
-    ("+" enlarge-window "enlarge-window")
-    ("=" enlarge-window "enlarge-window")
-    ("-" shrink-window "shrink-window")
-    ("q" nil "quit"))
-  (defhydra hydra-zoom (global-map "<f2>")
-    "zoom"
-    ("=" text-scale-increase "increase")
-    ("-" text-scale-decrease "decrease")))
+(use-package hydra)
 
 (use-package helpful
   :bind (("C-h k" . helpful-key)
@@ -309,17 +266,6 @@
 (use-package rainbow-mode)
 
 (use-package rg)
-
-(use-package rust-mode
-  :hook (rust-mode . my--init-rust-mode)
-  :bind (:map rust-mode-map
-         ("C-c m r" . 'rust-run)
-         ("C-c m c" . 'rust-compile)
-         ("C-c m t" . 'rust-test)
-         ("C-c m k" . 'rust-check))
-  :config
-  (defun my--init-rust-mode ()
-    (electric-pair-local-mode)))
 
 (use-package smartscan
   :defer 1
