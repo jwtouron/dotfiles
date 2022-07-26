@@ -109,18 +109,14 @@
              (fboundp 'xref-show-definitions-completing-read))
     (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
   :config
-  (advice-add-repeat-mode dumb-jump-go
-                          ("b" . dumb-jump-back))
-  (advice-add-repeat-mode dumb-jump-go-other-window
-                          ("b" . dumb-jump-back))
-  (advice-add-repeat-mode dumb-jump-go-prefer-external
-                          ("b" . dumb-jump-back))
-  (advice-add-repeat-mode dumb-jump-go-prefer-external-other-window
-                          ("b" . dumb-jump-back))
-  (advice-add-repeat-mode dumb-jump-go-prompt
-                          ("b" . dumb-jump-back))
-  (advice-add-repeat-mode dumb-jump-quick-look
-                          ("b" . dumb-jump-back)))
+  (dolist (func '(dumb-jump-go
+                  dumb-jump-go-other-window
+                  dumb-jump-go-prefer-external
+                  dumb-jump-go-prefer-external-other-window
+                  dumb-jump-go-prompt
+                  dumb-jump-quick-look))
+    (advice-add-repeat-mode func
+                            '("b" . dumb-jump-back))))
 
 (use-package eglot)
 
@@ -149,19 +145,17 @@
     (local-set-key (kbd "C-c f n") 'flymake-goto-next-error)
     (local-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
     (local-set-key (kbd "C-c f d") 'flymake-show-buffer-diagnostics))
-  (advice-add-repeat-mode flymake-goto-next-error
-                          ("n" . flymake-goto-next-error)
-                          ("p" . flymake-goto-prev-error))
-  (advice-add-repeat-mode flymake-goto-prev-error
-                          ("n" . flymake-goto-next-error)
-                          ("p" . flymake-goto-prev-error)))
+  (advice-add-repeat-mode 'flymake-goto-next-error
+                          '("n" . flymake-goto-next-error)
+                          '("p" . flymake-goto-prev-error))
+  (advice-add-repeat-mode 'flymake-goto-prev-error
+                          '("n" . flymake-goto-next-error)
+                          '("p" . flymake-goto-prev-error)))
 
 (use-package gcmh
   :defer 1
   :diminish 'gcmh-mode
   :config (gcmh-mode 1))
-
-(use-package hydra)
 
 (use-package helpful
   :bind (("C-h k" . helpful-key)
@@ -193,40 +187,11 @@
 (use-package magit)
 
 (use-package multiple-cursors
-  :bind (("C-S-m C-S-m" . hydra-multiple-cursors/body)
-         ("C-S-c C-S-c" . mc/edit-lines)
+  :custom ((mc/always-run-for-all t))
+  :bind (("C-S-c C-S-c" . mc/edit-lines)
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
-         ("C-S-c C-<" . mc/mark-all-in-region-regexp)
-         ;;("C-c m" . hydra-multiple-cursors/body) ;; overridden by consult keybinding
-         )
-  :config
-  (setq mc/always-run-for-all t)
-  (defhydra hydra-multiple-cursors (:hint nil)
-    "
- Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
-------------------------------------------------------------------
- [_p_]   Next     [_n_]   Next     [_l_] Edit lines  [_0_] Insert numbers
- [_P_]   Skip     [_N_]   Skip     [_a_] Mark all    [_A_] Insert letters
- [_M-p_] Unmark   [_M-n_] Unmark   [_s_] Search      [_q_] Quit
- [_|_] Align with input CHAR       [Click] Cursor at point"
-    ("l" mc/edit-lines :exit t)
-    ("a" mc/mark-all-like-this :exit t)
-    ("n" mc/mark-next-like-this)
-    ("N" mc/skip-to-next-like-this)
-    ("M-n" mc/unmark-next-like-this)
-    ("p" mc/mark-previous-like-this)
-    ("P" mc/skip-to-previous-like-this)
-    ("M-p" mc/unmark-previous-like-this)
-    ("|" mc/vertical-align)
-    ("s" mc/mark-all-in-region-regexp :exit t)
-    ("0" mc/insert-numbers :exit t)
-    ("A" mc/insert-letters :exit t)
-    ("<mouse-1>" mc/add-cursor-on-click)
-    ;; Help with click recognition in this hydra
-    ("<down-mouse-1>" ignore)
-    ("<drag-mouse-1>" ignore)
-    ("q" nil)))
+         ("C-c C-<" . mc/mark-all-like-this-dwim)))
 
 (use-package org-modern
   :hook ((org-mode . org-modern-mode)
@@ -283,7 +248,7 @@
 
 (use-package wgrep
   :config
-  (defun my-wgrep-help ()
+  (defun my-wgrep-cheatsheet ()
     (interactive)
     (with-help-window (help-buffer)
       (princ "wgrep:
