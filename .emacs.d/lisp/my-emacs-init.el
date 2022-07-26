@@ -123,12 +123,12 @@
 
 ;; Non-pressing initialization
 
-(flet ((fn ()
-           (global-so-long-mode 1)
-           (recentf-mode 1)
-           (savehist-mode 1)
-           (when (fbound-p 'repeat-mode)
-             (repeat-mode 1))))
+(let ((fn (lambda ()
+            (global-so-long-mode 1)
+            (recentf-mode 1)
+            (savehist-mode 1)
+            (when (fboundp 'repeat-mode)
+              (repeat-mode 1)))))
   (add-hook 'after-init-hook
             (lambda ()
               (run-with-idle-timer 1 nil fn))))
