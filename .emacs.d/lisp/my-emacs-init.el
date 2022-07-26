@@ -23,30 +23,6 @@
 (require 'dired+)
 (diredp-toggle-find-file-reuse-dir 1)
 
-;; flymake
-
-(add-hook 'flymake-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c f n") 'flymake-goto-next-error)
-            (local-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
-            (local-set-key (kbd "C-c f d") 'flymake-show-buffer-diagnostics)))
-
-(advice-add 'flymake-goto-next-error :after
-            (defun flymake-goto-next-error-repeated (&rest _)
-              (set-transient-map
-               (let ((map (make-sparse-keymap)))
-                 (define-key map (kbd "n") 'flymake-goto-next-error)
-                 (define-key map (kbd "p") 'flymake-goto-prev-error)
-                 map))))
-
-(advice-add 'flymake-goto-prev-error :after
-            (defun flymake-goto-prev-error-repeated (&rest _)
-              (set-transient-map
-               (let ((map (make-sparse-keymap)))
-                 (define-key map (kbd "n") 'flymake-goto-next-error)
-                 (define-key map (kbd "p") 'flymake-goto-prev-error)
-                 map))))
-
 ;; grep
 
 (with-eval-after-load "grep"

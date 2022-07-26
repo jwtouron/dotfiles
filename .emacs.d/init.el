@@ -142,11 +142,27 @@
     ("-" er/contract-region "er/contract-region")
     ("C--" er/contract-region "er/contract-region")))
 
-(use-package flycheck)
-
-(use-package flycheck-pos-tip
-  :hook (flycheck-mode . flycheck-pos-tip-mode)
-  :custom (flycheck-pos-tip-timeout 0))
+(use-package flymake
+  :ensure nil
+  :hook ((flymake-mode . (lambda ()
+                           (local-set-key (kbd "C-c f n") 'flymake-goto-next-error)
+                           (local-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
+                           (local-set-key (kbd "C-c f d") 'flymake-show-buffer-diagnostics))))
+  :config
+  (advice-add 'flymake-goto-next-error :after
+              (defun flymake-goto-next-error-repeated (&rest _)
+                (set-transient-map
+                 (let ((map (make-sparse-keymap)))
+                   (define-key map (kbd "n") 'flymake-goto-next-error)
+                   (define-key map (kbd "p") 'flymake-goto-prev-error)
+                   map))))
+  (advice-add 'flymake-goto-prev-error :after
+              (defun flymake-goto-prev-error-repeated (&rest _)
+                (set-transient-map
+                 (let ((map (make-sparse-keymap)))
+                   (define-key map (kbd "n") 'flymake-goto-next-error)
+                   (define-key map (kbd "p") 'flymake-goto-prev-error)
+                   map)))))
 
 (use-package gcmh
   :defer 1
@@ -303,8 +319,7 @@
          ("C-c m k" . 'rust-check))
   :config
   (defun my--init-rust-mode ()
-    (electric-pair-local-mode)
-    (flycheck-mode)))
+    (electric-pair-local-mode)))
 
 (use-package smartscan
   :defer 1

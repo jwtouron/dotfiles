@@ -34,14 +34,12 @@
 ;; go
 
 (use-package go-mode
-  :hook ((go-mode . flycheck-mode)
-         (go-mode . electric-pair-local-mode)))
+  :hook ((go-mode . electric-pair-local-mode)))
 
 ;; haskell
 
 (use-package haskell-mode
   :hook ((haskell-mode . electric-pair-local-mode)
-         (haskell-mode . flycheck-mode)
          (haskell-mode . interactive-haskell-mode)
          (haskell-mode . my-haskell-minor-mode))
   :custom ((haskell-process-use-presentation-mode t))
@@ -115,7 +113,6 @@
   :init
   (defun my--init-nim-mode ()
     (nimsuggest-mode 1)
-    (flycheck-mode 1)
     (electric-pair-local-mode 1))
   (add-hook 'nim-mode-hook 'my--init-nim-mode))
 
