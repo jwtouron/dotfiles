@@ -271,4 +271,4 @@ You can edit the text in the grep buffer after typing C-c C-p . After that the c
 
 (require 'my-language-init)
 (require 'my-init-fun)
-(require 'my-theme-init)
+(require 'my-init-theme)

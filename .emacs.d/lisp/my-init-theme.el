@@ -1,3 +1,23 @@
+(defmacro use-package-theme (&rest forms)
+  (let ((enabled (cl-find ':enabled forms :test 'equal))
+        (forms (cl-remove :enabled forms :test 'equal)))
+    )
+  ;;   `(cdr (quote ,forms))
+  ;; `(let* ((enabled (cl-find ':enabled forms :test 'equal))
+  ;;         (forms2 (cl-remove ':enabled forms :test 'equal)))
+  ;;    (use-package ,(car ,forms2))
+  ;;    ;; `(use-package (car ,forms2)
+  ;;    ;;   ,@(cdr forms2)
+  ;;    ;;   (when (not enabled)
+  ;;    ;;     ,@(cons ':if nil))
+  ;;    ;;   )
+  ;;    )
+  )
+(use-package-theme arjen-grey-theme
+                   :enabled
+                   :init (load-theme 'arjen-grey t)
+                   :config (set-face-background hl-line-face "#2f4f4f"))
+
 (use-package arjen-grey-theme
   :if nil
   :init (load-theme 'arjen-grey t)
@@ -66,4 +86,4 @@
 (custom-set-faces
  '(show-paren-match ((t (:underline t :foreground nil :background nil)))))
 
-(provide 'my-theme-init)
+(provide 'my-init-theme)
