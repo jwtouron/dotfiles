@@ -39,8 +39,19 @@
          ("M-s m" . consult-multi-occur)
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
+         ("C-c s d" . consult-find)
+         ("C-c s D" . consult-locate)
+         ("C-c s g" . consult-grep)
+         ("C-c s G" . consult-git-grep)
+         ("C-c s r" . consult-ripgrep)
+         ("C-c s l" . consult-line)
+         ("C-c s L" . consult-line-multi)
+         ("C-c s m" . consult-multi-occur)
+         ("C-c s k" . consult-keep-lines)
+         ("C-c s u" . consult-focus-lines)
          ;; Isearch integration
          ("M-s e" . consult-isearch-history)
+         ("C-c s e" . consult-isearch-history)
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
