@@ -24,13 +24,13 @@
 (require 'my-defcustoms)
 (require 'my-emacs-init)
 ;; (require 'my-keybindings)
-;; (require 'my-init-cemov)
+(require 'my-init-cemov)
 
 (use-package ace-window
   :bind ("C-x o" . 'ace-window))
 
 (use-package avy
-  :bind ("C-;" . 'avy-goto-char-timer))
+  :bind ("C-c j" . 'avy-goto-char-timer))
 
 (use-package calfw
   :commands (cfw:open-calendar-buffer))
@@ -71,8 +71,8 @@
               ("M-n" . corfu-doc-scroll-up)
               ("M-d" . corfu-doc-toggle)))
 
-(use-package counsel
-  :init (counsel-mode))
+;; (use-package counsel
+;;   :init (counsel-mode))
 
 (use-package crux
   :bind (("C-a" . crux-move-beginning-of-line)
@@ -162,19 +162,19 @@
          ("C-h F" . helpful-function)
          ("C-h C" . helpful-command)))
 
-(use-package ivy
-  :init (ivy-mode)
-  :config
-  (setq ivy-use-virtual-buffers t
-        enable-recursive-minibuffers t)
-  (defun my-ivy-help ()
-    (interactive)
-    (with-help-window (help-buffer)
-      (princ "C-c C-o ivy-occur"))))
+;; (use-package ivy
+;;   :init (ivy-mode)
+;;   :config
+;;   (setq ivy-use-virtual-buffers t
+;;         enable-recursive-minibuffers t)
+;;   (defun my-ivy-help ()
+;;     (interactive)
+;;     (with-help-window (help-buffer)
+;;       (princ "C-c C-o ivy-occur"))))
 
-(use-package ivy-prescient
-  :after counsel
-  :init (ivy-prescient-mode))
+;; (use-package ivy-prescient
+;;   :after counsel
+;;   :init (ivy-prescient-mode))
 
 ;; (use-package lsp-mode
 ;;   :custom ((lsp-enable-snippet nil)
