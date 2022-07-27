@@ -220,6 +220,33 @@
 
 (use-package prescient)
 
+(use-package project
+  :ensure nil
+  :config
+  (defun my-project-try-dotproject (dir)
+    (when-let ((dir (locate-dominating-file dir ".project")))
+      (cons 'dotproject dir)))
+
+  (add-hook 'project-find-functions #'my-project-try-dotproject)
+
+  (cl-defmethod project-root ((project (head dotproject)))
+    (cdr project))
+
+  (cl-defmethod project-files ((project (head dotproject)) &optional dirs)
+    (cl-labels ((expand-dir (dir) (file-name-unquote (file-local-name (expand-file-name dir)))))
+      (let* ((dirs (mapcar #'expand-dir
+                           (or dirs
+                               (list (project-root project)))))
+             (dirs-string (string-join dirs " "))
+             (command (if (executable-find "rg")
+                          (format "rg --color=never -0 -l '' %s" dirs-string)
+                        (format "grep --color=never -Z -l -I -r '' %s" dirs-string))))
+        (with-temp-buffer
+          (let ((status (process-file-shell-command command nil t)))
+            (unless (zerop status)
+              (error "File listing failed: %s" (buffer-string)))
+            (split-string (buffer-string) "\0")))))))
+
 (use-package projectile
   :commands (projectile-project-root)
   :custom ((projectile-indexing-method 'alien))
