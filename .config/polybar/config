@@ -356,6 +356,7 @@ exec = ~/.config/polybar/updates.sh
 interval = 21600  # 6 hours
 click-left = ~/.config/polybar/updates.sh click-left
 click-right = ~/.config/polybar/updates.sh click-right
+exec-if = command -v checkupdates || command -v apt || command -v dnf
 
 format-background = ${colors.background-lighter}
 format-foreground = ${colors.updates}

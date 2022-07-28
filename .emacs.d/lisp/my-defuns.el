@@ -4,7 +4,7 @@
 (defun my-set-font ()
   "Interactively set the font"
   (interactive)
-  (let ((font-name (ivy-read "Font name: " (sort (delete-dups (font-family-list)) 'string-lessp)))
+  (let ((font-name (completing-read "Font name: " (sort (delete-dups (font-family-list)) 'string-lessp)))
         (font-size (read-string "Font size: ")))
     (customize-save-variable 'my-font `(,font-name . ,(string-to-number font-size)))))
 
