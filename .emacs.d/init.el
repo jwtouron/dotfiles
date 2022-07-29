@@ -164,8 +164,8 @@
   (when (executable-find "rg")
     (grep-apply-setting 'grep-command "rg --color=auto -nH --null -e ")
     (grep-apply-setting 'grep-template "rg --null -nH --no-heading --no-messages -g '!*/' -e <R>")
-    (grep-apply-setting 'grep-find-command '("find . -type f -exec rg --color=auto -nH --null -e  \\{\\} +" . 52))
-    (grep-apply-setting 'grep-find-template "find -H <D> <X> -type f <F> -exec rg <C> -nH --null -e <R> \\{\\} +")))
+    (grep-apply-setting 'grep-find-command '("rg --color=auto -nH --null -e " . 31))
+    (grep-apply-setting 'grep-find-template "rg <C> -nH --null -e <R> <D>")))
 
 (use-package helpful
   :bind (("C-h k" . helpful-key)
