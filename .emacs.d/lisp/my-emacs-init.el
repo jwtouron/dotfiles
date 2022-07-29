@@ -23,14 +23,6 @@
 (require 'dired+)
 (diredp-toggle-find-file-reuse-dir 1)
 
-;; grep
-
-(with-eval-after-load "grep"
-  (when (executable-find "rg")
-    (grep-apply-setting 'grep-command "rg -n --no-heading -. -e ")
-    (grep-apply-setting 'grep-find-command '("find . -type f -exec rg -n --no-heading -e '' \\{\\} +" . 45))))
-(global-set-key (kbd "C-c g") 'my-grep)
-
 ;; org
 
 (customize-set-variable 'org-agenda-files '("~/Documents/org/agenda.org"))

@@ -157,6 +157,16 @@
   :diminish 'gcmh-mode
   :config (gcmh-mode 1))
 
+(use-package grep
+  :ensure nil
+  :bind ("C-c g" . my-grep)
+  :config
+  (when (executable-find "rg")
+    (grep-apply-setting 'grep-command "rg --color=auto -nH --null -e ")
+    (grep-apply-setting 'grep-template "rg --null -nH --no-heading --no-messages -g '!*/' -e <R>")
+    (grep-apply-setting 'grep-find-command '("find . -type f -exec rg --color=auto -nH --null -e  \\{\\} +" . 52))
+    (grep-apply-setting 'grep-find-template "find -H <D> <X> -type f <F> -exec rg <C> -nH --null -e <R> \\{\\} +")))
+
 (use-package helpful
   :bind (("C-h k" . helpful-key)
          ("C-h F" . helpful-function)
@@ -200,7 +210,6 @@
 (use-package paredit)
 
 (use-package popper
-  :if nil
   :bind (("C-`"   . popper-toggle-latest)
          ("M-`"   . popper-cycle)
          ("C-M-`" . popper-toggle-type))
@@ -213,10 +222,6 @@
           compilation-mode))
   (popper-mode +1)
   (popper-echo-mode +1))
-
-(use-package popwin
-  :defer 1
-  :init (popwin-mode 1))
 
 (use-package prescient)
 
@@ -295,6 +300,12 @@ You can edit the text in the grep buffer after typing C-c C-p . After that the c
   :defer 1
   :diminish 'which-key-mode
   :init (which-key-mode))
+
+(use-package xref
+  :ensure nil
+  :config
+  (when (executable-find "rg")
+    (setq xref-search-program #'ripgrep)))
 
 (require 'my-language-init)
 (require 'my-init-fun)
