@@ -203,9 +203,10 @@
          ("C-<" . mc/mark-previous-like-this)
          ("C-c C-<" . mc/mark-all-like-this-dwim)))
 
-(use-package org-modern
-  :hook ((org-mode . org-modern-mode)
-         (org-agenda-finalize . org-modern-agenda)))
+(use-package org
+  :ensure nil
+  :config
+  (org-babel-do-load-languages 'org-babel-load-languages '((shell . t))))
 
 (use-package paredit)
 
