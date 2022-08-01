@@ -57,6 +57,7 @@ fi
 source ~/.config/fzf/completion.zsh
 source ~/.config/fzf/key-bindings.zsh
 source ~/.config/fzf/functions.sh
+source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
 
 # Must be last line in config
 source $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
