@@ -156,4 +156,4 @@
 
 (use-package yaml-mode)
 
-(provide 'my-language-init)
+(provide 'my-init-langs)

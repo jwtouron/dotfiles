@@ -211,6 +211,7 @@
 (use-package paredit)
 
 (use-package popper
+  :if nil
   :bind (("C-`"   . popper-toggle-latest)
          ("M-`"   . popper-cycle)
          ("C-M-`" . popper-toggle-type))
@@ -223,6 +224,10 @@
           compilation-mode))
   (popper-mode +1)
   (popper-echo-mode +1))
+
+(use-package popwin
+  :init (popwin-mode 1)
+  :config (global-set-key (kbd "C-z") popwin:keymap))
 
 (use-package prescient)
 
@@ -308,6 +313,6 @@ You can edit the text in the grep buffer after typing C-c C-p . After that the c
   (when (executable-find "rg")
     (setq xref-search-program #'ripgrep)))
 
-(require 'my-language-init)
+(require 'my-init-langs)
 (require 'my-init-fun)
 (require 'my-init-theme)
