@@ -77,12 +77,12 @@ xanadu = #738678
 
 [atom-one-dark]
 
-background-darker     = #181A1F
-background-lighter    = #282C34
+background-darker     = #282C34
+background-lighter    = #4b5263
 workspace-active-fg   = #E5C07B
 workspace-active-bg   = ${atom-one-dark.background-lighter}
 workspace-occupied-fg = #61AFEF
-workspace-empty-fg    = #9DA5B4
+workspace-empty-fg    = #ABB2BF
 urgent                = #E06C75
 pulseaudio            = #56B6C2
 cpu                   = #C678DD
