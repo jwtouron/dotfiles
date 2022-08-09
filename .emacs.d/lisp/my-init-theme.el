@@ -10,7 +10,7 @@
                   themes))))
 (put 'use-themes 'lisp-indent-function 1)
 
-(use-themes spaceway-theme
+(use-themes doom-themes
   (arjen-grey-theme
    :init (load-theme 'arjen-grey t)
    :config (set-face-background hl-line-face "#2f4f4f"))
@@ -20,6 +20,9 @@
 
   (color-theme-sanityinc-tomorrow
    :init (load-theme 'sanityinc-tomorrow-night t))
+
+  (doom-themes
+   :init (load-theme 'doom-one t))
 
   (gruber-darker-theme
    :init (load-theme 'gruber-darker t))
