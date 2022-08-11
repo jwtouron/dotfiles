@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
+(require 'project)
+
 ;;;###autoload
 (defun my-set-font ()
   "Interactively set the font"
