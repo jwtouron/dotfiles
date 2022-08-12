@@ -78,7 +78,7 @@ xanadu = #738678
 [atom-one-dark]
 
 background-darker     = #282C34
-background-lighter    = #3C424E
+background-lighter    = #383D48
 workspace-active-fg   = #E5C07B
 workspace-active-bg   = ${atom-one-dark.background-lighter}
 workspace-occupied-fg = #61AFEF
