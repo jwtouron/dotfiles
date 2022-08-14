@@ -36,6 +36,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Colorschemes
 Plug 'chriskempson/base16-vim'
 Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
+Plug 'sainnhe/everforest'
 Plug 'tomasiser/vim-code-dark'
 " Languages
 " Clojure
@@ -218,6 +219,7 @@ if exists('+termguicolors') && ($TERM =~# "-256color$")
   set termguicolors
 endif
 
-colorscheme codedark
+let g:everforest_background = 'hard'
+colorscheme everforest
 
 highlight Normal guibg=NONE ctermbg=NONE
