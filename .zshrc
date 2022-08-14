@@ -1,63 +1,105 @@
-HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
-setopt hist_ignore_dups share_history
+# Personal Zsh configuration file. It is strongly recommended to keep all
+# shell customization and configuration (including exported environment
+# variables such as PATH) in this file or in files sourced from it.
+#
+# Documentation: https://github.com/romkatv/zsh4humans/blob/v5/README.md.
 
-setopt autocd extendedglob nomatch notify completealiases
-unsetopt beep
-bindkey -e
+# Periodic auto-update on Zsh startup: 'ask' or 'no'.
+# You can manually run `z4h update` to update everything.
+zstyle ':z4h:' auto-update      'no'
+# Ask whether to auto-update this often; has no effect if auto-update is 'no'.
+zstyle ':z4h:' auto-update-days '28'
 
-#zstyle :compinstall filename "$HOME.zshrc"
+# Keyboard type: 'mac' or 'pc'.
+zstyle ':z4h:bindkey' keyboard  'pc'
 
-autoload -Uz colors && colors
-#autoload -Uz select-word-style && select-word-style bash
+# Don't start tmux.
+zstyle ':z4h:' start-tmux       no
 
-autoload -Uz compinit && compinit
-zstyle ':completion:*' menu select
-_comp_options+=(globdots)
+# Mark up shell's output with semantic information.
+zstyle ':z4h:' term-shell-integration 'yes'
 
-export EDITOR='vim'
+# Right-arrow key accepts one character ('partial-accept') from
+# command autosuggestions or the whole thing ('accept')?
+zstyle ':z4h:autosuggestions' forward-char 'accept'
 
-source $HOME/.config/zsh/git.zsh
-source $HOME/.config/zsh/termsupport.zsh
+# Recursively traverse directories when TAB-completing files.
+zstyle ':z4h:fzf-complete' recurse-dirs 'no'
 
-setopt promptsubst
-autoload -Uz promptinit && promptinit
+# Enable direnv to automatically source .envrc files.
+zstyle ':z4h:direnv'         enable 'no'
+# Show "loading" and "unloading" notifications from direnv.
+zstyle ':z4h:direnv:success' notify 'yes'
 
-source $HOME/.config/zsh/bira-theme.zsh
+# Enable ('yes') or disable ('no') automatic teleportation of z4h over
+# SSH when connecting to these hosts.
+zstyle ':z4h:ssh:example-hostname1'   enable 'yes'
+zstyle ':z4h:ssh:*.example-hostname2' enable 'no'
+# The default value if none of the overrides above match the hostname.
+zstyle ':z4h:ssh:*'                   enable 'no'
 
-alias wl='wc -l'
+# Send these files over to the remote host when connecting over SSH to the
+# enabled hosts.
+zstyle ':z4h:ssh:*' send-extra-files '~/.nanorc' '~/.env.zsh'
 
-alias ls='ls --color=auto'
-alias ll='ls -lavF'   # show long listing of all except ".."
-alias la='ls -AF'
-alias l='ls -lavF'   # show long listing but no hidden dotfiles except "."
-alias lt='ls -lAFt'
-alias ltr='ls -lAFtr'
+# Clone additional Git repositories from GitHub.
+#
+# This doesn't do anything apart from cloning the repository and keeping it
+# up-to-date. Cloned files can be used after `z4h init`. This is just an
+# example. If you don't plan to use Oh My Zsh, delete this line.
+z4h install ohmyzsh/ohmyzsh || return
 
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+# Install or update core components (fzf, zsh-autosuggestions, etc.) and
+# initialize Zsh. After this point console I/O is unavailable until Zsh
+# is fully initialized. Everything that requires user interaction or can
+# perform network I/O must be done above. Everything else is best done below.
+z4h init || return
 
+# Extend PATH.
+path=(~/bin $path)
+
+# Export environment variables.
+export GPG_TTY=$TTY
+
+# Source additional local files if they exist.
+z4h source ~/.env.zsh
+
+# Use additional Git repositories pulled in with `z4h install`.
+#
+# This is just an example that you should delete. It does nothing useful.
+z4h source ohmyzsh/ohmyzsh/lib/diagnostics.zsh  # source an individual file
+z4h load   ohmyzsh/ohmyzsh/plugins/emoji-clock  # load a plugin
+
+# Define key bindings.
+z4h bindkey z4h-backward-kill-word  Ctrl+Backspace     Ctrl+H
+z4h bindkey z4h-backward-kill-zword Ctrl+Alt+Backspace
+
+z4h bindkey undo Ctrl+/ Shift+Tab  # undo the last command line change
+z4h bindkey redo Alt+/             # redo the last undone command line change
+
+z4h bindkey z4h-cd-back    Alt+Left   # cd into the previous directory
+z4h bindkey z4h-cd-forward Alt+Right  # cd into the next directory
+z4h bindkey z4h-cd-up      Alt+Up     # cd into the parent directory
+z4h bindkey z4h-cd-down    Alt+Down   # cd into a child directory
+
+# Autoload functions.
+autoload -Uz zmv
+
+# Define functions and completions.
+function md() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd -- "$1" }
+compdef _directories md
+
+# Define named directories: ~w <=> Windows home directory on WSL.
+[[ -z $z4h_win_home ]] || hash -d w=$z4h_win_home
+
+# Define aliases.
+alias tree='tree -a -I .git'
 alias config='/usr/bin/git --git-dir=$HOME/.config/.dotfiles/ --work-tree=$HOME'
 alias config-sync='GIT_DIR=$HOME/.config/.dotfiles GIT_WORK_TREE=$HOME git-sync'
-command -v fdfind > /dev/null && alias fd='fdfind'
-command -v batcat >/dev/null && alias bat='batcat'
 
-if command -v fdfind >/dev/null; then
-    export FZF_DEFAULT_COMMAND="fdfind -H -t f -E '.git/'"
-elif type fd >/dev/null; then
-    export FZF_DEFAULT_COMMAND="fd -H -t f -E '.git/'"
-elif type rg >/dev/null; then
-    export FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/*'"
-fi
+# Add flags to existing aliases.
+alias ls="${aliases[ls]:-ls} -A"
 
-# FZF
-
-source ~/.config/fzf/completion.zsh
-source ~/.config/fzf/key-bindings.zsh
-source ~/.config/fzf/functions.sh
-source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
-
-# Must be last line in config
-source $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
+setopt glob_dots     # no special treatment for file names with a leading dot
+setopt no_auto_menu  # require an extra TAB press to open the completion menu
