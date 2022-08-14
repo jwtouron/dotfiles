@@ -23,6 +23,10 @@ polar-night2 = #3B4252
 polar-night3 = #434C5E
 polar-night4 = #4C566A
 
+snow-storm1 = #D8DEE9
+snow-storm2 = #E5E9F0
+snow-storm3 = #ECEFF4
+
 frost1 = #8FBCBB
 frost2 = #88C0D0
 frost3 = #81A1C1
@@ -33,6 +37,20 @@ aurora2 = #D08770
 aurora3 = #EBCB8B
 aurora4 = #A3BE8C
 aurora5 = #B48EAD
+
+background-darker     = ${nord.polar-night1}
+background-lighter    = ${nord.polar-night2}
+workspace-active-fg   = ${nord.aurora3}
+workspace-active-bg   = ${nord.polar-night2}
+workspace-occupied-fg = ${nord.frost2}
+workspace-empty-fg    = ${nord.snow-storm1}
+urgent                = ${nord.aurora1}
+pulseaudio            = ${nord.aurora2}
+cpu                   = ${nord.aurora5}
+memory                = ${nord.aurora5}
+updates               = ${nord.aurora5}
+weather               = ${nord.frost2}
+date                  = ${nord.aurora4}
 
 [tomorrow-night]
 
@@ -93,19 +111,19 @@ date                  = #98C379
 
 [colors]
 
-background-darker     = ${atom-one-dark.background-darker}
-background-lighter    = ${atom-one-dark.background-lighter}
-workspace-active-fg   = ${atom-one-dark.workspace-active-fg}
-workspace-active-bg   = ${atom-one-dark.workspace-active-bg}
-workspace-occupied-fg = ${atom-one-dark.workspace-occupied-fg}
-workspace-empty-fg    = ${atom-one-dark.workspace-empty-fg}
-urgent                = ${atom-one-dark.urgen}
-pulseaudio            = ${atom-one-dark.pulseaudio}
-cpu                   = ${atom-one-dark.cpu}
-memory                = ${atom-one-dark.memory}
-updates               = ${atom-one-dark.updates}
-weather               = ${atom-one-dark.weather}
-date                  = ${atom-one-dark.date}
+background-darker     = ${nord.background-darker}
+background-lighter    = ${nord.background-lighter}
+workspace-active-fg   = ${nord.workspace-active-fg}
+workspace-active-bg   = ${nord.workspace-active-bg}
+workspace-occupied-fg = ${nord.workspace-occupied-fg}
+workspace-empty-fg    = ${nord.workspace-empty-fg}
+urgent                = ${nord.urgen}
+pulseaudio            = ${nord.pulseaudio}
+cpu                   = ${nord.cpu}
+memory                = ${nord.memory}
+updates               = ${nord.updates}
+weather               = ${nord.weather}
+date                  = ${nord.date}
 
 [bar/i3]
 monitor = ${env:MONITOR}
