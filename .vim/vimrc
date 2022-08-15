@@ -72,8 +72,8 @@ let g:any_jump_search_prefered_engine = 'ag'
 " coc
 " coc-clangd
 " coc-pyright
-let g:coc_start_at_startup = 0
-command! MyCocStart call my_coc#Start()
+" let g:coc_start_at_startup = 0
+" command! MyCocStart call my_coc#Start()
 
 " cool
 

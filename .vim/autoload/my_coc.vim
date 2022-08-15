@@ -1,18 +1,17 @@
 function! my_coc#Setup() abort
-  setlocal encoding=utf-8
-  setlocal hidden
   setlocal nobackup
   setlocal nowritebackup
-  setlocal cmdheight=2
   setlocal updatetime=300
-  setlocal shortmess+=c
   setlocal signcolumn=number
 
   inoremap <buffer> <silent> <expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
+        \ coc#pum#visible() ? coc#pum#next(1):
         \ <SID>check_back_space() ? "\<TAB>" :
         \ coc#refresh()
-  inoremap <buffer> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  inoremap <buffer> <expr> <S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+  inoremap <buffer> <silent> <expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                                \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
   function! s:check_back_space() abort
     let col = col('.') - 1
@@ -30,18 +29,27 @@ function! my_coc#Setup() abort
   nnoremap <buffer> <silent> K :call <SID>coc_show_documentation()<CR>
 
   function! s:coc_show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    elseif (coc#rpc#ready())
+    if CocAction('hasProvider', 'hover')
       call CocActionAsync('doHover')
     else
-      execute '!' . &keywordprg . " " . expand('<cword>')
+      call feedkeys('K', 'in')
     endif
   endfunction
 
-  nmap <buffer> <localleader>n <Plug>(coc-rename)
-  xmap <buffer> <localleader>a <Plug>(coc-codeaction-selected)
-  nmap <buffer> <localleader>a <Plug>(coc-codeaction-selected)
+  nmap <buffer> <localleader>rn <Plug>(coc-rename)
+
+  augroup mygroup
+    autocmd!
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  augroup end
+
+  xmap <buffer> <localleader>a  <Plug>(coc-codeaction-selected)
+  nmap <buffer> <localleader>a  <Plug>(coc-codeaction-selected)
+
+  nmap <buffer> <localleader>ac  <Plug>(coc-codeaction)
+  nmap <buffer> <localleader>qf  <Plug>(coc-fix-current)
+
+  nmap <localleader>cl  <Plug>(coc-codelens-action)
 
   xmap <buffer> if <Plug>(coc-funcobj-i)
   omap <buffer> if <Plug>(coc-funcobj-i)

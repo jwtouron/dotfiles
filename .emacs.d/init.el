@@ -129,7 +129,6 @@
               ("https://reddit.com/r/clojure/.rss" clojure)
               ("https://clojure.org/feed.xml" clojure)
               ("https://reddit.com/r/haskell/.rss" haskell)
-              ("https://reddit.com/r/neovim/.rss" neovim)
               ("https://reddit.com/r/vim/.rss" vim)
               ("https://reddit.com/r/emacs/.rss" emacs)))
            (elfeed-search-filter "@2-days-ago +unread")))

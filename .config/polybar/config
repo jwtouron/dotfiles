@@ -16,114 +16,23 @@
 ;
 ;==========================================================
 
-[nord]
-
-polar-night1 = #2E3440
-polar-night2 = #3B4252
-polar-night3 = #434C5E
-polar-night4 = #4C566A
-
-snow-storm1 = #D8DEE9
-snow-storm2 = #E5E9F0
-snow-storm3 = #ECEFF4
-
-frost1 = #8FBCBB
-frost2 = #88C0D0
-frost3 = #81A1C1
-frost4 = #5E81AC
-
-aurora1 = #BF616A
-aurora2 = #D08770
-aurora3 = #EBCB8B
-aurora4 = #A3BE8C
-aurora5 = #B48EAD
-
-background-darker     = ${nord.polar-night1}
-background-lighter    = ${nord.polar-night2}
-workspace-active-fg   = ${nord.aurora3}
-workspace-active-bg   = ${nord.polar-night2}
-workspace-occupied-fg = ${nord.frost2}
-workspace-empty-fg    = ${nord.snow-storm1}
-urgent                = ${nord.aurora1}
-pulseaudio            = ${nord.aurora2}
-cpu                   = ${nord.aurora5}
-memory                = ${nord.aurora5}
-updates               = ${nord.aurora5}
-weather               = ${nord.frost2}
-date                  = ${nord.aurora4}
-
-[tomorrow-night]
-
-background = #1d1f21
-current-line = #282a2e
-selection = #373b41
-foreground = #c5c8c6
-comment = #969896
-red = #cc6666
-orange = #de935f
-yellow = #f0c674
-green = #b5bd68
-aqua = #8abeb7
-blue = #81a2be
-purple = #b294bb
-
-[tron-legacy]
-
-fg0 = #90ACBC
-fg1 = #B0CCDC
-fg2 = #BBCCDD
-fg3 = #BBF0EF
-fg4 = #CBECFF
-bg0 = #000000
-bg1 = #17181b
-bg2 = #192533
-bg3 = #1B324B
-bg4 = #2B4255
-hl-line = #0E2638
-str = #387AAA
-
-[grayscale]
-
-1 = #000000
-2 = #333333
-3 = #666666
-4 = #999999
-5 = #cccccc
-6 = #ffffff
-slategray = #708090
-xanadu = #738678
-
-[atom-one-dark]
-
-background-darker     = #282C34
-background-lighter    = #383D48
-workspace-active-fg   = #E5C07B
-workspace-active-bg   = ${atom-one-dark.background-lighter}
-workspace-occupied-fg = #61AFEF
-workspace-empty-fg    = #ABB2BF
-urgent                = #E06C75
-pulseaudio            = #56B6C2
-cpu                   = #C678DD
-memory                = #C678DD
-updates               = #C678DD
-weather               = #61AFEF
-date                  = #98C379
+include-file = ~/.config/polybar/everforest-theme
 
 [colors]
 
-background-darker     = ${nord.background-darker}
-background-lighter    = ${nord.background-lighter}
-workspace-active-fg   = ${nord.workspace-active-fg}
-workspace-active-bg   = ${nord.workspace-active-bg}
-workspace-occupied-fg = ${nord.workspace-occupied-fg}
-workspace-empty-fg    = ${nord.workspace-empty-fg}
-urgent                = ${nord.urgen}
-pulseaudio            = ${nord.pulseaudio}
-cpu                   = ${nord.cpu}
-memory                = ${nord.memory}
-updates               = ${nord.updates}
-weather               = ${nord.weather}
-date                  = ${nord.date}
+background-darker     = ${everforest.background-darker}
+background-lighter    = ${everforest.background-lighter}
+workspace-active-fg   = ${everforest.workspace-active-fg}
+workspace-active-bg   = ${everforest.workspace-active-bg}
+workspace-occupied-fg = ${everforest.workspace-occupied-fg}
+workspace-empty-fg    = ${everforest.workspace-empty-fg}
+urgent                = ${everforest.urgen}
+pulseaudio            = ${everforest.pulseaudio}
+cpu                   = ${everforest.cpu}
+memory                = ${everforest.memory}
+updates               = ${everforest.updates}
+weather               = ${everforest.weather}
+date                  = ${everforest.date}
 
 [bar/i3]
 monitor = ${env:MONITOR}

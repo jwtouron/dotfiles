@@ -10,7 +10,7 @@
                   themes))))
 (put 'use-themes 'lisp-indent-function 1)
 
-(use-themes doom-themes
+(use-themes everforest
   (arjen-grey-theme
    :init (load-theme 'arjen-grey t)
    :config (set-face-background hl-line-face "#2f4f4f"))
@@ -23,6 +23,12 @@
 
   (doom-themes
    :init (load-theme 'doom-one t))
+
+  (everforest
+   :ensure nil
+   :init
+   (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/everforest-theme"))
+   (load-theme 'everforest-hard-dark t))
 
   (gruber-darker-theme
    :init (load-theme 'gruber-darker t))

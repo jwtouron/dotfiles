@@ -1,0 +1,17 @@
+; -*- mode: conf -*-
+
+[atom-one-dark]
+
+background-darker     = #282C34
+background-lighter    = #383D48
+workspace-active-fg   = #E5C07B
+workspace-active-bg   = ${atom-one-dark.background-lighter}
+workspace-occupied-fg = #61AFEF
+workspace-empty-fg    = #ABB2BF
+urgent                = #E06C75
+pulseaudio            = #56B6C2
+cpu                   = #C678DD
+memory                = #C678DD
+updates               = #C678DD
+weather               = #61AFEF
+date                  = #98C379

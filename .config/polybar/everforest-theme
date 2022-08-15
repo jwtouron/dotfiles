@@ -1,0 +1,17 @@
+; -*- mode: conf -*-
+
+[everforest]
+
+background-darker     = #2b3339
+background-lighter    = #323d43
+workspace-active-fg   = #d699b6
+workspace-active-bg   = ${everforest.background-lighter}
+workspace-occupied-fg = #7fbbb3
+workspace-empty-fg    = #d3c6aa
+urgent                = #e67e80
+pulseaudio            = #83c092
+cpu                   = #d699b6
+memory                = #d699b6
+updates               = #d699b6
+weather               = #7fbbb3
+date                  = #a7c080
