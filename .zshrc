@@ -96,6 +96,7 @@ compdef _directories md
 alias tree='tree -a -I .git'
 alias config='/usr/bin/git --git-dir=$HOME/.config/.dotfiles/ --work-tree=$HOME'
 alias config-sync='GIT_DIR=$HOME/.config/.dotfiles GIT_WORK_TREE=$HOME git-sync'
+command -v fdfind > /dev/null && alias fd='fdfind'
 
 # Add flags to existing aliases.
 alias ls="${aliases[ls]:-ls} -A"
