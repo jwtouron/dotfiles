@@ -4,7 +4,7 @@
 
 background-darker     = #2b3339
 background-lighter    = #323d43
-workspace-active-fg   = #d699b6
+workspace-active-fg   = #e67e80
 workspace-active-bg   = ${everforest.background-lighter}
 workspace-occupied-fg = #7fbbb3
 workspace-empty-fg    = #d3c6aa
