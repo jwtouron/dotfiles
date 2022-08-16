@@ -132,4 +132,9 @@ is already narrowed."
                      (define-key map (kbd (car binding)) (cdr binding)))
                    map)))))
 
+;;;###autoload
+(defun my-insert-date ()
+  (interactive)
+  (insert (shell-command-to-string "date +\"%Y-%m-%d\"")))
+
 (provide 'my-defuns)
