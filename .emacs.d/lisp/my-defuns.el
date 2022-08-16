@@ -135,6 +135,6 @@ is already narrowed."
 ;;;###autoload
 (defun my-insert-date ()
   (interactive)
-  (insert (shell-command-to-string "date +\"%Y-%m-%d\"")))
+  (insert (string-trim (shell-command-to-string "date +\"%Y-%m-%d\""))))
 
 (provide 'my-defuns)
