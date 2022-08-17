@@ -28,7 +28,8 @@
    :ensure nil
    :init
    (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/everforest-theme"))
-   (load-theme 'everforest-hard-dark t))
+   (load-theme 'everforest-hard-dark t)
+   (set-face-attribute 'region nil :background "#414e54"))
 
   (gruber-darker-theme
    :init (load-theme 'gruber-darker t))
