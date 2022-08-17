@@ -29,7 +29,7 @@
    :init
    (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/everforest-theme"))
    (load-theme 'everforest-hard-dark t)
-   (set-face-attribute 'region nil :background "#3e4b51"))
+   (set-face-attribute 'region nil :background "#3a454a"))
 
   (gruber-darker-theme
    :init (load-theme 'gruber-darker t))

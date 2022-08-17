@@ -34,6 +34,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias config='/usr/bin/git --git-dir=$HOME/.config/.dotfiles/ --work-tree=$HOME'
+alias config-sync='GIT_DIR=$HOME/.config/.dotfiles GIT_WORK_TREE=$HOME git-sync'
 command -v fdfind >/dev/null && alias fd='fdfind'
 command -v batcat >/dev/null && alias bat='batcat'
 
