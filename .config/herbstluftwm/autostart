@@ -116,7 +116,7 @@ hc keybind $Mod-Shift-bracketright spawn ~/.config/herbstluftwm/volume.sh inc 1
 hc keybind $Mod-bracketleft spawn ~/.config/herbstluftwm/volume.sh dec 5
 hc keybind $Mod-Shift-bracketleft spawn ~/.config/herbstluftwm/volume.sh dec 1
 hc keybind $Mod-backslash spawn ~/.config/herbstluftwm/volume.sh mute
-hc keybind $Mod-Shift-s spawn ~/.config/herbstluftwm/scratchpad.sh
+hc keybind $Mod-Shift-s spawn ~/.config/herbstluftwm/scratchpad.sh S
 
 # theme
 hc attr theme.tiling.reset 1
