@@ -58,8 +58,7 @@
   (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/spaceway")))
 
 (use-package tao-theme
-  :custom (tao-theme-use-sepia nil)
-  :init (load-theme 'tao-yin t))
+  :custom (tao-theme-use-sepia nil))
 
 (use-package tron-legacy-theme
   :config
