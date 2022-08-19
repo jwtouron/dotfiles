@@ -10,72 +10,77 @@
                   themes))))
 (put 'use-themes 'lisp-indent-function 1)
 
-(use-themes everforest
-  (arjen-grey-theme
-   :init (load-theme 'arjen-grey t)
-   :config (set-face-background hl-line-face "#2f4f4f"))
+(defmacro advice-add-theme (theme1 &rest body)
+  `(advice-add 'load-theme
+               :after
+               (lambda (theme2 &rest _ignored)
+                 (when (eq ,theme1 theme2)
+                   ,@body))))
+(put 'advice-add-theme 'lisp-indent-function 1)
 
-  (atom-one-dark-theme
-   :init (load-theme 'atom-one-dark t))
+(use-package arjen-grey-theme
+  :init
+  (advice-add-theme 'arjen-grey
+    (set-face-background hl-line-face "#2f4f4f")))
 
-  (color-theme-sanityinc-tomorrow
-   :init (load-theme 'sanityinc-tomorrow-night t))
+(use-package atom-one-dark-theme)
 
-  (doom-themes
-   :init (load-theme 'doom-one t))
+(use-package color-theme-sanityinc-tomorrow)
 
-  (everforest
-   :ensure nil
-   :init
-   (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/everforest-theme"))
-   (load-theme 'everforest-hard-dark t)
-   (set-face-attribute 'region nil :background "#3a454a"))
+(use-package doom-themes)
 
-  (gruber-darker-theme
-   :init (load-theme 'gruber-darker t))
+(use-package ef-themes)
 
-  (minimal-theme
-   :init (load-theme 'minimal t)
-   :config
-   (progn
-     (set-face-attribute 'region nil :background "grey40")
-     (set-face-attribute 'font-lock-comment-face nil :foreground "grey32")
-     (set-face-attribute 'font-lock-comment-delimiter-face nil :foreground "grey32")))
+(use-package everforest
+  :ensure nil
+  :init
+  (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/everforest-theme"))
+  (advice-add-theme 'everforest-hard-dark
+    (set-face-attribute 'region nil :background "#3a454a")))
 
-  (modus-themes
-   :init (modus-themes-load-themes)
-   :config (modus-themes-load-vivendi))
+(use-package gruber-darker-theme)
 
-  (nord-theme
-   :init (load-theme 'nord t))
+(use-package minimal-theme
+  :init
+  (advice-add-theme 'minimal
+    (set-face-attribute 'region nil :background "grey40")
+    (set-face-attribute 'font-lock-comment-face nil :foreground "grey32")
+    (set-face-attribute 'font-lock-comment-delimiter-face nil :foreground "grey32")))
 
-  (spaceway-theme
-   :ensure nil
-   :init
-   (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/spaceway"))
-   (load-theme 'spaceway t))
+(use-package modus-themes
+  :init (modus-themes-load-themes))
 
-  (tao-theme
-   :custom (tao-theme-use-sepia nil)
-   :init (load-theme 'tao-yin t))
+(use-package nord-theme)
 
-  (tron-legacy-theme
-   :init
-   (setq tron-legacy-theme-vivid-cursor t
-         tron-legacy-theme-softer-bg t)
-   (load-theme 'tron-legacy t))
+(use-package spaceway-theme
+  :ensure nil
+  :init
+  (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/spaceway")))
 
-  (vscode-dark-plus-theme
-   :init (load-theme 'vscode-dark-plus t))
+(use-package tao-theme
+  :custom (tao-theme-use-sepia nil)
+  :init (load-theme 'tao-yin t))
 
-  (warm-night-theme
-   :init (load-theme 'warm-night t))
+(use-package tron-legacy-theme
+  :config
+  (setq tron-legacy-theme-vivid-cursor t
+        tron-legacy-theme-softer-bg t))
 
-  (zenburn-theme
-   :init (load-theme 'zenburn t))
-  )
+(use-package vscode-dark-plus-theme)
 
-(custom-set-faces
- '(show-paren-match ((t (:underline t :foreground nil :background nil)))))
+(use-package warm-night-theme)
+
+(use-package zenburn-theme)
+
+(advice-add 'load-theme
+            :after
+            (lambda (_ignored1 &rest _ignored2)
+              (custom-set-faces
+               '(show-paren-match ((t (:underline t :foreground nil :background nil)))))))
+
+(my-set-theme my-theme)
+
+;; (custom-set-faces
+;;  '(show-paren-match ((t (:underline t :foreground nil :background nil)))))
 
 (provide 'my-init-theme)

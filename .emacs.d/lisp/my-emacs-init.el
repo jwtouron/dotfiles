@@ -34,18 +34,6 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq read-process-output-max (* 10 1000 1000))
 
-;; pulse location
-
-(defun pulse-line (&rest _)
-  "Pulse the current line."
-  (pulse-momentary-highlight-one-line (point)))
-(dolist (command '(scroll-up-command
-                   scroll-down-command
-                   recenter-top-bottom
-                   other-window
-                   ace-window))
-  (advice-add command :after #'pulse-line))
-
 ;; whitespace
 
 (setq whitespace-style '(face trailing tabs tab-mark))

@@ -265,6 +265,10 @@
          ("C-c p" . 'projectile-command-map)))
   :init (projectile-mode +1))
 
+(use-package pulsar
+  :defer 1
+  :init (pulsar-global-mode 1))
+
 (use-package rainbow-mode)
 
 (use-package rg)

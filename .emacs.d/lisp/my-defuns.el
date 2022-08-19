@@ -11,6 +11,22 @@
     (customize-save-variable 'my-font `(,font-name . ,(string-to-number font-size)))))
 
 ;;;###autoload
+(defun my-set-theme (theme)
+  (interactive
+   (list
+    (intern
+     (completing-read "Load theme: "
+                      (mapcar #'symbol-name (custom-available-themes))))))
+  (when (and theme
+             (not (eq theme (car custom-enabled-themes))))
+    (mapc #'disable-theme custom-enabled-themes)
+    (when theme
+      (if (custom-theme-p theme)
+          (enable-theme theme)
+        (load-theme theme :no-confirm)))
+    (customize-save-variable 'my-theme `,theme)))
+
+;;;###autoload
 (defun narrow-or-widen-dwim (p)
   "Widen if buffer is narrowed, narrow-dwim otherwise.
 Dwim means: region, org-src-block, org-subtree, or
