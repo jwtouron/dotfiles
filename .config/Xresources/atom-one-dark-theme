@@ -1,20 +1,36 @@
-! Atom One Dark
-#define FOREGROUND         #ABB2BF
-#define BACKGROUND         #282C34
-#define CURSOR_COLOR       #61AFEF
-#define COLOR0             #000000
-#define COLOR1             #BE5046
-#define COLOR2             #98C379
-#define COLOR3             #D19A66
-#define COLOR4             #61AFEF
-#define COLOR5             #C678DD
-#define COLOR6             #56B6C2
-#define COLOR7             #ABB2BF
-#define COLOR8             #282C34
-#define COLOR9             #E06C75
-#define COLOR10            #98C379
-#define COLOR11            #E5C07B
-#define COLOR12            #61AFEF
-#define COLOR13            #C678DD
-#define COLOR14            #56B6C2
-#define COLOR15            #FFFFFF
+! special
+*.foreground:   #ABB2BF
+*.background:   #282C34
+*.cursorColor:  #61AFEF
+
+! black
+*.color0:       #282C34
+*.color8:       #282C34
+
+! red
+*.color1:       #BE5046
+*.color9:       #E06C75
+
+! green
+*.color2:       #98C379
+*.color10:      #98C379
+
+! yellow
+*.color3:       #D19A66
+*.color11:      #E5C07B
+
+! blue
+*.color4:       #61AFEF
+*.color12:      #61AFEF
+
+! magenta
+*.color5:       #C678DD
+*.color13:      #C678DD
+
+! cyan
+*.color6:       #56B6C2
+*.color14:      #56B6C2
+
+! white
+*.color7:       #ABB2BF
+*.color15:      #ABB2BF

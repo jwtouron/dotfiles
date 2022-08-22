@@ -1,4 +1,4 @@
-#include ".config/Xresources/forest-night-theme"
+#include ".config/Xresources/atom-one-dark-theme"
 
 ! st
 st*.font: \n\
