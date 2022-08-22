@@ -78,8 +78,6 @@
 
 (add-hook 'lisp-mode-hook #'paredit-mode)
 
-(use-package slime)
-
 (use-package sly
   :custom (sly-default-lisp 'roswell)
   :hook (sly-mode . paredit-mode)
