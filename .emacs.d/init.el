@@ -24,7 +24,7 @@
 (require 'my-defcustoms)
 (require 'my-emacs-init)
 ;; (require 'my-keybindings)
-(require 'my-init-cemov)
+;; (require 'my-init-cemov)
 
 (use-package ace-window
   :bind ("C-x o" . 'ace-window))
@@ -71,8 +71,24 @@
               ("M-n" . corfu-doc-scroll-up)
               ("M-d" . corfu-doc-toggle)))
 
-;; (use-package counsel
-;;   :init (counsel-mode))
+(use-package counsel
+  :bind (("C-c c b" . counsel-bookmark)
+         ("C-c c c" . counsel-compile)
+         ("C-c c d" . counsel-descbinds)
+         ("C-c c F" . counsel-org-file)
+         ("C-c c g" . counsel-git)
+         ("C-c c J" . counsel-file-jump)
+         ("C-c c j" . counsel-git-grep)
+         ("C-c c k" . counsel-rg)
+         ("C-c c l" . counsel-locate)
+         ("C-c c L" . counsel-git-log)
+         ("C-c c m" . counsel-linux-app)
+         ("C-c c n" . counsel-fzf)
+         ("C-c c o" . counsel-outline)
+         ("C-c c r" . ivy-resume)
+         ("C-c c t" . counsel-load-theme)
+         ("C-c c w" . counsel-wmctrl))
+  :init (counsel-mode))
 
 (use-package crux
   :bind (("C-a" . crux-move-beginning-of-line)
@@ -101,7 +117,6 @@
               ("i" . dumb-jump-go-prompt)
               ("l" . dumb-jump-quick-look))
   :hook (prog-mode . dumb-jump-mode)
-  ;;  :custom (dumb-jump-selector 'ivy)
   :init
   (defvar my--dumb-jump-mode-map (make-sparse-keymap))
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
@@ -109,6 +124,8 @@
              (fboundp 'xref-show-definitions-completing-read))
     (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
   :config
+  (when (fboundp 'ivy-mode)
+    (custom-set-variables '(dumb-jump-selector 'ivy)))
   (dolist (func '(dumb-jump-go
                   dumb-jump-go-other-window
                   dumb-jump-go-prefer-external
@@ -171,19 +188,25 @@
          ("C-h F" . helpful-function)
          ("C-h C" . helpful-command)))
 
-;; (use-package ivy
-;;   :init (ivy-mode)
-;;   :config
-;;   (setq ivy-use-virtual-buffers t
-;;         enable-recursive-minibuffers t)
-;;   (defun my-ivy-help ()
-;;     (interactive)
-;;     (with-help-window (help-buffer)
-;;       (princ "C-c C-o ivy-occur"))))
+(use-package ivy
+  :init (ivy-mode)
+  :config
+  (setq ivy-use-virtual-buffers t
+        enable-recursive-minibuffers t)
+  (defun my-ivy-help ()
+    (interactive)
+    (with-help-window (help-buffer)
+      (princ "C-c C-o ivy-occur"))))
 
-;; (use-package ivy-prescient
-;;   :after counsel
-;;   :init (ivy-prescient-mode))
+(use-package ivy-prescient
+  :after ivy
+  :init (ivy-prescient-mode))
+
+(use-package ivy-xref
+  :init
+  (when (>= emacs-major-version 27)
+    (setq xref-show-definitions-function #'ivy-xref-show-defs))
+  (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
 ;; (use-package lsp-mode
 ;;   :custom ((lsp-enable-snippet nil)
