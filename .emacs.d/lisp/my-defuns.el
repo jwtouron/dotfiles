@@ -91,7 +91,9 @@ is already narrowed."
                   (globs (if (string-equal glob-str "")
                              nil
                            (split-string glob-str  ",")))
-                  (dir (expand-file-name (read-directory-name "Start directory: " (project-root (project-current)))))
+                  (dir (expand-file-name (read-directory-name "Start directory: "
+                                                              (when-let ((project-current (project-current)))
+                                                                (project-root project-current)))))
                   (glob-lambda (if has-rg
                                    (lambda (s) (format "-g '%s'" s))
                                  (lambda (s) (format "--include='%s'" s))))
