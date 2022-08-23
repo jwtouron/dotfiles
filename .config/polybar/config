@@ -304,7 +304,7 @@ format-overline = ${colors.background-darker}
 
 [module/date]
 type = custom/script
-exec = date +" %a, %d %b %Y, %H:%M "
+exec = date +" %a, %d %b, %H:%M "
 click-left = yad --calendar --undecorated --no-buttons --mouse --close-on-unfocus
 
 format-foreground = ${colors.date}

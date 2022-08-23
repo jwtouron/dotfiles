@@ -85,9 +85,10 @@
   (let ((ros-config (concat user-emacs-directory
                             "ros-conf.lisp")))
     (setq sly-lisp-implementations
-          `((sbcl ("sbcl"))
-            (ccl ("ccl"))
-            (ecl ("ecl"))
+          `((sbcl    ("sbcl"))
+            (ccl     ("ccl"))
+            (clisp   ("clisp"))
+            (ecl     ("ecl"))
             (roswell ("ros" "-Q" "-l" ,ros-config "run"))
             ;; (qlot ("qlot" "exec" "ros" "run" "-S" "."))
             ))))
