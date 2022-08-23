@@ -202,7 +202,7 @@ picom &
 killall -q -w cbatticon; [ "$(cbatticon -p | wc -l)" -gt 1 ] && cbatticon &
 killall -q -w udiskie; udiskie -s &
 
-set-background() { feh --bg-fill --randomize --recursive --no-fehbg ~/.local/share/wallpapers /usr/share/wallpapers /usr/share/backgrounds || set-background ;}
+set-background() { feh --bg-max --randomize --recursive --no-fehbg ~/.local/share/wallpapers /usr/share/wallpapers /usr/share/backgrounds || set-background ;}
 set-background
 
 hc pad 0 30 0 0 0
