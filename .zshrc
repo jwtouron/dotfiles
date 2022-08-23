@@ -21,10 +21,13 @@ export EDITOR='vim'
 source $HOME/.config/zsh/git.zsh
 source $HOME/.config/zsh/termsupport.zsh
 
+fpath+=($HOME/.config/zsh/pure)
+
 setopt promptsubst
 autoload -Uz promptinit && promptinit
 
-source $HOME/.config/zsh/bira-theme.zsh
+prompt pure
+#source $HOME/.config/zsh/bira-theme.zsh
 
 alias wl='wc -l'
 
