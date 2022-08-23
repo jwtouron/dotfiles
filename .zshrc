@@ -27,6 +27,7 @@ setopt promptsubst
 autoload -Uz promptinit && promptinit
 
 prompt pure
+prompt_pure_check_cmd_exec_time() {}
 #source $HOME/.config/zsh/bira-theme.zsh
 
 alias wl='wc -l'
