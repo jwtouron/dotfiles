@@ -21,4 +21,10 @@ case "$1" in
 esac
 
 list > "$cache_loc"
-echo " $(wc -l < $cache_loc) "
+
+count="$(wc -l < $cache_loc)"
+if command -v pacman >/dev/null && [ "$count" -lt 50 ]; then
+    count='-'
+fi
+
+echo " $count "
