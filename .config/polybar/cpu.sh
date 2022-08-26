@@ -18,9 +18,9 @@ cpu=$((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))
 # echo "  $cpu"
 
 if [ "$cpu" -ge 90 ]; then
-    cpu="%{o#f55} $cpu%%{o-}"
+    cpu="%{o#f55} $cpu%%{-o}"
 elif [ "$cpu" -ge 70 ]; then
-    cpu="%{o#ff0} $cpu%%{o-}"
+    cpu="%{o#ff0} $cpu%%{-o}"
 else
     cpu=" ${cpu}%"
 fi

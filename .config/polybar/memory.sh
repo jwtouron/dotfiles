@@ -14,9 +14,9 @@ mem=$(free -t | awk '/Total/ {printf "%d", $3 / ($3 + $4) * 100.0}')
 # echo " $mem"
 
 if [ "$mem" -ge 90 ]; then
-    mem="%{o#f55} $mem%%{o-}"
+    mem="%{o#f55} $mem%%{-o}"
 elif [ "$mem" -ge 70 ]; then
-    mem="%{o#ff0} $mem%%{o-}"
+    mem="%{o#ff0} $mem%%{-o}"
 else
     mem=" ${mem}%"
 fi
