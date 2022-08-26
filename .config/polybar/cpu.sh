@@ -25,4 +25,4 @@ else
     cpu=" ${cpu}%"
 fi
 
-echo " $cpu"
+echo " $cpu "

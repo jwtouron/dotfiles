@@ -21,4 +21,4 @@ else
     mem=" ${mem}%"
 fi
 
-echo "$mem"
+echo " $mem "

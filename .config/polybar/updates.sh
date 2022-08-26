@@ -23,8 +23,11 @@ esac
 list > "$cache_loc"
 
 count="$(wc -l < $cache_loc)"
-if command -v pacman >/dev/null && [ "$count" -lt 50 ]; then
-    count='-'
+if command -v pacman >/dev/null; then
+    last_update_days="$(pacman-last-update.sh)"
+    if [ "$count" -lt 50 ] && [ "$last_update_days" -lt 7 ]; then
+        exit
+    fi
 fi
 
-echo " $count "
+echo "  $count "
