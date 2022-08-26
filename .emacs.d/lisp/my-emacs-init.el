@@ -23,10 +23,6 @@
 (require 'dired+)
 (diredp-toggle-find-file-reuse-dir 1)
 
-;; org
-
-(customize-set-variable 'org-agenda-files '("~/Documents/org/agenda.org"))
-
 ;; performance
 
 (when (version<= "27.1" emacs-version)

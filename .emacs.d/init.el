@@ -40,8 +40,44 @@
   :init
   (defun my-open-calendar ()
     (interactive)
+    (my-org-agenda-files-refresh)
     (cfw:open-calendar-buffer
      :contents-sources (list (cfw:org-create-source)))))
+
+(use-package cape
+  ;; Bind dedicated completion commands
+  ;; Alternative prefix keys: C-c p, M-p, M-+, ...
+  :bind (("C-c p p" . completion-at-point) ;; capf
+         ("C-c p t" . complete-tag)        ;; etags
+         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+         ("C-c p h" . cape-history)
+         ("C-c p f" . cape-file)
+         ("C-c p k" . cape-keyword)
+         ("C-c p s" . cape-symbol)
+         ("C-c p a" . cape-abbrev)
+         ("C-c p i" . cape-ispell)
+         ("C-c p l" . cape-line)
+         ("C-c p w" . cape-dict)
+         ("C-c p \\" . cape-tex)
+         ("C-c p _" . cape-tex)
+         ("C-c p ^" . cape-tex)
+         ("C-c p &" . cape-sgml)
+         ("C-c p r" . cape-rfc1345))
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  ;;(add-to-list 'completion-at-point-functions #'cape-history)
+  ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
+  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
+  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
+  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
+  ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
+  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
+  ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
+  ;;(add-to-list 'completion-at-point-functions #'cape-line)
+  )
 
 (use-package citre)
 
@@ -227,8 +263,28 @@
 
 (use-package org
   :ensure nil
+  :bind ("C-c o a" . org-agenda)
   :config
   (org-babel-do-load-languages 'org-babel-load-languages '((shell . t))))
+
+(use-package org-modern
+  :defer 1
+  :init (global-org-modern-mode))
+
+(use-package org-roam
+  :bind ("C-c o r" . org-roam-node-find)
+  :commands (org-roam-node-list)
+  :custom (org-roam-directory "~/Documents/org/roam")
+  :init
+  (defun my-org-agenda-files-refresh ()
+    (interactive)
+    (setq org-agenda-files
+          (mapcar #'org-roam-node-file
+                  (seq-filter (lambda (n)
+                                (member "agenda" (org-roam-node-tags n)))
+                              (org-roam-node-list)))))
+  (advice-add 'org-agenda :before (lambda (&rest _) (my-org-agenda-files-refresh)))
+  :config (org-roam-db-autosync-enable))
 
 (use-package paredit)
 
@@ -280,13 +336,13 @@
               (error "File listing failed: %s" (buffer-string)))
             (split-string (buffer-string) "\0")))))))
 
-(use-package projectile
-  :commands (projectile-project-root)
-  :custom ((projectile-indexing-method 'alien))
-  :bind
-  ((:map projectile-mode-map
-         ("C-c p" . 'projectile-command-map)))
-  :init (projectile-mode +1))
+;; (use-package projectile
+;;   :commands (projectile-project-root)
+;;   :custom ((projectile-indexing-method 'alien))
+;;   :bind
+;;   ((:map projectile-mode-map
+;;          ("C-c p" . 'projectile-command-map)))
+;;   :init (projectile-mode +1))
 
 (use-package pulsar
   :defer 1
