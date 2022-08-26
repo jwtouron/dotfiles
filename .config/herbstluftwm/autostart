@@ -17,7 +17,7 @@ hc keyunbind --all
 # if you have a super key you will be much happier with Mod set to Mod4
 Mod=Mod4   # Use the super key as the main modifier
 
-hc keybind $Mod-Shift-q spawn ~/.config/herbstluftwm/powermenu.sh
+hc keybind $Mod-Shift-q spawn rofi -show p -modi p:~/.config/rofi/rofi-power-menu -theme ~/.config/rofi/rounded-nord-dark.rasi
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn "${TERMINAL:-xterm}" # use your $TERMINAL with xterm as fallback
@@ -109,8 +109,8 @@ hc keybind $Mod-i jumpto urgent
 
 hc keybind $Mod-Shift-o spawn ~/.local/bin/launch.sh
 hc keybind $Mod-semicolon spawn ~/.local/bin/launch.sh
-hc keybind $Mod-Shift-p spawn fzfmenu_run
-hc keybind $Mod-Shift-semicolon spawn fzfmenu_run
+hc keybind $Mod-Shift-p spawn rofi -show drun -theme ~/.config/rofi/rounded-nord-dark.rasi
+hc keybind $Mod-Shift-semicolon spawn rofi -show drun -theme ~/.config/rofi/rounded-nord-dark.rasi
 hc keybind $Mod-bracketright spawn ~/.config/herbstluftwm/volume.sh inc 5
 hc keybind $Mod-Shift-bracketright spawn ~/.config/herbstluftwm/volume.sh inc 1
 hc keybind $Mod-bracketleft spawn ~/.config/herbstluftwm/volume.sh dec 5
