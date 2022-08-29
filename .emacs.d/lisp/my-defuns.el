@@ -155,4 +155,19 @@ is already narrowed."
   (interactive)
   (insert (string-trim (shell-command-to-string "date +\"%Y-%m-%d\""))))
 
+;;;###autoload
+(defun my-insert-start-of-week (&optional date)
+  (interactive)
+  (let* ((date (or date ""))
+         (shell-command (string-join `(,(format "start=$(date -d \"%s\" +%%s)" date)
+                                       "consider=\"$start\""
+                                       "dow=$(date -d \"@$consider\" +%A)"
+                                       "while [ \"$dow\" != \"Sunday\" ]; do"
+                                       "  let \"consider=$consider - 86400\""
+                                       "  dow=$(date -d \"@$consider\" +%A)"
+                                       "done"
+                                       "date -d \"@$consider\" +%Y-%m-%d")
+                                     "; ")))
+    (insert (string-trim-right (shell-command-to-string shell-command)))))
+
 (provide 'my-defuns)
