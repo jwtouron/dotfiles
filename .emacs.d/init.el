@@ -290,23 +290,20 @@
 (use-package paredit)
 
 (use-package popper
-  :if nil
+  :defer 1
   :bind (("C-`"   . popper-toggle-latest)
          ("M-`"   . popper-cycle)
          ("C-M-`" . popper-toggle-type))
   :init
-  (setq popper-reference-buffers
-        '("\\*Messages\\*"
-          "Output\\*$"
-          "\\*Async Shell Command\\*"
-          help-mode
-          compilation-mode))
   (popper-mode +1)
-  (popper-echo-mode +1))
-
-(use-package popwin
-  :init (popwin-mode 1)
-  :config (global-set-key (kbd "C-z") popwin:keymap))
+  (popper-echo-mode +1)
+  :config
+  (setq  popper-reference-buffers '("\\*Messages\\*"
+                                    "Output\\*$"
+                                    "\\*Async Shell Command\\*"
+                                    help-mode
+                                    compilation-mode)
+         popper-group-function #'popper-group-by-project))
 
 (use-package prescient)
 
