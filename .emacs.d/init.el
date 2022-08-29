@@ -295,15 +295,15 @@
          ("M-`"   . popper-cycle)
          ("C-M-`" . popper-toggle-type))
   :init
-  (popper-mode +1)
-  (popper-echo-mode +1)
-  :config
   (setq  popper-reference-buffers '("\\*Messages\\*"
                                     "Output\\*$"
                                     "\\*Async Shell Command\\*"
                                     help-mode
                                     compilation-mode)
-         popper-group-function #'popper-group-by-project))
+         popper-window-height 0.33
+         popper-group-function #'popper-group-by-project)
+  (popper-mode +1)
+  (popper-echo-mode +1))
 
 (use-package prescient)
 
