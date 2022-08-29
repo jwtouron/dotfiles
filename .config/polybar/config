@@ -293,7 +293,6 @@ type = custom/script
 exec = ~/.config/polybar/weather.sh
 interval = 1800
 click-left = xterm -class xterm-popup -geometry 125x45 -e ~/.config/polybar/weather-click.sh
-exec-if = ping -c 1 wttr.in
 
 format-foreground = ${colors.weather}
 format-background = ${colors.background-lighter}
