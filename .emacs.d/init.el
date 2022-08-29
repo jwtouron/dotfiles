@@ -183,7 +183,8 @@
               ("https://clojure.org/feed.xml" clojure)
               ("https://reddit.com/r/haskell/.rss" haskell)
               ("https://reddit.com/r/vim/.rss" vim)
-              ("https://reddit.com/r/emacs/.rss" emacs)))
+              ("https://reddit.com/r/emacs/.rss" emacs)
+              ("https://hnrss.org/show?points=100&comments=25" hacker-news)))
            (elfeed-search-filter "@2-days-ago +unread")))
 
 (use-package expand-region
