@@ -124,7 +124,10 @@
          ("C-c c r" . ivy-resume)
          ("C-c c t" . counsel-load-theme)
          ("C-c c w" . counsel-wmctrl))
-  :init (counsel-mode))
+  :init
+  (setq counsel-describe-function-function #'helpful-callable
+        counsel-describe-variable-function #'helpful-variable)
+  (counsel-mode))
 
 (use-package crux
   :bind (("C-a" . crux-move-beginning-of-line)
@@ -221,9 +224,11 @@
     (grep-apply-setting 'grep-find-template "rg <C> -nH --null -e <R> <D>")))
 
 (use-package helpful
-  :bind (("C-h k" . helpful-key)
-         ("C-h F" . helpful-function)
-         ("C-h C" . helpful-command)))
+  :bind (("C-h v" . #'helpful-variable)
+         ("C-h k" . #'helpful-key)
+         ("C-c C-d" . #'helpful-at-point)
+         ("C-h F" . #'helpful-function)
+         ("C-h C" . #'helpful-command)))
 
 (use-package ivy
   :init (ivy-mode)
@@ -359,6 +364,10 @@
   :diminish 'super-save-mode
   :init (super-save-mode +1)
   :config (setq auto-save-default nil))
+
+(use-package undo-tree
+  :defer 1
+  :init (global-undo-tree-mode))
 
 (use-package visual-regexp
   :bind (("M-%" . vr/query-replace)
