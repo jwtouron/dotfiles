@@ -39,19 +39,8 @@
          ("M-s m" . consult-multi-occur)
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
-         ("C-c s d" . consult-find)
-         ("C-c s D" . consult-locate)
-         ("C-c s g" . consult-grep)
-         ("C-c s G" . consult-git-grep)
-         ("C-c s r" . consult-ripgrep)
-         ("C-c s l" . consult-line)
-         ("C-c s L" . consult-line-multi)
-         ("C-c s m" . consult-multi-occur)
-         ("C-c s k" . consult-keep-lines)
-         ("C-c s u" . consult-focus-lines)
          ;; Isearch integration
          ("M-s e" . consult-isearch-history)
-         ("C-c s e" . consult-isearch-history)
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
@@ -66,7 +55,6 @@
   ;; relevant when you use the default completion UI.
   :hook (completion-list-mode . consult-preview-at-point-mode)
 
-  ;; The :init configuration is always executed (Not lazy)
   :init
 
   ;; Optionally configure the register formatting. This improves the register
@@ -83,17 +71,8 @@
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
 
-  ;; Configure other variables and modes in the :config section,
-  ;; after lazily loading the package.
   :config
 
-  ;; Optionally configure preview. The default value
-  ;; is 'any, such that any key triggers the preview.
-  ;; (setq consult-preview-key 'any)
-  ;; (setq consult-preview-key (kbd "M-."))
-  ;; (setq consult-preview-key (list (kbd "<S-down>") (kbd "<S-up>")))
-  ;; For some commands and buffer sources it is useful to configure the
-  ;; :preview-key on a per-command basis using the `consult-customize' macro.
   (consult-customize
    consult-theme
    :preview-key '(:debounce 0.2 any)
@@ -141,6 +120,5 @@
 
 (use-package vertico
   :init (vertico-mode))
-
 
 (provide 'my-init-cemov)
