@@ -38,7 +38,7 @@
 ;; misc
 
 (custom-set-variables
- '(global-auto-revert-non-file-buffers t)
+ ;; '(global-auto-revert-non-file-buffers t)
  '(indicate-empty-lines t)
  '(inhibit-splash-screen t)
  '(initial-major-mode 'fundamental-mode)
