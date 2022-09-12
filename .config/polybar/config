@@ -46,14 +46,12 @@ line-size = 5
 padding = 1
 
 modules-left = i3
-modules-right = pulseaudio sep cpu void void memory void void updates sep weather sep date sep powermenu-i3
+modules-right = pulseaudio sep cpu memory updates sep weather sep date sep powermenu-herbstluftwm
 
 tray-position = right
 tray-background = ${colors.background-lighter}
 
 font-0 = MesloLGSDZ Nerd Font:style=Regular:size=10;2
-font-1 = FiraCode Nerd Font:style=Regular:size=10;2
-font-2 = DejaVuSansMono Nerd Font:style=Book:size=10;2
 
 [bar/herbstluftwm]
 monitor = ${env:MONITOR}
@@ -138,29 +136,29 @@ format-underline = ${colors.background-darker}
 format-overline = ${colors.background-darker}
 
 label-mode-padding = 1
-label-mode-foreground = ${nord.aurora1}
+label-mode-foreground = ${colors.workspace-occupied-fg}
 label-mode-background = ${colors.background-lighter}
 
 label-focused = %name%
-label-focused-foreground = ${nord.aurora3}
+label-focused-foreground = ${colors.workspace-active-fg}
 label-focused-background = ${colors.background-lighter}
 label-focused-padding = 1
 
 label-unfocused = %name%
 label-unfocused-background = ${colors.background-lighter}
-label-unfocused-foreground = ${nord.frost3}
+label-unfocused-foreground = ${colors.workspace-occupied-fg}
 label-unfocused-padding = 1
 
 label-visible = %name%
 label-visible-background = ${colors.background-lighter}
-label-visible-foreground = ${nord.frost3}
+label-visible-foreground = ${colors.workspace-occupied-fg}
 label-visible-padding = 1
 
 label-urgent = %name%
-label-urgent-foreground = ${nord.aurora1}
+label-urgent-foreground = ${colors.urgent}
 label-urgent-background = ${colors.background-lighter}
-label-urgent-underline = ${nord.aurora1}
-label-urgent-overline = ${nord.aurora1}
+label-urgent-underline = ${colors.urgent}
+label-urgent-overline = ${colors.urgent}
 label-urgent-padding = 1
 
 [module/ewmh]

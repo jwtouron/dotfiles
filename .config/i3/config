@@ -27,7 +27,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-exec --no-startup-id nitrogen --restore
+exec --no-startup-id feh --bg-max --randomize --recursive --no-fehbg ~/.local/share/wallpapers /usr/share/wallpapers /usr/share/backgrounds
 exec --no-startup-id picom
 exec --no-startup-id cbatticon
 exec --no-startup-id udiskie -s

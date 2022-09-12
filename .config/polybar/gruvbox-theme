@@ -1,0 +1,21 @@
+; -*- mode: conf -*-
+
+[gruvbox]
+
+bg1 = #3c3836
+bg3 = #665c54
+bg4 = #7c6f64
+
+background-darker     = #282828
+background-lighter    = ${gruvbox.bg1}
+workspace-active-fg   = #ebdbb2
+workspace-active-bg   = ${gruvbox.background-lighter}
+workspace-occupied-fg = #83a598
+workspace-empty-fg    = ${gruvbox.bg4}
+urgent                = #fb4934
+pulseaudio            = #8ec07c
+cpu                   = #d3869b
+memory                = #d3869b
+updates               = #d3869b
+weather               = #83a598
+date                  = #b8bb26
