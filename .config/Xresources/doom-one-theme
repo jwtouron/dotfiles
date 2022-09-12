@@ -21,8 +21,8 @@
 
 ! blue
 
-! 25% lighter than base
-*.color4:       #2a6cc8
+! 50% lighter than base
+*.color4:       #3382f0
 ! *.color4:       #2257A0
 *.color12:      #51afef
 
