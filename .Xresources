@@ -1,4 +1,4 @@
-#include ".config/Xresources/atom-one-dark-theme"
+#include ".config/Xresources/doom-one-theme"
 
 ! st
 st*.font: \n\

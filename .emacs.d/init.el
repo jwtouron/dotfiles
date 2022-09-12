@@ -217,7 +217,7 @@
   :ensure nil
   :bind ("C-c g" . my-grep)
   :config
-  (when (executable-find "rg")
+  (when (executable-find "_rg")
     (grep-apply-setting 'grep-command "rg --color=auto -nH --null -e ")
     (grep-apply-setting 'grep-template "rg --null -nH --no-heading --no-messages -g '!*/' -e <R>")
     (grep-apply-setting 'grep-find-command '("rg --color=auto -nH --null -e " . 31))
