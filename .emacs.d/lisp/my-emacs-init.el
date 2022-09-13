@@ -19,9 +19,9 @@
 ;; dired
 
 (custom-set-variables
- '(dired-listing-switches "--group-directories-first -alhF"))
+ '(dired-listing-switches "--group-directories-first -alhF")
+ '(dired-kill-when-opening-new-dired-buffer t))
 (require 'dired+)
-(diredp-toggle-find-file-reuse-dir 1)
 
 ;; performance
 
