@@ -1,4 +1,4 @@
-#include ".config/Xresources/doom-one-theme"
+#include ".config/Xresources/catppuccin-mocha-theme"
 
 ! st
 st*.font: \n\
