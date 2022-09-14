@@ -371,7 +371,8 @@
 
 (use-package rainbow-mode)
 
-(use-package rg)
+(use-package rg
+  :bind ("C-c s" . rg-menu))
 
 (use-package savehist
   :ensure nil
