@@ -217,11 +217,11 @@
   :ensure nil
   :bind ("C-c g" . my-grep)
   :config
-  (when (executable-find "_rg")
-    (grep-apply-setting 'grep-command "rg --color=auto -nH --null -e ")
-    (grep-apply-setting 'grep-template "rg --null -nH --no-heading --no-messages -g '!*/' -e <R>")
-    (grep-apply-setting 'grep-find-command '("rg --color=auto -nH --null -e " . 31))
-    (grep-apply-setting 'grep-find-template "rg <C> -nH --null -e <R> <D>")))
+  (when (executable-find "rg")
+    (grep-apply-setting 'grep-command "rg --color=auto --no-heading -nH --null -e ")
+    (grep-apply-setting 'grep-template "rg <C> --no-heading -nH --null -e <R> <F>")
+    (grep-apply-setting 'grep-find-command '("rg --color=auto --no-heading -nH --null -e " . 44))
+    (grep-apply-setting 'grep-find-template "rg <C> --no-heading -nH --null -e <R> <D>")))
 
 (use-package helpful
   :bind (("C-h v" . #'helpful-variable)
