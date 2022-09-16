@@ -1,14 +1,15 @@
 ! special
 *.foreground:   #ABB2BF
-*.background:   #282C34
+*.background:   #1E2127
 *.cursorColor:  #61AFEF
+! *.cursorColor:  #5C6370
 
 ! black
-*.color0:       #282C34
-*.color8:       #282C34
+*.color0:       #1E2127
+*.color8:       #5C6370
 
 ! red
-*.color1:       #BE5046
+*.color1:       #E06C75
 *.color9:       #E06C75
 
 ! green
@@ -17,7 +18,7 @@
 
 ! yellow
 *.color3:       #D19A66
-*.color11:      #E5C07B
+*.color11:      #D19A66
 
 ! blue
 *.color4:       #61AFEF
@@ -33,4 +34,4 @@
 
 ! white
 *.color7:       #ABB2BF
-*.color15:      #ABB2BF
+*.color15:      #FFFFFF
