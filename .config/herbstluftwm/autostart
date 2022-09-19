@@ -203,7 +203,6 @@ hc detect_monitors
 nm-applet &
 picom &
 killall -q -w cbatticon; [ "$(cbatticon -p | wc -l)" -gt 1 ] && cbatticon &
-killall -q -w udiskie; udiskie -s &
 
 set-background() { feh --bg-max --randomize --recursive --no-fehbg ~/.local/share/wallpapers /usr/share/wallpapers /usr/share/backgrounds || set-background ;}
 set-background
