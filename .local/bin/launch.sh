@@ -28,10 +28,10 @@ File Manager
 HTop
 Volume"
 
-if command -v rofi >/dev/null; then
-    choice=$(echo "$options" | awk '{print NR ". " $0}' | rofi -dmenu -i -p 'Launch' -case-sensitive -auto-select -theme ~/.config/rofi/rounded-nord-dark.rasi | awk '{$1=""; print $0}')
-else
+if command -v dmenu >/dev/null; then
     choice=$(echo "$options" | awk '{print NR ". " $0}' | dmenu -f -i -n -l 6 -c -bw 5 -p 'Launch:' | awk '{$1=""; print $0}')
+else
+    choice=$(echo "$options" | awk '{print NR ". " $0}' | rofi -dmenu -i -p 'Launch' -case-sensitive -auto-select -theme ~/.config/rofi/rounded-nord-dark.rasi | awk '{$1=""; print $0}')
 fi
 
 case "$choice" in
