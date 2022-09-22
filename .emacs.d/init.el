@@ -279,16 +279,22 @@
 
 (use-package org-roam
   :bind ("C-c o r" . org-roam-node-find)
-  :commands (org-roam-node-list)
+  :commands (org-roam-db-query)
   :custom (org-roam-directory "~/Documents/org/roam")
   :init
   (defun my-org-agenda-files-refresh ()
     (interactive)
     (setq org-agenda-files
-          (mapcar #'org-roam-node-file
-                  (seq-filter (lambda (n)
-                                (member "agenda" (org-roam-node-tags n)))
-                              (org-roam-node-list)))))
+          (mapcar #'car
+                  (org-roam-db-query [:select nodes:file
+                                      :from nodes
+                                      :join tags :on (= nodes:id tags:node-id)
+                                      :where (= tags:tag "agenda")]))
+          ;; (mapcar #'org-roam-node-file
+          ;;         (seq-filter (lambda (n)
+          ;;                       (member "agenda" (org-roam-node-tags n)))
+          ;;                     (org-roam-node-list)))
+          ))
   (advice-add 'org-agenda :before (lambda (&rest _) (my-org-agenda-files-refresh)))
   :config (org-roam-db-autosync-enable))
 
@@ -314,8 +320,8 @@
 
 (use-package project
   :ensure nil
-  :bind (("M-n" . my-next-buffer)
-         ("M-p" . my-previous-buffer))
+  ;; :bind (("M-n" . my-next-buffer)
+  ;;        ("M-p" . my-previous-buffer))
   :config
   (advice-add 'my-next-buffer :after
               (lambda (&optional arg)
@@ -380,8 +386,6 @@
   :init (savehist-mode))
 
 (use-package smartscan
-  :if nil
-  :defer 1
   :hook (prog-mode . smartscan-mode))
 
 (use-package super-save
