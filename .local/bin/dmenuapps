@@ -1,0 +1,32 @@
+#!/usr/bin/sh
+
+desktop_files=$(ls /usr/share/applications/*.desktop ~/.local/share/applications/*.desktop 2>/dev/null)
+
+awk_script='/^\[.*\]/ {
+                if (entry["Name"] && entry["Exec"]) {
+                    entries[entry["Name"]] = entry["Exec"]
+                }
+                entry["Name"] = 0
+                entry["Exec"] = 0
+            }
+
+            /^Name[^[]/ {
+                entry["Name"] = $2
+            }
+
+            $1 ~ /^Exec/ && $2 !~ /%/ {
+                entry["Exec"] = $2
+            }
+
+            END {
+                for (name in entries) {
+                    printf "%-50s |#| %s\n", name, entries[name]
+                }
+            }'
+
+#echo "$desktop_files"
+
+
+prog=$(echo "$desktop_files" | xargs -n1 awk -F= "$awk_script" | dmenu -f -i -c -l 20 -p 'App:' -bw 5 | awk -F '\\|#\\| ' '{print $2}')
+
+$($prog)
