@@ -269,7 +269,7 @@
 (use-package org
   :ensure nil
   :custom (org-agenda-files '("~/Documents/org/agenda"))
-  :bind ("C-c o a" . org-agenda)
+  :bind ("C-c a" . org-agenda)
   :config
   (org-babel-do-load-languages 'org-babel-load-languages '((shell . t))))
 
