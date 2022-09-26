@@ -1,0 +1,31 @@
+#!/usr/bin/sh
+# -*- mode: sh -*-
+
+devices=$(lsblk -l -p -o name,mountpoint,type,fstype,size,label,vendor,model | awk '$1 ~ /NAME/ { print $0 } $1 !~ /NAME/ && $2 ~ /loop|rom|part|disk/ { print $0 }')
+
+device=$(echo "$devices" | fzf -q\' --reverse --header-lines=1)
+
+[ -z "$device" ] && exit 0
+
+device_name=$(echo "$device" | awk '{print $1}')
+
+fstab_entry=$(grep "$device_name" /etc/fstab)
+if [ -n "$fstab_entry" ]; then
+    fstab_mountpoint=$(echo "$fstab_entry" | awk '{print $2}')
+    mountpoint="$fstab_mountpoint"
+else
+    default_mountpoint="/media/$(echo "$device_name" | awk -F'/' '{ print $NF }')"
+    echo -n "Mount point [$default_mountpoint]: "
+    read mountpoint
+    [ -z "$mountpoint" ] && mountpoint="$default_mountpoint"
+fi
+
+[ -d "$mountpoint" ] || mkdir "$mountpoint" 2>/dev/null || sudo mkdir "$mountpoint"
+
+if [ -n "$fstab_mountpoint" ]; then
+    mount "$device_name" 2>/dev/null || sudo mount "$device_name"
+else
+    mount "$device_name" "$mountpoint" 2>/dev/null || sudo mount "$device_name" "$mountpoint"
+fi
+
+notify-send "💻 USB mounting" "$device_name mounted to $mountpoint."

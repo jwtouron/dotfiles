@@ -1,0 +1,10 @@
+#!/usr/bin/sh
+# -*- mode: sh -*-
+
+devices=$(lsblk -l -p -o name,mountpoint,type,fstype,size,label,vendor,model | awk '$1 ~ /NAME/ { print $0 } $1 !~ /NAME/ && $2 !~ /loop|rom|part|disk/ { print $0 }')
+
+device_name=$(echo "$devices" | fzf -q\' --reverse --header-lines=1 | awk '{ print $1 }')
+
+umount "$device_name" || sudo umount "$device_name"
+
+notify-send "💻 USB unmounting" "$device_name unmounted."
