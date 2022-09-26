@@ -268,7 +268,10 @@
 
 (use-package org
   :ensure nil
-  :custom (org-agenda-files '("~/Documents/org/agenda"))
+  :custom ((org-agenda-files '("~/Documents/org/agenda"))
+           (holiday-bahai-holidays nil)
+           (holiday-hebrew-holidays nil)
+           (holiday-islamic-holidays nil))
   :bind ("C-c a" . org-agenda)
   :config
   (org-babel-do-load-languages 'org-babel-load-languages '((shell . t))))
