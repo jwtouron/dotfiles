@@ -205,12 +205,12 @@ hc unlock
 # or simply:
 hc detect_monitors
 
-nm-applet &
-picom &
-killall -q -w cbatticon; [ "$(cbatticon -p | wc -l)" -gt 1 ] && cbatticon &
+pgrep nm-applet || nm-applet &
+pgrep picom || picom &
+pgrep cbatticon || cbatticon &
 
 ~/.local/bin/feh-random-background.sh
 
 hc pad 0 30 0 0 0
 hc pad 1 30 0 0 0
-~/.config/polybar/launch.sh herbstluftwm
+pgrep polybar || ~/.config/polybar/launch.sh herbstluftwm
