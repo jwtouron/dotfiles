@@ -5,6 +5,6 @@ devices=$(lsblk -l -p -o name,mountpoint,type,fstype,size,label,vendor,model | a
 
 device_name=$(echo "$devices" | fzf -q\' --reverse --header-lines=1 | awk '{ print $1 }')
 
-umount "$device_name" || sudo umount "$device_name"
+umount "$device_name" 2>/dev/null || sudo umount "$device_name"
 
 notify-send "💻 USB unmounting" "$device_name unmounted."
