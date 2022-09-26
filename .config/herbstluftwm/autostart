@@ -2,6 +2,8 @@
 
 # this is a simple config for herbstluftwm
 
+# Use 'xev' to get keycodes
+
 hc() {
     herbstclient "$@"
 }
@@ -119,7 +121,8 @@ hc keybind $Mod-Shift-bracketright spawn ~/.config/herbstluftwm/volume.sh inc 1
 hc keybind $Mod-bracketleft spawn ~/.config/herbstluftwm/volume.sh dec 5
 hc keybind $Mod-Shift-bracketleft spawn ~/.config/herbstluftwm/volume.sh dec 1
 hc keybind $Mod-backslash spawn ~/.config/herbstluftwm/volume.sh mute
-hc keybind $Mod-Shift-s spawn ~/.config/herbstluftwm/scratchpad.sh S
+hc keybind $Mod-minus spawn ~/.config/herbstluftwm/scratchpad.sh S
+hc keybind $Mod-F7 spawn ~/.local/bin/feh-random-background.sh
 
 # theme
 hc attr theme.tiling.reset 1
@@ -204,8 +207,7 @@ nm-applet &
 picom &
 killall -q -w cbatticon; [ "$(cbatticon -p | wc -l)" -gt 1 ] && cbatticon &
 
-set-background() { feh --bg-max --randomize --recursive --no-fehbg ~/.local/share/wallpapers /usr/share/wallpapers /usr/share/backgrounds || set-background ;}
-set-background
+~/.local/bin/feh-random-background.sh
 
 hc pad 0 30 0 0 0
 hc pad 1 30 0 0 0
