@@ -137,6 +137,10 @@
   :bind (("M-/" . dabbrev-completion)
          ("C-M-/" . dabbrev-expand)))
 
+(use-package denote
+  :custom ((denote-directory "~/Documents/org")
+           (denote-known-keywords nil)))
+
 (use-package diminish)
 
 (use-package dot-mode
