@@ -31,10 +31,10 @@
 
 (use-package ef-themes)
 
-(use-package everforest
-  :ensure nil
+(use-package everforest-theme
+  :quelpa (everforest-theme :fetcher git
+                            :url "https://git.sr.ht/~theorytoe/everforest-theme")
   :init
-  (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp/everforest-theme"))
   (advice-add-theme 'everforest-hard-dark
     (set-face-attribute 'region nil :background "#3a454a")))
 

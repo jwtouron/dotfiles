@@ -18,10 +18,17 @@
 
 ;; dired
 
-(custom-set-variables
- '(dired-listing-switches "--group-directories-first -alhF")
- '(dired-kill-when-opening-new-dired-buffer t))
-(require 'dired+)
+(use-package dired
+  :ensure nil
+  :custom ((dired-listing-switches "--group-directories-first -alhF")
+           (dired-kill-when-opening-new-dired-buffer t)))
+
+(use-package dired+
+  :quelpa (dired+ :fetcher url
+                  :url "https://www.emacswiki.org/emacs/download/dired+.el")
+  :after dired
+  :demand t
+  :config (diredp-toggle-find-file-reuse-dir 1))
 
 ;; performance
 
