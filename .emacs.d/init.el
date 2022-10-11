@@ -137,6 +137,14 @@
   :bind (("M-/" . dabbrev-completion)
          ("C-M-/" . dabbrev-expand)))
 
+(use-package denote
+  :bind ("C-c o n" . (lambda ()
+                       (interactive)
+                       (let ((default-directory denote-directory))
+                         (call-interactively #'find-file))))
+  :custom ((denote-known-keywords nil))
+  :init (setq denote-directory "~/Documents/org/"))
+
 (use-package diminish)
 
 (use-package dot-mode
