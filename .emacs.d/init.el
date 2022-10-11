@@ -137,10 +137,6 @@
   :bind (("M-/" . dabbrev-completion)
          ("C-M-/" . dabbrev-expand)))
 
-(use-package denote
-  :custom ((denote-directory "~/Documents/org")
-           (denote-known-keywords nil)))
-
 (use-package diminish)
 
 (use-package dot-mode
@@ -276,7 +272,7 @@
            (holiday-bahai-holidays nil)
            (holiday-hebrew-holidays nil)
            (holiday-islamic-holidays nil))
-  :bind ("C-c a" . org-agenda)
+  :bind ("C-c o a" . org-agenda)
   :config
   (org-babel-do-load-languages 'org-babel-load-languages '((shell . t))))
 
