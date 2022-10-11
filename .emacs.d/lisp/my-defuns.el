@@ -191,4 +191,16 @@ is already narrowed."
   (interactive "P")
   (my-switch-buffer #'previous-buffer arg))
 
+;;;###autoload
+(defun my-upgrade-packages ()
+  "Upgrade packages installed through package.el and Quelpa."
+  (interactive)
+  (flet ((pop-to-buffer-same-window (buffer &optional norecord)))
+    (list-packages)
+    (with-current-buffer "*Packages*"
+      (package-menu-mark-upgrades)
+      (ignore-error 'user-error (package-menu-execute t))))
+  (when (fboundp 'quelpa-upgrade-all)
+    (quelpa-upgrade-all)))
+
 (provide 'my-defuns)
