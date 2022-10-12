@@ -247,11 +247,11 @@
     (grep-apply-setting 'grep-find-template "rg <C> --no-heading -nH --null -e <R> <D>")))
 
 (use-package helpful
-  :bind (("C-h v" . #'helpful-variable)
-         ("C-h k" . #'helpful-key)
-         ("C-c C-d" . #'helpful-at-point)
-         ("C-h F" . #'helpful-function)
-         ("C-h C" . #'helpful-command)))
+  :bind (("C-h f" . helpful-callable)
+         ("C-h v" . helpful-variable)
+         ("C-h k" . helpful-key)
+         ("C-h F" . helpful-function)
+         ("C-h C" . helpful-command)))
 
 ;; (use-package ivy
 ;;   :init (ivy-mode)

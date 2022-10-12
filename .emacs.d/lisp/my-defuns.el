@@ -60,53 +60,6 @@ is already narrowed."
   (interactive "r")
   (align-regexp beg end "\\(\\s-*\\)\\S-+" 1 1 t))
 
-(defconst my--rg-grep-command
-  "rg --color never -n --no-heading --with-filename %s -e '%s' \"%s\"")
-(defconst my--grep-grep-command
-  "grep -r -E --color=never -n --with-filename %s -e '%s' \"%s\"")
-
-(defvar my-grep-command-history
-  (let ((grep-command (if (executable-find "rg")
-                          my--rg-grep-command
-                        my--grep-grep-command)))
-    (list (format grep-command "." "" "."))))
-
-(defun my--grep-update-command-history (cmd)
-  (when (not (string-equal cmd (car my-grep-command-history)))
-    (setq my-grep-command-history (seq-take (cons cmd my-grep-command-history) 10))))
-
-;;;###autoload
-(defun my-grep (arg)
-  (interactive "P")
-  (let ((grep-command
-         (if arg
-             (read-string "grep command: " (car my-grep-command-history) 'my-grep-command-history)
-           (let* ((has-rg (executable-find "rg"))
-                  (search-str (read-string "Search for: "))
-                  (default-glob-str (if-let ((bfn (buffer-file-name))
-                                             (ext (file-name-extension bfn)))
-                                        (format "*.%s" ext)
-                                      ""))
-                  (glob-str (read-string "Globs (comma separated): " default-glob-str))
-                  (globs (if (string-equal glob-str "")
-                             nil
-                           (split-string glob-str  ",")))
-                  (dir (expand-file-name (read-directory-name "Start directory: "
-                                                              (when-let ((project-current (project-current)))
-                                                                (project-root project-current)))))
-                  (glob-lambda (if has-rg
-                                   (lambda (s) (format "-g '%s'" s))
-                                 (lambda (s) (format "--include='%s'" s))))
-                  (find-glob-str (if globs
-                                     (string-join (mapcar glob-lambda globs) " ")
-                                   ""))
-                  (grep-command (if has-rg
-                                    my--rg-grep-command
-                                  my--grep-grep-command)))
-             (format grep-command find-glob-str search-str dir)))))
-    (my--grep-update-command-history grep-command)
-    (grep-find grep-command)))
-
 ;;;###autoload
 (defun my-test-native-compilation ()
   "Tests if native compilation is available."
@@ -195,11 +148,13 @@ is already narrowed."
 (defun my-upgrade-packages ()
   "Upgrade packages installed through package.el and Quelpa."
   (interactive)
+  (require 'cl)
   (flet ((pop-to-buffer-same-window (buffer &optional norecord)))
-    (list-packages)
-    (with-current-buffer "*Packages*"
-      (package-menu-mark-upgrades)
-      (ignore-error 'user-error (package-menu-execute t))))
+    (let ((package-menu-async nil))
+      (list-packages)
+      (with-current-buffer "*Packages*"
+        (package-menu-mark-upgrades)
+        (ignore-error 'user-error (package-menu-execute t)))))
   (when (fboundp 'quelpa-upgrade-all)
     (quelpa-upgrade-all)))
 
