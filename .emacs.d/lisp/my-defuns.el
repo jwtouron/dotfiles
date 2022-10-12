@@ -20,10 +20,9 @@
   (when (and theme
              (not (eq theme (car custom-enabled-themes))))
     (mapc #'disable-theme custom-enabled-themes)
-    (when theme
-      (if (custom-theme-p theme)
-          (enable-theme theme)
-        (load-theme theme :no-confirm)))
+    (if (custom-theme-p theme)
+        (enable-theme theme)
+      (load-theme theme :no-confirm))
     (customize-save-variable 'my-theme `,theme)))
 
 ;;;###autoload
