@@ -92,4 +92,4 @@
             (lambda ()
               (run-with-idle-timer 1 nil fn))))
 
-(provide 'my-emacs-init)
+(provide 'my-init-emacs)

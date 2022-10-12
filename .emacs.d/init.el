@@ -38,7 +38,7 @@
 
 (require 'my-defuns)
 (require 'my-defcustoms)
-(require 'my-emacs-init)
+(require 'my-init-emacs)
 ;; (require 'my-keybindings)
 (require 'my-init-cemov)
 
