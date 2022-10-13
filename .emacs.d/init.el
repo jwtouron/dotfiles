@@ -403,6 +403,7 @@
 (use-package undo-tree
   :defer 1
   :custom (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree")))
+  :diminish 'undo-tree-mode
   :init (global-undo-tree-mode))
 
 (use-package visual-regexp
