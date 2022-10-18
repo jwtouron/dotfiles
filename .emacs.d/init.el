@@ -148,11 +148,6 @@
   :bind (("C-a" . crux-move-beginning-of-line)
          ("C-x x r" . crux-rename-file-and-buffer)))
 
-(use-package dabbrev
-  :ensure nil
-  :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand)))
-
 (use-package denote
   :bind ("C-c o n" . (lambda ()
                        (interactive)
