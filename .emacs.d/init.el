@@ -66,7 +66,8 @@
          ("C-c p _" . cape-tex)
          ("C-c p ^" . cape-tex)
          ("C-c p &" . cape-sgml)
-         ("C-c p r" . cape-rfc1345))
+         ("C-c p r" . cape-rfc1345)
+         ("M-/" . cape-dabbrev))
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)

@@ -1,15 +1,3 @@
-(defmacro use-themes (enabled &rest themes)
-  (cl-labels ((apply-if-nil (theme)
-                            (if (equal enabled (car theme))
-                                theme
-                              (cons (car theme)
-                                    (append '(:if nil) (cdr theme))))))
-    (cons 'progn
-          (mapcar #'(lambda (theme)
-                      (cons 'use-package (apply-if-nil theme)))
-                  themes))))
-(put 'use-themes 'lisp-indent-function 1)
-
 (defmacro advice-add-theme (theme1 &rest body)
   `(advice-add 'load-theme
                :after
@@ -18,6 +6,8 @@
                    ,@body))))
 (put 'advice-add-theme 'lisp-indent-function 1)
 
+(use-package autothemer)
+
 (use-package arjen-grey-theme
   :init
   (advice-add-theme 'arjen-grey
@@ -25,7 +15,13 @@
 
 (use-package atom-one-dark-theme)
 
+(use-package catpuccin-theme
+  :quelpa (catpuccin-theme :fetcher github
+                           :repo "catppuccin/emacs"))
+
 (use-package color-theme-sanityinc-tomorrow)
+
+(use-package cyberpunk-theme)
 
 (use-package doom-themes)
 
