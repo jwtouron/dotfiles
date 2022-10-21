@@ -48,17 +48,6 @@
 (use-package avy
   :bind ("C-c j" . 'avy-goto-char-timer))
 
-(use-package calfw
-  :commands (cfw:open-calendar-buffer))
-
-(use-package calfw-org
-  :commands (cfw:open-org-calendar cfw:org-create-source)
-  :init
-  (defun my-open-calendar ()
-    (interactive)
-    (cfw:open-calendar-buffer
-     :contents-sources (list (cfw:org-create-source)))))
-
 (use-package cape
   ;; Bind dedicated completion commands
   ;; Alternative prefix keys: C-c p, M-p, M-+, ...
@@ -94,14 +83,9 @@
   ;;(add-to-list 'completion-at-point-functions #'cape-line)
   )
 
+;; an advanced Ctags (or actually, readtags) frontend
+;; https://github.com/universal-ctags/citre
 (use-package citre)
-
-;; (use-package company
-;;   :hook (after-init . global-company-mode)
-;;   :bind (:map company-mode-map
-;;               ("M-/" . company-complete-common))
-;;   :custom ((company-minimum-prefix-length 1)
-;;            (company-idle-delay nil)))
 
 (use-package comment-dwim-2
   :bind (("M-;" . comment-dwim-2)))
@@ -121,28 +105,6 @@
               ("M-p" . corfu-doc-scroll-down)
               ("M-n" . corfu-doc-scroll-up)
               ("M-d" . corfu-doc-toggle)))
-
-;; (use-package counsel
-;;   :bind (("C-c c b" . counsel-bookmark)
-;;          ("C-c c c" . counsel-compile)
-;;          ("C-c c d" . counsel-descbinds)
-;;          ("C-c c F" . counsel-org-file)
-;;          ("C-c c g" . counsel-git)
-;;          ("C-c c J" . counsel-file-jump)
-;;          ("C-c c j" . counsel-git-grep)
-;;          ("C-c c k" . counsel-rg)
-;;          ("C-c c l" . counsel-locate)
-;;          ("C-c c L" . counsel-git-log)
-;;          ("C-c c m" . counsel-linux-app)
-;;          ("C-c c n" . counsel-fzf)
-;;          ("C-c c o" . counsel-outline)
-;;          ("C-c c r" . ivy-resume)
-;;          ("C-c c t" . counsel-load-theme)
-;;          ("C-c c w" . counsel-wmctrl))
-;;   :init
-;;   (setq counsel-describe-function-function #'helpful-callable
-;;         counsel-describe-variable-function #'helpful-variable)
-;;   (counsel-mode))
 
 (use-package crux
   :bind (("C-a" . crux-move-beginning-of-line)
@@ -248,34 +210,6 @@
          ("C-h F" . helpful-function)
          ("C-h C" . helpful-command)))
 
-;; (use-package ivy
-;;   :init (ivy-mode)
-;;   :config
-;;   (setq ivy-use-virtual-buffers t
-;;         enable-recursive-minibuffers t)
-;;   (defun my-ivy-help ()
-;;     (interactive)
-;;     (with-help-window (help-buffer)
-;;       (princ "C-c C-o ivy-occur"))))
-
-;; (use-package ivy-prescient
-;;   :after ivy
-;;   :init (ivy-prescient-mode))
-
-;; (use-package ivy-xref
-;;   :init
-;;   (when (>= emacs-major-version 27)
-;;     (setq xref-show-definitions-function #'ivy-xref-show-defs))
-;;   (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
-
-;; (use-package lsp-mode
-;;   :custom ((lsp-enable-snippet nil)
-;;            (lsp-enable-symbol-highlighting nil)
-;;            (lsp-headerline-breadcrumb-enable nil)
-;;            (lsp-keymap-prefix "C-c l")
-;;            (lsp-lens-enable nil))
-;;   :hook (lsp-mode . lsp-enable-which-key-integration))
-
 (use-package magit)
 
 (use-package multiple-cursors
@@ -363,14 +297,6 @@
             (unless (zerop status)
               (error "File listing failed: %s" (buffer-string)))
             (split-string (buffer-string) "\0")))))))
-
-;; (use-package projectile
-;;   :commands (projectile-project-root)
-;;   :custom ((projectile-indexing-method 'alien))
-;;   :bind
-;;   ((:map projectile-mode-map
-;;          ("C-c p" . 'projectile-command-map)))
-;;   :init (projectile-mode +1))
 
 (use-package pulsar
   :defer 1
