@@ -18,7 +18,7 @@
      (completing-read "Load theme: "
                       (mapcar #'symbol-name (custom-available-themes))))))
   (when (and theme
-             (not (eq theme (car custom-enabled-themes))))
+             (not (memq theme custom-enabled-themes)))
     (mapc #'disable-theme custom-enabled-themes)
     (if (custom-theme-p theme)
         (enable-theme theme)

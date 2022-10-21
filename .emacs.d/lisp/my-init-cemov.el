@@ -89,7 +89,10 @@
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
   (setq consult-narrow-key "<") ;; (kbd "C-+")
-  )
+
+  (advice-add 'consult-theme
+              :after (lambda (theme)
+                       (customize-save-variable 'my-theme theme))))
 
 (use-package embark
   :bind
