@@ -322,11 +322,9 @@
   :init (super-save-mode +1)
   :config (setq auto-save-default nil))
 
-(use-package undo-tree
-  :defer 1
-  :custom (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree")))
-  :diminish 'undo-tree-mode
-  :init (global-undo-tree-mode))
+(use-package undo-fu
+  :bind (("C-z"   . 'undo-fu-only-undo)
+         ("C-S-z" . 'undo-fu-only-redo)))
 
 (use-package visual-regexp
   :bind (("M-%" . vr/query-replace)
