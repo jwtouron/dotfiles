@@ -23,7 +23,11 @@
 
 (use-package cyberpunk-theme)
 
-(use-package doom-themes)
+(use-package doom-themes
+  :init
+  (advice-add-theme 'doom-opera
+    (set-face-attribute 'default nil :background "#1e1e1e")
+    (set-face-attribute 'highlight nil :background "#979797")))
 
 (use-package ef-themes)
 
