@@ -221,6 +221,6 @@ if exists('+termguicolors') && ($TERM =~# "-256color$")
 endif
 
 let g:everforest_background = 'hard'
-colorscheme everforest
+colorscheme base16-material-darker
 
 highlight Normal guibg=NONE ctermbg=NONE
