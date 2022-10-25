@@ -13,7 +13,7 @@
 
 ! green
 *.color2:       #579C4C
-*.color10:      #B5CEA8
+*.color10:      #35CDAF
 
 ! yellow
 *.color3:       #D7BA7D
@@ -24,7 +24,8 @@
 *.color12:      #339CDB
 
 ! magenta
-*.color5:       #BB80B3
+! *.color5:       #BB80B3
+*.color5:       #68217A
 *.color13:      #C586C0
 
 ! cyan
