@@ -25,7 +25,8 @@ list > "$cache_loc"
 count="$(wc -l < $cache_loc)"
 if command -v pacman >/dev/null; then
     last_update_days="$(pacman-last-update.sh)"
-    if [ "$count" -lt 50 ] && [ "$last_update_days" -lt 7 ]; then
+    package_count_limit=$(($(pacman -Q | wc -l) * 100 / 2000))
+    if [ "$count" -lt "$package_count_limit" ] && [ "$last_update_days" -lt 7 ]; then
         exit
     fi
 fi
