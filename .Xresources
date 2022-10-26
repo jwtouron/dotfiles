@@ -1,4 +1,4 @@
-#include ".config/Xresources/doom-dark+-theme"
+#include ".config/Xresources/jake-at-linux-theme"
 
 ! st
 st*.font: \n\

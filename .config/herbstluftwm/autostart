@@ -116,11 +116,11 @@ hc keybind $Mod-Shift-p spawn fzfmenu_run
 # hc keybind $Mod-Shift-p spawn rofi -show drun -theme ~/.config/rofi/rounded-nord-dark.rasi
 hc keybind $Mod-Shift-semicolon spawn fzfmenu_run
 # hc keybind $Mod-Shift-semicolon spawn rofi -show drun -theme ~/.config/rofi/rounded-nord-dark.rasi
-hc keybind $Mod-bracketright spawn ~/.config/herbstluftwm/volume.sh inc 5
-hc keybind $Mod-Shift-bracketright spawn ~/.config/herbstluftwm/volume.sh inc 1
-hc keybind $Mod-bracketleft spawn ~/.config/herbstluftwm/volume.sh dec 5
-hc keybind $Mod-Shift-bracketleft spawn ~/.config/herbstluftwm/volume.sh dec 1
-hc keybind $Mod-backslash spawn ~/.config/herbstluftwm/volume.sh mute
+hc keybind $Mod-bracketright spawn ~/.local/bin/pactl.sh inc 5
+hc keybind $Mod-Shift-bracketright spawn ~/.local/bin/pactl.sh inc 1
+hc keybind $Mod-bracketleft spawn ~/.local/bin/pactl.sh dec 5
+hc keybind $Mod-Shift-bracketleft spawn ~/.local/bin/pactl.sh dec 1
+hc keybind $Mod-backslash spawn ~/.local/bin/pactl.sh mute
 hc keybind $Mod-minus spawn ~/.config/herbstluftwm/scratchpad.sh S
 hc keybind $Mod-F5 spawn st -c st-popup -e ~/.local/bin/fzfmount
 hc keybind $Mod-F6 spawn st -c st-popup -e ~/.local/bin/fzfumount
