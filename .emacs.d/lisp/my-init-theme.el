@@ -65,6 +65,8 @@
   (setq tron-legacy-theme-vivid-cursor t
         tron-legacy-theme-softer-bg t))
 
+(use-package twilight-theme)
+
 (use-package vscode-dark-plus-theme)
 
 (use-package warm-night-theme)
