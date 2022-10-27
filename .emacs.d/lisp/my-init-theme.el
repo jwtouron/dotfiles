@@ -11,7 +11,7 @@
 (use-package arjen-grey-theme
   :init
   (advice-add-theme 'arjen-grey
-    (set-face-background hl-line-face "#2f4f4f")))
+    (set-face-attribute 'highlight nil :background "#2f4f4f")))
 
 (use-package atom-one-dark-theme)
 
@@ -65,7 +65,10 @@
   (setq tron-legacy-theme-vivid-cursor t
         tron-legacy-theme-softer-bg t))
 
-(use-package twilight-theme)
+(use-package twilight-theme
+  :init
+  (advice-add-theme 'twilight
+    (set-face-attribute 'highlight nil :background "#1d1d1d")))
 
 (use-package vscode-dark-plus-theme)
 
