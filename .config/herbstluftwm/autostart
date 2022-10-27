@@ -124,7 +124,8 @@ hc keybind $Mod-backslash spawn ~/.local/bin/pactl.sh mute
 hc keybind $Mod-minus spawn ~/.config/herbstluftwm/scratchpad.sh S
 hc keybind $Mod-F5 spawn st -c st-popup -e ~/.local/bin/fzfmount
 hc keybind $Mod-F6 spawn st -c st-popup -e ~/.local/bin/fzfumount
-hc keybind $Mod-F7 spawn ~/.local/bin/feh-random-background.sh
+hc keybind $Mod-F7 spawn ~/.local/bin/nitrogen-random-background.sh
+# hc keybind $Mod-F7 spawn ~/.local/bin/feh-random-background.sh
 
 # theme
 hc attr theme.tiling.reset 1
