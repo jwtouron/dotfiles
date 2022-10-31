@@ -37,6 +37,11 @@
 (use-package go-mode
   :hook ((go-mode . electric-pair-local-mode)))
 
+;; groovy
+
+(use-package groovy-mode
+  :hook ((groovy-mode . electric-pair-local-mode)))
+
 ;; haskell
 
 (use-package haskell-mode
