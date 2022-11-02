@@ -117,7 +117,7 @@
                        (let ((default-directory denote-directory))
                          (call-interactively #'find-file))))
   :custom ((denote-known-keywords nil))
-  :init (setq denote-directory "~/Documents/org/"))
+  :init (setq denote-directory (expand-file-name "~/Documents/org/")))
 
 (use-package diminish)
 
