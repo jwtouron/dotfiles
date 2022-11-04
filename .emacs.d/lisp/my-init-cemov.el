@@ -1,5 +1,4 @@
 (use-package consult
-  ;; Replace bindings. Lazily loaded due by `use-package'.
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
          ("C-c m" . consult-mode-command)
@@ -41,10 +40,6 @@
          ("M-s u" . consult-focus-lines)
          ;; Isearch integration
          ("M-s e" . consult-isearch-history)
-         ;; My bindings
-         ("C-c o h" . (lambda ()
-                        (interactive)
-                        (consult-org-heading nil (file-expand-wildcards "~/Documents/org/[a-zA-Z0-9]*.org" t))))
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
@@ -61,7 +56,6 @@
 
   :init
 
-  ;; Optionally configure the register formatting. This improves the register
   ;; preview for `consult-register', `consult-register-load',
   ;; `consult-register-store' and the Emacs built-ins.
   (setq register-preview-delay 0.5
@@ -83,16 +77,11 @@
    consult-bookmark consult-recent-file consult-xref
    consult--source-bookmark consult--source-file-register
    consult--source-recent-file consult--source-project-recent-file
-   ;; :preview-key (kbd "M-.")
    :preview-key '(:debounce 0.4 any))
 
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; (kbd "C-+")
-
-  (advice-add 'consult-theme
-              :after (lambda (theme)
-                       (customize-save-variable 'my-theme theme))))
+  (setq consult-narrow-key "<"))
 
 (use-package embark
   :bind
