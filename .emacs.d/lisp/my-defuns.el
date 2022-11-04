@@ -17,13 +17,14 @@
     (intern
      (completing-read "Load theme: "
                       (mapcar #'symbol-name (custom-available-themes))))))
-  (when (and theme
-             (not (memq theme custom-enabled-themes)))
+  ;; This code copied from `consult-theme'
+  (unless (eq theme (car custom-enabled-themes))
     (mapc #'disable-theme custom-enabled-themes)
-    (if (custom-theme-p theme)
-        (enable-theme theme)
-      (load-theme theme :no-confirm))
-    (customize-save-variable 'my-theme `,theme)))
+    (when theme
+      (if (custom-theme-p theme)
+          (enable-theme theme)
+        (load-theme theme :no-confirm))
+      (customize-save-variable 'my-theme `,theme))))
 
 ;;;###autoload
 (defun narrow-or-widen-dwim (p)

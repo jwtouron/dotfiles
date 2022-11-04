@@ -1,5 +1,5 @@
 (defmacro advice-add-theme (theme1 &rest body)
-  `(advice-add 'load-theme
+  `(advice-add 'enable-theme
                :after
                (lambda (theme2 &rest _ignored)
                  (when (eq ,theme1 theme2)
