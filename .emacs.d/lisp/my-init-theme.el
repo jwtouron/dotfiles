@@ -27,7 +27,8 @@
   :init
   (advice-add-theme 'doom-opera
     (set-face-attribute 'default nil :background "#222224")
-    (set-face-attribute 'hl-line nil :background "#323334")))
+    (set-face-attribute 'hl-line nil :background "#323334")
+    (set-face-attribute 'region  nil :background "#507681")))
 
 (use-package ef-themes)
 
