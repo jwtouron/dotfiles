@@ -26,9 +26,7 @@
 (use-package doom-themes
   :init
   (advice-add-theme 'doom-opera
-    (set-face-attribute 'default nil :background "#1e1e1e")
-    ;;(set-face-attribute 'highlight nil :background "#979797")
-    ))
+    (set-face-attribute 'default nil :background "#222224")))
 
 (use-package ef-themes)
 
