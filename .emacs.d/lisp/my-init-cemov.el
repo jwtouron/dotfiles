@@ -40,6 +40,10 @@
          ("M-s u" . consult-focus-lines)
          ;; Isearch integration
          ("M-s e" . consult-isearch-history)
+         ;; My bindings
+         ("C-c o h" . (lambda ()
+                        (interactive)
+                        (consult-org-heading nil (file-expand-wildcards "~/Documents/org/[a-zA-Z0-9]*.org" t))))
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
@@ -81,7 +85,10 @@
 
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<"))
+  (setq consult-narrow-key "<")
+  (advice-add 'consult-theme
+              :after (lambda (theme)
+                       (customize-save-variable 'my-theme theme))))
 
 (use-package embark
   :bind
