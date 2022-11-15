@@ -24,10 +24,9 @@
            (dired-kill-when-opening-new-dired-buffer t)))
 
 (use-package dired+
-  :quelpa (dired+ :fetcher url
-                  :url "https://www.emacswiki.org/emacs/download/dired+.el")
-  :after dired
+  :ensure nil
   :demand t
+  :after dired
   :config (diredp-toggle-find-file-reuse-dir 1))
 
 ;; performance

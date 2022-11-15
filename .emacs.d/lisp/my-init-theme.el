@@ -15,9 +15,7 @@
 
 (use-package atom-one-dark-theme)
 
-(use-package catpuccin-theme
-  :quelpa (catpuccin-theme :fetcher github
-                           :repo "catppuccin/emacs"))
+(use-package base16-theme)
 
 (use-package color-theme-sanityinc-tomorrow)
 
@@ -33,9 +31,9 @@
 (use-package ef-themes)
 
 (use-package everforest-theme
-  :quelpa (everforest-theme :fetcher git
-                            :url "https://git.sr.ht/~theorytoe/everforest-theme")
+  :ensure nil
   :init
+  (push (expand-file-name "~/.emacs.d/lisp/everforest-theme") custom-theme-load-path)
   (advice-add-theme 'everforest-hard-dark
     (set-face-attribute 'region nil :background "#3a454a")))
 
