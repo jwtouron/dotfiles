@@ -37,6 +37,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'chriskempson/base16-vim'
 Plug 'https://gitlab.com/madyanov/gruber.vim'
 Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
+Plug 'metalelf0/base16-black-metal-scheme'
 Plug 'sainnhe/everforest'
 Plug 'tomasiser/vim-code-dark'
 " Languages
@@ -220,7 +221,7 @@ if exists('+termguicolors') && ($TERM =~# "-256color$")
   set termguicolors
 endif
 
-let g:everforest_background = 'hard'
-colorscheme base16-material-darker
+" let g:everforest_background = 'hard'
+colorscheme base16-black-metal-immortal
 
 highlight Normal guibg=NONE ctermbg=NONE

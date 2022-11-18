@@ -1,4 +1,4 @@
-#include ".config/Xresources/jake-at-linux-theme"
+#include ".config/Xresources/base16-black-metal-immortal-theme"
 
 ! st
 st*.font: \n\
