@@ -1,0 +1,17 @@
+; -*- mode: conf -*-
+
+[colors]
+
+background-darker     = #121212
+background-lighter    = #222222
+workspace-active-fg   = #7799bb
+workspace-active-bg   = ${colors.background-lighter}
+workspace-occupied-fg = #556677
+workspace-empty-fg    = #444444
+urgent                = #e67e80
+pulseaudio            = #5f8787
+cpu                   = #5f8787
+memory                = #5f8787
+updates               = #5f8787
+weather               = #5f8787
+date                  = #5f8787

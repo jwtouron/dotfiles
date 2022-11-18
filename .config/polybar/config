@@ -16,23 +16,8 @@
 ;
 ;==========================================================
 
-include-file = ~/.config/polybar/everforest-theme
-
-[colors]
-
-background-darker     = ${everforest.background-darker}
-background-lighter    = ${everforest.background-lighter}
-workspace-active-fg   = ${everforest.workspace-active-fg}
-workspace-active-bg   = ${everforest.workspace-active-bg}
-workspace-occupied-fg = ${everforest.workspace-occupied-fg}
-workspace-empty-fg    = ${everforest.workspace-empty-fg}
-urgent                = ${everforest.urgent}
-pulseaudio            = ${everforest.pulseaudio}
-cpu                   = ${everforest.cpu}
-memory                = ${everforest.memory}
-updates               = ${everforest.updates}
-weather               = ${everforest.weather}
-date                  = ${everforest.date}
+; colors
+include-file = ~/.config/polybar/black-metal-immortal-theme
 
 [bar/i3]
 monitor = ${env:MONITOR}
