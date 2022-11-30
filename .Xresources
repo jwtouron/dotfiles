@@ -1,4 +1,4 @@
-#include ".config/Xresources/base16-black-metal-immortal-theme"
+#include ".config/Xresources/oxide-theme"
 
 ! st
 st*.font: \n\

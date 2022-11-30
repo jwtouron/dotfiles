@@ -85,12 +85,10 @@
       (corfu-mode 1)))
   (global-corfu-mode))
 
-(use-package corfu-doc
-  :hook (corfu-mode . corfu-doc-mode)
-  :bind (:map corfu-map
-              ("M-p" . corfu-doc-scroll-down)
-              ("M-n" . corfu-doc-scroll-up)
-              ("M-d" . corfu-doc-toggle)))
+(use-package corfu-popupinfo
+  :ensure nil
+  :after corfu
+  :init (corfu-popupinfo-mode))
 
 (use-package crux
   :bind (("C-a" . crux-move-beginning-of-line)
