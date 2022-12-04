@@ -83,27 +83,11 @@
 
 (add-hook 'lisp-mode-hook #'paredit-mode)
 
-(use-package sly
-  :custom (sly-default-lisp 'roswell)
-  :hook (sly-mode . paredit-mode)
+(use-package slime
+  :hook (slime-repl-mode . paredit-mode)
   :init
-  (let ((ros-config (concat user-emacs-directory
-                            "ros-conf.lisp")))
-    (setq sly-lisp-implementations
-          `((sbcl    ("sbcl"))
-            (ccl     ("ccl"))
-            (clisp   ("clisp"))
-            (ecl     ("ecl"))
-            (roswell ("ros" "-Q" "-l" ,ros-config "run"))
-            ;; (qlot ("qlot" "exec" "ros" "run" "-S" "."))
-            ))))
-
-(use-package sly-asdf
-  :after sly
-  :init (add-to-list 'sly-contribs 'sly-asdf 'append))
-
-(use-package sly-quicklisp
-  :after sly)
+  (when (executable-find "sbcl")
+    (setq inferior-lisp-program "sbcl")))
 
 ;; lua
 
