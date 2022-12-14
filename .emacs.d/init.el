@@ -25,49 +25,13 @@
 (require 'my-defcustoms)
 (require 'my-init-emacs)
 ;; (require 'my-keybindings)
-(require 'my-init-cemov)
+;; (require 'my-init-cemov)
 
 (use-package ace-window
   :bind ("C-x o" . 'ace-window))
 
 (use-package avy
   :bind ("C-c j" . 'avy-goto-char-timer))
-
-(use-package cape
-  ;; Bind dedicated completion commands
-  ;; Alternative prefix keys: C-c p, M-p, M-+, ...
-  :bind (("C-c p p" . completion-at-point) ;; capf
-         ("C-c p t" . complete-tag)        ;; etags
-         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
-         ("C-c p h" . cape-history)
-         ("C-c p f" . cape-file)
-         ("C-c p k" . cape-keyword)
-         ("C-c p s" . cape-symbol)
-         ("C-c p a" . cape-abbrev)
-         ("C-c p i" . cape-ispell)
-         ("C-c p l" . cape-line)
-         ("C-c p w" . cape-dict)
-         ("C-c p \\" . cape-tex)
-         ("C-c p _" . cape-tex)
-         ("C-c p ^" . cape-tex)
-         ("C-c p &" . cape-sgml)
-         ("C-c p r" . cape-rfc1345)
-         ("M-/" . cape-dabbrev))
-  :init
-  ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  ;;(add-to-list 'completion-at-point-functions #'cape-history)
-  ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
-  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
-  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
-  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
-  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
-  ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
-  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-  ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
-  ;;(add-to-list 'completion-at-point-functions #'cape-line)
-  )
 
 ;; an advanced Ctags (or actually, readtags) frontend
 ;; https://github.com/universal-ctags/citre
@@ -76,19 +40,20 @@
 (use-package comment-dwim-2
   :bind (("M-;" . comment-dwim-2)))
 
-(use-package corfu
-  :hook (minibuffer-setup . corfu-enable-in-minibuffer)
-  :init
-  (defun corfu-enable-in-minibuffer ()
-    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
-    (when (where-is-internal #'completion-at-point (list (current-local-map)))
-      (corfu-mode 1)))
-  (global-corfu-mode))
+(use-package company
+  :custom (company-idle-delay nil)
+  :hook (prog-mode . company-mode)
+  :bind (:map company-mode-map
+         ("C-M-i" . company-complete)
+         :map company-active-map
+         ("\C-n" . company-select-next)
+         ("\C-p" . company-select-previous)
+         ("\C-d" . company-show-doc-buffer)
+         ("M-." . company-show-location))
+  :config
+  (push '(company-capf company-dabbrev) company-backends))
 
-(use-package corfu-popupinfo
-  :ensure nil
-  :after corfu
-  :init (corfu-popupinfo-mode))
+(use-package counsel)
 
 (use-package crux
   :bind (("C-a" . crux-move-beginning-of-line)
@@ -137,6 +102,9 @@
                   dumb-jump-quick-look))
     (advice-add-repeat-mode func
                             '("b" . dumb-jump-back))))
+
+(use-package easy-kill
+  :bind (([remap kill-ring-save] . easy-kill)))
 
 (use-package eglot)
 
@@ -194,6 +162,14 @@
          ("C-h F" . helpful-function)
          ("C-h C" . helpful-command)))
 
+(use-package ivy
+  :defer 1
+  :init
+  (setq ivy-use-virtual-buffers t
+        enable-recursive-minibuffers t
+        ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
+  (ivy-mode))
+
 (use-package magit)
 
 (use-package multiple-cursors
@@ -201,7 +177,16 @@
   :bind (("C-S-c C-S-c" . mc/edit-lines)
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
-         ("C-c C-<" . mc/mark-all-like-this-dwim)))
+         ("C-c C-<" . mc/mark-all-like-this-dwim))
+  :config
+  (advice-add-repeat-mode 'mc/mark-next-like-this
+                          '("n" . mc/mark-next-like-this)
+                          '(">" . mc/mark-next-like-this)
+                          '("N" . mc/skip-to-next-like-this))
+  (advice-add-repeat-mode 'mc/mark-previous-like-this
+                          '("p" . mc/mark-previous-like-this)
+                          '("<" . mc/mark-previous-like-this)
+                          '("P" . mc/skip-to-previous-like-this)))
 
 (use-package org
   :ensure nil

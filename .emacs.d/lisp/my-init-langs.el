@@ -85,9 +85,33 @@
 
 (use-package slime
   :hook (slime-repl-mode . paredit-mode)
-  :init
-  (when (executable-find "sbcl")
-    (setq inferior-lisp-program "sbcl")))
+  :config
+  (cond
+   ((executable-find "sbcl") (setq inferior-lisp-program "sbcl"))
+   ((executable-find "ros") (setq inferior-lisp-program "ros run")))
+  (slime-setup '(slime-fancy slime-quicklisp slime-asdf slime-company)))
+
+(use-package slime-company
+  :after (slime company)
+  :config (setq slime-company-completion 'fuzzy
+                slime-company-after-completion 'slime-company-just-one-space))
+
+;; (use-package sly
+;;   :hook (sly-mode . paredit-mode)
+;;   :init
+;;   (setq sly-lisp-implementations
+;;         '((roswell  ("ros" "-Q" "run"))
+;;           (sbcl ("sbcl"))))
+;;   (setq sly-default-lisp (cond
+;;                           ((executable-find "ros") 'roswell
+;;                            (executable-find "sbcl") 'sbcl))))
+
+;; (use-package sly-asdf
+;;   :after sly
+;;   :config (add-to-list 'sly-contribs 'sly-asdf 'append))
+
+;; (use-package sly-quicklisp
+;;   :after sly)
 
 ;; lua
 
