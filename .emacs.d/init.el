@@ -49,9 +49,7 @@
          ("\C-n" . company-select-next)
          ("\C-p" . company-select-previous)
          ("\C-d" . company-show-doc-buffer)
-         ("M-." . company-show-location))
-  :config
-  (push '(company-capf company-dabbrev) company-backends))
+         ("M-." . company-show-location)))
 
 (use-package counsel)
 
@@ -169,6 +167,11 @@
         enable-recursive-minibuffers t
         ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
   (ivy-mode))
+
+(use-package ivy-prescient
+  :demand t
+  :after (ivy)
+  :config (ivy-prescient-mode))
 
 (use-package magit)
 
