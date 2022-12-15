@@ -50,7 +50,7 @@ line-size = 5
 padding = 1
 
 modules-left = ewmh
-modules-right = pulseaudio sep cpu memory updates sep weather sep date sep powermenu-herbstluftwm
+modules-right = pulseaudio sep cpu memory updates sep weather sep date
 
 tray-position = right
 tray-background = ${colors.background-lighter}
