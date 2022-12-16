@@ -181,7 +181,7 @@
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
          ("C-c C-<" . mc/mark-all-like-this-dwim))
-  :config
+  :init
   (advice-add-repeat-mode 'mc/mark-next-like-this
                           '("n" . mc/mark-next-like-this)
                           '(">" . mc/mark-next-like-this)
