@@ -1,5 +1,5 @@
 from libqtile import bar, hook, layout, widget
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.config import Click, Drag, DropDown, Group, Key, Match, ScratchPad, Screen
 from libqtile.lazy import lazy
 from shutil import which
 import os
@@ -9,7 +9,7 @@ import subprocess
 
 mod = "mod4"
 
-terminal = os.environ.get("TERMINAL") or which('st') or which('xterm') or ''
+my_terminal = os.environ.get("TERMINAL") or which('st') or which('xterm') or ''
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -43,13 +43,13 @@ keys = [
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod], "Return", lazy.spawn(my_terminal), desc="Launch terminal"),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.spawn("sh -c ~/.config/qtile/powermenu.sh")),
-    Key([mod], "r", lazy.spawn("fzfmenu_run")),
+    Key([mod, "control"], "q", lazy.spawn("rofi -show p -modi p:~/.config/rofi/rofi-power-menu -theme ~/.config/rofi/rounded-nord-dark.rasi")),
+    Key([mod], "r", lazy.spawn("rofi -show drun -theme ~/.config/rofi/rounded-nord-dark.rasi")),
     # My custom keys
     Key([mod], "f", lazy.window.toggle_fullscreen()),
     Key([mod, "shift"], "f", lazy.window.toggle_floating()),
@@ -59,7 +59,7 @@ keys = [
     # Function keys
     Key([mod], "f5", lazy.spawn("st -c st-popup -e ~/.local/bin/fzfmount", shell=True)),
     Key([mod], "f6", lazy.spawn("st -c st-popup -e ~/.local/bin/fzfumount", shell=True)),
-    Key([mod], "f7", lazy.spawn("feh-random-background.sh")),
+    Key([mod], "f7", lazy.spawn("nitrogen-random-background.sh")),
     # Volume keys
     Key([mod], "bracketright", lazy.spawn("sh -c '~/.local/bin/pactl.sh inc 5'")),
     Key([mod, "shift"], "bracketright", lazy.spawn("sh -c '~/.local/bin/pactl.sh inc 1'")),
@@ -84,7 +84,7 @@ for i in groups:
             Key(
                 [mod, "shift"],
                 i.name,
-                lazy.window.togroup(i.name, switch_group=True),
+                lazy.window.togroup(i.name),
                 desc="Switch to & move focused window to group {}".format(i.name),
             ),
             # Or, use below if you prefer not to switch to that group.
@@ -93,6 +93,15 @@ for i in groups:
             #     desc="move focused window to group {}".format(i.name)),
         ]
     )
+
+groups.append(
+    ScratchPad("scratchpad", [
+        DropDown("term", my_terminal, x=0.1, y=0.1, height=0.8, width=0.8, opacity=1),],
+    single=True),
+)
+keys.append(
+    Key([mod], "minus", lazy.group['scratchpad'].dropdown_toggle('term')),
+)
 
 layouts = [
     layout.MonadTall(
@@ -122,6 +131,8 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+separator = widget.TextBox(text='⏺', foreground='#121212', padding=10, markup=False)
+
 screens = [
     Screen(
         top=bar.Bar(
@@ -131,54 +142,50 @@ screens = [
                 widget.WindowName(),
                 widget.Spacer(),
                 widget.PulseVolume(
-                    background='#83c092',
-                    fmt=" <span weight='bold'>{}</span>",
-                    foreground='#000',
+                    fmt="<span weight='bold'>   {}</span>",
+                    foreground='#556677',
                     step=5,
                 ),
-                widget.Spacer(5),
-                widget.CPU(
-                    background='#d699b6',
-                    foreground='#000',
-                    fmt=" <span weight='bold'>{}</span>",
-                    format="{load_percent}%",
+                separator,
+                # CPU
+                widget.GenPollText(
+                    foreground='#556677',
+                    func=lambda: subprocess.check_output("~/.config/qtile/cpu.sh", shell=True).decode('utf-8').strip(),
+                    update_interval=1,
                 ),
+                widget.Spacer(5),
                 # Memory
                 widget.GenPollText(
-                    background='#d699b6',
-                    foreground='#000',
+                    foreground='#556677',
                     func=lambda: subprocess.check_output("~/.config/qtile/memory.sh", shell=True).decode('utf-8').strip(),
                     update_interval=1,
                 ),
                 # Updates
                 widget.GenPollText(
-                    background='#d699b6',
-                    foreground='#000',
+                    foreground='#556677',
                     func=lambda: subprocess.check_output("~/.config/qtile/updates.sh", shell=True).decode('utf-8').strip(),
                     update_interval=21600,  # 6 hours
                 ),
-                widget.Spacer(5),
+                separator,
                 # Weather (Wttr)
                 widget.GenPollText(
-                    background='#7fbbb3',
-                    foreground='#000000',
+                    foreground='#556677',
                     func=lambda: subprocess.check_output("~/.config/qtile/weather.sh", shell=True).decode('utf-8').strip(),
                     mouse_callbacks={
                         'Button1': lazy.spawn('xterm -class xterm-popup -geometry 125x45 -e ~/.config/polybar/weather-click.sh', shell=True)
                     },
                     update_interval=1800,
                 ),
-                widget.Spacer(5),
+                separator,
                 widget.Clock(
-                    background='#a7c080',
-                    foreground='#000',
+                    foreground='#556677',
                     format="<span weight='bold'>%a, %d %b, %H:%M</span>",
                     mouse_callbacks={
                         "Button1": lazy.spawn("yad --calendar --undecorated --no-buttons --mouse --close-on-unfocus")
                     },
                 ),
                 widget.Spacer(5),
-                widget.Systray(background='#333'),
+                widget.Systray(background='#121212'),
             ],
             24,
             border_width=3,
@@ -240,4 +247,4 @@ def init_once():
     subprocess.call("pgrep cbatticon || cbatticon &", shell=True)
     subprocess.call("pgrep nm-applet || nm-applet &", shell=True)
     subprocess.call("pgrep picom || picom &", shell=True)
-    subprocess.run("feh-random-background.sh", shell=True)
+    subprocess.run("nitrogen-random-background.sh", shell=True)

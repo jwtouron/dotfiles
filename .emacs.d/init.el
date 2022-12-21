@@ -25,13 +25,35 @@
 (require 'my-defcustoms)
 (require 'my-init-emacs)
 ;; (require 'my-keybindings)
-;; (require 'my-init-cemov)
+(require 'my-init-cemov)
 
 (use-package ace-window
   :bind ("C-x o" . 'ace-window))
 
 (use-package avy
   :bind ("C-c j" . 'avy-goto-char-timer))
+
+(use-package cape
+  :bind (("C-c p p" . completion-at-point) ;; capf
+         ("C-c p t" . complete-tag)        ;; etags
+         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+         ("C-c p h" . cape-history)
+         ("C-c p f" . cape-file)
+         ("C-c p k" . cape-keyword)
+         ("C-c p s" . cape-symbol)
+         ("C-c p a" . cape-abbrev)
+         ("C-c p i" . cape-ispell)
+         ("C-c p l" . cape-line)
+         ("C-c p w" . cape-dict)
+         ("C-c p \\" . cape-tex)
+         ("C-c p _" . cape-tex)
+         ("C-c p ^" . cape-tex)
+         ("C-c p &" . cape-sgml)
+         ("C-c p r" . cape-rfc1345)
+         ("M-/" . cape-dabbrev))
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file))
 
 ;; an advanced Ctags (or actually, readtags) frontend
 ;; https://github.com/universal-ctags/citre
@@ -40,18 +62,19 @@
 (use-package comment-dwim-2
   :bind (("M-;" . comment-dwim-2)))
 
-(use-package company
-  :custom (company-idle-delay nil)
-  :hook (prog-mode . company-mode)
-  :bind (:map company-mode-map
-         ("C-M-i" . company-complete)
-         :map company-active-map
-         ("\C-n" . company-select-next)
-         ("\C-p" . company-select-previous)
-         ("\C-d" . company-show-doc-buffer)
-         ("M-." . company-show-location)))
-
-(use-package counsel)
+(use-package corfu
+  :defer 1
+  :init
+  (global-corfu-mode)
+  (corfu-popupinfo-mode)
+  :config
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer))
 
 (use-package crux
   :bind (("C-a" . crux-move-beginning-of-line)
@@ -159,19 +182,6 @@
          ("C-h k" . helpful-key)
          ("C-h F" . helpful-function)
          ("C-h C" . helpful-command)))
-
-(use-package ivy
-  :defer 1
-  :init
-  (setq ivy-use-virtual-buffers t
-        enable-recursive-minibuffers t
-        ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
-  (ivy-mode))
-
-(use-package ivy-prescient
-  :demand t
-  :after (ivy)
-  :config (ivy-prescient-mode))
 
 (use-package magit)
 
@@ -293,9 +303,12 @@
   :init (super-save-mode +1)
   :config (setq auto-save-default nil))
 
-(use-package undo-fu
-  :bind (("C-z"   . 'undo-fu-only-undo)
-         ("C-S-z" . 'undo-fu-only-redo)))
+(use-package undo-tree
+  :defer 1
+  :init
+  (global-undo-tree-mode)
+  :config
+  (push (cons "." (expand-file-name "~/.emacs.d/undo-tree")) undo-tree-history-directory-alist))
 
 (use-package visual-regexp
   :bind (("M-%" . vr/query-replace)

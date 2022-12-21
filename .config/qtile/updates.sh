@@ -31,4 +31,4 @@ if command -v pacman >/dev/null; then
     fi
 fi
 
-echo " <span weight='bold'>$count</span>"
+echo "<span weight='bold'>    $count</span>"

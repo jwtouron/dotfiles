@@ -87,14 +87,21 @@
   :hook (slime-repl-mode . paredit-mode)
   :config
   (cond
-   ((executable-find "sbcl") (setq inferior-lisp-program "sbcl"))
-   ((executable-find "ros") (setq inferior-lisp-program "ros run")))
-  (slime-setup '(slime-fancy slime-quicklisp slime-asdf slime-company)))
+   ((executable-find "sbcl")
+    (let ((quicklisp-path (expand-file-name "~/quicklisp/setup.lisp")))
+      (if (file-exists-p quicklisp-path)
+          (setq inferior-lisp-program (string-join (list "sbcl --load " quicklisp-path)))
+        (setq inferior-lisp-program "sbcl"))))
+   ((executable-find "ros")
+    (setq inferior-lisp-program "ros -Q run")))
+  (slime-setup '(slime-fancy slime-quicklisp slime-asdf))
+  (setq slime-completion-at-point-functions
+        (list #'slime-simple-completion-at-point)))
 
-(use-package slime-company
-  :after (slime company)
-  :config (setq slime-company-completion 'fuzzy
-                slime-company-after-completion 'slime-company-just-one-space))
+;; (use-package slime-company
+;;   :after (slime company)
+;;   :config (setq slime-company-completion 'fuzzy
+;;                 slime-company-after-completion 'slime-company-just-one-space))
 
 ;; (use-package sly
 ;;   :hook (sly-mode . paredit-mode)

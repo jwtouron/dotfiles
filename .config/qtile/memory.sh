@@ -8,10 +8,7 @@ if [ "$mem" -ge 90 ]; then
 elif [ "$mem" -ge 70 ]; then
     foreground='yellow'
 else
-    foreground='black'
+    foreground='#556677'
 fi
 
-mem="<span foreground='$foreground'>$mem</span>"
-mem="<span weight='bold'>$mem%</span>"
-
-echo " $mem"
+printf "<span weight='bold'>   <span foreground='$foreground'>%3d%%</span></span>" "$mem"
