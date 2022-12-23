@@ -139,7 +139,6 @@ screens = [
             [
                 widget.GroupBox(highlight_method='line'),
                 widget.Spacer(),
-                widget.WindowName(),
                 widget.Spacer(),
                 widget.PulseVolume(
                     fmt="<span weight='bold'>   {}</span>",
