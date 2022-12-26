@@ -1,10 +1,11 @@
 " Plugins
 
 call plug#begin()
-Plug 'airblade/vim-rooter'
+" Plug 'airblade/vim-rooter'
 Plug 'andrewradev/bufferize.vim'
 Plug 'ap/vim-css-color'
 Plug 'bronson/vim-trailing-whitespace'
+Plug 'dense-analysis/ale'
 Plug 'embear/vim-localvimrc'
 Plug 'itchyny/lightline.vim'
 Plug 'jpalardy/vim-slime', { 'branch': 'main' }
@@ -32,7 +33,7 @@ Plug 'tyru/open-browser.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'wellle/targets.vim'
 " LSP
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Colorschemes
 Plug 'chriskempson/base16-vim'
 Plug 'https://gitlab.com/madyanov/gruber.vim'
