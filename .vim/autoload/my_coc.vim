@@ -1,4 +1,5 @@
 function! my_coc#Setup() abort
+  return
   setlocal nobackup
   setlocal nowritebackup
   setlocal updatetime=300
