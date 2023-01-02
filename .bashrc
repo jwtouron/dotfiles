@@ -50,3 +50,5 @@ fi
 
 source ~/.config/fzf/functions.sh
 source ~/.config/fzf/key-bindings.bash
+
+command -v starship >/dev/null && eval "$(starship init bash)"

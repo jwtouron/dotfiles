@@ -1,5 +1,6 @@
 zcd() {
-    cd $(fd -H -t d . $1 | fzf)
+    cd $(find ${1:-.} -type d 2>/dev/null | fzf)
+    # cd $(fd -H -t d . $1 | fzf)
 }
 
 zkill() {

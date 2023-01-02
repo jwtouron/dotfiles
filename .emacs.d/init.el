@@ -124,8 +124,8 @@
     (advice-add-repeat-mode func
                             '("b" . dumb-jump-back))))
 
-(use-package easy-kill
-  :bind (([remap kill-ring-save] . easy-kill)))
+;; (use-package easy-kill
+;;   :bind (([remap kill-ring-save] . easy-kill)))
 
 (use-package eglot)
 

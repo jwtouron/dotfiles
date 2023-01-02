@@ -48,8 +48,10 @@ keys = [
     Key([mod], "space", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.spawn("rofi -show p -modi p:~/.config/rofi/rofi-power-menu -theme ~/.config/rofi/rounded-nord-dark.rasi")),
-    Key([mod], "r", lazy.spawn("rofi -show drun -theme ~/.config/rofi/rounded-nord-dark.rasi")),
+    Key([mod, "control"], "q", lazy.spawn("sh -c ~/.config/qtile/powermenu.sh")),
+    # Key([mod, "control"], "q", lazy.spawn("rofi -show p -modi p:~/.config/rofi/rofi-power-menu -theme ~/.config/rofi/rounded-nord-dark.rasi")),
+    Key([mod], "r", lazy.spawn("dmenu_run -c -bw 5 -l 10")),
+    # Key([mod], "r", lazy.spawn("rofi -show drun -theme ~/.config/rofi/rounded-nord-dark.rasi")),
     # My custom keys
     Key([mod], "f", lazy.window.toggle_fullscreen()),
     Key([mod, "shift"], "f", lazy.window.toggle_floating()),
@@ -137,7 +139,13 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.GroupBox(highlight_method='line'),
+                widget.GroupBox(
+                    highlight_color=[],
+                    highlight_method='line',
+                    margin_x=6,
+                    this_current_screen_border='#556677',
+                    this_screen_border='#556677',
+                ),
                 widget.Spacer(),
                 widget.Spacer(),
                 widget.PulseVolume(
@@ -160,11 +168,11 @@ screens = [
                     update_interval=1,
                 ),
                 # Updates
-                widget.GenPollText(
-                    foreground='#556677',
-                    func=lambda: subprocess.check_output("~/.config/qtile/updates.sh", shell=True).decode('utf-8').strip(),
-                    update_interval=21600,  # 6 hours
-                ),
+                # widget.GenPollText(
+                #     foreground='#556677',
+                #     func=lambda: subprocess.check_output("~/.config/qtile/updates.sh", shell=True).decode('utf-8').strip(),
+                #     update_interval=21600,  # 6 hours
+                # ),
                 separator,
                 # Weather (Wttr)
                 widget.GenPollText(
@@ -247,3 +255,4 @@ def init_once():
     subprocess.call("pgrep nm-applet || nm-applet &", shell=True)
     subprocess.call("pgrep picom || picom &", shell=True)
     subprocess.run("nitrogen-random-background.sh", shell=True)
+    subprocess.run("~/.config/qtile/update-icon.sh &", shell=True)
