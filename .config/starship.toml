@@ -9,7 +9,7 @@ $line_break\
 $python\
 $character"""
 
-add_newline = false
+add_newline = true
 
 [directory]
 style = "blue"
