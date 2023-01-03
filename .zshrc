@@ -25,7 +25,7 @@ bindkey -M menuselect 'l' vi-forward-char
 export EDITOR='vim'
 
 source $HOME/.config/zsh/git.zsh
-source $HOME/.config/zsh/termsupport.zsh
+# source $HOME/.config/zsh/termsupport.zsh
 
 fpath+=($HOME/.config/zsh/pure)
 
