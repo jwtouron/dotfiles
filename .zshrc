@@ -16,6 +16,12 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 _comp_options+=(globdots)
 
+zmodload zsh/complist
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+
 export EDITOR='vim'
 
 source $HOME/.config/zsh/git.zsh
@@ -61,7 +67,7 @@ fi
 source ~/.config/fzf/completion.zsh
 source ~/.config/fzf/key-bindings.zsh
 source ~/.config/fzf/functions.sh
-source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
+# source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
 
 # Must be last line in config
 source $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
