@@ -168,11 +168,11 @@ screens = [
                     update_interval=1,
                 ),
                 # Updates
-                # widget.GenPollText(
-                #     foreground='#556677',
-                #     func=lambda: subprocess.check_output("~/.config/qtile/updates.sh", shell=True).decode('utf-8').strip(),
-                #     update_interval=21600,  # 6 hours
-                # ),
+                widget.GenPollText(
+                    foreground='#556677',
+                    func=lambda: subprocess.check_output("~/.config/qtile/updates.sh", shell=True).decode('utf-8').strip(),
+                    update_interval=21600,  # 6 hours
+                ),
                 separator,
                 # Weather (Wttr)
                 widget.GenPollText(
@@ -255,4 +255,3 @@ def init_once():
     subprocess.call("pgrep nm-applet || nm-applet &", shell=True)
     subprocess.call("pgrep picom || picom &", shell=True)
     subprocess.run("nitrogen-random-background.sh", shell=True)
-    subprocess.run("~/.config/qtile/update-icon.sh &", shell=True)

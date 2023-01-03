@@ -5,7 +5,7 @@ call plug#begin()
 Plug 'andrewradev/bufferize.vim'
 Plug 'ap/vim-css-color'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 Plug 'embear/vim-localvimrc'
 Plug 'itchyny/lightline.vim'
 Plug 'jpalardy/vim-slime', { 'branch': 'main' }
