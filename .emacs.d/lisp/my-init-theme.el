@@ -46,8 +46,7 @@
     (set-face-attribute 'font-lock-comment-face nil :foreground "grey32")
     (set-face-attribute 'font-lock-comment-delimiter-face nil :foreground "grey32")))
 
-(use-package modus-themes
-  :init (modus-themes-load-themes))
+(use-package modus-themes)
 
 (use-package nord-theme)
 
