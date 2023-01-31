@@ -1,37 +1,52 @@
 #!/bin/sh
 
-cache_loc="$HOME/.cache/updates"
-
 if command -v pacman >/dev/null; then
-    list() { checkupdates ;}
-    limit=$(($(pacman -Q | wc -l) * 100 / 2000))
+    pkgmgr=pacman
 elif command -v apt >/dev/null; then
-    list() { apt list --upgradable 2>/dev/null | grep upgradable ;}
-    limit=1
+    pkgmgr=apt
 elif command -v dnf >/dev/null; then
-    list() { dnf updateinfo -q --list ;}
-    limit=1
+    pkgmgr=dnf
 elif command -v xbps-install >/dev/null; then
-    list() { xbps-install -nuM | wc -l ;}
-    limit=1
+    pkgmgr=xbps
 fi
 
-# last_update_days="$(pacman-last-update.sh)"
+list() {
+    case "$pkgmgr" in
+        pacman) checkupdates ;;
+        apt)    apt list --upgradable 2>/dev/null | grep upgradable ;;
+        dnf)    dnf updateinfo -q --list ;;
+        xbps)   xbps-install -nuM | wc -l ;;
+    esac
+}
 
+limit() {
+    case "$pkgmgr" in
+        pacman)
+            last_update_days="$(pacman-last-update.sh)"
+            if [[ "$last_update_days" -ge 7 ]]; then
+                echo 1
+            else
+                echo "$(($(pacman -Q | wc -l) * 100 / 2000))"
+            fi
+            ;;
+        *) echo 1 ;;
+    esac
+}
+
+[[ -z "$pkgmgr" ]] && exit 1
+
+cache_loc="$HOME/.cache/updates"
 yad_pid=
 
 while true; do
     list > "$cache_loc"
     count="$(wc -l < $cache_loc)"
-    if [[ "$count" -ge "$limit" ]]; then
-        image="$HOME/.config/qtile/lotsupdate.png"
-    # else
-    #     image="$HOME/.config/qtile/noupdate.png"
+    if [[ "$count" -ge "$(limit)" ]]; then
+        if [[ -n "$yad_pid" ]]; then
+            kill "$yad_pid"
+        fi
+        yad --notification --text="$count Updates Available" --image="$HOME/.config/qtile/lotsupdate.png" &
+        yad_pid=$!
     fi
-    if [[ -n "$yad_pid" ]]; then
-        kill "$yad_pid"
-    fi
-    yad --notification --text="$count Updates Available" --image="$image" --command='' &
-    yad_pid=$!
     sleep $((86400 / 4))
 done

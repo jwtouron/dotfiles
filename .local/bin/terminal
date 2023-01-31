@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for term in st xterm kitty termite; do
+for term in alacritty st xterm; do
     if command -v "$term" >/dev/null; then
         "$term" "$@"
         break

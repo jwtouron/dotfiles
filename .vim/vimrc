@@ -160,7 +160,7 @@ set background=dark
 set cmdheight=2
 set complete-=t
 set completeopt=menu,menuone,noinsert,noselect,preview
-set cursorline
+" set cursorline
 set expandtab
 set formatoptions-=cro
 set gdefault
@@ -212,6 +212,8 @@ augroup END
 command! BW :b# | bw#
 command! SW :w | sudo tee %
 
+command! ReadDate :r !date +'\%Y-\%m-\%d'
+
 " highlight CursorLine cterm=None ctermbg=237 ctermfg=None
 " highlight cursorLineNr cterm=None ctermbg=None
 
@@ -223,6 +225,7 @@ if exists('+termguicolors') && ($TERM =~# "-256color$")
 endif
 
 " let g:everforest_background = 'hard'
-colorscheme base16-black-metal-immortal
+colorscheme base16-onedark
 
 highlight Normal guibg=NONE ctermbg=NONE
+highlight MatchParen term=underline cterm=underline gui=underline ctermbg=NONE guibg=NONE

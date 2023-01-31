@@ -10,7 +10,7 @@ _lock() {
 }
 
 options="1. Loc(k)\n2. Sus(p)end\n3. Lo(g)out\n4. (R)eboot\n5. Shutdo(w)n\n"
-choice=$(printf "$options" | dmenu -i -n -c -bw 5 -l 5 | awk '{print $NF}')
+choice=$(printf "$options" | dmenu -i -n -c -bw 5 -l 5 -nf '#567' -sb '#567' -sf '#222' | awk '{print $NF}')
 
 case "$choice" in
     "Loc(k)") _lock ;;

@@ -88,6 +88,10 @@
   :custom ((denote-known-keywords nil))
   :init (setq denote-directory (expand-file-name "~/Documents/org/")))
 
+;; Run devdocs-install
+(use-package devdocs
+  :bind ("C-h D" . devdocs-lookup))
+
 (use-package diminish)
 
 (use-package dot-mode
@@ -124,9 +128,6 @@
     (advice-add-repeat-mode func
                             '("b" . dumb-jump-back))))
 
-;; (use-package easy-kill
-;;   :bind (([remap kill-ring-save] . easy-kill)))
-
 (use-package eglot)
 
 (use-package elfeed
@@ -140,6 +141,8 @@
               ("https://reddit.com/r/haskell/.rss" haskell)
               ("https://reddit.com/r/vim/.rss" vim)
               ("https://reddit.com/r/emacs/.rss" emacs)
+              ("https://sachachua.com/blog/feed" emacs)
+              ("https://pragmaticemacs.wordpress.com/feed/" emacs)
               ("https://hnrss.org/show?points=100&comments=25" hacker-news)))
            (elfeed-search-filter "@2-days-ago +unread")))
 
@@ -185,22 +188,6 @@
 
 (use-package magit)
 
-(use-package multiple-cursors
-  :custom ((mc/always-run-for-all t))
-  :bind (("C-S-c C-S-c" . mc/edit-lines)
-         ("C->" . mc/mark-next-like-this)
-         ("C-<" . mc/mark-previous-like-this)
-         ("C-c C-<" . mc/mark-all-like-this-dwim))
-  :init
-  (advice-add-repeat-mode 'mc/mark-next-like-this
-                          '("n" . mc/mark-next-like-this)
-                          '(">" . mc/mark-next-like-this)
-                          '("N" . mc/skip-to-next-like-this))
-  (advice-add-repeat-mode 'mc/mark-previous-like-this
-                          '("p" . mc/mark-previous-like-this)
-                          '("<" . mc/mark-previous-like-this)
-                          '("P" . mc/skip-to-previous-like-this)))
-
 (use-package org
   :ensure nil
   :custom ((org-agenda-files '("~/Documents/org/agenda"))
@@ -223,13 +210,13 @@
          ("M-`"   . popper-cycle)
          ("C-M-`" . popper-toggle-type))
   :init
-  (setq  popper-reference-buffers '("\\*Messages\\*"
-                                    "Output\\*$"
-                                    "\\*Async Shell Command\\*"
-                                    help-mode
-                                    compilation-mode)
-         popper-window-height 0.33
-         popper-group-function #'popper-group-by-project)
+  (setq popper-reference-buffers '("\\*Messages\\*"
+                                   "Output\\*$"
+                                   "\\*Async Shell Command\\*"
+                                   help-mode
+                                   compilation-mode)
+        popper-window-height 0.33
+        popper-group-function #'popper-group-by-project)
   (popper-mode +1)
   (popper-echo-mode +1))
 

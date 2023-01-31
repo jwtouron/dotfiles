@@ -9,7 +9,8 @@ import subprocess
 
 mod = "mod4"
 
-my_terminal = os.environ.get("TERMINAL") or which('st') or which('xterm') or ''
+my_terminal = "terminal"
+# my_terminal = os.environ.get("TERMINAL") or which('st') or which('xterm') or ''
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -50,7 +51,7 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.spawn("sh -c ~/.config/qtile/powermenu.sh")),
     # Key([mod, "control"], "q", lazy.spawn("rofi -show p -modi p:~/.config/rofi/rofi-power-menu -theme ~/.config/rofi/rounded-nord-dark.rasi")),
-    Key([mod], "r", lazy.spawn("dmenu_run -c -bw 5 -l 10")),
+    Key([mod], "r", lazy.spawn("dmenu_run -c -bw 5 -l 10 -nf '#567' -sb '#567' -sf #'222'")),
     # Key([mod], "r", lazy.spawn("rofi -show drun -theme ~/.config/rofi/rounded-nord-dark.rasi")),
     # My custom keys
     Key([mod], "f", lazy.window.toggle_fullscreen()),
@@ -98,7 +99,9 @@ for i in groups:
 
 groups.append(
     ScratchPad("scratchpad", [
-        DropDown("term", my_terminal, x=0.1, y=0.1, height=0.8, width=0.8, opacity=1),],
+        DropDown("term",
+                 which('alacritty') or which('st') or which('xterm'),
+                 x=0.1, y=0.1, height=0.8, width=0.8, opacity=1),],
     single=True),
 )
 keys.append(
@@ -145,6 +148,7 @@ screens = [
                     margin_x=6,
                     this_current_screen_border='#556677',
                     this_screen_border='#556677',
+                    disable_drag=True,
                 ),
                 widget.Spacer(),
                 widget.Spacer(),
@@ -168,11 +172,11 @@ screens = [
                     update_interval=1,
                 ),
                 # Updates
-                widget.GenPollText(
-                    foreground='#556677',
-                    func=lambda: subprocess.check_output("~/.config/qtile/updates.sh", shell=True).decode('utf-8').strip(),
-                    update_interval=21600,  # 6 hours
-                ),
+                # widget.GenPollText(
+                #     foreground='#556677',
+                #     func=lambda: subprocess.check_output("~/.config/qtile/updates.sh", shell=True).decode('utf-8').strip(),
+                #     update_interval=21600,  # 6 hours
+                # ),
                 separator,
                 # Weather (Wttr)
                 widget.GenPollText(
@@ -254,4 +258,5 @@ def init_once():
     subprocess.call("pgrep cbatticon || cbatticon &", shell=True)
     subprocess.call("pgrep nm-applet || nm-applet &", shell=True)
     subprocess.call("pgrep picom || picom &", shell=True)
+    subprocess.call("~/.config/qtile/update-icon.sh &", shell=True)
     subprocess.run("nitrogen-random-background.sh", shell=True)

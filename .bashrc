@@ -18,37 +18,38 @@ shopt -s globstar
 bind '"\e[A":history-search-backward'
 bind '"\e[B":history-search-forward'
 
-export EDITOR=vim
-
-alias wl='wc -l'
-
-alias ls='ls --color=auto'
-alias ll='ls -lavF'   # show long listing of all except ".."
-alias la='ls -AF'
-alias l='ls -lavF'   # show long listing but no hidden dotfiles except "."
-alias lt='ls -lAFt'
-alias ltr='ls -lAFtr'
-
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-
-alias config='/usr/bin/git --git-dir=$HOME/.config/.dotfiles/ --work-tree=$HOME'
-alias config-sync='GIT_DIR=$HOME/.config/.dotfiles GIT_WORK_TREE=$HOME git-sync'
-command -v fdfind >/dev/null && alias fd='fdfind'
-command -v batcat >/dev/null && alias bat='batcat'
-
 # FZF
-
-if command -v fdfind >/dev/null; then
-    export FZF_DEFAULT_COMMAND="fdfind -H -t f -E '.git/'"
-elif command -v fd >/dev/null; then
-    export FZF_DEFAULT_COMMAND="fd -H -t f -E '.git/'"
-elif command -v rg >/dev/null; then
-    export FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/*'"
-fi
-
-source ~/.config/fzf/functions.sh
 source ~/.config/fzf/key-bindings.bash
+source ~/.config/fzf/completion.bash
+_fzf_setup_completion path config
 
-command -v starship >/dev/null && eval "$(starship init bash)"
+# Functionality common to bash and zsh
+source ~/.config/shell/shellrc
+
+# Prompt
+PROMPT_COMMAND=__prompt_command
+__prompt_command() {
+    local last_error="$?"
+    local blue="\[\e[0;34m\]"
+    local green="\[\e[0;32m\]"
+    local red="\[\e[0;31m\]"
+    local yellow="\[\e[0;33m\]"
+    local nc="\[\e[0m\]"
+
+    PS1="\n${blue}\w${nc}"
+
+    # Git
+    local git_status="$(git status 2>&1)"
+    if echo "$git_status" | grep -q -v "fatal: not a git repository" -; then
+        local branch=$(echo $git_status |  cut -d ' ' -f 3 | head -n1)
+        PS1+=" ${yellow} $branch ${nc}"
+        echo "$git_status" | grep -q "nothing to commit, working tree clean" - && \
+            PS1+="${green}✓${nc}" || \
+            PS1+="${red}✗${nc}"
+    fi
+
+    PS1+="\n"
+    [[ "$last_error" -eq 0 ]] && PS1+="${green}" || PS1+="${red}"
+    PS1+="❯${nc} "
+}
+# command -v starship ❯/dev/null && eval "$(starship init bash)"

@@ -62,6 +62,7 @@ zuu() {
 }
 
 zvim() (
-    files=$(fd -H -t f . $1 | fzf -m)
+    files=$(find ${1:-.} -type f 2>/dev/null | fzf -m)
+    # files=$(fd -H -t f . $1 | fzf -m)
     [ -n "$files" ] && echo "$files" | tr '\n' '\0' | xargs -o -0 vim --
 )

@@ -1,0 +1,29 @@
+alias wl='wc -l'
+
+alias ls='ls --color=auto'
+alias ll='ls -lavF'   # show long listing of all except ".."
+alias la='ls -AF'
+alias l='ls -lavF'   # show long listing but no hidden dotfiles except "."
+alias lt='ls -lAFt'
+alias ltr='ls -lAFtr'
+
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+alias config='/usr/bin/git --git-dir=$HOME/.config/.dotfiles/ --work-tree=$HOME'
+alias config-sync='GIT_DIR=$HOME/.config/.dotfiles GIT_WORK_TREE=$HOME git-sync'
+
+command -v fdfind > /dev/null && alias fd='fdfind'
+command -v batcat >/dev/null && alias bat='batcat'
+command -v exa >/dev/null && alias ls='exa --icons'
+
+if command -v fdfind >/dev/null; then
+    export FZF_DEFAULT_COMMAND="fdfind -H -t f -E '.git/'"
+elif type fd >/dev/null; then
+    export FZF_DEFAULT_COMMAND="fd -H -t f -E '.git/'"
+elif type rg >/dev/null; then
+    export FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/*'"
+fi
+
+source ~/.config/fzf/functions.sh

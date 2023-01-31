@@ -29,7 +29,7 @@ HTop
 Volume"
 
 # if command -v dmenu >/dev/null; then
-    choice=$(echo "$options" | awk '{print NR ". " $0}' | dmenu -f -i -n -l 6 -c -bw 5 -p 'Launch:' | awk '{$1=""; print $0}')
+    choice=$(echo "$options" | awk '{print NR ". " $0}' | dmenu -f -i -n -l 6 -c -bw 5 -p 'Launch:' -nf '#567' -sb '#567' -sf '#222' | awk '{$1=""; print $0}')
 # else
     # choice=$(echo "$options" | awk '{print NR ". " $0}' | rofi -dmenu -i -p 'Launch' -case-sensitive -auto-select -theme ~/.config/rofi/rounded-nord-dark.rasi | awk '{$1=""; print $0}')
 # fi

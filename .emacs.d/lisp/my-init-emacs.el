@@ -69,7 +69,7 @@
 ;;   (customize-set-variable 'next-error-message-highlight t))
 (column-number-mode t)
 (global-auto-revert-mode)
-(global-hl-line-mode)
+;;(global-hl-line-mode)
 (load custom-file t)
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 

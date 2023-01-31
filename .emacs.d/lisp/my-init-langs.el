@@ -3,11 +3,12 @@
 ;;;; Initialization for various languages
 ;;;; Depends on use-package
 
+(add-hook 'prog-mode-hook #'electric-pair-local-mode)
+
 ;; C/C++
 
 (add-hook 'c-mode-common-hook
           (lambda ()
-            (electric-pair-local-mode 1)
             (local-set-key (kbd "TAB")  'indent-for-tab-command)))
 (c-add-style "my-c-style"
              '("stroustrup"
@@ -21,7 +22,11 @@
 ;; Clojure
 
 (use-package clojure-mode
-  :hook (clojure-mode . paredit-mode))
+  :hook (clojure-mode . my--init-clojure-mode)
+  :config
+  (defun my--init-clojure-mode ()
+    (electric-pair-local-mode -1)
+    (paredit-mode)))
 
 (use-package cider)
 
@@ -29,24 +34,25 @@
 
 (use-package elisp-mode
   :ensure nil
-  :hook ((emacs-lisp-mode . flymake-mode)
-         (emacs-lisp-mode . paredit-mode)))
+  :hook (emacs-lisp-mode . my--init-elisp-mode)
+  :config
+  (defun my--init-elisp-mode ()
+    (electric-pair-local-mode -1)
+    (flymake-mode)
+    (paredit-mode)))
 
 ;; go
 
-(use-package go-mode
-  :hook ((go-mode . electric-pair-local-mode)))
+(use-package go-mode)
 
 ;; groovy
 
-(use-package groovy-mode
-  :hook ((groovy-mode . electric-pair-local-mode)))
+(use-package groovy-mode)
 
 ;; haskell
 
 (use-package haskell-mode
-  :hook ((haskell-mode . electric-pair-local-mode)
-         (haskell-mode . interactive-haskell-mode)
+  :hook ((haskell-mode . interactive-haskell-mode)
          (haskell-mode . my-haskell-minor-mode))
   :custom ((haskell-process-use-presentation-mode t))
   :init
@@ -81,7 +87,13 @@
 
 ;; lisp
 
-(add-hook 'lisp-mode-hook #'paredit-mode)
+(use-package lisp-mode
+  :ensure nil
+  :hook (lisp-mode . my--init-lisp-mode)
+  :config
+  (defun my--init-lisp-mode ()
+    (electric-pair-local-mode -1)
+    (paredit-mode)))
 
 (use-package slime
   :hook (slime-repl-mode . paredit-mode)
@@ -132,46 +144,34 @@
 ;; nim
 
 (use-package nim-mode
-  :init
-  (defun my--init-nim-mode ()
-    (nimsuggest-mode 1)
-    (electric-pair-local-mode 1))
-  (add-hook 'nim-mode-hook 'my--init-nim-mode))
+  :hook (nim-mode . nimsuggest-mode))
 
 ;; Rust
 
 (use-package rust-mode
-  :hook (rust-mode . my--init-rust-mode)
   :bind (:map rust-mode-map
               ("C-c m r" . 'rust-run)
               ("C-c m c" . 'rust-compile)
               ("C-c m t" . 'rust-test)
-              ("C-c m k" . 'rust-check))
-  :config
-  (defun my--init-rust-mode ()
-    (electric-pair-local-mode)))
+              ("C-c m k" . 'rust-check)))
 
 (use-package cargo-mode
   :config
   (add-hook 'rust-mode-hook 'cargo-minor-mode))
 
-;; xml
-
-(use-package nxml-mode
-  :ensure nil
-  :hook ((nxml-mode . electric-pair-local-mode)))
-
 ;; python
 
 (use-package python
   :ensure nil
-  :hook ((python-mode . electric-pair-local-mode))
   :config
   (if (executable-find "ipython3")
       (setq python-shell-interpreter "ipython3"
             python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
     (setq python-interpreter "python3")))
 
+;; web
+
+(use-package vue-mode)
 
 ;; yaml
 
