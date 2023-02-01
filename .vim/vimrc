@@ -38,6 +38,7 @@ Plug 'wellle/targets.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'https://gitlab.com/madyanov/gruber.vim'
 Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
+Plug 'joshdick/onedark.vim'
 Plug 'metalelf0/base16-black-metal-scheme'
 Plug 'sainnhe/everforest'
 Plug 'tomasiser/vim-code-dark'
@@ -225,7 +226,7 @@ if exists('+termguicolors') && ($TERM =~# "-256color$")
 endif
 
 " let g:everforest_background = 'hard'
-colorscheme base16-onedark
+colorscheme onedark
 
 highlight Normal guibg=NONE ctermbg=NONE
 highlight MatchParen term=underline cterm=underline gui=underline ctermbg=NONE guibg=NONE

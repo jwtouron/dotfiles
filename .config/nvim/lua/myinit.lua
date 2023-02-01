@@ -11,12 +11,9 @@ nnoremap <expr> N v:searchforward ? 'N' : 'n'
 
 vim.o.autowrite = true
 vim.o.ignorecase = true
-vim.o.lazyredraw = true
 vim.o.list = true
 vim.opt.listchars = { tab = "> " }
-vim.o.pumheight = 10
 vim.o.relativenumber = true
-vim.o.shiftround = true
 vim.o.showmode = false
 vim.o.smartcase = true
 vim.o.swapfile = false
