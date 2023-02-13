@@ -140,11 +140,12 @@
               ("https://clojure.org/feed.xml" clojure)
               ("https://reddit.com/r/haskell/.rss" haskell)
               ("https://reddit.com/r/vim/.rss" vim)
+              ("https://reddit.com/r/neovim/.rss" neovim)
               ("https://reddit.com/r/emacs/.rss" emacs)
               ("https://sachachua.com/blog/feed" emacs)
               ("https://pragmaticemacs.wordpress.com/feed/" emacs)
-              ("https://hnrss.org/show?points=100&comments=25" hacker-news)))
-           (elfeed-search-filter "@2-days-ago +unread")))
+              ("https://hnrss.org/show?points=100&comments=25" programming)))
+           (elfeed-search-filter "@2-days-ago +unread -emacs -neovim -vim -haskell -clojure -linux -programming")))
 
 (use-package expand-region
   :bind ("C-=" . er/expand-region))

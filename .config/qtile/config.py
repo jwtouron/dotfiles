@@ -100,7 +100,7 @@ for i in groups:
 groups.append(
     ScratchPad("scratchpad", [
         DropDown("term",
-                 which('alacritty') or which('st') or which('xterm'),
+                 which('st') or which('xterm'),
                  x=0.1, y=0.1, height=0.8, width=0.8, opacity=1),],
     single=True),
 )

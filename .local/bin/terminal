@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for term in alacritty st xterm; do
+for term in st wezterm alacritty xterm; do
     if command -v "$term" >/dev/null; then
         "$term" "$@"
         break
