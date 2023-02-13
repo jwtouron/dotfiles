@@ -6,10 +6,14 @@ pcall(require, "luarocks.loader")
 local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
+-- Widget and layout library
+local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
+local sharedtags = require("sharedtags")
+local wibar = require("wibar")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -38,26 +42,42 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/default/theme.lua")
-naughty.config.defaults.margin = beautiful.notification_margin
+beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.border_width = 2
 
--- This is used later as the default terminal and editor to run.
-terminal = "terminal"
-editor = os.getenv("EDITOR") or "vim"
-editor_cmd = terminal .. " -e " .. editor
+-- Returns the path of program, or nil if cannot be found.
+local function get_path(program)
+    local path = os.getenv("PATH")
+    for dir in string.gmatch(os.getenv("PATH"), "[^:]+") do
+        local full_path = dir .. "/" .. program
+        if gears.filesystem.file_executable(full_path) then
+            return full_path
+        end
+    end
+    return nil
+end
 
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+-- Returns the program whose path is first found or nil, if none can be found.
+local function find_one_of(programs)
+    for i = 1, #programs do
+        if get_path(programs[i]) then
+            return programs[i]
+        end
+    end
+    return nil
+end
+
+-- Global values
+local terminal = find_one_of({"kitty", "st-tabbed", "termite", "xterm"})
+local browser = find_one_of({"brave", "brave-browser", "firefox"})
+local editor = os.getenv("EDITOR") or "vim"
+local editor_cmd = terminal .. " -e " .. editor
+local modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    awful.layout.suit.tile,
-    awful.layout.suit.max,
     -- awful.layout.suit.floating,
+    awful.layout.suit.tile,
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.tile.top,
@@ -65,7 +85,7 @@ awful.layout.layouts = {
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
-    -- awful.layout.suit.max,
+    awful.layout.suit.max,
     -- awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.magnifier,
     -- awful.layout.suit.corner.nw,
@@ -75,16 +95,71 @@ awful.layout.layouts = {
 }
 -- }}}
 
-require("wibar").init()
+local function set_wallpaper(s)
+    -- Wallpaper
+    if beautiful.wallpaper then
+        local wallpaper = beautiful.wallpaper
+        -- If wallpaper is a function, call it with the screen
+        if type(wallpaper) == "function" then
+            wallpaper = wallpaper(s)
+        end
+        gears.wallpaper.maximized(wallpaper, s, true)
+    end
+end
+
+-- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
+screen.connect_signal("property::geometry", set_wallpaper)
+
+awful.screen.connect_for_each_screen(function(s) set_wallpaper(s) end)
+
+wibar.init()
+
+local tags = sharedtags({
+    { name = "1", layout = awful.layout.layouts[1] },
+    { name = "2", layout = awful.layout.layouts[1] },
+    { name = "3", layout = awful.layout.layouts[1] },
+    { name = "4", layout = awful.layout.layouts[1] },
+    { name = "5", layout = awful.layout.layouts[1] },
+    { name = "6", layout = awful.layout.layouts[1] },
+    { name = "7", layout = awful.layout.layouts[1] },
+    { name = "8", layout = awful.layout.layouts[1] },
+    { name = "9", layout = awful.layout.layouts[1] },
+})
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
+    -- awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
 -- }}}
 
-local clientkeys = require("keybindings").init()
+local keys = require("keybindings").init({
+    tags = tags,
+    modkey = modkey,
+    browser = browser,
+    terminal = terminal,
+    logout_popup = wibar.logout_popup})
+
+clientbuttons = gears.table.join(
+    awful.button({ }, 1, function (c)
+        c:emit_signal("request::activate", "mouse_click", {raise = true})
+    end),
+    awful.button({ modkey }, 1, function (c)
+        c:emit_signal("request::activate", "mouse_click", {raise = true})
+        awful.mouse.client.move(c)
+    end),
+    awful.button({ modkey }, 3, function (c)
+        if c.floating then
+            c:emit_signal("request::activate", "mouse_click", {raise = true})
+            awful.mouse.client.resize(c)
+        end
+    end)
+)
+
+-- Set keys
+root.keys(keys.global)
+-- }}}
 
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
@@ -95,7 +170,7 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      raise = true,
-                     keys = clientkeys,
+                     keys = keys.client,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
@@ -119,9 +194,7 @@ awful.rules.rules = {
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
           "Wpa_gui",
           "veromix",
-          "xterm-popup",
-          "xtightvncviewer",
-          "Yad"},
+          "xtightvncviewer"},
 
         -- Note that the name property shown in xprop might be set slightly after creation of the client
         -- and the name shown there might not match defined rules here.
@@ -133,7 +206,11 @@ awful.rules.rules = {
           "ConfigManager",  -- Thunderbird's about:config.
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
-      }, properties = { floating = true, placement = awful.placement.centered }},
+      }, properties = { floating = true }},
+
+    -- Set Firefox to always map on the tag named "2" on screen 1.
+    -- { rule = { class = "Firefox" },
+    --   properties = { screen = 1, tag = "2" } },
 }
 -- }}}
 
@@ -161,15 +238,15 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-awful.spawn.with_shell("pgrep cbatticon || cbatticon &")
-awful.spawn.with_shell("pgrep nm-applet || nm-applet &")
-awful.spawn.with_shell("pgrep picom || picom &")
-awful.spawn.with_shell("pgrep update-icon || ~/.config/awesome/update-icon.sh &")
--- awful.spawn.with_shell("nitrogen-random-background.sh")
-
--- Run garbage collector regularly to prevent memory leaks
 gears.timer {
-    timeout = 60,
+    timeout = 30,
     autostart = true,
     callback = function() collectgarbage() end
 }
+
+beautiful.useless_gap = 5
+beautiful.border_focus = '#005577'
+beautiful.border_normal = '#7f7f7f'
+awful.spawn.with_shell('nm-applet &')
+awful.spawn.with_shell('picom &')
+awful.spawn.with_shell('sleep 0.25 && nitrogen --restore &')
