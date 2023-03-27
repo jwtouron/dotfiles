@@ -18,21 +18,21 @@ local function setup(plugin, opts)
 end
 
 require("lazy").setup({
-  require "plugins.lualine",
-  require "plugins.telescope",
   require "plugins.harpoon",
+  require "plugins.lualine",
+  require "plugins.mini",
+  require "plugins.telescope",
 
-  { 'bronson/vim-trailing-whitespace' },
+  { 'jakewvincent/mkdnflow.nvim', config = function() require('mkdnflow').setup() end },
   { 'max397574/better-escape.nvim', config = setup('better_escape', { mapping = { "jk", "kj" } }) },
   { 'mbbill/undotree' },
   { 'norcalli/nvim-colorizer.lua', init = function() vim.o.termguicolors = true end, config = setup('colorizer') },
-  { 'numToStr/Comment.nvim', config = setup('Comment') },
   { 'romainl/vim-cool' },
   { "tpope/vim-rsi" },
   { "tpope/vim-sleuth" },
-  { 'tpope/vim-surround' },
-  { "tpope/vim-unimpaired" },
 
+  { 'folke/tokyonight.nvim', config = setup('tokyonight', { dim_inactive = false }) },
   { 'LunarVim/Colorschemes' },
-  { 'rose-pine/neovim', config = function() require("rose-pine").setup({disable_background = true}) end },
+  { 'rose-pine/neovim', config = setup("rose-pine", {disable_background = true}) },
+  require "plugins.everforest",
 })

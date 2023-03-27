@@ -1,0 +1,120 @@
+zcd() {
+    local dir
+    dir=$(find "${1:-.}" -type d 2>/dev/null | fzf)
+    [[ -z "$dir" ]] && return
+    # shellcheck disable=SC2164
+    cd "$dir"
+}
+
+zkill() {
+    local process
+    process=$(ps -e -o pid=PID,args=COMMAND | fzf -m --header-lines=1 | awk '{print $1}')
+    [ -z "$process" ] && return
+    echo "$process" | xargs kill "$@"
+}
+
+zless() {
+    local file
+    file=$(find "${1:-.}" -type f 2>/dev/null | fzf)
+    [[ -z "$file" ]] && return
+    less "$file"
+}
+
+zman() {
+    local manpage
+    manpage=$(man -k . | fzf -q "'" -n 1,2 --preview-window=top --preview='man -P cat {1}{2}' | awk '{print $1 $2}')
+    [[ -z "$manpage" ]] && return
+    man "$manpage"
+}
+
+zmount() {
+    local header dev mount_point
+
+    header=$(lsblk -l | head -n 1)
+    dev=$(lsblk -lp | tail -n+2 | awk '/loop/ {} { print $1 }' | fzf --prompt='Device: ' --preview="echo $header; lsblk -lp | grep '^'{}'\b'")
+
+    [ -z "$dev" ] && return
+
+    mount_point=$(printf "/media/%s\n/media/tmp\nother" "$(whoami)" | fzf --prompt='Mount point: ')
+
+    if [ "$mount_point" = "other" ]; then
+        echo -n "Mount point: "
+        read -r mount_point || return
+    fi
+
+    [ -z "$mount_point" ] && return
+
+    sudo mkdir -p "$mount_point" && sudo mount "$dev" "$mount_point"
+}
+
+zmv() {
+    local files tmpfile
+
+    # shellcheck disable=2016
+    files=$(find "${1:-.}" -type f 2>/dev/null | fzf -m --preview-window=up --preview='echo $(file {}) | grep -q text && head {} || file {}')
+    [ -z "$files" ] && return
+
+    tmpfile=$(echo 'mkstemp(/tmp/tmp.XXXXXX)' | m4)
+    # shellcheck disable=SC2064
+    trap "rm -f $tmpfile" EXIT
+
+    echo "$files" > "$tmpfile"
+    $EDITOR "$tmpfile"
+
+    echo "$files" | paste - "$tmpfile" | awk '{system("mv " $1 " " $2)}'
+}
+
+znvim() {
+    local files
+    files=$(find "${1:-.}" -type f 2>/dev/null | fzf -m)
+    [ -n "$files" ] && echo "$files" | tr '\n' '\0' | xargs -o -0 nvim --
+}
+
+zpkginstall() {
+    local pkgs
+    if command -v pacman >/dev/null; then
+        pkgs=$(pacman -Ssq . | fzf -m)
+        [ -n "$pkgs" ] && sudo pacman --needed -S "$(echo "$pkgs" | xargs)"
+    elif command -v apt >/dev/null; then
+        pkgs=$(apt search . 2>/dev/null | awk '/^[^ ]/ { sub(/\/.*/, ""); print $0 } {}' | fzf -m)
+        [ -n "$pkgs" ] && echo "$pkgs" | xargs sudo apt install
+    fi
+}
+
+zpushd() {
+    local dir
+    dir=$(dirs -v | fzf | awk '{print $1}')
+    [[ -z "$dir" ]] && return
+    # shellcheck disable=SC2164
+    pushd "+$dir" >/dev/null
+}
+
+zumount() {
+    local header mount_point
+
+    header=$(df -h | head -n 1)
+
+    mount_point=$(df -h | tail -n+2 | awk '{print $NF}' | fzf --preview="echo $header; df -h | grep ' {}$'" --preview-window=60%)
+
+    [ -z "$mount_point" ] && return
+
+    sudo umount "$mount_point"
+}
+
+zuu() {
+    local devs choice
+
+    devs=$(for dev in $(udiskie-info -a); do
+               echo "$dev"
+               lsblk -alnp | awk -v "dev=^$dev" '$0 ~ dev {if (match($NF, "^/"))  print $NF}';
+           done)
+    choice=$(echo -n "$devs" | fzf)
+    [ -z "$choice" ] && return
+    udiskie-umount "$choice"
+}
+
+zvim() {
+    local files
+    files=$(find "${1:-.}" -type f 2>/dev/null | fzf -m)
+    [ -n "$files" ] && echo "$files" | tr '\n' '\0' | xargs -o -0 vim --
+}

@@ -36,11 +36,6 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq read-process-output-max (* 10 1000 1000))
 
-;; whitespace
-
-(setq whitespace-style '(face trailing tabs tab-mark))
-(global-whitespace-mode)
-
 ;; misc
 
 (custom-set-variables
@@ -55,8 +50,7 @@
  ;; '(xref-show-definitions-function #'xref-show-definitions-completing-read)
  )
 
-(setq completion-cycle-threshold 3
-      tab-always-indent 'complete)
+(setq completion-cycle-threshold 3)
 (global-set-key (kbd "<C-mouse-4>") nil)
 (global-set-key (kbd "<C-mouse-5>") nil)
 (global-set-key (kbd "C-x 2") 'my-split-window-below)

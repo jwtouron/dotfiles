@@ -4,7 +4,7 @@ local act = wezterm.action
 local keys = {
   -- General
   { key = 'd', mods =  'CTRL|SHIFT', action = act.ShowDebugOverlay },
-  { key = '|', mods =  'CTRL|SHIFT', action = act.ClearScrollback('ScrollbackOnly') },
+  { key = 'Backspace', mods =  'CTRL|SHIFT', action = act.ClearScrollback('ScrollbackOnly') },
   -- { key = 'Colon', mods =  'CTRL|SHIFT', action = act.ActivateCommandPalette },
 
   -- Tabs
@@ -13,15 +13,14 @@ local keys = {
 
   -- Panes
   { key = '"', mods = 'CTRL|SHIFT', action = act.SplitVertical({domain="CurrentPaneDomain"})},
-  { key = '%', mods = 'CTRL|SHIFT', action = act.SplitHorizontal({domain="CurrentPaneDomain"})},
+  { key = '|', mods = 'CTRL|SHIFT', action = act.SplitHorizontal({domain="CurrentPaneDomain"})},
   { key = 'R', mods = 'CTRL|SHIFT', action = act.RotatePanes('Clockwise') },
-  { key = 'Backspace', mods =  'CTRL|SHIFT', action = act.CloseCurrentPane({ confirm = false }) },
-  { key = 'p', mods =  'CTRL|SHIFT', action = act.PaneSelect({ alphabet = "1234567890" }) },
+  { key = '&', mods = 'CTRL|SHIFT', action = act.CloseCurrentPane({ confirm = false }) },
+  { key = 'p', mods = 'CTRL|SHIFT', action = act.PaneSelect({ alphabet = "1234567890" }) },
   { key = 'h', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Left') },
-  { key = 'j', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Down') },
-  { key = 'k', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Up') },
-  { key = 'l', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Right') },
+  { key = 'j', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Down') }, { key = 'k', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Up') }, { key = 'l', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Right') },
 
+  -- Disable SUPER keys
   { key = '-', mods = 'SUPER',       action = act.DisableDefaultAssignment },
   { key = '0', mods = 'SUPER',       action = act.DisableDefaultAssignment },
   { key = '1', mods = 'SUPER',       action = act.DisableDefaultAssignment },
@@ -51,19 +50,43 @@ local keys = {
   { key = '}', mods = 'SHIFT|SUPER', action = act.DisableDefaultAssignment },
 }
 
-return {
+local copy_mode = nil
+if wezterm.gui then
+    copy_mode = wezterm.gui.default_key_tables().copy_mode
+    table.insert(
+        copy_mode,
+        { key = 'Enter', mods = 'NONE', action = act.Multiple{ { CopyTo =  'ClipboardAndPrimarySelection' }, { CopyMode =  'Close' } } }
+    )
+end
+
+local config = {
   adjust_window_size_when_changing_font_size = false,
   background = {
     {
       source = { Color = "black" },
-      opacity = 0.9,
       height = '100%',
       width = '100%',
+      opacity = 0.9,
     }
   },
-  font_size = 11,
-  font = wezterm.font('monospace'),
   hide_tab_bar_if_only_one_tab = true,
   keys = keys,
+  key_tables = { copy_mode = copy_mode },
   use_fancy_tab_bar = false,
+  window_padding = {
+    left = 0, right = 0, top = 0, bottom = 0
+  },
 }
+
+-- Example custom.lua:
+-- return {
+--     color_scheme = "Hybrid (Gogh)",
+--     font = require'wezterm'.font('Hack Nerd Font Mono')
+--     font_size = 10,
+--  }
+local _, custom = pcall(require, "custom")
+for k, v in pairs(custom or {}) do
+  config[k] = v
+end
+
+return config

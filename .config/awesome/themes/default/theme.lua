@@ -5,14 +5,13 @@
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
-local gears = require("gears")
-local gfs = require("gears.filesystem")
 
-local themes_path = gfs.get_configuration_dir() .. "themes/"
+local gfs = require("gears.filesystem")
+local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font          = "sans 10"
+theme.font          = "sans 8"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
@@ -25,18 +24,11 @@ theme.fg_focus      = "#ffffff"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
-theme.useless_gap   = 5
-theme.border_width  = 2
-theme.border_normal = "#333333"
-theme.border_focus  = "#cccccc"
+theme.useless_gap   = dpi(0)
+theme.border_width  = dpi(1)
+theme.border_normal = "#000000"
+theme.border_focus  = "#535d6c"
 theme.border_marked = "#91231c"
-
-theme.progressbar_bg = theme.border_normal
-theme.progressbar_fg = '#5f875f'
-theme.progressbar_shape = gears.shape.rounded_bar
-theme.progressbar_border_color = border_focus
-theme.progressbar_border_width = 5
-theme.progressbar_margins = { top = 3, bottom = 3 }
 
 -- There are other variable sets
 -- overriding the default one when
@@ -64,11 +56,7 @@ theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
 -- notification_font
 -- notification_[bg|fg]
 -- notification_[width|height|margin]
--- theme.notification_width = 200
--- theme.notification_height = 100
 -- notification_[border_color|border_width|shape|opacity]
-theme.notification_margin = 25
-theme.notification_shape = gears.shape.rounded_rect
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]

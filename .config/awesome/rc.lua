@@ -38,13 +38,23 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/default/theme.lua")
+local config_dir = gears.filesystem.get_configuration_dir()
+if gears.filesystem.file_readable(config_dir .. "themes/theme.lua") then
+    beautiful.init(config_dir .. "themes/theme.lua")
+else
+    beautiful.init(config_dir .. "themes/default/theme.lua")
+end
+
+-- To fix a bug in AwesomeWM v4.3. Possibly fixed in the latest commit.
+-- https://www.reddit.com/r/awesomewm/comments/glyl6b/theming_weirdness/
 naughty.config.defaults.margin = beautiful.notification_margin
+naughty.config.defaults.border_width = beautiful.notification_border_width
 
 -- This is used later as the default terminal and editor to run.
-terminal = "terminal"
+terminal = os.getenv("TERMINAL") or "xterm"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
+browser = os.getenv("BROWSER") or "firefox"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -161,11 +171,7 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-awful.spawn.with_shell("pgrep cbatticon || cbatticon &")
-awful.spawn.with_shell("pgrep nm-applet || nm-applet &")
-awful.spawn.with_shell("pgrep picom || picom &")
-awful.spawn.with_shell("pgrep update-icon || ~/.config/awesome/update-icon.sh &")
--- awful.spawn.with_shell("nitrogen-random-background.sh")
+awful.spawn.with_shell("~/.local/bin/twm-autostart.sh")
 
 -- Run garbage collector regularly to prevent memory leaks
 gears.timer {

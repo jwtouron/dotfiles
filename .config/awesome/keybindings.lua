@@ -1,6 +1,7 @@
 local awful = require("awful")
 local gears = require("gears")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local volume = require('awesome-wm-widgets.volume-widget.volume')
 
 local function spawn(cmd)
   return function()
@@ -37,6 +38,12 @@ self.init = function()
                 awful.client.focus.byidx(-1)
               end,
               {description = "focus previous by index", group = "client"}),
+    awful.key({ modkey, }, "h",
+        function () awful.client.focus.global_bydirection("left") end,
+        { description = "focus to the left", group = "client"}),
+    awful.key({ modkey, }, "l",
+        function () awful.client.focus.global_bydirection("right") end,
+        { description = "focus to the right", group = "client"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -59,6 +66,10 @@ self.init = function()
               {description = "go back", group = "client"}),
 
     -- Standard program
+    awful.key({ modkey, "Shift"   }, "b", spawn(browser),
+              {description = "launch browser", group = "launcher"}),
+    awful.key({ modkey, "Shift"   }, "e", spawn("emacs"),
+              {description = "launch Emacs", group = "launcher"}),
     awful.key({ modkey,           }, "Return", spawn(terminal),
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
@@ -114,11 +125,14 @@ self.init = function()
     awful.key({ modkey }, "F7", set_wallpaper,
               {description = "set random wallpaper", group = "awesome"}),
 
-    awful.key({ modkey },     "bracketright", spawn_with_shell("~/.local/bin/pactl.sh inc 5")),
-    -- awful.key({mod, "shift"}, "bracketright", spawn_with_shell("~/.local/bin/pactl.sh inc 1")),
-    awful.key({ modkey },     "bracketleft",  spawn_with_shell("~/.local/bin/pactl.sh dec 5")),
-    -- awful.key({mod, "Shift"}, "bracketleft",  spawn_with_shell("~/.local/bin/pactl.sh dec 1")),
-    awful.key({ modkey },     "backslash",    spawn_with_shell("~/.local/bin/pactl.sh mute"))
+    awful.key({ modkey },          "bracketright", function() volume:inc(5) end,
+              {description = "increase volume by 5", group = "volume"}),
+    awful.key({ modkey, "Shift" }, "bracketright", function() volume:inc(1) end,
+              {description = "increase volume by 1", group = "volume"}),
+    awful.key({ modkey },          "bracketleft", function() volume:dec(5) end,
+              {description = "decrease volume by 5", group = "volume"}),
+    awful.key({ modkey, "Shift" }, "bracketleft", function() volume:dec(1) end,
+              {description = "decrease volume by 1", group = "volume"})
 
     )
 

@@ -52,7 +52,8 @@ is already narrowed."
         ((derived-mode-p 'latex-mode)
          (LaTeX-narrow-to-environment))
         (t (narrow-to-defun))))
-(defalias 'nd 'narrow-or-widen-dwim)
+(global-set-key (kbd "C-x n m") #'narrow-or-widen-dwim)
+(defalias 'nwd 'narrow-or-widen-dwim)
 
 ;;;###autoload
 (defun align-non-space (beg end)
@@ -102,6 +103,19 @@ is already narrowed."
                    (dolist (binding bindings)
                      (define-key map (kbd (car binding)) (cdr binding)))
                    map)))))
+
+;; WIP
+(defmacro define-repeat-map (func &rest keybindings)
+  `(advice-add ,func :after
+               (lambda (&rest _)
+                 (set-transient-map
+                  (reduce (lambda (m b)
+                            (define-key m (kbd (car b)) (cdr b)))
+                          ,keybindings
+                          :initial-value (make-sparse-keymap))))))
+;; (define-repeat-map flymake-goto-prev-error
+;;   ("n" . flymake-goto-next-error)
+;;   ("p" . flymake-goto-prev-error))
 
 ;;;###autoload
 (defun my-insert-date ()

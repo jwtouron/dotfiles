@@ -24,7 +24,7 @@ source ~/.config/fzf/completion.bash
 _fzf_setup_completion path config
 
 # Functionality common to bash and zsh
-source ~/.config/shell/shellrc
+source ~/.config/shell/rc
 
 # Prompt
 PROMPT_COMMAND=__prompt_command

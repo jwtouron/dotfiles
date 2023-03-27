@@ -17,12 +17,12 @@ alias config-sync='GIT_DIR=$HOME/.config/.dotfiles GIT_WORK_TREE=$HOME git-sync'
 command -v fdfind > /dev/null && alias fd='fdfind'
 command -v batcat >/dev/null && alias bat='batcat'
 
-if command -v fdfind >/dev/null; then
-    export FZF_DEFAULT_COMMAND="fdfind -H -t f -E '.git/'"
-elif command -v fd >/dev/null; then
-    export FZF_DEFAULT_COMMAND="fd -H -t f -E '.git/'"
-elif command -v rg >/dev/null; then
-    export FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/*'"
+source ~/.config/fzf/functions
+
+if command -v links >/dev/null; then
+    export BROWSER=links
+elif command -v lynx >/dev/null; then
+    export BROWSER=lynx
 fi
 
-source ~/.config/fzf/functions.sh
+ # vim: ft=sh:

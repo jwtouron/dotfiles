@@ -37,9 +37,10 @@
   :hook (emacs-lisp-mode . my--init-elisp-mode)
   :config
   (defun my--init-elisp-mode ()
-    (electric-pair-local-mode -1)
+    ;; (electric-pair-local-mode -1)
     (flymake-mode)
-    (paredit-mode)))
+    ;; (paredit-mode)
+    ))
 
 ;; go
 

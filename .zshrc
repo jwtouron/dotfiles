@@ -22,8 +22,6 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 
-export EDITOR='vim'
-
 source $HOME/.config/zsh/git.zsh
 # source $HOME/.config/zsh/termsupport.zsh
 
@@ -42,7 +40,7 @@ source ~/.config/fzf/key-bindings.zsh
 # source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
 
 # Functionality common to bash and zsh
-source ~/.config/shell/shellrc
+source ~/.config/shell/rc
 
 # Must be last line in config
 source $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

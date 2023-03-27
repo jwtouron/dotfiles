@@ -80,14 +80,6 @@
   :bind (("C-a" . crux-move-beginning-of-line)
          ("C-x x r" . crux-rename-file-and-buffer)))
 
-(use-package denote
-  :bind ("C-c o n" . (lambda ()
-                       (interactive)
-                       (let ((default-directory denote-directory))
-                         (call-interactively #'find-file))))
-  :custom ((denote-known-keywords nil))
-  :init (setq denote-directory (expand-file-name "~/Documents/org/")))
-
 ;; Run devdocs-install
 (use-package devdocs
   :bind ("C-h D" . devdocs-lookup))
@@ -108,17 +100,13 @@
               ("e" . dumb-jump-go-prefer-external)
               ("x" . dumb-jump-go-prefer-external-other-window)
               ("i" . dumb-jump-go-prompt)
-              ("l" . dumb-jump-quick-look))
-  :hook (prog-mode . dumb-jump-mode)
+              ("l" . dumb-jump-quick-look)
+              ("b" . dumb-jump-back))
   :init
   (defvar my--dumb-jump-mode-map (make-sparse-keymap))
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-  (when (and (boundp 'xref-show-definitions-function)
-             (fboundp 'xref-show-definitions-completing-read))
-    (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
   :config
-  ;; (when (fboundp 'ivy-mode)
-  ;;   (custom-set-variables '(dumb-jump-selector 'ivy)))
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
   (dolist (func '(dumb-jump-go
                   dumb-jump-go-other-window
                   dumb-jump-go-prefer-external
@@ -136,16 +124,41 @@
   :custom ((elfeed-feeds
             '(("https://reddit.com/r/linux/.rss" linux)
               ("https://reddit.com/r/programming/.rss" programming)
-              ("https://reddit.com/r/clojure/.rss" clojure)
-              ("https://clojure.org/feed.xml" clojure)
-              ("https://reddit.com/r/haskell/.rss" haskell)
+              ;; ("https://reddit.com/r/clojure/.rss" clojure)
+              ;; ("https://clojure.org/feed.xml" clojure)
+              ;; ("https://reddit.com/r/haskell/.rss" haskell)
               ("https://reddit.com/r/vim/.rss" vim)
               ("https://reddit.com/r/neovim/.rss" neovim)
               ("https://reddit.com/r/emacs/.rss" emacs)
               ("https://sachachua.com/blog/feed" emacs)
               ("https://pragmaticemacs.wordpress.com/feed/" emacs)
               ("https://hnrss.org/show?points=100&comments=25" programming)))
-           (elfeed-search-filter "@2-days-ago +unread -emacs -neovim -vim -haskell -clojure -linux -programming")))
+           (elfeed-search-filter "@2-days-ago +unread"))
+  :config
+  ;; WIP
+  ;;   (progn
+  ;;     (defun test-function (&optional args)
+  ;;       (interactive
+  ;;        (list (transient-args 'test-transient)))
+  ;;       (message "args: %s" args))
+
+  ;;     (cl-macrolet ((test-macrolet ()
+  ;;                                  `(transient-define-prefix test-transient ()
+  ;;                                     "Test Transient Title"
+  ;;                                     ["Arguments"
+  ;;                                      ("-d" "Days ago" "--days="
+  ;;                                       :init-value (lambda (obj) (oset obj value "2")))
+  ;;                                      ("-u" "Unread" "--unread"
+  ;;                                       :init-value (lambda (obj) (oset obj value "--unread"))  "--unread")]
+  ;;                                     ["Actions"
+  ;;                                      ,@(cl-loop for i = 0 then (cl-incf i)
+  ;;                                                 for f in (delete-dups (mapcar #'cadr elfeed-feeds))
+  ;;                                                 collect (list (format "%d" i)
+  ;;                                                               (format "%s" f)
+  ;;                                                               #'test-function))])))
+  ;;       (test-macrolet)
+  ;;       (test-transient)))
+  )
 
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
@@ -216,7 +229,7 @@
                                    "\\*Async Shell Command\\*"
                                    help-mode
                                    compilation-mode)
-        popper-window-height 0.33
+        ;; popper-window-height 0.33
         popper-group-function #'popper-group-by-project)
   (popper-mode +1)
   (popper-echo-mode +1))
@@ -272,10 +285,15 @@
   :defer 1
   :init (pulsar-global-mode 1))
 
+(use-package puni
+  :init
+  (dolist (hook '(prog-mode-hook sgml-mode-hook nxml-mode-hook tex-mode-hook eval-expression-minibuffer-setup-hook))
+    (add-hook hook #'puni-mode)))
+
 (use-package rainbow-mode)
 
 (use-package rg
-  :bind ("C-c s" . rg-menu))
+  :bind ("C-c r" . rg-menu))
 
 (use-package savehist
   :ensure nil
@@ -324,6 +342,13 @@ You can edit the text in the grep buffer after typing C-c C-p . After that the c
   :defer 1
   :diminish 'which-key-mode
   :init (which-key-mode))
+
+(use-package whitespace-mode
+  :ensure nil
+  :hook (term-mode . (lambda () (interactive) (setq show-trailing-whitespace nil)))
+  :init
+  (setq whitespace-style '(face trailing tabs tab-mark))
+(global-whitespace-mode))
 
 (use-package xref
   :ensure nil

@@ -66,7 +66,7 @@ local function make_cpu_widget()
                   "total=$((a+b+c+idle));" ..
                   "echo $((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))"
       awful.spawn.easy_async_with_shell(cmd, function(stdout)
-        local used = tonumber(stdout)
+        local used = tonumber(stdout) or 0
         w.value = used
         if used >= 90 then
           w.color = 'red'
@@ -96,7 +96,7 @@ local function make_mem_widget()
     callback = function()
       local cmd = "free -t | awk '/Total/ {printf \"%d\", $3 / ($3 + $4) * 100.0}'"
       awful.spawn.easy_async_with_shell(cmd, function(stdout)
-        local used = tonumber(stdout)
+        local used = tonumber(stdout) or 0
         w.value = used
         if used >= 90 then
           w.color = 'red'
@@ -181,12 +181,6 @@ self.init = function()
           nil,
           { -- Right widgets
               layout = wibox.layout.fixed.horizontal,
-              spacing_widget = {
-                color = dim(beautiful.fg_normal),
-                thickness = 0,
-                -- shape = gears.shape.circle,
-                widget = wibox.widget.separator,
-              },
               spacing = 25,
               volume_widget(),
               {
@@ -196,7 +190,7 @@ self.init = function()
               },
               make_weather_widget(),
               make_textclock(),
-              wibox.container.margin(wibox.widget.systray(), 0, 0, 5, 5),
+              wibox.container.margin(wibox.widget.systray(), 0, 5, 5, 5),
           },
       }
   end)
