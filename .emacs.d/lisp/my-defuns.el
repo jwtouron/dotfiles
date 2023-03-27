@@ -95,27 +95,38 @@ is already narrowed."
       (counsel-find-file))))
 
 ;;;###autoload
-(defun advice-add-repeat-mode (func &rest bindings)
-  (advice-add func :after
-              (lambda (&rest _)
-                (set-transient-map
-                 (let ((map (make-sparse-keymap)))
-                   (dolist (binding bindings)
-                     (define-key map (kbd (car binding)) (cdr binding)))
-                   map)))))
+(defmacro add-transient-map (funcs &rest bindings)
+  (let ((funcs (if (listp funcs)
+                   funcs
+                 (list funcs))))
+    `(progn
+       ,@(mapcar (lambda (f)
+                   `(advice-add ',f :after
+                                (lambda (&rest _)
+                                  (let ((map (make-sparse-keymap)))
+                                    ,@(mapcar (lambda (b)
+                                                `(define-key map ,(car b) ',(cadr b)))
+                                              bindings)
+                                    (set-transient-map map))
+                                  )))
+                 funcs))))
+(put 'add-transient-map 'lisp-indent-function 1)
 
-;; WIP
-(defmacro define-repeat-map (func &rest keybindings)
-  `(advice-add ,func :after
-               (lambda (&rest _)
-                 (set-transient-map
-                  (reduce (lambda (m b)
-                            (define-key m (kbd (car b)) (cdr b)))
-                          ,keybindings
-                          :initial-value (make-sparse-keymap))))))
-;; (define-repeat-map flymake-goto-prev-error
-;;   ("n" . flymake-goto-next-error)
-;;   ("p" . flymake-goto-prev-error))
+;;;###autoload
+(defmacro define-repeat-map (funcs &rest bindings)
+  (let ((funcs (if (listp funcs)
+                   funcs
+                 (list funcs)))
+        (map (cl-gensym))
+        (def (cl-gensym)))
+    `(let ((,map (make-sparse-keymap)))
+       ,@(mapcar (lambda (b)
+                   (let ((def (if (symbolp (cadr b))
+                                  `(quote ,(cadr b))
+                                (cadr b))))
+                     `(define-key ,map (kbd ,(car b)) ,def)))
+                 bindings)
+       ,@(mapcar (lambda (f) `(put ',f 'repeat-map ,map)) funcs))))
 
 ;;;###autoload
 (defun my-insert-date ()

@@ -107,14 +107,13 @@
   :config
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
-  (dolist (func '(dumb-jump-go
-                  dumb-jump-go-other-window
-                  dumb-jump-go-prefer-external
-                  dumb-jump-go-prefer-external-other-window
-                  dumb-jump-go-prompt
-                  dumb-jump-quick-look))
-    (advice-add-repeat-mode func
-                            '("b" . dumb-jump-back))))
+  (add-transient-map (dumb-jump-go
+                      dumb-jump-go-other-window
+                      dumb-jump-go-prefer-external
+                      dumb-jump-go-prefer-external-other-window
+                      dumb-jump-go-prompt
+                      dumb-jump-quick-look)
+    ("b" dumb-jump-back)))
 
 (use-package eglot)
 
@@ -165,18 +164,14 @@
 
 (use-package flymake
   :ensure nil
-  :hook ((flymake-mode . my--init-flymake-mode))
+  :bind (:map flymake-mode-map
+              ("C-c f n" . flymake-goto-next-error)
+              ("C-c f p" . flymake-goto-prev-error)
+              ("C-c f d" . flymake-show-buffer-diagnostics))
   :config
-  (defun my--init-flymake-mode ()
-    (local-set-key (kbd "C-c f n") 'flymake-goto-next-error)
-    (local-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
-    (local-set-key (kbd "C-c f d") 'flymake-show-buffer-diagnostics))
-  (advice-add-repeat-mode 'flymake-goto-next-error
-                          '("n" . flymake-goto-next-error)
-                          '("p" . flymake-goto-prev-error))
-  (advice-add-repeat-mode 'flymake-goto-prev-error
-                          '("n" . flymake-goto-next-error)
-                          '("p" . flymake-goto-prev-error)))
+  (define-repeat-map (flymake-goto-next-error flymake-goto-prev-error)
+    ("n" flymake-goto-next-error)
+    ("p" flymake-goto-prev-error)))
 
 (use-package gcmh
   :defer 1
@@ -232,7 +227,10 @@
         ;; popper-window-height 0.33
         popper-group-function #'popper-group-by-project)
   (popper-mode +1)
-  (popper-echo-mode +1))
+  (popper-echo-mode +1)
+  :config
+  (define-repeat-map popper-cycle
+    ("`" popper-cycle)))
 
 (use-package prescient)
 
@@ -348,7 +346,7 @@ You can edit the text in the grep buffer after typing C-c C-p . After that the c
   :hook (term-mode . (lambda () (interactive) (setq show-trailing-whitespace nil)))
   :init
   (setq whitespace-style '(face trailing tabs tab-mark))
-(global-whitespace-mode))
+  (global-whitespace-mode))
 
 (use-package xref
   :ensure nil
