@@ -35,7 +35,7 @@
 (use-package everforest-theme
   :ensure nil
   :init
-  (push (expand-file-name "~/.emacs.d/lisp/everforest-theme") custom-theme-load-path)
+  (push (expand-file-name (concat user-emacs-directory "lisp/everforest-theme")) custom-theme-load-path)
   :config
   (advice-add-theme everforest-hard-dark
     (set-face-attribute 'region nil :background "#3a454a")))

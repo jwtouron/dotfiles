@@ -327,7 +327,7 @@
   :init
   (global-undo-tree-mode)
   :config
-  (push (cons "." (expand-file-name "~/.emacs.d/undo-tree")) undo-tree-history-directory-alist))
+  (push (cons "." (expand-file-name (concat user-emacs-directory "undo-tree"))) undo-tree-history-directory-alist))
 
 (use-package visual-regexp
   :bind (("M-%" . vr/query-replace)
