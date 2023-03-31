@@ -51,7 +51,7 @@
          ("C-c p &" . cape-sgml)
          ("C-c p r" . cape-rfc1345)
          ("M-/" . cape-dabbrev))
-  :init
+  :config
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file))
 
@@ -164,11 +164,19 @@
 
 (use-package flymake
   :ensure nil
+  :hook (flymake-mode . my--flymake-mode-hook-function)
   :bind (:map flymake-mode-map
               ("C-c f n" . flymake-goto-next-error)
               ("C-c f p" . flymake-goto-prev-error)
               ("C-c f d" . flymake-show-buffer-diagnostics))
   :config
+  (defun my--flymake-mode-hook-function ()
+    (setq next-error-function
+          (lambda (arg reset)
+            (unless reset
+              (cond
+               ((> arg 0) (flymake-goto-next-error arg))
+               ((< arg 0) (flymake-goto-prev-error (abs arg))))))))
   (define-repeat-map (flymake-goto-next-error flymake-goto-prev-error)
     ("n" flymake-goto-next-error)
     ("p" flymake-goto-prev-error)))
@@ -219,16 +227,15 @@
          ("M-`"   . popper-cycle)
          ("C-M-`" . popper-toggle-type))
   :init
+  (popper-mode +1)
+  (popper-echo-mode +1)
+  :config
   (setq popper-reference-buffers '("\\*Messages\\*"
                                    "Output\\*$"
                                    "\\*Async Shell Command\\*"
                                    help-mode
                                    compilation-mode)
-        ;; popper-window-height 0.33
         popper-group-function #'popper-group-by-project)
-  (popper-mode +1)
-  (popper-echo-mode +1)
-  :config
   (define-repeat-map popper-cycle
     ("`" popper-cycle)))
 
@@ -283,12 +290,16 @@
   :defer 1
   :init (pulsar-global-mode 1))
 
-(use-package puni
-  :init
-  (dolist (hook '(prog-mode-hook sgml-mode-hook nxml-mode-hook tex-mode-hook eval-expression-minibuffer-setup-hook))
-    (add-hook hook #'puni-mode)))
-
 (use-package rainbow-mode)
+
+(use-package recentf
+  :ensure nil
+  :init (recentf-mode 1))
+
+(use-package repeat
+  :if (fboundp 'repeat-mode)
+  :ensure nil
+  :init (repeat-mode 1))
 
 (use-package rg
   :bind ("C-c r" . rg-menu))
@@ -301,6 +312,11 @@
 (use-package smartscan
   :hook (prog-mode . smartscan-mode))
 
+(use-package so-long
+  :ensure nil
+  :defer 1
+  :init (global-so-long-mode 1))
+
 (use-package super-save
   :defer 1
   :diminish 'super-save-mode
@@ -308,7 +324,6 @@
   :config (setq auto-save-default nil))
 
 (use-package undo-tree
-  :defer 1
   :init
   (global-undo-tree-mode)
   :config

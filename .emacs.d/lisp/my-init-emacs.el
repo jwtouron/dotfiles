@@ -73,16 +73,4 @@
               (let ((process-environment (nconc (cl-copy-list process-environment) (list "PAGER="))))
                 (funcall shell-fn buffer))))
 
-;; Non-pressing initialization
-
-(let ((fn (lambda ()
-            (global-so-long-mode 1)
-            (recentf-mode 1)
-            (savehist-mode 1)
-            (when (fboundp 'repeat-mode)
-              (repeat-mode 1)))))
-  (add-hook 'after-init-hook
-            (lambda ()
-              (run-with-idle-timer 1 nil fn))))
-
 (provide 'my-init-emacs)

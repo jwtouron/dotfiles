@@ -37,10 +37,9 @@
   :hook (emacs-lisp-mode . my--init-elisp-mode)
   :config
   (defun my--init-elisp-mode ()
-    ;; (electric-pair-local-mode -1)
+    (electric-pair-local-mode -1)
     (flymake-mode)
-    ;; (paredit-mode)
-    ))
+    (paredit-mode)))
 
 ;; go
 
@@ -54,7 +53,7 @@
 
 (use-package haskell-mode
   :hook ((haskell-mode . interactive-haskell-mode)
-         (haskell-mode . my-haskell-minor-mode))
+         (haskell-mode . my--haskell-minor-mode))
   :custom ((haskell-process-use-presentation-mode t))
   :init
   (let ((keymap (make-sparse-keymap)))
@@ -62,7 +61,7 @@
     (define-key keymap (kbd "C-c m h") 'haskell-hoogle)
     (define-key keymap (kbd "C-c m r") 'haskell-process-restart)
     (define-key keymap (kbd "C-c m t") 'my-haskell-eval-type)
-    (define-minor-mode my-haskell-minor-mode
+    (define-minor-mode my--haskell-minor-mode
       "Sets up my settings for Haskell"
       :keymap keymap))
   :config

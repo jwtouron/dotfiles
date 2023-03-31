@@ -2,15 +2,17 @@
   `(advice-add 'enable-theme
                :after
                (lambda (theme2 &rest _ignored)
-                 (when (eq ,theme1 theme2)
+                 (when (eq ',theme1 theme2)
                    ,@body))))
 (put 'advice-add-theme 'lisp-indent-function 1)
+
+(use-package almost-mono-themes)
 
 (use-package autothemer)
 
 (use-package arjen-grey-theme
-  :init
-  (advice-add-theme 'arjen-grey
+  :config
+  (advice-add-theme arjen-grey
     (set-face-attribute 'highlight nil :background "#2f4f4f")))
 
 (use-package atom-one-dark-theme)
@@ -22,8 +24,8 @@
 (use-package cyberpunk-theme)
 
 (use-package doom-themes
-  :init
-  (advice-add-theme 'doom-opera
+  :config
+  (advice-add-theme doom-opera
     (set-face-attribute 'default nil :background "#222224")
     (set-face-attribute 'hl-line nil :background "#323334")
     (set-face-attribute 'region  nil :background "#507681")))
@@ -34,14 +36,15 @@
   :ensure nil
   :init
   (push (expand-file-name "~/.emacs.d/lisp/everforest-theme") custom-theme-load-path)
-  (advice-add-theme 'everforest-hard-dark
+  :config
+  (advice-add-theme everforest-hard-dark
     (set-face-attribute 'region nil :background "#3a454a")))
 
 (use-package gruber-darker-theme)
 
 (use-package minimal-theme
-  :init
-  (advice-add-theme 'minimal
+  :config
+  (advice-add-theme minimal
     (set-face-attribute 'region nil :background "grey40")
     (set-face-attribute 'font-lock-comment-face nil :foreground "grey32")
     (set-face-attribute 'font-lock-comment-delimiter-face nil :foreground "grey32")))
@@ -64,8 +67,8 @@
         tron-legacy-theme-softer-bg t))
 
 (use-package twilight-theme
-  :init
-  (advice-add-theme 'twilight
+  :config
+  (advice-add-theme twilight
     (set-face-attribute 'highlight nil :background "#1d1d1d")))
 
 (use-package vscode-dark-plus-theme)
