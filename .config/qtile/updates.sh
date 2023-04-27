@@ -15,9 +15,9 @@ fi
 
 case "$1" in
     "click-left")
-        xterm -class xterm-popup -geometry 125x35 -e "cat $cache_loc; read" ;;
+        xterm -class xterm-floating -geometry 125x35 -e "cat $cache_loc; read" ;;
     "click-right")
-        xterm -class xterm-popup -geometry 125x35 -e "$update_cmd; read" ;;
+        xterm -class xterm-floating -geometry 125x35 -e "$update_cmd; read" ;;
 esac
 
 list > "$cache_loc"

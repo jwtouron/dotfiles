@@ -41,6 +41,8 @@
     (flymake-mode)
     (paredit-mode)))
 
+(use-package fish-mode)
+
 ;; go
 
 (use-package go-mode)

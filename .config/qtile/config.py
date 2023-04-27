@@ -9,8 +9,7 @@ import subprocess
 
 mod = "mod4"
 
-my_terminal = "terminal"
-# my_terminal = os.environ.get("TERMINAL") or which('st') or which('xterm') or ''
+my_terminal = os.environ.get("TERMINAL") or which('st') or which('xterm') or ''
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -60,8 +59,8 @@ keys = [
     Key([mod], "period", lazy.next_screen(), desc='Move focus to next monitor'),
     Key([mod], "comma", lazy.prev_screen(), desc='Move focus to previous monitor'),
     # Function keys
-    Key([mod], "f5", lazy.spawn("st -c st-popup -e ~/.local/bin/fzfmount", shell=True)),
-    Key([mod], "f6", lazy.spawn("st -c st-popup -e ~/.local/bin/fzfumount", shell=True)),
+    Key([mod], "f5", lazy.spawn("xterm -class xterm-floating -e ~/.local/bin/fzfmount", shell=True)),
+    Key([mod], "f6", lazy.spawn("xterm -class xterm-floating -e ~/.local/bin/fzfumount", shell=True)),
     Key([mod], "f7", lazy.spawn("nitrogen-random-background.sh")),
     # Volume keys
     Key([mod], "bracketright", lazy.spawn("sh -c '~/.local/bin/pactl.sh inc 5'")),
@@ -181,9 +180,9 @@ screens = [
                 # Weather (Wttr)
                 widget.GenPollText(
                     foreground='#556677',
-                    func=lambda: subprocess.check_output("~/.config/qtile/weather.sh", shell=True).decode('utf-8').strip(),
+                    func=lambda: subprocess.check_output("~/.local/bin/weather-simple.sh", shell=True).decode('utf-8').strip(),  # TODO: Might need to make this bold.
                     mouse_callbacks={
-                        'Button1': lazy.spawn('xterm -class xterm-popup -geometry 125x45 -e ~/.config/polybar/weather-click.sh', shell=True)
+                        'Button1': lazy.spawn('xterm -class xterm-floating -geometry 80x40 ~/.local/bin/weather-detailed.sh', shell=True)
                     },
                     update_interval=1800,
                 ),
@@ -226,8 +225,7 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
-        Match(wm_class=re.compile("st-popup")),
-        Match(wm_class=re.compile("xterm-popup")),
+        Match(wm_class=re.compile("xterm-floating")),
         Match(wm_class="Yad"),
     ]
 )

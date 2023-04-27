@@ -1,0 +1,17 @@
+# -*- mode:shell-script -*-
+
+man() {
+    local width="$(tput cols)"
+    [ "$width" -gt "$MANWIDTH" ] && width=$MANWIDTH
+
+    MANWIDTH=$width \
+    LESS_TERMCAP_mb=$'\e[31m' \
+    LESS_TERMCAP_md=$'\e[38;2;95;175;215m' \
+    LESS_TERMCAP_me=$'\e[0m'  \
+    LESS_TERMCAP_so=$'\e[38;2;148;148;148m' \
+    LESS_TERMCAP_se=$'\e[0m'  \
+    LESS_TERMCAP_us=$'\e[38;2;175;175;215m' \
+    LESS_TERMCAP_ue=$'\e[0m'  \
+    LESS='-R -s' \
+    command man "$@"
+}

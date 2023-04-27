@@ -242,7 +242,7 @@ format-muted-overline = ${colors.background-darker}
 type = custom/script
 exec = ~/.config/polybar/cpu.sh
 interval = 1
-click-left = xterm -class xterm-popup -geometry 120x36 -e htop
+click-left = xterm -class xterm-floating -geometry 120x36 -e htop
 
 format-foreground = ${colors.cpu}
 format-background = ${colors.background-lighter}
@@ -253,7 +253,7 @@ format-overline = ${colors.background-darker}
 type = custom/script
 exec = ~/.config/polybar/memory.sh
 interval = 1
-click-left = xterm -class xterm-popup -geometry 120x36 -e htop
+click-left = xterm -class xterm-floating -geometry 120x36 -e htop
 
 format-foreground = ${colors.memory}
 format-background = ${colors.background-lighter}
@@ -275,9 +275,9 @@ format-overline = ${colors.background-darker}
 
 [module/weather]
 type = custom/script
-exec = ~/.config/polybar/weather.sh
+exec = ~/.local/bin/weather-simple.sh
 interval = 1800
-click-left = xterm -class xterm-popup -geometry 125x45 -e ~/.config/polybar/weather-click.sh
+click-left = xterm -class xterm-floating -geometry 80x40 -e ~/.local/bin/weather-detailed.sh
 
 format-foreground = ${colors.weather}
 format-background = ${colors.background-lighter}

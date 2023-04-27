@@ -1,8 +1,0 @@
-#!/bin/sh
-
-for term in st wezterm alacritty xterm; do
-    if command -v "$term" >/dev/null; then
-        "$term" "$@"
-        break
-    fi
-done

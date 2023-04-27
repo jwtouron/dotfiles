@@ -68,7 +68,7 @@
   (advice-add #'register-preview :override #'consult-register-window)
 
   ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
+  (setq xfref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
 
   :config

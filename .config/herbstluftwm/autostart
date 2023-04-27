@@ -122,8 +122,8 @@ hc keybind $Mod-bracketleft spawn ~/.local/bin/pactl.sh dec 5
 hc keybind $Mod-Shift-bracketleft spawn ~/.local/bin/pactl.sh dec 1
 hc keybind $Mod-backslash spawn ~/.local/bin/pactl.sh mute
 hc keybind $Mod-minus spawn ~/.config/herbstluftwm/scratchpad.sh 
-hc keybind $Mod-F5 spawn st -c st-popup -e ~/.local/bin/fzfmount
-hc keybind $Mod-F6 spawn st -c st-popup -e ~/.local/bin/fzfumount
+hc keybind $Mod-F5 spawn xterm -class xterm-floating -e ~/.local/bin/fzfmount
+hc keybind $Mod-F6 spawn xterm -class xterm-floating -e ~/.local/bin/fzfumount
 hc keybind $Mod-F7 spawn ~/.local/bin/nitrogen-random-background.sh
 # hc keybind $Mod-F7 spawn ~/.local/bin/feh-random-background.sh
 
@@ -191,8 +191,7 @@ hc rule floatplacement=smart
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
-hc rule class=st-popup floating=on floatplacement=center focus=on
-hc rule class=xterm-popup floating=on floatplacement=center focus=on
+hc rule class=xterm-floating floating=on floatplacement=center focus=on
 hc rule class=Yad floating=on floatplacement=none focus=on
 hc rule fixedsize floating=on
 

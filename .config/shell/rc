@@ -1,3 +1,5 @@
+# -*- mode:shell-script -*-
+
 alias wl='wc -l'
 
 alias ls='ls --color=auto'
@@ -18,6 +20,8 @@ command -v fdfind > /dev/null && alias fd='fdfind'
 command -v batcat >/dev/null && alias bat='batcat'
 
 source ~/.config/fzf/functions
+
+source ~/.config/shell/man
 
 if command -v links >/dev/null; then
     export BROWSER=links

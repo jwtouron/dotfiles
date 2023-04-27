@@ -4,7 +4,8 @@
 
 (use-package better-defaults
   :demand t
-  :init (defun helm-mode nil)) ; prevents better-defaults from using ido-mode
+  :init (defun helm-mode nil)  ; prevents better-defaults from using ido-mode
+  :config (load custom-file t))
 
 ;; compilation
 
@@ -20,14 +21,11 @@
 
 (use-package dired
   :ensure nil
-  :custom ((dired-listing-switches "--group-directories-first -alhF")
+  :custom ((dired-listing-switches "-alhF")
            (dired-kill-when-opening-new-dired-buffer t)))
 
-(use-package dired+
-  :ensure nil
-  :demand t
-  :after dired
-  :config (diredp-toggle-find-file-reuse-dir 1))
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode))
 
 ;; performance
 
@@ -45,10 +43,7 @@
  '(initial-major-mode 'fundamental-mode)
  '(show-trailing-whitespace t)
  '(tab-always-indent 'complete)
- '(kill-do-not-save-duplicates t)
- ;; Requires Emacs 28.1
- ;; '(xref-show-definitions-function #'xref-show-definitions-completing-read)
- )
+ '(kill-do-not-save-duplicates t))
 
 (setq completion-cycle-threshold 3)
 (global-set-key (kbd "<C-mouse-4>") nil)
@@ -64,7 +59,6 @@
 (column-number-mode t)
 (global-auto-revert-mode)
 ;;(global-hl-line-mode)
-(load custom-file t)
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 
 (advice-add 'shell

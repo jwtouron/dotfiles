@@ -1,5 +1,3 @@
-#include ".config/Xresources/oxide-theme"
-
 ! st
 st*.font: \n\
     DejaVu Sans Mono:style=Book:pixelsize=14:antialias=true:autohint=true \n\
@@ -26,8 +24,10 @@ XTerm.vt100.translations: #override \n\
     Ctrl Shift <Key>Up: scroll-back(1, line) \n\
     Ctrl Shift <Key>Down: scroll-forw(1, line)
 
-! xterm-popup
-xterm-popup.vt100.faceName: DejaVu Sans Mono:style=Book \n\
-                            mono
-xterm-popup.vt100.faceSize: 11
-xterm-popup.termName: xterm-256color
+! xterm-floating
+xterm-floating.vt100.faceName: DejaVu Sans Mono:style=Book \n\
+                               mono
+xterm-floating.vt100.faceSize: 11
+xterm-floating.termName: xterm-256color
+
+#include ".config/x11/colors"

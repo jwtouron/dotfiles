@@ -1,30 +1,26 @@
-[volume]
-command=~/.config/i3blocks/volume.sh
+separator_block_width=25
+
+[volume-pulseaudio]
+command=scripts/volume-pulseaudio
 interval=once
-signal=10
+signal=1
+LONG_FORMAT="${SYMB} ${VOL}%"
+SHORT_FORMAT="${SYMB} ${VOL}%"
+DEFAULT_COLOR="#888888"
+MUTED_COLOR="#666666"
 
 [cpu]
-command=~/.config/i3blocks/cpu.sh
-interval=1
+command=scripts/cpumem
 markup=pango
-
-[memory]
-command=~/.config/i3blocks/memory.sh
 interval=1
-markup=pango
-
-[updates]
-command=~/.config/i3blocks/updates.sh
-interval=3600
+color=#888888
 
 [weather]
-command=~/.config/i3blocks/weather.sh
-interval=3600
+command=~/.local/bin/weather-simple.sh; case $button in 1) xterm -class xterm-floating -geometry 80x40 -e '~/.local/bin/weather-detailed.sh | less' ;; esac
+interval=1800
+color=#888888
 
-[datetime]
-command=~/.config/i3blocks/datetime.sh
+[time]
+command=scripts/date
 interval=5
-
-[powermenu]
-full_text=   |
-command=~/.config/i3/powermenu.sh
+color=#888888

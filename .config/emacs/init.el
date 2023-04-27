@@ -104,9 +104,8 @@
               ("b" . dumb-jump-back))
   :init
   (defvar my--dumb-jump-mode-map (make-sparse-keymap))
-  :config
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-  (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+  :config
   (add-transient-map (dumb-jump-go
                       dumb-jump-go-other-window
                       dumb-jump-go-prefer-external
@@ -114,6 +113,10 @@
                       dumb-jump-go-prompt
                       dumb-jump-quick-look)
     ("b" dumb-jump-back)))
+
+(use-package eat
+  :hook ((eshell-load . eat-eshell-mode)
+         (eshell-load . eat-eshell-visual-command-mode)))
 
 (use-package eglot)
 
@@ -366,6 +369,8 @@ You can edit the text in the grep buffer after typing C-c C-p . After that the c
 (use-package xref
   :ensure nil
   :config
+  (when (eq xref-show-definitions-function #'xref-show-definitions-buffer)
+    (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
   (when (executable-find "rg")
     (setq xref-search-program #'ripgrep)))
 

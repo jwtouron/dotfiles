@@ -42,7 +42,7 @@ local function make_weather_widget()
     0, 0, 5, 5)
   ww:connect_signal("button::press", function(self, lx, ly, button)
     if button == 1 then
-      awful.spawn.with_shell('xterm -class xterm-popup -geometry 125x45 -e ~/.config/polybar/weather-click.sh')
+      awful.spawn.with_shell('xterm -class xterm-floating -geometry 80x40 -e ~/.local/bin/weather-detailed.sh')
     end
   end)
   return ww

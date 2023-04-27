@@ -26,6 +26,8 @@ _fzf_setup_completion path config
 # Functionality common to bash and zsh
 source ~/.config/shell/rc
 
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
+
 # Prompt
 PROMPT_COMMAND=__prompt_command
 __prompt_command() {

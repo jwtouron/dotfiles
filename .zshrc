@@ -21,6 +21,7 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
+bindkey '^I' menu-complete
 
 source $HOME/.config/zsh/git.zsh
 # source $HOME/.config/zsh/termsupport.zsh
@@ -41,6 +42,8 @@ source ~/.config/fzf/key-bindings.zsh
 
 # Functionality common to bash and zsh
 source ~/.config/shell/rc
+
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/zsh"
 
 # Must be last line in config
 source $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

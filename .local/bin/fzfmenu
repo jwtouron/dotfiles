@@ -15,10 +15,11 @@ chmod 600 $input $output
 # sadly we can't use "$@" here directly because we are inside sh -c "..." call
 # already.
 # you can also set window dimensions via -g '=COLSxROWS', see man st.
-if command -v st >/dev/null; then
-	st -c st-popup -n st-popup -e sh -c "cat $input | fzf $(printf -- " '%s'" "$@" | sed "s/^ ''$//") | tee $output" & disown
-elif command -v xterm >/dev/null; then
-	xterm -class xterm-popup -e sh -c "cat $input | fzf $(printf -- " '%s'" "$@" | sed "s/^ ''$//") | tee $output" & disown
+
+# if command -v st >/dev/null; then
+# 	st -c st-popup -n st-popup -e sh -c "cat $input | fzf $(printf -- " '%s'" "$@" | sed "s/^ ''$//") | tee $output" & disown
+if command -v xterm >/dev/null; then
+    xterm -class xterm-floating -e sh -c "cat $input | fzf $(printf -- " '%s'" "$@" | sed "s/^ ''$//") | tee $output" & disown
 fi
 
 # handle ctrl+c outside child terminal window
