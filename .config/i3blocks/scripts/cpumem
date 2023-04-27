@@ -1,0 +1,36 @@
+#!/bin/sh
+
+__get_cpu() {
+  local cpu a b c previdle rest prevtotal total
+  read cpu a b c previdle rest < /proc/stat
+  prevtotal=$((a+b+c+previdle))
+  sleep 0.5
+  read cpu a b c idle rest < /proc/stat
+  total=$((a+b+c+idle))
+  echo -n "$((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))"
+}
+
+__get_mem() {
+  echo -n "$(free -t | awk '/Total/ {printf "%d", $3 / ($3 + $4) * 100.0}')"
+  #mem=$(free | awk '/Mem/ { printf "%d", $3 / $2 * 100 }')
+}
+
+__format() {
+  if [ "$1" -ge 90 ]; then
+    printf "<span foreground='#cc0000'>%2s%%</span>" "$1"
+  elif [ "$1" -ge 90 ]; then
+    printf "<span foreground='#cccc00'>%2s%%</span>" "$1"
+  else
+    printf "%2s%%" "$1"
+  fi
+}
+
+cpu="$(__get_cpu)"
+cpu="$(__format $cpu)"
+
+mem="$(__get_mem)"
+mem="$(__format $mem)"
+
+echo " $cpu    $mem"
+
+# vim: filetype=sh

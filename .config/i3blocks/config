@@ -24,3 +24,5 @@ color=#888888
 command=scripts/date
 interval=5
 color=#888888
+
+# vim: filetype=conf
