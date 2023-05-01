@@ -167,19 +167,21 @@
 
 (use-package flymake
   :ensure nil
-  :hook (flymake-mode . my--flymake-mode-hook-function)
+  ;; :hook (flymake-mode . my--flymake-mode-hook-function)
   :bind (:map flymake-mode-map
               ("C-c f n" . flymake-goto-next-error)
               ("C-c f p" . flymake-goto-prev-error)
-              ("C-c f d" . flymake-show-buffer-diagnostics))
+              ("C-c f d" . flymake-show-buffer-diagnostics)
+              ("M-n" . flymake-goto-next-error)
+              ("M-p" . flymake-goto-prev-error))
   :config
-  (defun my--flymake-mode-hook-function ()
-    (setq next-error-function
-          (lambda (arg reset)
-            (unless reset
-              (cond
-               ((> arg 0) (flymake-goto-next-error arg))
-               ((< arg 0) (flymake-goto-prev-error (abs arg))))))))
+  ;; (defun my--flymake-mode-hook-function ()
+  ;;   (setq next-error-function
+  ;;         (lambda (arg reset)
+  ;;           (unless reset
+  ;;             (cond
+  ;;              ((> arg 0) (flymake-goto-next-error arg))
+  ;;              ((< arg 0) (flymake-goto-prev-error (abs arg))))))))
   (define-repeat-map (flymake-goto-next-error flymake-goto-prev-error)
     ("n" flymake-goto-next-error)
     ("p" flymake-goto-prev-error)))
@@ -206,7 +208,45 @@
          ("C-h F" . helpful-function)
          ("C-h C" . helpful-command)))
 
-(use-package magit)
+(use-package magit
+  :config
+  (defun my--magit--shell-command-advice (orig-fn command &optional directory)
+    (message "directory: %s" directory)
+    
+    ;; (let ((git-dir (locate-dominating-file default-directory ".git")))
+    ;;   (if (file-directory-p git-dir)
+    ;;       (progn
+    ;;         (message "here1")
+    ;;         (apply old-fn args))
+    ;;     (message "here2")
+    ;;     (unwind-protect
+    ;;         (progn
+    ;;           (add-to-list 'magit-git-global-arguments "--work-tree=/home/john")
+    ;;           (add-to-list 'magit-git-global-arguments "--git-dir=/home/john/.config/.dotfiles")
+    ;;           (message "args: %s" magit-git-global-arguments)
+    ;;           (apply old-fn args))
+    ;;       (setq magit-git-global-arguments (delete "--work-tree=/home/john" magit-git-global-arguments))
+    ;;       (setq magit-git-global-arguments (delete "--git-dir=/home/john/.config/.dotfiles" magit-git-global-arguments)))))
+    )
+  ;; (advice-add 'magit-status :override
+  ;;             #'my--magit--shell-command-advice)
+  ;; (let ((myconf-path (expand-file-name "/home/john/.config/.dotfiles")))
+  ;;      (when (and (file-exists-p myconf-path)
+  ;;                 (not (file-exists-p ".git")))
+  ;;        ;; Insert git directory and working tree into magit's git
+  ;;        ;; global arguments, while preserving magit's existing
+  ;;        ;; command-line settings; `add-to-list' adds to the
+  ;;        ;; beginning of the list.
+  ;;        (add-to-list 'magit-git-global-arguments
+  ;;                     (format "--work-tree=/home/john"
+  ;;                             ;; Drop trailing slash.
+  ;;                             (directory-file-name
+  ;;                              ;; Get directory part (`dirname`).
+  ;;                              (file-name-directory myconf-path))))
+  ;;        (add-to-list 'magit-git-global-arguments
+  ;;                     (format "--git-dir=%s" myconf-path))
+  ;;        ))
+  )
 
 (use-package org
   :ensure nil
@@ -246,8 +286,6 @@
 
 (use-package project
   :ensure nil
-  ;; :bind (("M-n" . my-next-buffer)
-  ;;        ("M-p" . my-previous-buffer))
   :config
   (advice-add 'my-next-buffer :after
               (lambda (&optional arg)
@@ -311,9 +349,6 @@
   :ensure nil
   :defer 1
   :init (savehist-mode))
-
-(use-package smartscan
-  :hook (prog-mode . smartscan-mode))
 
 (use-package so-long
   :ensure nil
