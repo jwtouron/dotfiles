@@ -287,22 +287,6 @@
 (use-package project
   :ensure nil
   :config
-  (advice-add 'my-next-buffer :after
-              (lambda (&optional arg)
-                (set-transient-map
-                 (let ((map (make-sparse-keymap)))
-                   (define-key map (kbd "n") (lambda () (interactive) (my-next-buffer arg)))
-                   (define-key map (kbd "p") (lambda () (interactive) (my-previous-buffer arg)))
-                   map))))
-
-  (advice-add 'my-previous-buffer :after
-              (lambda (&optional arg)
-                (set-transient-map
-                 (let ((map (make-sparse-keymap)))
-                   (define-key map (kbd "n") (lambda () (interactive) (my-next-buffer arg)))
-                   (define-key map (kbd "p") (lambda () (interactive) (my-previous-buffer arg)))
-                   map))))
-
   (defun my-project-try-dotproject (dir)
     (when-let ((dir (locate-dominating-file dir ".project")))
       (cons 'dotproject dir)))

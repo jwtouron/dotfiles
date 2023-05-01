@@ -148,27 +148,6 @@ is already narrowed."
                                      "; ")))
     (insert (string-trim-right (shell-command-to-string shell-command)))))
 
-(defun my-switch-buffer (switch-fun &optional arg)
-  (let ((current-project (project-current)))
-    (if (or arg
-            (not current-project))
-        (funcall switch-fun)
-      (let* ((project-buffers (when current-project (project--buffer-list current-project)))
-             (switch-to-prev-buffer-skip
-              (lambda (_ buffer _)
-                (not (memq buffer project-buffers)))))
-        (funcall switch-fun)))))
-
-;;;###autoload
-(defun my-next-buffer (&optional arg)
-  (interactive "P")
-  (my-switch-buffer #'next-buffer arg))
-
-;;;###autoload
-(defun my-previous-buffer (&optional arg)
-  (interactive "P")
-  (my-switch-buffer #'previous-buffer arg))
-
 ;;;###autoload
 (defun my-upgrade-packages ()
   "Upgrade packages installed through package.el and Quelpa."
