@@ -17,8 +17,8 @@ __get_mem() {
 
 __format() {
   if [ "$1" -ge 90 ]; then
-    printf "<span foreground='#cc0000'>%2s%%</span>" "$1"
-  elif [ "$1" -ge 90 ]; then
+    printf "<span foreground='#ff0000'>%2s%%</span>" "$1"
+  elif [ "$1" -ge 70 ]; then
     printf "<span foreground='#cccc00'>%2s%%</span>" "$1"
   else
     printf "%2s%%" "$1"

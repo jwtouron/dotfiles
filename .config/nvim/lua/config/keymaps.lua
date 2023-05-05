@@ -2,4 +2,10 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-vim.api.nvim_create_user_command('ReadDate', 'read !date "+\\%Y-\\%m-\\%d"', {})
+vim.keymap.set("n", "cg*", "*Ncgn")
+
+-- Don't overwrite paste register when pasting in visual mode
+vim.keymap.set("x", "p", [["_dP]])
+
+-- Don't move cursor when joining lines (uses 'z' mark)
+vim.keymap.set("n", "J", "mzJ`z")

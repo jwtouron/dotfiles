@@ -1,52 +1,39 @@
-local function config(plugin, opts)
-  return function()
-    require(plugin).setup(opts)
-  end
-end
-
 return {
   -- LazyVim Tweaks
   --
   { "goolord/alpha-nvim", enabled = false },
   { "neovim/nvim-lspconfig", opts = { autoformat = false } },
   {
-    "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
+    "hrsh7th/nvim-cmp",
+    dependencies = { "hrsh7th/cmp-nvim-lua" },
+    ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
-      opts.options.component_separators = { left = "·", right = "·" }
-      opts.options.section_separators = { left = "", right = "" }
+      local cmp = require("cmp")
+      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "nvim_lua" } }))
     end,
   },
-
-  -- New Plugins
-  --
   {
-    "max397574/better-escape.nvim",
-    config = config("better_escape", { mapping = { "jk", "kj" } }),
-  },
-  { "mbbill/undotree" },
-  {
-    "norcalli/nvim-colorizer.lua",
-    init = function()
-      vim.o.termguicolors = true
-    end,
-    config = config("colorizer"),
-  },
-  {
-    "nvim-telescope/telescope-file-browser.nvim",
-    keys = {
-      {
-        "<leader>fB",
-        ":Telescope file_browser path=%:p:h select_buffer=true<cr>",
-        -- ":Telescope file_browser path=%:p:h=%:p:h<cr>",
-        desc = "Browse Files",
+    "nvim-lualine/lualine.nvim",
+    opts = {
+      options = {
+        component_separators = { left = "·", right = "·" },
+        section_separators = { left = "", right = "" },
       },
     },
+  },
+
+  -- New plugins
+  --
+  { "ixru/nvim-markdown", ft = "markdwon" },
+  { "max397574/better-escape.nvim", opts = { mapping = { "jk", "kj" } } },
+  { "mbbill/undotree", cmd = { "UndotreeToggle", "UndotreeShow" } },
+  {
+    "norcalli/nvim-colorizer.lua",
     config = function()
-      require("telescope").load_extension("file_browser")
+      require("colorizer").setup()
     end,
   },
   { "romainl/vim-cool" },
-  { "tpope/vim-fugitive" },
+  { "tpope/vim-fugitive", cmd = { "Git", "Ggrep" } },
   { "tpope/vim-rsi" },
 }

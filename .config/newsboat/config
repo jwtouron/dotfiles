@@ -7,5 +7,5 @@ reload-time 60
 bind-key j down
 bind-key k up
 
-define-filter recent            "age between 0:4"
-define-filter very-recent       "age between 0:2"
+define-filter recent            "age between 0:3"
+define-filter very-recent       "age between 0:1"
