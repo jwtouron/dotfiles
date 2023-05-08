@@ -6,7 +6,7 @@ local Loader = require("lazy.core.loader")
 local Util = require("lazy.util")
 
 vim.api.nvim_create_autocmd("ColorScheme", {
-  group = vim.api.nvim_create_augroup("mycolorscheme", { clear = true }),
+  group = vim.api.nvim_create_augroup("UserColorScheme", { clear = true }),
   callback = function()
     -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
@@ -38,10 +38,25 @@ local function colorscheme(name, opts)
   }
 end
 
+local function nord()
+  local spec = colorscheme("arcticicestudio/nord-vim")
+  local config = spec.config
+  spec.config = function()
+    config()
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      group = vim.api.nvim_create_augroup("UserNord", { clear = true }),
+      pattern = "nord",
+      callback = function()
+        vim.cmd.highlight({ "Normal", "guibg=#121212" })
+      end,
+    })
+  end
+  return spec
+end
+
 return {
-  colorscheme("arcticicestudio/nord-vim"),
+  nord(),
   colorscheme("ellisonleao/gruvbox.nvim", { contrast = "dark" }),
-  colorscheme("hardhackerlabs/theme-vim"),
   colorscheme("LunarVim/Colorschemes"),
   colorscheme("rose-pine/neovim"),
   colorscheme("water-sucks/darkrose.nvim"),

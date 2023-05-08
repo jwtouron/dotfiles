@@ -3,6 +3,7 @@ return {
   --
   { "folke/lazy.nvim", checker = { enabled = false } },
   { "goolord/alpha-nvim", enabled = false },
+  { "lewis6991/gitsigns.nvim", enabled = false },
   { "neovim/nvim-lspconfig", opts = { autoformat = false } },
   {
     "hrsh7th/nvim-cmp",

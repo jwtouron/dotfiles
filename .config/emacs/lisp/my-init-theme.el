@@ -53,10 +53,7 @@
 
 (use-package nord-theme)
 
-(use-package nordic-night  ; https://sr.ht/~ashton314/nordic-night/
-  :ensure nil
-  :init
-  (add-to-list 'custom-theme-load-path (concat user-emacs-directory "lisp")))
+(use-package nordic-night-theme)
 
 (use-package spaceway-theme
   :ensure nil
