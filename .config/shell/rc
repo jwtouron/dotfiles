@@ -23,10 +23,4 @@ source ~/.config/fzf/functions
 
 source ~/.config/shell/man
 
-if command -v links >/dev/null; then
-    export BROWSER=links
-elif command -v lynx >/dev/null; then
-    export BROWSER=lynx
-fi
-
  # vim: ft=sh:

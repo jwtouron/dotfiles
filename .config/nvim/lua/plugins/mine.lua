@@ -1,6 +1,7 @@
 return {
   -- LazyVim Tweaks
   --
+  { "folke/lazy.nvim", checker = { enabled = false } },
   { "goolord/alpha-nvim", enabled = false },
   { "neovim/nvim-lspconfig", opts = { autoformat = false } },
   {

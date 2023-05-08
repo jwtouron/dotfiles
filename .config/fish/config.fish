@@ -50,10 +50,4 @@ if status is-interactive
     # Environment variables
 
     set -g fish_greeting
-
-    if command -v links >/dev/null;
-        set -g BROWSER links
-    else if command -v lynx >/dev/null;
-        set -g BROWSER lynx
-    end
 end

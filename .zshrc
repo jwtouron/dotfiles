@@ -10,7 +10,7 @@ bindkey -e
 #zstyle :compinstall filename "$HOME.zshrc"
 
 autoload -Uz colors && colors
-#autoload -Uz select-word-style && select-word-style bash
+autoload -Uz select-word-style && select-word-style bash
 
 autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
