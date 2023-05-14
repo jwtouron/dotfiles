@@ -2,9 +2,8 @@ return {
   -- LazyVim Tweaks
   --
   { "folke/lazy.nvim", checker = { enabled = false } },
+  { "folke/noice.nvim", enabled = false },
   { "goolord/alpha-nvim", enabled = false },
-  { "lewis6991/gitsigns.nvim", enabled = false },
-  { "neovim/nvim-lspconfig", opts = { autoformat = false } },
   {
     "hrsh7th/nvim-cmp",
     dependencies = { "hrsh7th/cmp-nvim-lua" },
@@ -14,6 +13,8 @@ return {
       opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "nvim_lua" } }))
     end,
   },
+  { "lewis6991/gitsigns.nvim", enabled = false },
+  { "neovim/nvim-lspconfig", opts = { autoformat = false } },
   {
     "nvim-lualine/lualine.nvim",
     opts = {
@@ -23,6 +24,7 @@ return {
       },
     },
   },
+  { "rcarriga/nvim-notify", enabled = false },
 
   -- New plugins
   --

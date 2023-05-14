@@ -24,6 +24,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 local function colorscheme(name, opts)
   return {
     name,
+    lazy = true,
     priority = 1000,
     config = function(plugin)
       if opts then
@@ -56,6 +57,7 @@ end
 
 return {
   nord(),
+  colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("ellisonleao/gruvbox.nvim", { contrast = "dark" }),
   colorscheme("LunarVim/Colorschemes"),
   colorscheme("rose-pine/neovim"),

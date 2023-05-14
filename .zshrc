@@ -13,21 +13,20 @@ autoload -Uz colors && colors
 autoload -Uz select-word-style && select-word-style bash
 
 autoload -Uz compinit && compinit
-zstyle ':completion:*' menu select
-_comp_options+=(globdots)
+# zstyle ':completion:*' menu select
+# _comp_options+=(globdots)
 
-zmodload zsh/complist
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey '^I' menu-complete
+# zmodload zsh/complist
+# bindkey -M menuselect 'h' vi-backward-char
+# bindkey -M menuselect 'k' vi-up-line-or-history
+# bindkey -M menuselect 'j' vi-down-line-or-history
+# bindkey -M menuselect 'l' vi-forward-char
+# bindkey '^I' menu-complete
 
 source $HOME/.config/zsh/git.zsh
 # source $HOME/.config/zsh/termsupport.zsh
 
 fpath+=($HOME/.config/zsh/pure)
-
 setopt promptsubst
 autoload -Uz promptinit && promptinit
 
@@ -38,7 +37,17 @@ prompt_pure_check_cmd_exec_time() {}
 # FZF
 source ~/.config/fzf/completion.zsh
 source ~/.config/fzf/key-bindings.zsh
-# source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
+source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
 
 # Functionality common to bash and zsh
 source ~/.config/shell/rc

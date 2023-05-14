@@ -8,14 +8,20 @@
 # thanks Valodim/zsh-capture-completion
 -ftb-compadd() {
   # parse all options
-  local -A apre hpre dscrs _oad
+  local -A apre hpre dscrs _oad _mesg
   local -a isfile _opts __ expl
   zparseopts -E -a _opts P:=apre p:=hpre d:=dscrs X+:=expl O:=_oad A:=_oad D:=_oad f=isfile \
-             i: S: s: I: x: r: R: W: F: M+: E: q e Q n U C \
+             i: S: s: I: x:=_mesg r: R: W: F: M+: E: q e Q n U C \
              J:=__ V:=__ a=__ l=__ k=__ o=__ 1=__ 2=__
 
+  # store $curcontext for further usage
+  _ftb_curcontext=${curcontext#:}
+
   # just delegate and leave if any of -O, -A or -D are given or fzf-tab is not enabled
-  if (( $#_oad != 0 || ! IN_FZF_TAB )); then
+  # or fzf-tab is disabled in the current context
+  if (( $#_oad != 0 || ! IN_FZF_TAB )) \
+    || { -ftb-zstyle -m disabled-on "any" } \
+    || ({ -ftb-zstyle -m disabled-on "files" } && [[ -n $isfile ]]); then
     builtin compadd "$@"
     return
   fi
@@ -28,11 +34,11 @@
   builtin compadd -A __hits -D __dscr "$@"
   local ret=$?
   if (( $#__hits == 0 )); then
+    if is-at-least 5.9 && (( $#_mesg != 0 )); then
+      builtin compadd -x $_mesg
+    fi
     return $ret
   fi
-
-  # store $curcontext for furthur usage
-  _ftb_curcontext=${curcontext#:}
 
   # only store the fist `-X`
   expl=$expl[2]
@@ -333,14 +339,24 @@ toggle-fzf-tab() {
 }
 
 build-fzf-tab-module() {
-  local MACOS
+  local use_bundle
+  local NPROC
   if [[ ${OSTYPE} == darwin* ]]; then
-    MACOS=true
+    [[ -n ${module_path[1]}/**/*.bundle(#qN) ]] && use_bundle=true
+    NPROC=$(sysctl -n hw.logicalcpu)
+  else
+    NPROC=$(nproc)
   fi
   pushd $FZF_TAB_HOME/modules
-  CPPFLAGS=-I/usr/local/include CFLAGS="-g -Wall -O2" LDFLAGS=-L/usr/local/lib ./configure --disable-gdbm --without-tcsetpgrp ${MACOS:+DL_EXT=bundle}
-  make -j$(nproc)
+  CPPFLAGS=-I/usr/local/include CFLAGS="-g -Wall -O2 -std=c99" LDFLAGS=-L/usr/local/lib ./configure --disable-gdbm --without-tcsetpgrp ${use_bundle:+DL_EXT=bundle}
+  make -j${NPROC}
+  local ret=$?
   popd
+  if (( ${ret} != 0 )); then
+    print -P "%F{red}%BThe module building has failed. See the output above for details.%f%b" >&2
+  else
+    print -P "%F{green}%BThe module has been built successfully.%f%b"
+  fi
 }
 
 zmodload zsh/zutil
@@ -363,9 +379,11 @@ typeset -ga _ftb_group_colors=(
 () {
   emulate -L zsh -o extended_glob
 
-  fpath+=($FZF_TAB_HOME/lib)
+  if (( ! $fpath[(I)$FZF_TAB_HOME/lib] )); then
+    fpath+=($FZF_TAB_HOME/lib)
+  fi
 
-  autoload -Uz -- $FZF_TAB_HOME/lib/-#ftb*(:t)
+  autoload -Uz is-at-least -- $FZF_TAB_HOME/lib/-#ftb*(:t)
 
   if (( $+FZF_TAB_COMMAND || $+FZF_TAB_OPTS || $+FZF_TAB_QUERY || $+FZF_TAB_SINGLE_GROUP || $+fzf_tab_preview_init )) \
        || zstyle -m ":fzf-tab:*" command '*' \
