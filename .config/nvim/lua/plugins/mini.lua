@@ -1,11 +1,13 @@
-local function mini(name, opts)
-  return {
-    "echasnovski/mini." .. name,
+local function mini(name, spec)
+  local result = {
+    'echasnovski/mini.'..name,
     version = false,
-    config = function()
-      require("mini." .. name).setup(opts)
-    end,
+    event = "VeryLazy",
   }
+  for k, v in pairs(spec or { config = true }) do
+    result[k] = v
+  end
+  return result
 end
 
 return {

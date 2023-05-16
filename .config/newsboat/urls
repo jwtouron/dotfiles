@@ -1,10 +1,17 @@
 #https://clojure.org/feed.xml                    clojure
 #https://reddit.com/r/clojure/.rss               clojure
-https://reddit.com/r/emacs/.rss                 emacs
-https://sachachua.com/blog/feed                 emacs
+"query:Emacs:tags # \"emacs\""
+https://reddit.com/r/emacs/.rss                 emacs !
+https://sachachua.com/blog/feed                 emacs !
 #https://reddit.com/r/haskell/.rss               haskell
 https://reddit.com/r/linux/.rss                 linux
 https://reddit.com/r/neovim/.rss                neovim
-https://hnrss.org/show?points=100&comments=25   programming
-https://reddit.com/r/programming/.rss           programming
+"query:Programming:tags # \"programming\""
+https://hnrss.org/show?points=100&comments=25   programming !
+https://reddit.com/r/programming/.rss           programming !
 #https://reddit.com/r/vim/.rss                   vim
+
+#"query:Metafeed:tags # \"metafeed\""
+#https://feed.url/1 metafeed !
+#https://feed.url/2 metafeed !
+#https://feed.url/3 metafeed !

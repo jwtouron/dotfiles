@@ -32,6 +32,8 @@
 
 (use-package ef-themes)
 
+(use-package esmond-theme)
+
 (use-package everforest-theme
   :ensure nil
   :init

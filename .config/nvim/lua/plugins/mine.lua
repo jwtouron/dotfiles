@@ -1,7 +1,6 @@
 return {
   -- LazyVim Tweaks
   --
-  { "folke/lazy.nvim", checker = { enabled = false } },
   { "folke/noice.nvim", enabled = false },
   { "goolord/alpha-nvim", enabled = false },
   {
@@ -24,20 +23,23 @@ return {
       },
     },
   },
+  { "nvim-pack/nvim-spectre", enabled = false },
   { "rcarriga/nvim-notify", enabled = false },
 
   -- New plugins
   --
-  { "ixru/nvim-markdown", ft = "markdwon" },
+  { "AckslD/muren.nvim", config = true, },
+  { "ixru/nvim-markdown", ft = "markdown" },
   { "max397574/better-escape.nvim", opts = { mapping = { "jk", "kj" } } },
-  { "mbbill/undotree", cmd = { "UndotreeToggle", "UndotreeShow" } },
+  { "mbbill/undotree", cmd = { "UndotreeShow", "UndotreeToggle" } },
   {
     "norcalli/nvim-colorizer.lua",
+    event = "VeryLazy",
     config = function()
       require("colorizer").setup()
     end,
   },
-  { "romainl/vim-cool" },
-  { "tpope/vim-fugitive", cmd = { "Git", "Ggrep" } },
-  { "tpope/vim-rsi" },
+  { "romainl/vim-cool", event = "VeryLazy" },
+  { "tpope/vim-fugitive", cmd = { "G", "Git", "Ggrep" } },
+  { "tpope/vim-rsi", event = "VeryLazy" },
 }

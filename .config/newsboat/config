@@ -1,4 +1,5 @@
-include /usr/share/doc/newsboat/contrib/colorschemes/plain
+#include /usr/share/doc/newsboat/contrib/colorschemes/plain
+include /usr/share/doc/newsboat/contrib/colorschemes/universal-color
 
 auto-reload yes
 reload-threads 100
@@ -7,5 +8,5 @@ reload-time 60
 bind-key j down
 bind-key k up
 
-define-filter recent            "age between 0:3"
-define-filter very-recent       "age between 0:1"
+define-filter past-days (1)      "age between 0:1"
+define-filter past-days (3)      "age between 0:3"

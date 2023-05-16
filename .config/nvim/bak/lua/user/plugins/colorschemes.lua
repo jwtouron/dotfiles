@@ -1,7 +1,3 @@
--- To set the colorscheme permanently, in lua/plugins/colorscheme.lua,
--- put something like:
--- return { { "LazyVim/LazyVim", opts = { colorscheme = "rose-pine" } } }
-
 local user_color_scheme_group = vim.api.nvim_create_augroup("UserColorScheme", { clear = true })
 
 vim.api.nvim_create_autocmd("ColorScheme", {
