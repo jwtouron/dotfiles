@@ -17,8 +17,14 @@ vim.keymap.set("x", "p", [["_dP]])
 vim.keymap.set("n", "J", "mzJ`z")
 
 -- Ranger integration
-vim.keymap.set("n", "<leader>rr", function() Util.float_term({ "ranger" }, { cwd = Util.get_root(), esc_esc = false }) end, { desc = "Ranger (root dir)" })
-vim.keymap.set("n", "<leader>rR", function() Util.float_term({ "ranger" }, {esc_esc = false}) end, { desc = "RangerR(cwd)" })
+vim.keymap.set("n", "<leader>rr", function()
+  Util.float_term({ "ranger" }, { cwd = Util.get_root(), esc_esc = false })
+end, { desc = "Ranger (root dir)" })
+vim.keymap.set("n", "<leader>rR", function()
+  Util.float_term({ "ranger" }, { esc_esc = false })
+end, { desc = "Ranger (cwd)" })
 
 -- Toggle cursorline
-vim.keymap.set("n", "<leader>uL", function() Util.toggle("cursorline") end, { desc = "Toggle Cursorline" })
+vim.keymap.set("n", "<leader>uL", function()
+  Util.toggle("cursorline")
+end, { desc = "Toggle Cursorline" })
