@@ -1,7 +1,11 @@
+# History
 HISTFILE=~/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 setopt hist_ignore_dups share_history
+alias priv=' ZSH_PRIV=1 zsh'
+[ -n "$ZSH_PRIV" ] && unset HISTFILE
+# fc -R $DEF_HISTFILE
 
 setopt autocd extendedglob nomatch notify completealiases
 unsetopt beep
@@ -32,6 +36,7 @@ autoload -Uz promptinit && promptinit
 
 prompt pure
 prompt_pure_check_cmd_exec_time() {}
+[ -n "$ZSH_PRIV" ] && export PS1="%F{yellow}[PRIVATE] $PS1"
 #source $HOME/.config/zsh/bira-theme.zsh
 
 # FZF
