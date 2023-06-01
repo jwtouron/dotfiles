@@ -8,5 +8,5 @@ reload-time 60
 bind-key j down
 bind-key k up
 
-define-filter past-days (1)      "age between 0:1"
-define-filter past-days (3)      "age between 0:3"
+define-filter "past-days (1)"      "age between 0:1"
+define-filter "past-days (3)"      "age between 0:3"

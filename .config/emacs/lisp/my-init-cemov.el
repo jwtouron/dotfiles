@@ -41,7 +41,7 @@
          ;; My bindings
          ("C-c o h" . (lambda ()
                         (interactive)
-                        (consult-org-heading nil (file-expand-wildcards "~/Documents/org/[a-zA-Z0-9]*.org" t))))
+                        (consult-org-heading nil (file-expand-wildcards "~/Documents/notes/[a-zA-Z0-9]*.org" t))))
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string

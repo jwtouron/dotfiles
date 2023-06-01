@@ -25,7 +25,7 @@
 (require 'my-defcustoms)
 (require 'my-init-emacs)
 ;; (require 'my-keybindings)
-(require 'my-init-cemov)
+;; (require 'my-init-cemov)
 
 (use-package ace-window
   :bind ("C-x o" . 'ace-window))
@@ -79,6 +79,15 @@
 (use-package crux
   :bind (("C-a" . crux-move-beginning-of-line)
          ("C-x x r" . crux-rename-file-and-buffer)))
+
+(use-package denote
+  :if nil
+  :bind ("C-c o n" . (lambda ()
+                       (interactive)
+                       (let ((default-directory denote-directory))
+                         (call-interactively #'find-file))))
+  :custom ((denote-known-keywords nil))
+  :init (setq denote-directory (expand-file-name "~/Documents/notes/")))
 
 ;; Run devdocs-install
 (use-package devdocs
@@ -208,6 +217,15 @@
          ("C-h F" . helpful-function)
          ("C-h C" . helpful-command)))
 
+(use-package isearch
+  :ensure nil
+  :custom ((isearch-lazy-count t)))
+
+(use-package ivy
+  :custom ((ivy-use-virtual-buffers t))
+  :init (ivy-mode)
+  :config (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order))))
+
 (use-package magit
   :config
   (defun my--magit--shell-command-advice (orig-fn command &optional directory)
@@ -250,16 +268,19 @@
 
 (use-package org
   :ensure nil
-  :custom ((org-agenda-files '("~/Documents/org/agenda"))
-           (holiday-bahai-holidays nil)
+  :custom ((holiday-bahai-holidays nil)
            (holiday-hebrew-holidays nil)
-           (holiday-islamic-holidays nil))
+           (holiday-islamic-holidays nil)
+           (org-agenda-files '("~/Documents/org/agenda"))
+           (org-ellipsis "…")
+           (org-hide-emphasis-markers t)
+           (org-pretty-entities t))
   :bind ("C-c o a" . org-agenda)
   :config
   (org-babel-do-load-languages 'org-babel-load-languages '((shell . t))))
 
 (use-package org-modern
-  :defer 1
+  :after org
   :init (global-org-modern-mode))
 
 (use-package paredit)

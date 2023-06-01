@@ -1,0 +1,78 @@
+#!/bin/sh
+# Reference: https://github.com/koonix/lfutils/blob/master/lfpreviewer
+
+file=$1
+w=$2
+h=$3
+x=$4
+y=$(($5 + 1))
+
+[ -z "$1" ] && exit 1
+
+mimetype="$(file -Lb --mime-type $file)"
+
+__command() {
+    command -v "$1" >/dev/null
+}
+
+generic() {
+    echo "$file"
+    echo "$(file -b $file)"
+    echo "$(file -Lb --mime-type $file)"
+    echo "$(ls -ld $file)"
+}
+
+generic_explain() {
+    generic
+    echo ""
+    echo "Install $1 to preview."
+}
+
+image() {
+    kitty +kitten icat --silent --stdin no --transfer-mode file --place "${w}x${h}@${x}x${y}" "$1" < /dev/null > /dev/tty
+    exit 1
+}
+
+case "$mimetype" in
+    application/gzip)
+        tar -tf "$file"
+        ;;
+    application/pdf)
+        if __command pdftoppm; then
+            thumbnail="/tmp/$(basename $file)"
+            pdftoppm -jpeg -jpegopt quality=50,optimize=y -f 1 -singlefile "$file" "$thumbnail"
+            [ -f "${thumbnail}.jpg" ] && image "${thumbnail}.jpg"
+        else
+            generic_explain "pdftoppm (poppler)"
+        fi
+        ;;
+    application/x-7z-compressed)
+        __command 7z && 7z l "$file" && exit 0
+        generic_explain "7z"
+        ;;
+    application/x-rar)
+        __command unrar && unrar l "$file" && exit 0
+        __command 7z && 7z l "$file" && exit 0
+        generic_explain "unrar or 7z"
+        ;;
+    application/x-tar)
+        tar tf "$file"
+        ;;
+    application/zip)
+        __command unzip && unzip -l "$file" && exit 0
+        __command 7z && 7z l "$file" && exit 0
+        generic "unzip or 7z"
+        ;;
+    image/*)
+        image "$file"
+        ;;
+    inode/directory)
+        ls -AlhF "$file"
+        ;;
+    text/*)
+        cat "$file"
+        ;;
+    *)
+        generic
+        ;;
+esac

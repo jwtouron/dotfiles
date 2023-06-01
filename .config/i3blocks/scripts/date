@@ -1,4 +1,10 @@
 #!/bin/sh
+
+case $button in
+  1) yad --calendar --undecorated --no-buttons --mouse --close-on-unfocus
+    ;;
+esac
+
 date +"%a, %d %b, %H:%M"
 
 # vim: filetype=sh

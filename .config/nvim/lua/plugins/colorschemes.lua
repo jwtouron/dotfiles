@@ -43,8 +43,11 @@ end
 return {
   colorscheme("arcticicestudio/nord-vim", {
     config = function()
-      create_colorscheme_autocmd("nord", function() vim.cmd.highlight({ "Normal", "guibg=#121212" }) end)
-    end
+      create_colorscheme_autocmd("nord", function()
+        vim.cmd.highlight({ "Normal", "guibg=#121212" })
+        vim.cmd.highlight({ "SignColumn", "guibg=#121212" })
+      end)
+    end,
   }),
   colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("ellisonleao/gruvbox.nvim", { opts = { contrast = "dark" } }),

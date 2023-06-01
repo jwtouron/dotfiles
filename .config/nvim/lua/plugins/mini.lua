@@ -12,6 +12,7 @@ end
 
 return {
   mini("align"),
+  -- mini("jump"),
   mini("splitjoin"),
   mini("trailspace"),
 }
