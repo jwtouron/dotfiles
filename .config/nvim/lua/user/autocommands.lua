@@ -1,0 +1,19 @@
+local UserAutocommands = vim.api.nvim_create_augroup("UserAutocommands", { clear = true })
+
+local filetype_autocmds = {
+  { "help", { command = "nnoremap <buffer> <silent> q :q<cr>" } },
+  { "lua", { command = "setlocal tabstop=2" } },
+  { "qf", { command = "nnoremap <buffer> <silent> q :q<cr>" } },
+}
+
+for _, autocmd in ipairs(filetype_autocmds) do
+  local opts = autocmd[2] or {}
+  opts.pattern = autocmd[1]
+  opts.group = UserAutocommands,
+  vim.api.nvim_create_autocmd("FileType", opts)
+end
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = UserAutocommands,
+  callback = function() vim.highlight.on_yank() end,
+})

@@ -18,11 +18,11 @@ local keys = {
 return {
   "ThePrimeagen/harpoon",
   keys = function()
-    local result = {}
+    local ret = {}
     for _, key in ipairs(keys) do
-      table.insert(result, { key[1], nil, desc = key[3] })
+      table.insert(ret, { key[1], nil, desc = key[3] })
     end
-    return result
+    return ret
   end,
   config = function()
     require("harpoon").setup()

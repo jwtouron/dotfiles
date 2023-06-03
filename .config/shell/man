@@ -15,3 +15,5 @@ man() {
     LESS='-R -s' \
     command man "$@"
 }
+
+export MANPAGER=less

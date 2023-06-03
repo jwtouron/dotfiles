@@ -25,7 +25,7 @@
 (require 'my-defcustoms)
 (require 'my-init-emacs)
 ;; (require 'my-keybindings)
-;; (require 'my-init-cemov)
+(require 'my-init-cemov)
 
 (use-package ace-window
   :bind ("C-x o" . 'ace-window))
@@ -217,14 +217,12 @@
          ("C-h F" . helpful-function)
          ("C-h C" . helpful-command)))
 
+(use-package imenu-anywhere
+  :bind (("C-c I" . imenu-anywhere)))
+
 (use-package isearch
   :ensure nil
   :custom ((isearch-lazy-count t)))
-
-(use-package ivy
-  :custom ((ivy-use-virtual-buffers t))
-  :init (ivy-mode)
-  :config (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order))))
 
 (use-package magit
   :config

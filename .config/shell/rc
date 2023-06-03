@@ -20,6 +20,7 @@ command -v fdfind > /dev/null && alias fd='fdfind'
 command -v batcat >/dev/null && alias bat='batcat'
 command -v bat >/dev/null && export PAGER='bat'
 
+source ~/.config/fzf/aliases
 source ~/.config/fzf/functions
 
 source ~/.config/shell/man

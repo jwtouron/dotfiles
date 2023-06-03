@@ -1,0 +1,23 @@
+__zf_preview='case "$(file -b --mime-type {})" in text/*) $PAGER {} ;; *) file -b {} ;; esac'
+
+zf() {
+    local files="$(find ${1:-.})"
+    [ -n "$files" ] && echo "$files" | fzf -m --preview=$__zf_preview
+}
+
+zfd() {
+    local dirs="$(find ${1:-.} -type d)"
+    [ -n "$dirs" ] && echo "$dirs" | fzf -m --preview=$__zf_preview
+}
+
+zfd1 () {
+    local dirs="$(find ${1:-.} -maxdepth 1 -type d)"
+    [ -n "$dirs" ] && echo "$dirs" | fzf -m --preview=$__zf_preview
+}
+
+zff() {
+    local files="$(find ${1:-.} -type f)"
+    [ -n "$files" ] && echo "$files" | fzf -m --preview=$__zf_preview
+}
+
+# vim: set filetype=bash expandtab tabstop=4 shiftwidth=4:
