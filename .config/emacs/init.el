@@ -269,7 +269,7 @@
   :custom ((holiday-bahai-holidays nil)
            (holiday-hebrew-holidays nil)
            (holiday-islamic-holidays nil)
-           (org-agenda-files '("~/Documents/org/agenda"))
+           (org-agenda-files '("~/Documents/notes/agenda"))
            (org-ellipsis "…")
            (org-hide-emphasis-markers t)
            (org-pretty-entities t))
