@@ -3,8 +3,8 @@ return {
     "nvim-orgmode/orgmode",
     dependencies = "nvim-treesitter/nvim-treesitter",
     config = function()
-      require('orgmode').setup_ts_grammar()
-      require('nvim-treesitter.configs').setup {
+      require("orgmode").setup_ts_grammar()
+      require("nvim-treesitter.configs").setup {
         highlight = {
           enable = true,
           additional_vim_regex_highlighting = { "org" },
@@ -12,9 +12,9 @@ return {
         ensure_installed = { "org" },
       }
 
-      require('orgmode').setup({
+      require("orgmode").setup {
         org_agenda_files = { "~/Documents/notes/agenda/*", },
-      })
+      }
     end,
   },
 }

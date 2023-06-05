@@ -58,6 +58,7 @@ return {
   colorscheme("arcticicestudio/nord-vim", nord_spec),
   colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("ellisonleao/gruvbox.nvim", { opts = { contrast = "dark" } }),
+  colorscheme("folke/tokyonight.nvim"),
   colorscheme("LunarVim/Colorschemes"),
   colorscheme("rose-pine/neovim"),
   colorscheme("TheNiteCoder/mountaineer.vim", mountaineer_spec),

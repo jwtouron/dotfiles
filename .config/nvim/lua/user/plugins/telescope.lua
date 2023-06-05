@@ -25,7 +25,7 @@ local keys = {
   { "<leader>sr", function(builtin) builtin.registers() end, "[R]egisters" },
   { "<leader>sR", function(builtin) builtin.resume() end, "[R]esume" },
   { "<leader>ss", function(builtin) builtin.spell_suggest() end, "[S]pell Suggestions" },
-  { "<leader>sS", function(builtin) builtin.colorscheme() end, "Color[S]chemes" },
+  { "<leader>sS", function(builtin) builtin.colorscheme({ enable_preview = true }) end, "Color[S]chemes" },
 
   -- LSP
   { "<leader>sLc", function(builtin) builtin.lsp_incoming_calls() end, "[L]SP Incoming [C]alls" },
