@@ -10,4 +10,5 @@ return {
   { "tpope/vim-fugitive", cmd = { "G", "Git", "GitGrep" } },
   { "tpope/vim-repeat", event = "VeryLazy", },
   { "tpope/vim-rsi", event = "VeryLazy", },
+  { "tpope/vim-sleuth", event = "VeryLazy", },
 }

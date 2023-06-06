@@ -14,17 +14,17 @@ return {
     { "<leader>fT", nil, desc = "Neotree (cwd)" },
   },
   opts = {
-    buffers = {
-      bind_to_cwd = false,
-    },
+    -- buffers = {
+    --   bind_to_cwd = false,
+    -- },
     enable_git_status = false,
-    filesystem = {
-      bind_to_cwd = false,
-    },
+    -- filesystem = {
+    --   bind_to_cwd = false,
+    -- },
     popup_border_style = "rounded",
-    window = {
-      width = 20,
-    },
+    -- window = {
+    --   width = 30,
+    -- },
   },
   init = function()
     vim.g.neo_tree_remove_legacy_commands = 1
