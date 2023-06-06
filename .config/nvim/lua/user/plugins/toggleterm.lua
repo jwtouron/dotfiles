@@ -3,8 +3,8 @@ local Util = require("user.util")
 local function toggleterm(Terminal, cmd, opts)
   local args = {
     cmd = cmd,
-    hidden = true,
     direction = "float",
+    hidden = true,
     highlights = {
       NormalFloat = { link = 'Normal' },
       FloatBorder = { link = 'Normal' },
@@ -31,16 +31,19 @@ local function xplr(Terminal, get_root)
   return function()
     local fname = vim.fn.tempname()
     local opts = {
-      on_exit = function()
+      on_close = function()
         if vim.fn.filereadable(fname) ~= 0 then
           for _, line in ipairs(vim.fn.readfile(fname)) do
             if vim.fn.filereadable(line) ~= 0 then
-              vim.cmd.edit(line)
+              vim.cmd.edit(vim.fn.fnameescape(line))
+              -- No idea why these options aren't respected.
+              vim.opt_local.number = true
+              vim.opt_local.relativenumber = true
             end
           end
           vim.fn.delete(fname)
         end
-      end
+      end,
     }
     if get_root then
       opts.dir = Util.get_root()

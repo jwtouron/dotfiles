@@ -12,8 +12,6 @@ local keys = {
   { "<leader>sD", function(builtin) builtin.diagnostics({ bufnr = nil}) end, "[D]iagnostics (all buffers)" },
   { "<leader>sf", function(builtin) builtin.find_files({ cwd = Util.get_root() }) end, "[F]iles (root dir)" },
   { "<leader>sF", function(builtin) builtin.find_files() end, "[F]iles (cwd)" },
-  { "<leader>sg", function(builtin) builtin.live_grep({ cwd = Util.get_root() }) end, "with [G]rep (root dir)" },
-  { "<leader>sG", function(builtin) builtin.live_grep() end, "with [G]rep (cwd)" },
   { "<leader>sh", function(builtin) builtin.help_tags() end, "[H]elp" },
   { "<leader>sk", function(builtin) builtin.keymaps() end, "[K]eymaps" },
   { "<leader>sl", function(builtin) builtin.loclist() end, "[L]oclist" },
@@ -39,20 +37,52 @@ local keys = {
 }
 
 return {
-  "nvim-telescope/telescope.nvim",
-  version = "*",
-  dependencies = { 'nvim-lua/plenary.nvim' },
-  keys = function()
-    local result = {}
-    for i, key in ipairs(keys) do
-      result[i] = { key[1], nil, desc = key[3] }
-    end
-    return result
-  end,
-  config = function()
-    local builtin = require('telescope.builtin')
-    for _, key in ipairs(keys) do
-      vim.keymap.set("n", key[1], function() key[2](builtin) end, { desc = key[3] })
-    end
-  end,
+  {
+    "nvim-telescope/telescope.nvim",
+    version = "*",
+    dependencies = { "nvim-lua/plenary.nvim", },
+    keys = function()
+      local result = {}
+      for i, key in ipairs(keys) do
+        result[i] = { key[1], nil, desc = key[3] }
+      end
+      return result
+    end,
+    config = function()
+      local builtin = require('telescope.builtin')
+      for _, key in ipairs(keys) do
+        vim.keymap.set("n", key[1], function() key[2](builtin) end, { desc = key[3] })
+      end
+    end,
+  },
+
+  {
+    "nvim-telescope/telescope-live-grep-args.nvim",
+    dependencies = "nvim-telescope/telescope.nvim",
+    keys = {
+      { "<leader>sg", nil, desc = "with [G]rep (root dir)" },
+      { "<leader>sG", nil, desc = "with [G]rep (cwd)" },
+    },
+    config = function()
+      local telescope = require("telescope")
+      local lga_actions = require("telescope-live-grep-args.actions")
+
+      telescope.setup {
+        extensions = {
+          live_grep_args = {
+            mappings = {
+              i = {
+                ["<C-k>"] = lga_actions.quote_prompt(),
+                ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+              },
+            },
+          }
+        }
+      }
+
+      local live_grep_args = telescope.extensions.live_grep_args.live_grep_args
+      vim.keymap.set("n", "<leader>sg", function() live_grep_args({ cwd = Util.get_root() }) end, { desc = "with [G]rep (root dir)" })
+      vim.keymap.set("n", "<leader>sG", function() live_grep_args() end, { desc = "with [G]rep (cwd)" })
+    end,
+  }
 }
