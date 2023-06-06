@@ -61,6 +61,7 @@ local keys = {
 
 return {
   "akinsho/toggleterm.nvim",
+  cmd = { "ToggleTerm", "ToggleTermSendCurrentLine", "ToggleTermSendVisualLines", "ToggleTermSendVisualSelection", },
   keys = function()
     local ret = {}
     for i, key in ipairs(keys) do
@@ -69,6 +70,7 @@ return {
     return ret
   end,
   config = function()
+    require("toggleterm").setup()
     local Terminal = require("toggleterm.terminal").Terminal
     for _, key in ipairs(keys) do
       vim.keymap.set("n", key[1], key[2][1](Terminal, key[2][2]), { desc = key[3] })
