@@ -1,7 +1,7 @@
-local UserColorSchemes = vim.api.nvim_create_augroup("UserColorSchemes", { clear = true })
+local MyColorSchemes = vim.api.nvim_create_augroup("MyColorSchemes", { clear = true })
 
 vim.api.nvim_create_autocmd("ColorScheme", {
-  group = UserColorSchemes,
+  group = MyColorSchemes,
   callback = function()
     -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
@@ -30,7 +30,7 @@ end
 
 local function create_colorscheme_autocmd(pattern, callback)
   vim.api.nvim_create_autocmd("ColorScheme", {
-    group = UserColorSchemes,
+    group = MyColorSchemes,
     pattern = pattern,
     callback = callback,
   })
