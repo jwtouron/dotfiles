@@ -1,18 +1,30 @@
 local function shorten_path(path)
   if path then
-    return path:gsub("(%.?[^/])[^/]*/", "%1/")
+    local basename = vim.fs.basename(path)
+    if basename == '' then
+      return ''
+    else
+      return path:gsub("(%.?[^/])[^/]*/", "%1/")
+    end
   end
   return ''
 end
 
-local cwd = ''
-
-local function get_cwd()
-  return cwd
+local function cwd()
+  return shorten_path(vim.fn.getcwd())
 end
 
-local function update_cwd()
-  cwd = shorten_path(vim.fn.getcwd())
+local function filename()
+  local data = shorten_path(vim.fn.expand("%:~:."))
+  if data == '' then data = "[No Name]" end
+  local symbols = {}
+  if vim.bo.modified then
+    table.insert(symbols, "[+]")
+  end
+  if vim.bo.modifiable == false or vim.bo.readonly == true then
+    table.insert(symbols, "[-]")
+  end
+  return data .. (#symbols > 0 and ' ' .. table.concat(symbols, '') or '')
 end
 
 return {
@@ -27,20 +39,7 @@ return {
     },
     sections = {
       lualine_b = { "diagnostics" },
-      lualine_c = { get_cwd, "filename" },
+      lualine_c = { cwd, filename },
     },
   },
-  config = function(_, opts)
-    update_cwd()
-
-    vim.api.nvim_create_autocmd("DirChanged", {
-      group = vim.api.nvim_create_augroup("MyLualine", { clear = true }),
-      pattern = "*",
-      callback = function()
-        update_cwd()
-      end,
-    })
-
-    require("lualine").setup(opts)
-  end,
 }
