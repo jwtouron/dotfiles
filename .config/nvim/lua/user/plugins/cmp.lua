@@ -70,8 +70,6 @@ return {
         { name = 'nvim_lua' },
         { name = 'buffer' },
         { name = 'path' },
-      }, {
-        { name = 'vsnip' },
       }),
       -- Borrowed from LunarVim/Neovim-from-scratch
       formatting = {

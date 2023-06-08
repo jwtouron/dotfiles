@@ -3,7 +3,9 @@
 
 local lspconfig = require("lspconfig")
 
-local function on_attach(_, bufnr)
+local function on_attach(client, bufnr)
+  client.server_capabilities.semanticTokensProvider = nil
+
   vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
   local opts = function(desc)

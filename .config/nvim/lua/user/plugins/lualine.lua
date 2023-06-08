@@ -1,21 +1,44 @@
-local function shorten_path(path)
+local SHORTEN_PATH_REGEX = "(%.?[^/])[^/]*/"
+
+local function shorten(path, func)
   if path then
     local basename = vim.fs.basename(path)
     if basename == '' then
       return ''
     else
-      return path:gsub("(%.?[^/])[^/]*/", "%1/")
+      return func(path)
     end
+  else
+    return ''
   end
-  return ''
+end
+
+local function shorten_cwd(path)
+  return shorten(path, function(p)
+    return p:gsub(SHORTEN_PATH_REGEX, "%1/")
+  end)
 end
 
 local function cwd()
-  return shorten_path(vim.fn.getcwd())
+  return shorten_cwd(vim.fn.getcwd())
+end
+
+local function shorten_filename(path)
+  return shorten(path, function(p)
+    local i, _ = p:find("[^/]*/[^/]*$")
+    if not i then
+      return p
+    else
+      local first = p:sub(1, i - 1)
+      local second = p:sub(i)
+      return first:gsub(SHORTEN_PATH_REGEX, "%1/") .. second
+    end
+    -- return p:gsub("(%.?[^/]?[^/]?[^/]?)[^/]*/", "%1/")  -- take 3 chars from each dir
+  end)
 end
 
 local function filename()
-  local data = shorten_path(vim.fn.expand("%:~:."))
+  local data = shorten_filename(vim.fn.expand("%:~:."))
   if data == '' then data = "[No Name]" end
   local symbols = {}
   if vim.bo.modified then
