@@ -37,15 +37,13 @@ return {
     "hrsh7th/cmp-nvim-lsp-signature-help",
     "hrsh7th/cmp-nvim-lua",
     "hrsh7th/cmp-path",
-    -- Snippets
-    "hrsh7th/cmp-vsnip",
-    "hrsh7th/vim-vsnip",
   },
   config = function()
     local cmp = require("cmp")
+    local CompletionItemKind = cmp.lsp.CompletionItemKind  -- Storing this table, possible for faster access???
 
     cmp.setup({
-      snippet = { expand = function(args) vim.fn["vsnip#anonymous"](args.body) end, },
+      snippet = { expand = function(_) end, },
       window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
@@ -65,11 +63,17 @@ return {
         }),
       }),
       sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'nvim_lsp_signature_help' },
-        { name = 'nvim_lua' },
-        { name = 'buffer' },
-        { name = 'path' },
+        {
+          name = "nvim_lsp",
+          entry_filter = function(entry)
+            return CompletionItemKind[entry:get_kind()] ~= "Snippet"
+          end
+        },
+        { name = "nvim_lsp_signature_help" },
+      }, {
+        { name = "nvim_lua" },
+        { name = "buffer" },
+        { name = "path" },
       }),
       -- Borrowed from LunarVim/Neovim-from-scratch
       formatting = {
