@@ -1,9 +1,12 @@
 (use-package consult
-  :bind (;; C-c bindings (mode-specific-map)
+  :bind (;; C-c bindings in `mode-specific-map'
+         ("C-c M-x" . consult-mode-command)
          ("C-c h" . consult-history)
-         ("C-c m" . consult-mode-command)
          ("C-c k" . consult-kmacro)
-         ;; C-x bindings (ctl-x-map)
+         ("C-c m" . consult-man)
+         ("C-c i" . consult-info)
+         ([remap Info-search] . consult-info)
+         ;; C-x bindings in `ctl-x-map'
          ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
          ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
          ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
@@ -16,7 +19,7 @@
          ("C-M-#" . consult-register)
          ;; Other custom bindings
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-         ;; M-g bindings (goto-map)
+         ;; M-g bindings in `goto-map'
          ("M-g e" . consult-compile-error)
          ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
          ("M-g g" . consult-goto-line)             ;; orig. goto-line
@@ -26,7 +29,7 @@
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
-         ;; M-s bindings (search-map)
+         ;; M-s bindings in `search-map'
          ("M-s d" . consult-find)
          ("M-s D" . consult-locate)
          ("M-s g" . consult-grep)
@@ -42,6 +45,7 @@
          ("C-c o h" . (lambda ()
                         (interactive)
                         (consult-org-heading nil (file-expand-wildcards "~/Documents/notes/[a-zA-Z0-9]*.org" t))))
+
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
@@ -58,6 +62,7 @@
 
   :init
 
+  ;; Optionally configure the register formatting. This improves the register
   ;; preview for `consult-register', `consult-register-load',
   ;; `consult-register-store' and the Emacs built-ins.
   (setq register-preview-delay 0.5
@@ -68,7 +73,7 @@
   (advice-add #'register-preview :override #'consult-register-window)
 
   ;; Use Consult to select xref locations with preview
-  (setq xfref-show-xrefs-function #'consult-xref
+  (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
 
   :config
