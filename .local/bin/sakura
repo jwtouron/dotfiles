@@ -3,12 +3,7 @@
 SKEL_FILE=~/.config/sakura/sakura.skel
 CUSTOM_FILE=~/.config/sakura/custom.conf
 
-# Create conf file from skel and custom
-# Examples:
-#   font=Monospace 11
-#   font=Hack Nerd Font Mono 11
-#   palette=2 (gruvbox)
-#   palette=3 (nord)
+# Create conf from skel and custom
 [ ! -f "$CUSTOM_FILE" ] && touch "$CUSTOM_FILE"
 cat "$SKEL_FILE" "$CUSTOM_FILE" > ~/.config/sakura/sakura.conf
 
