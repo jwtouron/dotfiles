@@ -1,0 +1,22 @@
+/* Smaller tabs
+ * https://stackoverflow.com/questions/36869701/decrease-the-tabs-bar-height-in-gnome-terminal
+ */
+notebook tab {
+  min-height: 0;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+notebook tab button {
+  min-height: 0;
+  min-width: 0;
+  padding: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+notebook button {
+  min-height: 0;
+  min-width: 0;
+  padding: 0px;
+}

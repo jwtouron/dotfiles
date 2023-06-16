@@ -1,6 +1,4 @@
 [sakura]
-palette=3
-
 colorset1_fore=rgb(216,222,233)
 colorset1_back=rgb(18,18,18)
 colorset1_curs=rgb(216,222,233)
@@ -25,3 +23,4 @@ colorset6_fore=rgb(216,222,233)
 colorset6_back=rgb(18,18,18)
 colorset6_curs=rgb(216,222,233)
 
+font=Monospace 11
