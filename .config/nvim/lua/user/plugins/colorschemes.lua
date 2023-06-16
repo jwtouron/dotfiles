@@ -60,6 +60,8 @@ return {
   colorscheme("ellisonleao/gruvbox.nvim", { opts = { contrast = "dark" } }),
   colorscheme("folke/tokyonight.nvim"),
   colorscheme("LunarVim/Colorschemes"),
+  colorscheme("ramojus/mellifluous.nvim"),
+  colorscheme("rockerBOO/boo-colorscheme-nvim"),
   colorscheme("rose-pine/neovim"),
   colorscheme("TheNiteCoder/mountaineer.vim", mountaineer_spec),
   colorscheme("water-sucks/darkrose.nvim"),

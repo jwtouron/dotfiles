@@ -61,14 +61,14 @@ end
 
 local config = {
   adjust_window_size_when_changing_font_size = false,
-  background = {
-    {
-      source = { Color = "black" },
-      height = '100%',
-      width = '100%',
-      opacity = 0.9,
-    }
-  },
+  -- background = {
+  --   {
+  --     source = { Color = "black" },
+  --     height = '100%',
+  --     width = '100%',
+  --     opacity = 0.9,
+  --   }
+  -- },
   hide_tab_bar_if_only_one_tab = true,
   keys = keys,
   key_tables = { copy_mode = copy_mode },

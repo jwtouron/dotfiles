@@ -30,4 +30,7 @@ xterm-floating.vt100.faceName: DejaVu Sans Mono:style=Book \n\
 xterm-floating.vt100.faceSize: 11
 xterm-floating.termName: xterm-256color
 
+#include ".config/x11/basic-theme"
+
+! If this exists, will be a symlink to another theme which overrides 'basic-theme'.
 #include ".config/x11/colors"
