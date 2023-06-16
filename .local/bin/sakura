@@ -1,0 +1,26 @@
+#!/bin/sh
+
+SKEL_FILE=~/.config/sakura/sakura.skel
+
+get_font() {
+    if fc-list | grep -q 'Hack Nerd Font Mono'; then
+        echo "font=Hack Nerd Font Mono 11"
+    else
+        echo "font=Monospace 11"
+    fi
+}
+
+if ! grep -q '^font=' "$SKEL_FILE"; then
+    get_font >> "$SKEL_FILE"
+fi
+
+cp -p "$SKEL_FILE" \
+   ~/.config/sakura/sakura.conf
+
+if test $# -gt 0; then
+   exec /usr/bin/sakura --colorset $1
+else
+   exec /usr/bin/sakura
+fi
+
+# vim: set ts=4:
