@@ -63,7 +63,6 @@
   :bind (("M-;" . comment-dwim-2)))
 
 (use-package corfu
-  :defer 1
   :init
   (global-corfu-mode)
   (corfu-popupinfo-mode)
@@ -274,6 +273,7 @@
            (org-hide-emphasis-markers t)
            (org-pretty-entities t))
   :bind ("C-c o a" . org-agenda)
+  :hook (org-mode . electric-pair-local-mode)
   :config
   (org-babel-do-load-languages 'org-babel-load-languages '((shell . t))))
 
@@ -352,6 +352,10 @@
   :ensure nil
   :defer 1
   :init (savehist-mode))
+
+(use-package simple
+  :ensure nil
+  :custom (read-extended-command-predicate #'command-completion-default-include-p))
 
 (use-package so-long
   :ensure nil

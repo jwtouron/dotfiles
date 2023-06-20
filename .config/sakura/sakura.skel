@@ -24,3 +24,8 @@ colorset6_back=rgb(18,18,18)
 colorset6_curs=rgb(216,222,233)
 
 font=Monospace 11
+
+switch_tab_accelerator=5
+move_tab_accelerator=13
+prev_tab_key=bracketleft
+next_tab_key=bracketright
