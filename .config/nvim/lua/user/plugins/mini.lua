@@ -36,7 +36,6 @@ end
 
 return {
   mini("ai"),
-  mini("align"),
   mini("bracketed"),
   mini("bufremove"),
   mini("comment"),
