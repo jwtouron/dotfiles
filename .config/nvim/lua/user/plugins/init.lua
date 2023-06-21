@@ -4,6 +4,7 @@ return {
   { "kylechui/nvim-surround", event = "VeryLazy", config = true, },
   { "max397574/better-escape.nvim", event = "VeryLazy", opts = { mapping = { "jk", "kj" }, timeout = 250, } },
   { "mbbill/undotree", cmd = { "UndotreeShow", "UndotreeToggle" } },
+  { "nelstrom/vim-visual-star-search" },
   { "romainl/vim-cool", event = "VeryLazy", },
   { 'stevearc/oil.nvim', dependencies = { "nvim-tree/nvim-web-devicons" }, config = true, },
   { "tpope/vim-fugitive", cmd = { "G", "Git", "GitGrep" } },
