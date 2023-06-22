@@ -1,11 +1,12 @@
 return {
   { "AckslD/muren.nvim", cmd = { "MurenToggle", "MurenOpen", "MurenFresh", "MurenUnique" }, config = true },
   { "ixru/nvim-markdown", ft = "markdown" },
+  { "junegunn/vim-easy-align", keys = { { "ga", "<Plug>(EasyAlign)", mode = { "n", "x" } } } },
   { "kylechui/nvim-surround", event = "VeryLazy", config = true, },
   { "max397574/better-escape.nvim", event = "VeryLazy", opts = { mapping = { "jk", "kj" }, timeout = 250, } },
   { "mbbill/undotree", cmd = { "UndotreeShow", "UndotreeToggle" } },
   { "nelstrom/vim-visual-star-search", event = "VeryLazy", },
-  { "romainl/vim-cool", event = "VeryLazy", },
+  { "romainl/vim-cool", event = "VeryLazy", config = function() vim.g.cool_total_matches = 1 end },
   { "stevearc/oil.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, config = true, },
   { "tpope/vim-fugitive", cmd = { "G", "Git", "GitGrep" } },
   { "tpope/vim-repeat", event = "VeryLazy", },
