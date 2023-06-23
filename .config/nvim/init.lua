@@ -1,3 +1,5 @@
+pcall(vim.loader.enable)  -- Improve startup time
+
 vim.g.mapleader = " "
 
 require("user.autocommands")
