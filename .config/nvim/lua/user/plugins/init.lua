@@ -8,6 +8,7 @@ return {
   { "nelstrom/vim-visual-star-search", event = "VeryLazy", },
   { "romainl/vim-cool", event = "VeryLazy", config = function() vim.g.cool_total_matches = 1 end },
   { "stevearc/oil.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, config = true, },
+  { "tommcdo/vim-exchange" },
   { "tpope/vim-fugitive", cmd = { "G", "Git", "GitGrep" } },
   { "tpope/vim-repeat", event = "VeryLazy", },
   { "tpope/vim-rsi", event = "VeryLazy", },

@@ -10,12 +10,8 @@ local function mini(name, spec)
   return ret
 end
 
-local function move_spec()
-  return mini_spec({opts = { mappings = { line_left = '', line_right = '', } } })
-end
-
 local function hipatterns_spec()
-  return mini_spec({
+  return mini_spec {
     opts = function()
       local hipatterns = require("mini.hipatterns")
       return {
@@ -31,7 +27,11 @@ local function hipatterns_spec()
         },
       }
     end
-  })
+  }
+end
+
+local function move_spec()
+  return mini_spec { opts = { mappings = { line_left = '', line_right = '', } } }
 end
 
 return {
