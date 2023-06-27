@@ -39,6 +39,7 @@ return {
   mini("bracketed"),
   mini("bufremove"),
   mini("comment"),
+  mini("fuzzy"),
   mini("hipatterns", hipatterns_spec()),
   -- mini("jump"),
   mini("move", move_spec()),
