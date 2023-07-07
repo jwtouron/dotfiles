@@ -41,7 +41,7 @@ return {
   mini("comment"),
   mini("fuzzy"),
   mini("hipatterns", hipatterns_spec()),
-  -- mini("jump"),
+  mini("jump"),
   mini("move", move_spec()),
   mini("splitjoin"),
   mini("trailspace"),
