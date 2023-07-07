@@ -15,6 +15,10 @@ local function filetype(ft, callback)
   })
 end
 
+filetype("fugitive", function()
+  vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = true, silent = true, })
+end)
+
 filetype("go", function()
   vim.opt_local.expandtab = false
   vim.opt_local.shiftwidth = 8
