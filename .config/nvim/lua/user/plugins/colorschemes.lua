@@ -55,6 +55,7 @@ local mountaineer_spec = {
   }
 
 return {
+  colorscheme("2nthony/vitesse.nvim", { dependencies = { "tjdevries/colorbuddy.nvim" }, }),
   colorscheme("arcticicestudio/nord-vim", nord_spec),
   colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("ellisonleao/gruvbox.nvim", { opts = { contrast = "dark" } }),

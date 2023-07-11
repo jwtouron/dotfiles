@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+red="\e[31m"
+green="\e[32m"
+clear="\e[0m"
+
+installed() {
+    echo -e "[${green}Installed${clear}] $1"
+}
+
+missing() {
+    echo -e "[${red}Missing${clear}]   $1"
+}
+
+check() {
+    if command -v "$1" > /dev/null; then
+        installed "$1"
+    else
+        missing "$1"
+    fi
+}
+
+check_one_of() {
+    # shellcheck disable=SC2124
+    local args="$@"
+    local found=""
+    for arg in "$@"; do
+        if command -v "$arg" >/dev/null; then
+            found="$arg $found"
+        fi
+    done
+    if test -n "$found"; then
+        installed "$found"
+    else
+        missing "$args"
+    fi
+}
+
+commandline_utilities() {
+    echo "### Checking Commandline Utilities ###"
+    echo ""
+    for utility in bat fd fzf htop pavucontrol rg tmux; do
+        check "$utility"
+    done
+    echo ""
+}
+
+miscellaneous () {
+    echo "### Checking Miscellaneous Programs ###"
+    echo ""
+    check "$BROWSER"
+    check nvim
+    check zsh
+    if fc-list | grep -i nerd > /dev/null; then
+        installed "Nerd font"
+    else
+        missing "Nerd font"
+    fi
+    echo ""
+}
+
+terminals() {
+    echo "### Checking Terminals ###"
+    echo ""
+    for term in st wezterm xterm; do
+        check "$term"
+    done
+    echo ""
+    if command -v "$TERMINAL" > /dev/null; then
+        # shellcheck disable=SC2016
+        echo -e "[${green}Good${clear}] "'$TERMINAL' "is installed ($TERMINAL)"
+    else
+        # shellcheck disable=SC2016
+        echo -e "[${red}Bad${clear}] "'$TERMINAL' "is not installed ($TERMINAL)"
+    fi
+    echo ""
+}
+
+tiling_window_manager() {
+    # TODO: dex? xss-lock?
+    # TODO: nitrogen? feh?
+    # TODO: amixer? pactl?
+    echo "### Checking Tiling Window Manager Dependencies ###"
+    echo ""
+    for dep in cbatticon dmenu jq lxappearance nm-applet pcmanfm picom yad; do
+        check "$dep"
+    done
+    check_one_of xsel xclip
+    check_one_of i3lock-fancy i3lock xlock
+    echo ""
+}
+
+commandline_utilities
+terminals
+tiling_window_manager
+miscellaneous
+
+# vim: set filetype=bash :

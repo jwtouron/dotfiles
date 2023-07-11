@@ -7,7 +7,7 @@ signal=1
 LONG_FORMAT="${SYMB} ${VOL}%"
 SHORT_FORMAT="${SYMB} ${VOL}%"
 DEFAULT_COLOR="#888888"
-MUTED_COLOR="#666666"
+MUTED_COLOR="#333333"
 
 [cpu]
 command=scripts/cpumem

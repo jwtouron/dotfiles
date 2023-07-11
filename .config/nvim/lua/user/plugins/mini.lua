@@ -10,6 +10,12 @@ local function mini(name, spec)
   return ret
 end
 
+local function files_spec()
+  return mini_spec {
+    keys = { { "<leader>ff", "<cmd>lua require('mini.files').open()<cr>", desc = "Open mini files" } },
+  }
+end
+
 local function hipatterns_spec()
   return mini_spec {
     opts = function()
@@ -39,9 +45,10 @@ return {
   mini("bracketed"),
   mini("bufremove"),
   mini("comment"),
+  mini("files", files_spec()),
   mini("fuzzy"),
   mini("hipatterns", hipatterns_spec()),
-  mini("jump"),
+  -- mini("jump"),
   mini("move", move_spec()),
   mini("splitjoin"),
   mini("trailspace"),

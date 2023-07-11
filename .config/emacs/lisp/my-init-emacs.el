@@ -24,6 +24,9 @@
   :custom ((dired-listing-switches "-alhF")
            (dired-kill-when-opening-new-dired-buffer t)))
 
+(use-package dired-preview
+  :hook (dired-mode . dired-preview-mode))
+
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
 
