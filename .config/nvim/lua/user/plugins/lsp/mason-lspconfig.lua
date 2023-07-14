@@ -7,7 +7,7 @@
 
 return {
   "williamboman/mason-lspconfig.nvim",
-  dependencies = { "neovim/nvim-lspconfig", "williamboman/mason.nvim", },
+  dependencies =  "williamboman/mason.nvim",
   -- event: Per documentation, don't make lazy.
   config = function()
     -- require("mason").setup() should already be completed as dependency.
