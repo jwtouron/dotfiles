@@ -36,6 +36,12 @@ local function create_colorscheme_autocmd(pattern, callback)
   })
 end
 
+local gruvbox_baby_spec = {
+  init = function()
+    vim.g.gruvbox_baby_background_color = 'dark'
+  end
+}
+
 local nord_spec = {
     config = function()
       create_colorscheme_autocmd("nord", function()
@@ -45,28 +51,17 @@ local nord_spec = {
     end,
   }
 
-local mountaineer_spec = {
-    config = function()
-      create_colorscheme_autocmd("mountaineer", function()
-        vim.cmd.highlight({ "StatusLine", "guibg=#111111" })
-        vim.cmd.highlight({ "Search", "guibg=#222222" })
-      end)
-    end,
-  }
-
 return {
   colorscheme("2nthony/vitesse.nvim", { dependencies = { "tjdevries/colorbuddy.nvim" }, }),
-  colorscheme("arcticicestudio/nord-vim", nord_spec),
   colorscheme("bluz71/vim-moonfly-colors"),
   colorscheme("EdenEast/nightfox.nvim"),
-  colorscheme("ellisonleao/gruvbox.nvim", { opts = { contrast = "dark" } }),
   colorscheme("folke/tokyonight.nvim"),
-  colorscheme("LunarVim/Colorschemes"),
+  colorscheme("luisiacc/gruvbox-baby", gruvbox_baby_spec),
   colorscheme("nyoom-engineering/oxocarbon.nvim"),
   colorscheme("ramojus/mellifluous.nvim"),
   colorscheme("rebelot/kanagawa.nvim"),
   colorscheme("rockerBOO/boo-colorscheme-nvim"),
   colorscheme("rose-pine/neovim"),
-  colorscheme("TheNiteCoder/mountaineer.vim", mountaineer_spec),
+  colorscheme("shaunsingh/nord.nvim", nord_spec),
   colorscheme("water-sucks/darkrose.nvim"),
 }

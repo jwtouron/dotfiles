@@ -7,7 +7,7 @@ font pango:monospace 8
 exec_always --no-startup-id ~/.local/bin/twm-autostart.sh
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-exec --no-startup-id ~/.local/bin/nitrogen-random-background.sh
+exec --no-startup-id ~/.local/bin/random-wallpaper.sh
 
 # change volume or toggle mute
 
@@ -178,7 +178,7 @@ bindsym $mod+Ctrl+$right focus right ; split v ; focus left ; move right
 bindsym $mod+control+b exec $BROWSER
 bindsym $mod+control+e exec emacs
 bindsym $mod+semicolon exec --no-startup-id ~/.local/bin/launch.sh
-bindsym $mod+F7 exec --no-startup-id ~/.local/bin/nitrogen-random-background.sh
+bindsym $mod+F7 exec --no-startup-id ~/.local/bin/random-wallpaper.sh
 
 # Appearance
 default_border pixel 2

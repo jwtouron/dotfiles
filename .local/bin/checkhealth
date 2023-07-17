@@ -41,7 +41,7 @@ check_one_of() {
 commandline_utilities() {
     echo "### Checking Commandline Utilities ###"
     echo ""
-    for utility in bat fd fzf htop pavucontrol rg tmux; do
+    for utility in 7z bat fd fzf htop pavucontrol rg tmux; do
         check "$utility"
     done
     echo ""
@@ -82,12 +82,12 @@ tiling_window_manager() {
     # TODO: dex? xss-lock?
     # TODO: nitrogen? feh?
     # TODO: amixer? pactl?
+    # dunst? send-notify?
     echo "### Checking Tiling Window Manager Dependencies ###"
     echo ""
-    for dep in cbatticon dmenu jq lxappearance nm-applet pcmanfm picom yad; do
+    for dep in cbatticon dmenu jq lxappearance nm-applet pcmanfm picom xclip xsel yad; do
         check "$dep"
     done
-    check_one_of xsel xclip
     check_one_of i3lock-fancy i3lock xlock
     echo ""
 }
