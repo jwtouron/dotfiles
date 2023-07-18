@@ -10,46 +10,56 @@ local function mini(name, spec)
   return ret
 end
 
-local function files_spec()
-  return mini_spec {
-    keys = { { "<leader>ff", "<cmd>lua require('mini.files').open()<cr>", desc = "Open mini files" } },
-  }
-end
-
-local function hipatterns_spec()
-  return mini_spec {
-    opts = function()
-      local hipatterns = require("mini.hipatterns")
-      return {
-        highlighters = {
-          -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
-          fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-          hack  = { pattern = '%f[%w]()HACK()%f[%W]',  group = 'MiniHipatternsHack'  },
-          todo  = { pattern = '%f[%w]()TODO()%f[%W]',  group = 'MiniHipatternsTodo'  },
-          note  = { pattern = '%f[%w]()NOTE()%f[%W]',  group = 'MiniHipatternsNote'  },
-
-          -- Highlight hex color strings (`#rrggbb`) using that color
-          hex_color = hipatterns.gen_highlighter.hex_color(),
-        },
-      }
+local bufremove_spec = mini_spec {
+  keys = {
+    { "<leader>bd", "<cmd>lua require('mini.bufremove').delete()<cr>", desc = "Delete buffer smartly" },
+    { "<leader>bw", "<cmd>lua require('mini.bufremove').wipeout()<cr>", desc = "Wipeout buffer smartly" },
+  },
+  config = function()
+    require("mini.bufremove").setup()
+    for _, cmd in ipairs({ "Bd", "BD" }) do
+      vim.api.nvim_create_user_command(cmd, [[lua require('mini.bufremove').delete()]], { desc = "Delete buffer smartly" })
     end
-  }
-end
+    for _, cmd in ipairs({ "Bw", "BW" }) do
+      vim.api.nvim_create_user_command(cmd, [[lua require('mini.bufremove').wipeout()]], { desc = "Wipeout buffer smartly" })
+    end
+  end
+}
 
-local function move_spec()
-  return mini_spec { opts = { mappings = { line_left = '', line_right = '', } } }
-end
+local files_spec = mini_spec {
+  keys = { { "<leader>ff", "<cmd>lua require('mini.files').open()<cr>", desc = "Open mini files" } },
+}
+
+local hipatterns_spec = mini_spec {
+  opts = function()
+    local hipatterns = require("mini.hipatterns")
+    return {
+      highlighters = {
+        -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+        fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+        hack  = { pattern = '%f[%w]()HACK()%f[%W]',  group = 'MiniHipatternsHack'  },
+        todo  = { pattern = '%f[%w]()TODO()%f[%W]',  group = 'MiniHipatternsTodo'  },
+        note  = { pattern = '%f[%w]()NOTE()%f[%W]',  group = 'MiniHipatternsNote'  },
+
+        -- Highlight hex color strings (`#rrggbb`) using that color
+        hex_color = hipatterns.gen_highlighter.hex_color(),
+      },
+    }
+  end
+}
+
+local move_spec = mini_spec { opts = { mappings = { line_left = '', line_right = '', } } }
 
 return {
   mini("ai"),
   mini("bracketed"),
-  mini("bufremove"),
+  mini("bufremove", bufremove_spec),
   mini("comment"),
-  mini("files", files_spec()),
+  mini("files", files_spec),
   mini("fuzzy"),
-  mini("hipatterns", hipatterns_spec()),
+  mini("hipatterns", hipatterns_spec),
   mini("jump"),
-  mini("move", move_spec()),
+  mini("move", move_spec),
   mini("splitjoin"),
   mini("trailspace"),
 }
