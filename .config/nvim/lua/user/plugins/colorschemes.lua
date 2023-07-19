@@ -63,6 +63,7 @@ return {
   colorscheme("ramojus/mellifluous.nvim"),
   colorscheme("rebelot/kanagawa.nvim"),
   colorscheme("rockerBOO/boo-colorscheme-nvim"),
+  colorscheme("romainl/Apprentice"),
   colorscheme("rose-pine/neovim"),
   colorscheme("shaunsingh/nord.nvim", nord_spec),
   colorscheme("water-sucks/darkrose.nvim"),
