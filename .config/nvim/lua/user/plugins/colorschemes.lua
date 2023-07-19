@@ -54,9 +54,11 @@ local nord_spec = {
 return {
   colorscheme("2nthony/vitesse.nvim", { dependencies = { "tjdevries/colorbuddy.nvim" }, }),
   colorscheme("bluz71/vim-moonfly-colors"),
+  colorscheme("cocopon/iceberg.vim"),
   colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("folke/tokyonight.nvim"),
   colorscheme("luisiacc/gruvbox-baby", gruvbox_baby_spec),
+  colorscheme("lunacookies/vim-substrata"),
   colorscheme("nyoom-engineering/oxocarbon.nvim"),
   colorscheme("ramojus/mellifluous.nvim"),
   colorscheme("rebelot/kanagawa.nvim"),
