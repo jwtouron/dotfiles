@@ -1,0 +1,30 @@
+[colors]
+ansi = [
+    '#2e313d',  # Black
+    '#cf8164',  # Red
+    '#76a065',  # Green
+    '#ab924c',  # Yellow
+    '#8296b0',  # Blue
+    '#a18daf',  # Magenta
+    '#659ea2',  # Cyan
+    '#b5b4c9',  # White
+]
+background = '#191c25'
+brights = [
+    '#5b5f71',  # Black
+    '#fe9f7c',  # Red
+    '#92c47e',  # Green
+    '#d2b45f',  # Yellow
+    '#a0b9d8',  # Blue
+    '#c6aed7',  # Magenta
+    '#7dc2c7',  # Cyan
+    '#f0ecfe',  # White
+]
+cursor_fg = '#b5b4c9'
+foreground = '#b5b4c9'
+
+[colors.indexed]
+
+[metadata]
+name = 'substrata'
+origin_url = 'https://github.com/lunacookies/vim-substrata'
