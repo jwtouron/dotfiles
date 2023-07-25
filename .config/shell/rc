@@ -23,8 +23,6 @@ alias nix-search='nix search nixpkgs'  # packagename
 alias nix-uninstall='nix-env -e'  # packagename
 alias nix-upgrade='nix-env -u'
 
-command -v bat >/dev/null && export PAGER='bat'
-
 source ~/.config/fzf/aliases
 source ~/.config/fzf/functions
 

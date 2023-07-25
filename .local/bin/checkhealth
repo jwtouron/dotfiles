@@ -1,30 +1,39 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -eo pipefail
 
 red="\e[31m"
 green="\e[32m"
+blue="\e[34m"
 clear="\e[0m"
 
-installed() {
-    echo -e "[${green}Installed${clear}] $1"
+header() {
+    echo -e "${blue}### Checking $* ###${clear}"
+    echo ""
 }
 
-missing() {
-    echo -e "[${red}Missing${clear}]   $1"
-}
-
-check() {
-    if command -v "$1" > /dev/null; then
-        installed "$1"
+check_for_all() {
+    echo Checking for all of: "$@"
+    local missing=""
+    for arg in "$@"; do
+        if ! command -v "$arg" > /dev/null; then
+            if test -n "$missing"; then
+                missing="$missing $arg"
+            else
+                missing="$arg"
+            fi
+        fi
+    done
+    if test -n "$missing"; then
+        echo -e "${red}Missing:${clear} $missing"
     else
-        missing "$1"
+        echo -e "${green}All Installed!${clear}"
     fi
+    echo ""
 }
 
-check_one_of() {
-    # shellcheck disable=SC2124
-    local args="$@"
+check_for_one() {
+    echo Checking for one of: "$@"
     local found=""
     for arg in "$@"; do
         if command -v "$arg" >/dev/null; then
@@ -32,50 +41,55 @@ check_one_of() {
         fi
     done
     if test -n "$found"; then
-        installed "$found"
+        echo -e "${green}Found:${clear} $found"
     else
-        missing "$args"
+        echo -e "${red}None found!${clear}"
     fi
+    echo ""
 }
 
 commandline_utilities() {
-    echo "### Checking Commandline Utilities ###"
-    echo ""
-    for utility in 7z bat fd fzf htop lsd rg tmux xplr; do
-        check "$utility"
+    header "Commandline Utilities"
+    check_for_all 7z bat fd fzf htop lsd rg tmux xplr
+}
+
+environment_variables() {
+    header Environment Variables
+    local var_names=("BROWSER" "TERMINAL")
+    for var_name in "${var_names[@]}"; do
+        if test -n "${!var_name}"; then
+            local installed
+            if command -v "${!var_name}" > /dev/null; then
+                installed="${green}installed${clear}"
+            else
+                installed="${red}not installed${clear}"
+            fi
+            echo -e "[${green}SET${clear}]   \$$var_name (${!var_name}, $installed)"
+        else
+            echo -e "[${red}UNSET${clear}] \$$var_name"
+        fi
     done
     echo ""
 }
 
 miscellaneous() {
-    echo "### Checking Miscellaneous Programs ###"
-    echo ""
-    check "$BROWSER"
-    check nvim
-    check zsh
-    if fc-list | grep -i nerd > /dev/null; then
-        installed "Nerd font"
+    header "Miscellaneous Programs"
+    check_for_all nvim zsh
+    if command -v fc-list > /dev/null; then
+        if fc-list | grep -i nerd > /dev/null; then
+            echo -e "${green}Nerd font installed!${clear}"
+        else
+            echo -e "${red}MISSING:${clear} Nerd font NOT installed!"
+        fi
     else
-        missing "Nerd font"
+        echo -e "${red}ERROR:${clear} Can't check for nerd fonts: fc-list not installed"
     fi
     echo ""
 }
 
 terminals() {
-    echo "### Checking Terminals ###"
-    echo ""
-    for term in st wezterm xterm; do
-        check "$term"
-    done
-    echo ""
-    if command -v "$TERMINAL" > /dev/null; then
-        # shellcheck disable=SC2016
-        echo -e "[${green}Good${clear}] "'$TERMINAL' "is installed ($TERMINAL)"
-    else
-        # shellcheck disable=SC2016
-        echo -e "[${red}Bad${clear}] "'$TERMINAL' "is not installed ($TERMINAL)"
-    fi
-    echo ""
+    header Terminals
+    check_for_all st wezterm xterm
 }
 
 tiling_window_manager() {
@@ -83,15 +97,12 @@ tiling_window_manager() {
     # TODO: nitrogen? feh?
     # TODO: amixer? pactl?
     # dunst? send-notify?
-    echo "### Checking Tiling Window Manager Dependencies ###"
-    echo ""
-    for dep in cbatticon dmenu jq lxappearance nm-applet pavucontrol pcmanfm picom xclip xsel yad; do
-        check "$dep"
-    done
-    check_one_of i3lock-fancy i3lock xlock
-    echo ""
+    header "Tiling Window Manager Dependencies"
+    check_for_all cbatticon dmenu jq lxappearance nm-applet pavucontrol pcmanfm picom xclip xsel yad
+    check_for_one i3lock-fancy i3lock xlock
 }
 
+environment_variables
 commandline_utilities
 terminals
 tiling_window_manager
