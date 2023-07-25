@@ -60,7 +60,7 @@ return {
   mini("hipatterns", hipatterns_spec),
   mini("jump"),
   mini("move", move_spec),
-  -- mini("pairs"),
+  mini("pairs"),
   mini("splitjoin"),
   mini("trailspace"),
 }
