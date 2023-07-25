@@ -14,12 +14,12 @@ vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 
 -- When searching 'n' is always down, 'N' is always up.
 -- Center after jumping
-vim.keymap.set("n", "n", [[v:searchforward?'nzz':'Nzz']], { expr = true, silent = true, desc = "Next search result" })
-vim.keymap.set("x", "n", [[v:searchforward?'nzz':'Nzz']], { expr = true, silent = true, desc = "Next search result" })
-vim.keymap.set("o", "n", [[v:searchforward?'nzz':'Nzz']], { expr = true, silent = true, desc = "Next search result" })
-vim.keymap.set("n", "N", [[v:searchforward?'Nzz':'nzz']], { expr = true, silent = true, desc = "Prev search result" })
-vim.keymap.set("x", "N", [[v:searchforward?'Nzz':'nzz']], { expr = true, silent = true, desc = "Prev search result" })
-vim.keymap.set("o", "N", [[v:searchforward?'Nzz':'nzz']], { expr = true, silent = true, desc = "Prev search result" })
+vim.keymap.set("n", "n", [[v:searchforward?'n':'N']], { expr = true, silent = true, desc = "Next search result" })
+vim.keymap.set("x", "n", [[v:searchforward?'n':'N']], { expr = true, silent = true, desc = "Next search result" })
+vim.keymap.set("o", "n", [[v:searchforward?'n':'N']], { expr = true, silent = true, desc = "Next search result" })
+vim.keymap.set("n", "N", [[v:searchforward?'N':'n']], { expr = true, silent = true, desc = "Prev search result" })
+vim.keymap.set("x", "N", [[v:searchforward?'N':'n']], { expr = true, silent = true, desc = "Prev search result" })
+vim.keymap.set("o", "N", [[v:searchforward?'N':'n']], { expr = true, silent = true, desc = "Prev search result" })
 
 -- Center after moving.
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { silent = true, desc = { "Move down half screen." } })

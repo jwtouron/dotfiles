@@ -58,9 +58,9 @@ return {
   mini("files", files_spec),
   mini("fuzzy"),
   mini("hipatterns", hipatterns_spec),
-  -- mini("jump"),
+  mini("jump"),
   mini("move", move_spec),
-  mini("pairs"),
+  -- mini("pairs"),
   mini("splitjoin"),
   mini("trailspace"),
 }
