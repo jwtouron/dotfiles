@@ -36,29 +36,35 @@ local function create_colorscheme_autocmd(pattern, callback)
   })
 end
 
-local gruvbox_baby_spec = {
-  init = function()
-    vim.g.gruvbox_baby_background_color = 'dark'
+local everforest_spec = {
+  config = function()
+    vim.g.everforest_background = 'hard'
+    vim.g.everforest_better_performance = 1
+  end
+}
+
+local gruvbox_material_spec = {
+  config = function()
+    vim.g.gruvbox_material_background = 'hard'
+    vim.g.gruvbox_material_better_performance = 1
   end
 }
 
 local nord_spec = {
-    config = function()
-      create_colorscheme_autocmd("nord", function()
-        vim.cmd.highlight({ "Normal", "guibg=#121212" })
-        vim.cmd.highlight({ "SignColumn", "guibg=#121212" })
-      end)
-    end,
-  }
+  config = function()
+    create_colorscheme_autocmd("nord", function()
+      vim.cmd.highlight({ "Normal", "guibg=#121212" })
+      vim.cmd.highlight({ "SignColumn", "guibg=#121212" })
+    end)
+  end,
+}
 
 return {
-  colorscheme("2nthony/vitesse.nvim", { dependencies = { "tjdevries/colorbuddy.nvim" }, }),
-  colorscheme("bluz71/vim-moonfly-colors"),
-  colorscheme("cocopon/iceberg.vim"),
   colorscheme("EdenEast/nightfox.nvim"),
+  colorscheme("cocopon/iceberg.vim"),
   colorscheme("folke/tokyonight.nvim"),
+  colorscheme("kdheepak/monochrome.nvim"),
   colorscheme("kvrohit/rasmus.nvim"),
-  colorscheme("luisiacc/gruvbox-baby", gruvbox_baby_spec),
   colorscheme("lunacookies/vim-substrata"),
   colorscheme("nyoom-engineering/oxocarbon.nvim"),
   colorscheme("p00f/alabaster.nvim"),
@@ -68,6 +74,8 @@ return {
   colorscheme("rockerBOO/boo-colorscheme-nvim"),
   colorscheme("romainl/Apprentice"),
   colorscheme("rose-pine/neovim"),
+  colorscheme("sainnhe/everforest", everforest_spec),
+  colorscheme("sainnhe/gruvbox-material", gruvbox_material_spec),
   colorscheme("shaunsingh/nord.nvim", nord_spec),
   colorscheme("water-sucks/darkrose.nvim"),
 }
