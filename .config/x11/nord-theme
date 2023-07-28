@@ -1,20 +1,41 @@
-! Nord
-! #define FOREGROUND   #D8DEE9
-! #define BACKGROUND   #2E3440
-! #define CURSOR_COLOR #D8DEE9
-! #define COLOR0       #3B4252
-! #define COLOR1       #BF616A
-! #define COLOR2       #A3BE8C
-! #define COLOR3       #EBCB8B
-! #define COLOR4       #81A1C1
-! #define COLOR5       #B48EAD
-! #define COLOR6       #88C0D0
-! #define COLOR7       #E5E9F0
-! #define COLOR8       #4C566A
-! #define COLOR9       #BF616A
-! #define COLOR10      #A3BE8C
-! #define COLOR11      #EBCB8B
-! #define COLOR12      #81A1C1
-! #define COLOR13      #B48EAD
-! #define COLOR14      #8FBCBB
-! #define COLOR15      #ECEFF4
+! special
+*.foreground:   #d8dee9
+*.background:   #121212
+*.cursorColor:  #d8dee9
+
+! black
+*.color0:       #2e3440
+*.color8:       #3b4252
+
+! red
+*.color1:       #bf616a
+*.color9:       #bf616a
+
+! green
+*.color2:       #a3be8c
+*.color10:      #a3be8c
+
+! yellow
+*.color3:       #ebcb8b
+*.color11:      #ebcb8b
+
+! blue
+*.color4:       #5e81ac
+*.color12:      #5e81ac
+
+! magenta
+*.color5:       #b48ead
+*.color13:      #b48ead
+
+! cyan
+*.color6:       #88c0d0
+*.color14:      #88c0d0
+
+! white
+*.color7:       #e5e9f0
+*.color15:      #eceff4
+
+dmenu.background: #2e3440
+dmenu.foreground: #5e81ac
+dmenu.selforeground: #2e3440
+dmenu.selbackground: #5e81ac

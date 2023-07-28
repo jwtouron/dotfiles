@@ -1,41 +1,41 @@
 ! special
-*.foreground:   #E5E9F0
+*.foreground:   #d8dee9
 *.background:   #121212
-*.cursorColor:  #E5E9F0
+*.cursorColor:  #eceff4
 
 ! black
-*.color0:       #121212
-*.color8:       #4C566A
+*.color0:       #3b4252
+*.color8:       #4c566a
 
 ! red
-*.color1:       #BF616A
-*.color9:       #D08770
+*.color1:       #bf616a
+*.color9:       #bf616a
 
 ! green
-*.color2:       #A3BE8C
-*.color10:      #A3BE8C
+*.color2:       #a3be8c
+*.color10:      #a3be8c
 
 ! yellow
-*.color3:       #EBCB8B
-*.color11:      #EBCB8B
+*.color3:       #ebcb8b
+*.color11:      #ebcb8b
 
 ! blue
-*.color4:       #81A1C1
-*.color12:      #5E81AC
+*.color4:       #81a1c1
+*.color12:      #81a1c1
 
 ! magenta
-*.color5:       #B48EAD
-*.color13:      #B48EAD
+*.color5:       #b48ead
+*.color13:      #b48ead
 
 ! cyan
-*.color6:       #8FBCBB
-*.color14:      #88C0D0
+*.color6:       #88c0d0
+*.color14:      #8fbcbb
 
 ! white
-*.color7:       #E5E9F0
-*.color15:      #ECEFF4
+*.color7:       #e5e9f0
+*.color15:      #eceff4
 
 dmenu.background: #121212
-dmenu.foreground: #5E81AC
+dmenu.foreground: #81a1c1
 dmenu.selforeground: #121212
-dmenu.selbackground: #5E81AC
+dmenu.selbackground: #81a1c1
