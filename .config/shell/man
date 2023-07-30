@@ -13,6 +13,7 @@ man() {
     LESS_TERMCAP_us=$'\e[38;2;175;175;215m' \
     LESS_TERMCAP_ue=$'\e[0m'  \
     LESS='-R -s' \
+    GROFF_NO_SGR=1 \
     command man "$@"
 }
 
