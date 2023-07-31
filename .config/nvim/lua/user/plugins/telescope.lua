@@ -88,5 +88,25 @@ return {
       vim.keymap.set("n", "<leader>sg", function() live_grep_args({ cwd = Util.get_root() }) end, { desc = "with [G]rep (root dir)" })
       vim.keymap.set("n", "<leader>sG", function() live_grep_args() end, { desc = "with [G]rep (cwd)" })
     end,
-  }
+  },
+
+  {
+    "debugloop/telescope-undo.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim", },
+    event = "VeryLazy",
+    config = function()
+      require("telescope").setup {
+        extensions = {
+          undo = {
+            side_by_side = true,
+            layout_strategy = "vertical",
+            layout_config = {
+              preview_height = 0.8,
+            },
+          },
+        },
+      }
+      require("telescope").load_extension("undo")
+    end
+  },
 }
