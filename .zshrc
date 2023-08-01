@@ -2,7 +2,7 @@
 HISTFILE=~/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
-setopt hist_ignore_dups share_history
+setopt hist_ignore_dups share_history histverify
 alias priv=' ZSH_PRIV=1 zsh'
 [ -n "$ZSH_PRIV" ] && unset HISTFILE
 # fc -R $DEF_HISTFILE
