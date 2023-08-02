@@ -63,7 +63,6 @@ return {
   colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("cocopon/iceberg.vim"),
   colorscheme("folke/tokyonight.nvim"),
-  colorscheme("kdheepak/monochrome.nvim"),
   colorscheme("kvrohit/rasmus.nvim"),
   colorscheme("lunacookies/vim-substrata"),
   colorscheme("nyoom-engineering/oxocarbon.nvim"),
@@ -78,4 +77,9 @@ return {
   colorscheme("sainnhe/gruvbox-material", gruvbox_material_spec),
   colorscheme("shaunsingh/nord.nvim", nord_spec),
   colorscheme("water-sucks/darkrose.nvim"),
+  -- Monochrome
+  colorscheme("axvr/photon.vim"),
+  colorscheme("andreypopp/vim-colors-plain"),
+  colorscheme("fxn/vim-monochrome"),
+  colorscheme("hardselius/warlock"),
 }
