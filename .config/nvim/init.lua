@@ -2,6 +2,7 @@ pcall(vim.loader.enable)  -- Improve startup time
 
 vim.g.mapleader = " "
 
+require("user.functions")
 require("user.autocommands")
 require("user.commands")
 require("user.mappings")
