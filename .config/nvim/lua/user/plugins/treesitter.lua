@@ -6,7 +6,7 @@ return {
     config = function()
       require'nvim-treesitter.configs'.setup {
         -- These five should always be installed: "c", "lua", "vim", "vimdoc", "query"
-        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_line", },
+        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", },
         highlight = {
           enable = true,
           additional_vim_regex_highlighting = false,
