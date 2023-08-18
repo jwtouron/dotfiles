@@ -6,6 +6,7 @@
 -- 5. InsertEnter for tables and checklists
 -- 6. Conceal headings and list item markers
 -- 7. block_continuation for C-c/task_list
+-- 8. enter on any part of link task_list_item goes to link
 
 local ts = vim.treesitter
 
@@ -88,9 +89,9 @@ vim.opt_local.conceallevel = 2
 local function open_link()
   -- Default "open" command.
   local opencmd = nil
-  if vim.fn.has("macunix") then
+  if vim.fn.has("macunix") == 1 then
     opencmd = "open"
-  elseif vim.fn.has("linux") then
+  elseif vim.fn.has("linux") == 1 then
     opencmd = "xdg-open"
   -- TODO: Windows: Probably start <program> or cmd /c start <program> (can't check now)
   end

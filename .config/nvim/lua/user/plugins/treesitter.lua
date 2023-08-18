@@ -1,3 +1,8 @@
+-- Not sure why this doesn't work when placed under the 'config' key of playground...
+CreateFileTypeAutocmd("tsplayground", function()
+  vim.keymap.set("n", "q", ":q<cr>", { buffer = true, silent = true, })
+end)
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -17,6 +22,9 @@ return {
 
   "nvim-treesitter/playground",
   dependencies = "nvim-treesitter/nvim-treesitter",
-  event = "VeryLazy",
-  cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor", "TSNodeUnderCursor", },
+  cmd = {
+    "TSHighlightCapturesUnderCursor",
+    "TSNodeUnderCursor",
+    "TSPlaygroundToggle",
+  },
 }

@@ -11,7 +11,7 @@ https://dotfyle.com/this-week-in-neovim/rss.xml  neovim !
 "query:Programming:tags # \"programming\""
 https://hnrss.org/show?points=100&comments=25   programming !
 https://reddit.com/r/programming/.rss           programming !
-#https://reddit.com/r/vim/.rss                   vim
+https://reddit.com/r/vim/.rss                   vim
 
 #"query:Metafeed:tags # \"metafeed\""
 #https://feed.url/1 metafeed !

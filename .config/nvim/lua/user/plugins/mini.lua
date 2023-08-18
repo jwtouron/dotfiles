@@ -23,6 +23,8 @@ local bufremove_spec = mini_spec {
     for _, cmd in ipairs({ "Bw", "BW" }) do
       vim.api.nvim_create_user_command(cmd, [[lua require('mini.bufremove').wipeout()]], { desc = "Wipeout buffer smartly" })
     end
+    vim.cmd [[cabbrev <silent> bd lua require('mini.bufremove').delete()]]
+    vim.cmd [[cabbrev <silent> bw lua require('mini.bufremove').wipeout()]]
   end
 }
 
@@ -60,6 +62,7 @@ return {
   mini("hipatterns", hipatterns_spec),
   mini("jump"),
   mini("move", move_spec),
+  mini("operators"),
   -- mini("pairs"),
   mini("splitjoin"),
   mini("trailspace"),

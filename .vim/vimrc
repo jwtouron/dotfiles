@@ -1,233 +1,163 @@
-" Plugins
+vim9script
 
-call plug#begin()
-" Plug 'airblade/vim-rooter'
-Plug 'andrewradev/bufferize.vim'
-Plug 'ap/vim-css-color'
+# TODO: fzf live grep
+# TODO: <c-q> open quickfix with fzf contents
+
+g:mapleader = "\<space>"
+
+augroup myaugroup
+  autocmd!
+augroup END
+
+# Plugins
+
+plug#begin()
+Plug 'airblade/vim-rooter'
 Plug 'bronson/vim-trailing-whitespace'
-" Plug 'dense-analysis/ale'
-Plug 'embear/vim-localvimrc'
 Plug 'itchyny/lightline.vim'
-Plug 'jpalardy/vim-slime', { 'branch': 'main' }
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'kana/vim-arpeggio'
-Plug 'mhinz/vim-grepper'
+Plug 'moll/vim-bbye'
 Plug 'nelstrom/vim-visual-star-search'
-Plug 'pechorin/any-jump.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'nvim-zh/better-escape.vim'
 Plug 'romainl/vim-cool'
 Plug 'romainl/vim-devdocs'
 Plug 'romainl/vim-qlist'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
-Plug 'tyru/open-browser.vim'
-Plug 'vimwiki/vimwiki'
 Plug 'wellle/targets.vim'
-" LSP
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Colorschemes
-Plug 'chriskempson/base16-vim'
-Plug 'https://gitlab.com/madyanov/gruber.vim'
-Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
-Plug 'joshdick/onedark.vim'
-Plug 'metalelf0/base16-black-metal-scheme'
-Plug 'sainnhe/everforest'
-Plug 'tomasiser/vim-code-dark'
-" Languages
-" Clojure
-Plug 'tpope/vim-fireplace'
-Plug 'guns/vim-sexp'
-Plug 'tpope/vim-sexp-mappings-for-regular-people'
-" Go
-Plug 'fatih/vim-go'
-" Haskell
-Plug 'neovimhaskell/haskell-vim'
-Plug 'twinside/vim-hoogle'
-" Nim
-Plug 'zah/nim.vim'
-" Python
-Plug 'jmcantrell/vim-virtualenv'
-" Plug 'davidhalter/jedi-vim'
-" XML
-Plug 'alvan/vim-closetag'
-call plug#end()
+# Colorschemes
+Plug 'aditya-azad/candle-grey'
+Plug 'andreypopp/vim-colors-plain'
+Plug 'gruvbox-community/gruvbox'
+Plug 'nordtheme/vim', { 'as': 'nord' }
+Plug 'romainl/apprentice'
+Plug 'rose-pine/vim', { 'as': 'rose-pine' }
+plug#end()
 
 packadd cfilter
 packadd! matchit
 
-" ale
+# bbye
+cabbr bd Bdelete
+cabbr bw Bwipeout
 
-let g:ale_sign_column_always = 1
+# better-escape.vim
+g:better_escape_shortcut = ['jk', 'kj']
 
-" any-jump
+# coc
+g:coc_global_extensions = ['coc-json', 'coc-markdownlint']
 
-let g:any_jump_disable_default_keybindings = 1
-let g:any_jump_search_prefered_engine = 'ag'
+def CocCurrentFunction()
+  return get(b:, 'coc_current_function', '')
+enddef
+g:lightline = {
+  'active': {
+    'left': [ [ 'mode', 'paste' ],
+      [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
+  },
+  'component_function': {
+    'cocstatus': 'coc#status',
+    'currentfunction': 'CocCurrentFunction'
+  },
+}
 
-" coc
-" coc-clangd
-" coc-pyright
-" let g:coc_start_at_startup = 0
-" command! MyCocStart call my_coc#Start()
+# cool
+g:cool_total_matches = 1
 
-" cool
+# rooter
+g:rooter_change_directory_for_non_project_files = 'current'
+g:rooter_patterns = ['.rooter', '.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json']
 
-let g:CoolTotalMatches = 1
+# Mappings
 
-" go
+nnoremap <c-h> <c-w><c-h>
+nnoremap <c-j> <c-w><c-j>
+nnoremap <c-k> <c-w><c-k>
+nnoremap <c-l> <c-w><c-l>
+nnoremap <leader>\ :vsplit<cr>
+nnoremap <leader>- :split<cr>
 
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
+# https://gist.github.com/romainl/6351afff54003b3d58c5d9c56f9960e5
+def! g:Sort(type: string, ...args: list<string>)
+      :'[,']sort
+enddef
+nmap <silent> gs :set opfunc=g:Sort<CR>g@
 
-" grepper
+# https://gist.github.com/romainl/0f589e07a079ea4b7a77fd66ef16ebee
+nnoremap <expr> gt ":tabnext +" . v:count1 . '<CR>'
+nnoremap <expr> gT ":tabnext -" . v:count1 . '<CR>'
 
-let g:grepper = {}
-let g:grepper.tools = ['rg', 'ag', 'pt', 'grep']
+# fzf
+nnoremap <leader><leader> :Files<cr>
+nnoremap <leader>, :Buffers<cr>
+nnoremap <leader>fh :History<cr>
+nnoremap <leader>fH :Helptags<cr>
+nnoremap <leader>fl :BLines<cr>
+nnoremap <leader>fL :Lines<cr>
+nnoremap <leader>fM :Maps<cr>
+nnoremap <leader>fm :Marks<cr>
+nnoremap <leader>fr :Rg 
+nnoremap <leader>fR :RG 
+nnoremap <leader>ft :Tags<cr>
 
-" gutentags
+# Options
 
-if !executable('ctags')
-  let g:gutentags_enabled = 0
-endif
-if executable('fd')
-  let g:gutentags_file_list_command = 'fd -t f --color never'
-elseif executable('ug')
-  let g:gutentags_file_list_command = 'ug --color=never -l ""'
-endif
-let g:gutentags_ctags_tagfile = 'vimtags'
-let g:gutentags_project_root = ['.projections.json']
-
-" haskell
-
-let g:haskell_classic_highlighting = 1
-let g:haskell_indent_if = 2
-let g:haskell_indent_in = 0
-
-" lightline
-
-" let g:lightline = {}
-
-" let g:lightline.component_expand = {
-"       \  'linter_checking': 'lightline#ale#checking',
-"       \  'linter_infos': 'lightline#ale#infos',
-"       \  'linter_warnings': 'lightline#ale#warnings',
-"       \  'linter_errors': 'lightline#ale#errors',
-"       \  'linter_ok': 'lightline#ale#ok',
-"       \ }
-" 
-" let g:lightline.component_type = {
-"       \     'linter_checking': 'right',
-"       \     'linter_infos': 'right',
-"       \     'linter_warnings': 'warning',
-"       \     'linter_errors': 'error',
-"       \     'linter_ok': 'right',
-"       \ }
-" 
-" let g:lightline.active = {
-"       \ 'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
-"       \            [ 'lineinfo' ],
-"       \            [ 'percent' ],
-"       \            [ 'fileformat', 'fileencoding', 'filetype'] ] }
-
-" rooter
-
-let g:rooter_change_directory_for_non_project_files = 'current'
-let g:rooter_patterns = ['.projections.json', '.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json']
-
-" vimwiki
-
-let g:vimwiki_list = [{'path': '~/vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
-
-" virtualenv
-
-let g:virtualenv_directory = '.'
-
-" Settings
-
-set shiftwidth=4
-
-set autowrite
-set background=dark
-set cmdheight=2
-set complete-=t
-set completeopt=menu,menuone,noinsert,noselect,preview
-" set cursorline
 set expandtab
-set formatoptions-=cro
 set gdefault
 set hidden
+set hlsearch
 set ignorecase
+set incsearch
+set laststatus=2
 set lazyredraw
 set list
-set listchars=tab:>\ ,extends:>,precedes:<,nbsp:+
+set listchars=tab:>\ 
+set noshowmode
+set nowrap
 set number
 set relativenumber
-set shiftround
-set showcmd
+set scrolloff=4
+set shiftwidth=0  # When zero the 'tabstop' value will be used.
+set sidescrolloff=8
 set smartcase
-" set synmaxcol=200
-set t_ut=
-set virtualedit=block
-set wildmode=longest,list,full
+set tabstop=4
+set tags=./tags;,tags;
+set wildmenu
+set wildmode=list:longest,full
 
-set noshowmode
-set noswapfile
-
-let &t_SI = "\<esc>[6 q"
-let &t_EI = "\<esc>[2 q"
-
-" if executable('ugrep')
-"   set grepprg=ugrep\ -RInk\ -j\ -u\ --tabs=1\ --ignore-files
-"   set grepformat=%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\\|%l\\\|%c\\\|%m
-" elseif executable('rg')
-"   set grepprg=rg\ --vimgrep\ --smart-case\ --hidden
-"   set grepformat=%f:%l:%c:%m
-" endif
-
-augroup MY_AUTOCMDS
-  autocmd!
-  autocmd QuickFixCmdPost [^l]* nested cwindow
-  autocmd QuickFixCmdPost    l* nested lwindow
-  autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
-  " autocmd InsertLeave,WinEnter * set cursorline
-  " autocmd InsertEnter,WinLeave * set nocursorline
-augroup END
-
-" if has('WIN32') || has('WIN64')
-"   command! MyGitAmendAndPush exec 'term ++shell set GIT_TERMINAL_PROMPT=1 && git commit -a --amend --no-edit && git push -f'
-" else
-"   command! MyGitAmendAndPush exec 'term ++shell git commit -a --amend --no-edit && GIT_TERMINAL_PROMPT=1 git push -f'
-" endif
-
-command! BW :b# | bw#
-command! SW :w | sudo tee %
-
-command! ReadDate :r !date +'\%Y-\%m-\%d'
-
-" highlight CursorLine cterm=None ctermbg=237 ctermfg=None
-" highlight cursorLineNr cterm=None ctermbg=None
-
-" Make colors work in different terminal environments
-" See :help xterm-true-color
-if exists('+termguicolors') && ($TERM =~# "-256color$" || $TERM == "alacritty")
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
+if executable("rg")
+  set grepprg=rg\ --vimgrep\ -S
+  set grepformat=%f:%l:%c:%m
 endif
 
-" let g:everforest_background = 'hard'
-colorscheme onedark
+# Commands
 
-highlight NonText guibg=NONE ctermbg=NONE
-highlight Normal guibg=NONE ctermbg=NONE
-highlight MatchParen term=underline cterm=underline gui=underline ctermbg=NONE guibg=NONE
+# https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
+def Grep(...args: list<string>): string
+  return system(join([&grepprg] + [expandcmd(join(args, ' '))], ' '))
+enddef
+command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr Grep(<f-args>)
+command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr Grep(<f-args>)
+cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grep'  : 'grep'
+cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
+
+# UI Customizations
+
+autocmd myaugroup ColorScheme * highlight MatchParen term=underline cterm=underline gui=underline ctermbg=NONE guibg=NONE
+
+# Custom Configuration
+
+try
+  execute 'source' fnamemodify($MYVIMRC, ":p:h") .. "/custom.vim"
+catch
+endtry
