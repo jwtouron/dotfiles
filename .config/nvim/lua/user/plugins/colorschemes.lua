@@ -1,7 +1,5 @@
-local MyColorSchemes = vim.api.nvim_create_augroup("MyColorSchemes", { clear = true })
-
 vim.api.nvim_create_autocmd("ColorScheme", {
-  group = MyColorSchemes,
+  group = MyAugroup,
   callback = function()
     -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
@@ -30,7 +28,7 @@ end
 
 local function create_colorscheme_autocmd(pattern, callback)
   vim.api.nvim_create_autocmd("ColorScheme", {
-    group = MyColorSchemes,
+    group = MyAugroup,
     pattern = pattern,
     callback = callback,
   })
@@ -60,12 +58,13 @@ local nord_spec = {
 }
 
 return {
+  colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("catppuccin/nvim", { name = "catppuccin" }),
   colorscheme("cocopon/iceberg.vim"),
-  colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("folke/tokyonight.nvim"),
   colorscheme("kvrohit/rasmus.nvim"),
   colorscheme("lunacookies/vim-substrata"),
+  colorscheme("mcchrish/zenbones.nvim", { init = function() vim.g.bones_compat = true end }),
   colorscheme("nyoom-engineering/oxocarbon.nvim"),
   colorscheme("p00f/alabaster.nvim"),
   colorscheme("projekt0n/github-nvim-theme"),

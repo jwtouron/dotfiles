@@ -1,5 +1,10 @@
-local function mini_spec(spec)
-  return vim.tbl_deep_extend('force', { version = false, event = "VeryLazy", opts = {} }, spec or {})
+local function mini_spec(spec, no_very_lazy)
+  local result = { version = false, opts = {} }
+  if not no_very_lazy then
+    result.event = "VeryLazy"
+  end
+  result = vim.tbl_deep_extend('force', result, spec or {})
+  return result
 end
 
 local function mini(name, spec)
@@ -10,27 +15,33 @@ local function mini(name, spec)
   return ret
 end
 
-local bufremove_spec = mini_spec {
+local bufremove_spec = mini_spec({
   keys = {
     { "<leader>bd", "<cmd>lua require('mini.bufremove').delete()<cr>", desc = "Delete buffer smartly" },
     { "<leader>bw", "<cmd>lua require('mini.bufremove').wipeout()<cr>", desc = "Wipeout buffer smartly" },
   },
+  cmd = { "Bd", "BD", "Bw", "BW" },
+  init = function()
+    vim.cmd [[cabbrev bd BD]]
+    vim.cmd [[cabbrev bw BW]]
+  end,
   config = function()
-    require("mini.bufremove").setup()
-    for _, cmd in ipairs({ "Bd", "BD" }) do
-      vim.api.nvim_create_user_command(cmd, [[lua require('mini.bufremove').delete()]], { desc = "Delete buffer smartly" })
+    local bufremove = require("mini.bufremove")
+    bufremove.setup()
+    for _, cmd in ipairs({{{ "Bd", "BD"}, "delete"}, {{ "Bw", "BW"}, "wipeout"}}) do
+      for _, c in ipairs(cmd[1]) do
+        vim.api.nvim_create_user_command(c, function(arg)
+          local buf = arg.fargs[1] and (tonumber(arg.fargs[1]) or vim.fn.bufnr(arg.fargs[1]))
+          bufremove[cmd[2]](buf, arg.bang)
+        end, { bang = true, complete = 'buffer', nargs = '?', desc = cmd[2] .. " buffer smartly"})
+      end
     end
-    for _, cmd in ipairs({ "Bw", "BW" }) do
-      vim.api.nvim_create_user_command(cmd, [[lua require('mini.bufremove').wipeout()]], { desc = "Wipeout buffer smartly" })
-    end
-    vim.cmd [[cabbrev <silent> bd lua require('mini.bufremove').delete()]]
-    vim.cmd [[cabbrev <silent> bw lua require('mini.bufremove').wipeout()]]
-  end
-}
+  end,
+}, true)
 
-local files_spec = mini_spec {
+local files_spec = mini_spec({
   keys = { { "<leader>ff", "<cmd>lua require('mini.files').open()<cr>", desc = "Open mini files" } },
-}
+}, true)
 
 local hipatterns_spec = mini_spec {
   opts = function()

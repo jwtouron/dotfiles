@@ -1,7 +1,5 @@
-local MyAutocommands = vim.api.nvim_create_augroup("MyAutocommands", { clear = true })
-
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = MyAutocommands,
+  group = MyAugroup,
   callback = function() vim.highlight.on_yank() end,
 })
 
@@ -9,7 +7,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 function CreateFileTypeAutocmd(ft, callback)
   vim.api.nvim_create_autocmd("FileType", {
-    group = MyAutocommands,
+    group = MyAugroup,
     pattern = ft,
     callback = callback,
   })

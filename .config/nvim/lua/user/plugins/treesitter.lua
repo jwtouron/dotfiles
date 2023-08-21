@@ -1,6 +1,6 @@
 -- Not sure why this doesn't work when placed under the 'config' key of playground...
 CreateFileTypeAutocmd("tsplayground", function()
-  vim.keymap.set("n", "q", ":q<cr>", { buffer = true, silent = true, })
+  vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = true, silent = true, })
 end)
 
 return {
