@@ -42,6 +42,14 @@ local function init_handlers()
       }
     end,
 
+    efm = function()
+      lspconfig.efm.setup {
+          capabilites = capabilities,
+          on_attach = on_attach,
+          init_options = { documentFormatting = true },
+        }
+    end,
+
     lua_ls = function()
       lspconfig.lua_ls.setup {
         capabilites = capabilities,
