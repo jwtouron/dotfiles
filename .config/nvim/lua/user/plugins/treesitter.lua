@@ -93,7 +93,7 @@ return {
     dependencies = "nvim-treesitter/nvim-treesitter",
     event = "VeryLazy",
     config = function()
-      require'treesitter-context'.setup()
+      require'treesitter-context'.setup({ enable = true, max_lines = 1 })
       vim.keymap.set("n", "[c", function()
         require("treesitter-context").go_to_context()
       end, { silent = true })
