@@ -1,7 +1,7 @@
 return {
   { "AckslD/muren.nvim", cmd = { "MurenToggle", "MurenOpen", "MurenFresh", "MurenUnique" }, config = true },
   { "gabrielpoca/replacer.nvim", cmd = "Replacer", init = function() vim.api.nvim_create_user_command("Replacer", function() require("replacer").run() end, {}) end, },
-  { "junegunn/vim-easy-align", keys = { { "ga", "<Plug>(EasyAlign)", mode = { "n", "x" } } } },
+  -- { "junegunn/vim-easy-align", keys = { { "ga", "<Plug>(EasyAlign)", mode = { "n", "x" } } } },
   { "kylechui/nvim-surround", event = "VeryLazy", config = true, },
   { "max397574/better-escape.nvim", event = "VeryLazy", opts = { mapping = { "jk", "kj" }, timeout = 250, } },
   { "mbbill/undotree", cmd = { "UndotreeShow", "UndotreeToggle" } },

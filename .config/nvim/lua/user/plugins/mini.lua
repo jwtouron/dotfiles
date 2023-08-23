@@ -1,21 +1,12 @@
-local function mini_spec(spec, no_very_lazy)
-  local result = { version = false, opts = {} }
-  if not no_very_lazy then
-    result.event = "VeryLazy"
-  end
-  result = vim.tbl_deep_extend('force', result, spec or {})
-  return result
-end
-
 local function mini(name, spec)
-  local ret = { 'echasnovski/mini.'..name, }
-  for k, v in pairs(spec or mini_spec()) do
+  local ret = { 'echasnovski/mini.'..name, version = false, config = true }
+  for k, v in pairs(spec or { event = "VeryLazy" }) do
     ret[k] = v
   end
   return ret
 end
 
-local bufremove_spec = mini_spec({
+local bufremove_spec = {
   keys = {
     { "<leader>bd", "<cmd>lua require('mini.bufremove').delete()<cr>", desc = "Delete buffer smartly" },
     { "<leader>bw", "<cmd>lua require('mini.bufremove').wipeout()<cr>", desc = "Wipeout buffer smartly" },
@@ -37,13 +28,21 @@ local bufremove_spec = mini_spec({
       end
     end
   end,
-}, true)
+}
 
-local files_spec = mini_spec({
+local comment_spec = {
+  keys = {
+    { "gc", nil, mode = {"n", "x", "o"}, desc = "comment" },
+    { "gcc", nil, mode = "n", desc = "comment line" }
+  }
+}
+
+local files_spec = {
   keys = { { "<leader>ff", "<cmd>lua require('mini.files').open()<cr>", desc = "Open mini files" } },
-}, true)
+}
 
-local hipatterns_spec = mini_spec {
+local hipatterns_spec = {
+  event = "VeryLazy",
   opts = function()
     local hipatterns = require("mini.hipatterns")
     return {
@@ -61,20 +60,20 @@ local hipatterns_spec = mini_spec {
   end
 }
 
-local move_spec = mini_spec { opts = { mappings = { line_left = '', line_right = '', } } }
+local move_spec = { opts = { mappings = { line_left = '', line_right = '', } } }
 
 return {
   mini("ai"),
+  mini("align"),
   mini("bracketed"),
   mini("bufremove", bufremove_spec),
-  mini("comment"),
+  mini("comment", comment_spec),
   mini("files", files_spec),
   mini("fuzzy"),
   mini("hipatterns", hipatterns_spec),
   mini("jump"),
   mini("move", move_spec),
   mini("operators"),
-  -- mini("pairs"),
   mini("splitjoin"),
   mini("trailspace"),
 }
