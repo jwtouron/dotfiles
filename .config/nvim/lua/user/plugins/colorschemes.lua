@@ -59,6 +59,7 @@ local nord_spec = {
 
 return {
   colorscheme("EdenEast/nightfox.nvim"),
+  colorscheme("Mofiqul/vscode.nvim"),
   colorscheme("catppuccin/nvim", { name = "catppuccin" }),
   colorscheme("cocopon/iceberg.vim"),
   colorscheme("folke/tokyonight.nvim"),
