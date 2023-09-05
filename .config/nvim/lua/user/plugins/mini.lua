@@ -60,8 +60,6 @@ local hipatterns_spec = {
   end
 }
 
-local jump2d_spec = { opts = { mappings = { start_jumping = 's' }, } }
-
 local move_spec = { opts = { mappings = { line_left = '', line_right = '', } } }
 
 return {
@@ -74,7 +72,7 @@ return {
   mini("fuzzy"),
   mini("hipatterns", hipatterns_spec),
   mini("jump"),
-  mini("jump2d", jump2d_spec),
+  mini("jump2d"),
   mini("move", move_spec),
   mini("operators"),
   mini("splitjoin"),
