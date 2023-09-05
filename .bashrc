@@ -1,3 +1,5 @@
+# vim: ft=bash
+
 [[ $- != *i* ]] && return
 [[ "$(whoami)" = "root" ]] && return
 
@@ -7,7 +9,7 @@
 
 HISTCONTROL=ignoreboth
 HISTSIZE=1000
-HISTFILESIZE=2000
+HISTFILESIZE=1000
 shopt -s histappend
 
 shopt -s checkwinsize
@@ -18,13 +20,19 @@ shopt -s globstar
 bind '"\e[A":history-search-backward'
 bind '"\e[B":history-search-forward'
 
+# Private Mode
+alias priv='BASH_PRIV=1 bash'
+[ -n "$BASH_PRIV" ] && unset HISTFILE
+
 # FZF
-source ~/.config/fzf/key-bindings.bash
-source ~/.config/fzf/completion.bash
+source "$HOME/.config/fzf/key-bindings.bash"
+source "$HOME/.config/fzf/completion.bash"
+_fzf_setup_completion path ag git kubectl
+_fzf_setup_completion dir tree
 _fzf_setup_completion path config
 
 # Functionality common to bash and zsh
-source ~/.config/shell/rc
+source "$HOME/.config/shell/rc"
 
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
 
@@ -32,18 +40,20 @@ source ~/.config/shell/rc
 PROMPT_COMMAND=__prompt_command
 __prompt_command() {
     local last_error="$?"
-    local blue="\[\e[0;34m\]"
-    local green="\[\e[0;32m\]"
-    local red="\[\e[0;31m\]"
-    local yellow="\[\e[0;33m\]"
-    local nc="\[\e[0m\]"
+    local blue="\e[0;34m"
+    local green="\e[0;32m"
+    local red="\e[0;31m"
+    local yellow="\e[0;33m"
+    local nc="\e[0m"
 
     PS1="\n${blue}\w${nc}"
 
     # Git
-    local git_status="$(git status 2>&1)"
+    local git_status
+    git_status="$(git status 2>&1)"
     if echo "$git_status" | grep -q -v "fatal: not a git repository" -; then
-        local branch=$(echo $git_status |  cut -d ' ' -f 3 | head -n1)
+        local branch
+        branch=$(echo "$git_status" |  cut -d ' ' -f 3 | head -n1)
         PS1+=" ${yellow} $branch ${nc}"
         echo "$git_status" | grep -q "nothing to commit, working tree clean" - && \
             PS1+="${green}✓${nc}" || \
@@ -51,6 +61,7 @@ __prompt_command() {
     fi
 
     PS1+="\n"
+    [ -n "$BASH_PRIV" ] && PS1+="${yellow}[PRIVATE]${nc} "
     [[ "$last_error" -eq 0 ]] && PS1+="${green}" || PS1+="${red}"
     PS1+="❯${nc} "
 }

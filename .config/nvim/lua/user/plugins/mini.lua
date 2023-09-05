@@ -6,10 +6,6 @@ local function mini(name, spec)
   return ret
 end
 
-local bracketed_spec = {
-  event = "VeryLazy", opts = { comment = { suffix = '' } }
-}
-
 local bufremove_spec = {
   keys = {
     { "<leader>bd", "<cmd>lua require('mini.bufremove').delete()<cr>", desc = "Delete buffer smartly" },
@@ -64,18 +60,21 @@ local hipatterns_spec = {
   end
 }
 
+local jump2d_spec = { opts = { mappings = { start_jumping = 's' }, } }
+
 local move_spec = { opts = { mappings = { line_left = '', line_right = '', } } }
 
 return {
   mini("ai"),
   mini("align"),
-  mini("bracketed", bracketed_spec),
+  -- mini("bracketed"),
   mini("bufremove", bufremove_spec),
   mini("comment", comment_spec),
   mini("files", files_spec),
   mini("fuzzy"),
   mini("hipatterns", hipatterns_spec),
-  mini("jump", { enabled = false }),
+  mini("jump"),
+  mini("jump2d", jump2d_spec),
   mini("move", move_spec),
   mini("operators"),
   mini("splitjoin"),

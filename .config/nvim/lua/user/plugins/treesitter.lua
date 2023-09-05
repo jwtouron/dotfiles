@@ -59,8 +59,6 @@ return {
             goto_next_start = {
               ["]m"] = "@function.outer",
               ["]]"] = { query = "@class.outer", desc = "Next class start" },
-              ["]o"] = "@loop.*",
-              ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
               ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
             },
             goto_next_end = {
@@ -75,12 +73,6 @@ return {
               ["[M"] = "@function.outer",
               ["[]"] = "@class.outer",
             },
-            goto_next = {
-              ["]c"] = "@conditional.outer",
-            },
-            goto_previous = {
-              ["[c"] = "@conditional.outer",
-            }
           },
         },
 

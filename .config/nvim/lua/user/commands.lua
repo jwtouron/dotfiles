@@ -13,6 +13,7 @@ for _, cmd in ipairs({ "Cdf", "CDF" }) do
 end
 
 -- https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
+
 vim.cmd [[
 
 function! Grep(...)
@@ -25,10 +26,24 @@ command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr Grep(<f-args>)
 cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grep'  : 'grep'
 cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
 
-augroup quickfix
-  autocmd!
-  autocmd QuickFixCmdPost cgetexpr cwindow
-  autocmd QuickFixCmdPost lgetexpr lwindow
-augroup END
+" augroup quickfix
+"   autocmd!
+"   autocmd QuickFixCmdPost cgetexpr cwindow
+"   autocmd QuickFixCmdPost lgetexpr lwindow
+" augroup END
 
 ]]
+
+-- Random Color Schemes
+
+local function random_color_scheme()
+  local color_schemes = vim.fn.getcompletion("", "color")
+  if color_schemes then
+    local idx = math.random(1, #color_schemes)
+    local color_scheme = color_schemes[idx]
+    vim.cmd.colorscheme(color_scheme)
+    print("Color scheme set: " .. color_scheme)
+  end
+end
+
+vim.api.nvim_create_user_command("RandomColorScheme", random_color_scheme, {})

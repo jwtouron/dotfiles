@@ -1,3 +1,5 @@
+finish
+
 vim9script
 
 # May need for Vim (not Neovim) since coc.nvim calculates byte offset by count

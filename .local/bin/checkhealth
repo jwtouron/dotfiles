@@ -100,6 +100,7 @@ tiling_window_manager() {
     header "Tiling Window Manager Dependencies"
     check_for_all cbatticon dmenu jq lxappearance nm-applet pavucontrol pcmanfm picom xclip xsel yad
     check_for_one i3lock-fancy i3lock xlock
+    check_for_one parcellite xfce4-clipman
 }
 
 environment_variables

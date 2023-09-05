@@ -2,9 +2,9 @@
 
 man() {
     local width="$(tput cols)"
-    [ "$width" -gt "$MANWIDTH" ] && width=$MANWIDTH
+    [ "$width" -gt "${MANWIDTH:-0}" ] && width="${MANWIDTH:-0}"
 
-    MANWIDTH=$width \
+    MANWIDTH="$width" \
     LESS_TERMCAP_mb=$'\e[31m' \
     LESS_TERMCAP_md=$'\e[38;2;95;175;215m' \
     LESS_TERMCAP_me=$'\e[0m'  \

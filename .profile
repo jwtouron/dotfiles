@@ -21,7 +21,7 @@ for editor in nvim vim vi nano; do
     fi
 done
 
-for terminal in st wezterm alacritty xterm; do
+for terminal in kitty st wezterm alacritty xterm; do
     if __command "$terminal"; then
         export TERMINAL="$terminal"
         break

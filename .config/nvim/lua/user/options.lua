@@ -4,6 +4,7 @@ vim.opt.expandtab = true
 vim.opt.gdefault = true
 vim.opt.ignorecase = true
 vim.opt.list = true
+vim.opt.listchars = { tab = '> ' }
 vim.opt.mouse = 'a'
 vim.opt.mousemoveevent = true
 vim.opt.number = true

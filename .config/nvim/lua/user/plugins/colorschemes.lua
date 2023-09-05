@@ -79,8 +79,9 @@ return {
   colorscheme("shaunsingh/nord.nvim", nord_spec),
   colorscheme("water-sucks/darkrose.nvim"),
   -- Monochrome
-  colorscheme("axvr/photon.vim"),
+  colorscheme("aditya-azad/candle-grey"),
   colorscheme("andreypopp/vim-colors-plain"),
+  colorscheme("axvr/photon.vim"),
   colorscheme("fxn/vim-monochrome"),
   colorscheme("hardselius/warlock"),
 }
