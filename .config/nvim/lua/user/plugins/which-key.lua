@@ -10,8 +10,8 @@ return {
         b = { name = "[B]uffer" },
         f = { name = "[F]ile" },
         g = { name = "[G]it" },
+        o = { name = "[O]ption Toggle" },
         s = { name = "[S]earch (telescope)" },
-        u = { name = "[U]I" },
         w = { name = "[W]indow" },
         x = { name = "Trouble" },
       }

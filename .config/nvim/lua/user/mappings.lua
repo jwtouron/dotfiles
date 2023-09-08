@@ -61,32 +61,32 @@ vim.keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" 
 vim.keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 --------------------------------------------------------------------------------
--- Toggle UI options
+-- Toggle Options
 --------------------------------------------------------------------------------
 
-local toggle_prefix = "<leader>u"
-
-local function toggle(key, options)
-  if type(options) ~= "table" then
-    options = { options }
-  end
-  local desc = "Toggle "..options[1]
-  vim.keymap.set("n", toggle_prefix..key, function()
-    local oldval = vim.opt_local[options[1]]:get()
-    for _, option in ipairs(options) do
-      if oldval then
-        vim.opt_local[option] = false
-      else
-        vim.opt_local[option] = true
-      end
-    end
-  end, { desc = desc })
-end
-
-toggle("l", "cursorline")
-toggle("n", { "number", "relativenumber" })
-toggle("s", "spell")
-toggle("w", "wrap")
+-- local toggle_prefix = "<leader>o"
+--
+-- local function toggle(key, options)
+--   if type(options) ~= "table" then
+--     options = { options }
+--   end
+--   local desc = "Toggle "..options[1]
+--   vim.keymap.set("n", toggle_prefix..key, function()
+--     local oldval = vim.opt_local[options[1]]:get()
+--     for _, option in ipairs(options) do
+--       if oldval then
+--         vim.opt_local[option] = false
+--       else
+--         vim.opt_local[option] = true
+--       end
+--     end
+--   end, { desc = desc })
+-- end
+--
+-- toggle("l", "cursorline")
+-- toggle("n", { "number", "relativenumber" })
+-- toggle("s", "spell")
+-- toggle("w", "wrap")
 
 --------------------------------------------------------------------------------
 -- Windows

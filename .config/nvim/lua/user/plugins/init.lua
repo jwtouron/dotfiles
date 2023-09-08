@@ -1,3 +1,9 @@
+local function unimpaired_config()
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Goto next diagnostic.", silent = true })
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Goto previous diagnostic.", silent = true })
+  vim.keymap.set("n", "<leader>o", "<plug>(unimpaired-toggle)", { desc = "[O]ption Toggle" })
+end
+
 return {
   { "dstein64/vim-startuptime", cmd = "StartupTime", config = function() vim.g.startuptime_tries = 10 end, },
   -- { "junegunn/vim-easy-align", keys = { { "ga", "<Plug>(EasyAlign)", mode = { "n", "x" } } } },
@@ -10,5 +16,5 @@ return {
   { "tpope/vim-repeat", event = "VeryLazy", },
   { "tpope/vim-rsi", event = "VeryLazy", },
   { "tpope/vim-sleuth", event = "VeryLazy", },
-  { "tpope/vim-unimpaired", event = "VeryLazy", },
+  { "tpope/vim-unimpaired", event = "VeryLazy", config = unimpaired_config },
 }

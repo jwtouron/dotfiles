@@ -19,9 +19,6 @@ local function on_attach(client, bufnr)
   vim.keymap.set("n", "gd", vim.lsp.buf.declaration, opts "Jumps to the declaration of the symbol under the cursor.")
   vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts "Show diagnostics in a floating window.")
 
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts "Goto next diagnostic.")
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts "Goto previous diagnostic.")
-
   vim.keymap.set("n", "<localleader>li", vim.lsp.buf.implementation, opts "Lists all the implementations for the symbol under the cursor in the quickfix window.")
   vim.keymap.set("n", "<localleader>lt", vim.lsp.buf.type_definition, opts "Jumps to the definition of the type of the symbol under the cursor.")
   vim.keymap.set("n", "<localleader>lr", vim.lsp.buf.references, opts "Lists all the references to the symbol under the cursor in the quickfix window.")
