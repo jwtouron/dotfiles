@@ -62,7 +62,7 @@ static const char *skip_escape_code(const char * const escape_code)
 static void flush_stdin()
 {
     int c;
-    while ((c = fgetc(c, stdin)) != EOF) {
+    while ((c = fgetc(stdin)) != EOF) {
         fputc(c, stdout);
     }
 }
