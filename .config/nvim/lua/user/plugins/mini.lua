@@ -76,5 +76,5 @@ return {
   mini("move", move_spec),
   mini("operators"),
   mini("splitjoin"),
-  mini("trailspace"),
+  -- mini("trailspace"),
 }
