@@ -70,7 +70,7 @@ return {
   mini("comment", comment_spec),
   mini("files", files_spec),
   mini("fuzzy"),
-  mini("hipatterns", hipatterns_spec),
+  -- mini("hipatterns", hipatterns_spec),
   mini("jump"),
   mini("move", move_spec),
   mini("operators"),

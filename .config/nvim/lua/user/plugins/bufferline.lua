@@ -2,7 +2,6 @@ return {
   "akinsho/bufferline.nvim",
   version = "*",
   dependencies = "nvim-tree/nvim-web-devicons",
-  event = "VeryLazy",
   opts = {
     options = {
       close_command = function(n) require("mini.bufremove").delete(n, false) end,

@@ -53,7 +53,6 @@ end
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons", },
-  event = "VeryLazy",
   init = function() vim.opt.showmode = false end,
   opts = {
     options = {

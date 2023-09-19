@@ -1,8 +1,11 @@
+-- Actions that happen after EVERY colorscheme change.
 vim.api.nvim_create_autocmd("ColorScheme", {
   group = MyAugroup,
   callback = function()
     -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+
+    -- Matching parens are underlined, no BG change.
     vim.cmd.highlight({
       "MatchParen",
       "term=underline",
@@ -11,14 +14,49 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       "ctermbg=NONE",
       "guibg=NONE",
     })
+
+    -- Trailing whitespace is shown by salmon underdots.
+    vim.cmd.highlight({
+      "ExtraWhitespace",
+      "guisp=#FA8072",
+      "gui=underdotted",
+      "ctermbg=NONE",
+      "guibg=NONE"
+    })
   end,
 })
 
+local colorschemes = {}
+
+-- Trying to improve startup time. Not sure it's worth it.
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = MyAugroup,
+  callback = function()
+    local i = 1
+    local timer = vim.loop.new_timer()
+    timer:start(0, 10, vim.schedule_wrap(function()
+      if i <= #colorschemes then
+        local colorscheme = colorschemes[i]
+        local slash = colorscheme:find("/")
+        if slash then
+          colorscheme = colorscheme:sub(slash + 1)
+        end
+        vim.cmd.Lazy("load " .. colorscheme)
+        i = i + 1
+      else
+        timer:stop()
+      end
+    end))
+  end
+})
+
 local function colorscheme(name, spec)
+  table.insert(colorschemes, (spec or {})['name'] or name)
   local ret = {
     name,
-    -- lazy = true,
-    priority = 1000,
+    -- event = "VeryLazy",
+    lazy = true,
+    -- priority = 1000,
   }
   for k, v in pairs(spec or {}) do
     ret[k] = v

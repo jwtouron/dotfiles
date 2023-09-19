@@ -5,8 +5,9 @@ local function unimpaired_config()
 end
 
 return {
-  { "bronson/vim-trailing-whitespace", config = function() vim.cmd [[highlight ExtraWhitespace guisp=#FA8072 gui=underdotted ctermbg=NONE guibg=NONE]] end },
+  { "bronson/vim-trailing-whitespace", },
   { "dstein64/vim-startuptime", cmd = "StartupTime", config = function() vim.g.startuptime_tries = 10 end, },
+  { "folke/todo-comments.nvim", dependencies = "nvim-lua/plenary.nvim", config = true, },
   -- { "junegunn/vim-easy-align", keys = { { "ga", "<Plug>(EasyAlign)", mode = { "n", "x" } } } },
   { "kylechui/nvim-surround", event = "VeryLazy", config = true, },
   { "max397574/better-escape.nvim", event = "VeryLazy", opts = { mapping = { "jk", "kj" }, timeout = 250, } },

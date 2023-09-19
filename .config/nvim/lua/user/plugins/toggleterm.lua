@@ -61,6 +61,7 @@ local keys = {
 
 return {
   "akinsho/toggleterm.nvim",
+  enabled = false,
   cmd = { "ToggleTerm", "ToggleTermSendCurrentLine", "ToggleTermSendVisualLines", "ToggleTermSendVisualSelection", },
   keys = function()
     local ret = {}
