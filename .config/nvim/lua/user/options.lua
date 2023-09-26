@@ -3,6 +3,7 @@ vim.opt.completeopt = { "menu", "menuone", "noinsert", "noselect" }
 vim.opt.expandtab = true
 vim.opt.gdefault = true
 vim.opt.ignorecase = true
+vim.opt.jumpoptions = 'stack'
 vim.opt.list = true
 vim.opt.listchars = { tab = '> ' }
 vim.opt.mouse = 'a'

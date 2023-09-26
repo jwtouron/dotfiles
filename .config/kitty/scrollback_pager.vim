@@ -10,4 +10,4 @@ set smartcase
 nnoremap Y y$
 nnoremap <expr> q ":qa!\<cr>"
 
-autocmd VimEnter * normal! G{}
+autocmd VimEnter * normal! G{}0

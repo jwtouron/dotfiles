@@ -119,7 +119,7 @@ local function open_link()
 end
 
 -- Enter opens links
-vim.keymap.set("n", "o", function()
+vim.keymap.set("n", "<cr>", function()
   if not open_link() then
     vim.cmd [[execute "normal!" "\<cr>"]]
   end

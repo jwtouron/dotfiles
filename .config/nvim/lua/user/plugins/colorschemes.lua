@@ -26,36 +26,11 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
-local colorschemes = {}
-
--- Trying to improve startup time. Not sure it's worth it.
-vim.api.nvim_create_autocmd("VimEnter", {
-  group = MyAugroup,
-  callback = function()
-    local i = 1
-    local timer = vim.loop.new_timer()
-    timer:start(0, 10, vim.schedule_wrap(function()
-      if i <= #colorschemes then
-        local colorscheme = colorschemes[i]
-        local slash = colorscheme:find("/")
-        if slash then
-          colorscheme = colorscheme:sub(slash + 1)
-        end
-        vim.cmd.Lazy("load " .. colorscheme)
-        i = i + 1
-      else
-        timer:stop()
-      end
-    end))
-  end
-})
-
 local function colorscheme(name, spec)
-  table.insert(colorschemes, (spec or {})['name'] or name)
   local ret = {
     name,
-    -- event = "VeryLazy",
-    lazy = true,
+    event = "VeryLazy",
+    -- lazy = true,
     -- priority = 1000,
   }
   for k, v in pairs(spec or {}) do
@@ -98,6 +73,7 @@ local nord_spec = {
 return {
   colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("Mofiqul/vscode.nvim"),
+  colorscheme("Wansmer/serenity.nvim", { config = true }),
   colorscheme("catppuccin/nvim", { name = "catppuccin" }),
   colorscheme("cocopon/iceberg.vim"),
   colorscheme("folke/tokyonight.nvim"),
