@@ -72,7 +72,7 @@ return {
   mini("fuzzy"),
   -- mini("hipatterns", hipatterns_spec),
   mini("jump"),
-  mini("move", move_spec),
+  -- mini("move", move_spec),
   mini("operators"),
   mini("splitjoin"),
   -- mini("trailspace"),

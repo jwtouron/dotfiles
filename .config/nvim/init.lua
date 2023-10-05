@@ -9,6 +9,6 @@ require("user.autocommands")
 require("user.commands")
 require("user.mappings")
 require("user.options")
-require("user.plugins-bootstrap")
+require("user.lazy")
 
 pcall(require, "user.custom")

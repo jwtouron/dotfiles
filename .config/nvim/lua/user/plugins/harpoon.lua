@@ -2,37 +2,37 @@ local function desc(s)
   return "Harpoon: "..s
 end
 
-local keys = {
-  { "<M-a>", function(mark, _)  mark.add_file() end,     desc("Add File") },
-  { "<M-m>", function(_, ui) ui.toggle_quick_menu() end, desc("Quick Menu") },
-  { "<M-l>", function(_, ui) ui.nav_next() end,          desc("Nav Next") },
-  { "<M-h>", function(_, ui) ui.nav_prev() end,          desc("Nav Prev") },
-  { "<M-1>", function(_, ui) ui.nav_file(1) end,         desc("Nav File 1") },
-  { "<M-2>", function(_, ui) ui.nav_file(2) end,         desc("Nav File 2") },
-  { "<M-3>", function(_, ui) ui.nav_file(3) end,         desc("Nav File 3") },
-  { "<M-4>", function(_, ui) ui.nav_file(4) end,         desc("Nav File 4") },
-  { "<M-5>", function(_, ui) ui.nav_file(5) end,         desc("Nav File 5") },
-  { "<M-6>", function(_, ui) ui.nav_file(6) end,         desc("Nav File 1") },
-}
+local function mark(f)
+  return "<cmd>:lua require('harpoon.mark')." .. f .. "<cr>"
+end
+
+local function ui(f)
+  return "<cmd>:lua require('harpoon.ui')." .. f .. "<cr>"
+end
 
 return {
   "ThePrimeagen/harpoon",
-  keys = function()
-    local ret = {}
-    for _, key in ipairs(keys) do
-      table.insert(ret, { key[1], nil, desc = key[3] })
-    end
-    return ret
-  end,
-  config = function()
-    require("harpoon").setup()
-    local mark = require("harpoon.mark")
-    local ui = require("harpoon.ui")
-
-    for _, key in ipairs(keys) do
-      vim.keymap.set("n", key[1], function()
-        key[2](mark, ui)
-      end, { desc = key[3] })
-    end
-  end
+  dependencies = 'nvim-lua/plenary.nvim',
+  event = "VeryLazy",
+  keys = {
+    { "<M-a>", mark('add_file()'),        desc = desc("Add File") },
+    { "<M-m>", ui('toggle_quick_menu()'), desc = desc("Quick Menu") },
+    { "<M-l>", ui('nav_next()'),          desc = desc("Nav Next") },
+    { "<M-h>", ui('nav_prev()'),          desc = desc("Nav Prev") },
+    { "<M-1>", ui('nav_file(1)'),         desc = desc("Nav File 1") },
+    { "<M-2>", ui('nav_file(2)'),         desc = desc("Nav File 2") },
+    { "<M-3>", ui('nav_file(3)'),         desc = desc("Nav File 3") },
+    { "<M-4>", ui('nav_file(4)'),         desc = desc("Nav File 4") },
+    { "<M-5>", ui('nav_file(5)'),         desc = desc("Nav File 5") },
+    { "<M-6>", ui('nav_file(6)'),         desc = desc("Nav File 1") },
+  },
+  opts = {
+    tabline = true,
+    -- tabline_prefix = "▏",
+    -- tabline_suffix = "▕",
+    tabline_prefix = "▎",
+    tabline_suffix = "🮇",
+    -- tabline_prefix = "▌",
+    -- tabline_suffix = "▐",
+  },
 }

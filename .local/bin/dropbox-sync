@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+rclone bisync ~/Documents/notes ~/Dropbox/notes --verbose "$@"
+
+# vim: set ft=bash

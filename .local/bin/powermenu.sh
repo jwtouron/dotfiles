@@ -21,7 +21,7 @@ choice=$(printf "$options" | dmenu -i -n -c -bw 5 -l 5 | awk '{print $2}')
 case "$choice" in
     "Loc(k)")     __lock ;;
     "Sus(p)end")  __lock; systemctl suspend ;;
-    "Lo(g)out")   __logout ;;
+    "Lo(g)out")   loginctl kill-user '' ;;
     "(R)eboot")   systemctl reboot ;;
     "Shutdo(w)n") systemctl poweroff ;;
 esac

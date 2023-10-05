@@ -3,7 +3,7 @@ PATH="$HOME/.local/bin:$HOME/bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$HOME/.nimble
 [ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 __command() {
-    command -v "$1" >/dev/null && true || false
+    command -v "$1" >/dev/null
 }
 
 for browser in firefox brave brave-browser chromium chrome google-chrome; do

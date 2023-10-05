@@ -11,16 +11,16 @@ exec --no-startup-id ~/.local/bin/random-wallpaper.sh
 
 # change volume or toggle mute
 
-bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
-bindsym $mod+shift+bracketright exec amixer -q -D pulse sset Master 1%+ && pkill -RTMIN+1 i3blocks
-bindsym $mod+bracketright exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioRaiseVolume exec volume.sh up 5 && pkill -RTMIN+1 i3blocks
+bindsym $mod+shift+bracketright exec volume.sh up 1 && pkill -RTMIN+1 i3blocks
+bindsym $mod+bracketright exec volume.sh up 5 && pkill -RTMIN+1 i3blocks
 
-bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
-bindsym $mod+shift+bracketleft exec amixer -q -D pulse sset Master 1%- && pkill -RTMIN+1 i3blocks
-bindsym $mod+bracketleft exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioLowerVolume exec volume.sh down 5 && pkill -RTMIN+1 i3blocks
+bindsym $mod+shift+bracketleft exec volume.sh down 1 && pkill -RTMIN+1 i3blocks
+bindsym $mod+bracketleft exec volume.sh down 5 && pkill -RTMIN+1 i3blocks
 
-bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
-bindsym $mod+backslash exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioMute exec volume.sh mute && pkill -RTMIN+1 i3blocks
+bindsym $mod+backslash exec volume.sh mute && pkill -RTMIN+1 i3blocks
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod

@@ -2,10 +2,10 @@ local Util = require("user.util")
 
 local keys = {
   { "<leader><leader>", function(builtin) builtin.find_files({ cwd = Util.get_root() }) end, "Search Files (root dir)" },
-  { "<leader>,", function(builtin) builtin.buffers() end, "Search Buffers" },
+  { "<leader>,", function(builtin) builtin.buffers({ sort_lastused = true }) end, "Search Buffers" },
   { "<leader>/", function(builtin) builtin.current_buffer_fuzzy_find() end, "Current Buffer Fuzzy Find" },
 
-  { "<leader>sb", function(builtin) builtin.buffers() end, "[B]uffers" },
+  { "<leader>sb", function(builtin) builtin.buffers({ sort_lastused = true }) end, "[B]uffers" },
   { "<leader>sc", function(builtin) builtin.commands() end, "[C]ommands" },
   { "<leader>sC", function(builtin) builtin.command_history() end, "[C]ommand History" },
   { "<leader>sd", function(builtin) builtin.diagnostics({ bufnr = 0}) end, "[D]iagnostics (current buffer)" },

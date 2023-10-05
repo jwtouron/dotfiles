@@ -42,7 +42,9 @@ vim.keymap.set("n", "Q", "@q", { desc = "Run macro 'q'" })
 vim.keymap.set("n", "cg*", "*Ncgn", { desc = "Change word under cursor, '.' to continue." })
 
 -- Don't overwrite paste register when pasting in visual mode
-vim.keymap.set("x", "p", [["_dP]], { desc = "Paste in visual mode without overwriting paste register." })
+-- vim.keymap.set("x", "p", [["_dP]], { desc = "Paste in visual mode without overwriting paste register." })
+vim.keymap.set("x", "p", [["0p]], { desc = "Paste in visual mode from register 0" })
+vim.keymap.set("x", "P", [["0P]], { desc = "Paste in visual mode from register 0" })
 
 -- Add undo break-points
 vim.keymap.set("i", ",", ",<c-g>u")
@@ -53,12 +55,13 @@ vim.keymap.set("i", ";", ";<c-g>u")
 -- Tabs
 --------------------------------------------------------------------------------
 
+vim.keymap.set("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
 vim.keymap.set("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
 vim.keymap.set("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
-vim.keymap.set("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
-vim.keymap.set("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
-vim.keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 vim.keymap.set("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+vim.keymap.set("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+vim.keymap.set("n", "<leader><tab>c", "<cmd>tabclose<cr>", { desc = "Close Tab" })
+vim.keymap.set("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 
 --------------------------------------------------------------------------------
 -- Toggle Options

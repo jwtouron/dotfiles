@@ -1,7 +1,13 @@
 return {
   "akinsho/bufferline.nvim",
+  enabled = false,
   version = "*",
   dependencies = "nvim-tree/nvim-web-devicons",
+  lazy = false,
+  keys = {
+    { "[b", "<cmd>BufferLineCyclePrev<cr>" },
+    { "]b", "<cmd>BufferLineCycleNext<cr>" },
+  },
   opts = {
     options = {
       close_command = function(n) require("mini.bufremove").delete(n, false) end,
