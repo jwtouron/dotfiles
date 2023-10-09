@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -euo pipefail
+set -eu
 
 wallpaper=$(find /usr/share/backgrounds /usr/share/wallpapers ~/.local/share/wallpapers -type f \( -name '*.jpg' -o -name '*.png' \) 2>/dev/null | shuf -n1)
 

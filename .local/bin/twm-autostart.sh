@@ -9,5 +9,6 @@ start cbatticon &
 start nm-applet &
 start picom &
 start ~/.local/bin/twm-update-icon.sh &
+start ~/.local/bin/twm-daily-wallpaper.sh &
 
 start parcellite || start xfce4-clipman &

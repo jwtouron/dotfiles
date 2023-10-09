@@ -27,7 +27,7 @@ return {
     { "<M-6>", ui('nav_file(6)'),         desc = desc("Nav File 1") },
   },
   opts = {
-    tabline = true,
+    tabline = false,
     -- tabline_prefix = "▏",
     -- tabline_suffix = "▕",
     tabline_prefix = "▎",
