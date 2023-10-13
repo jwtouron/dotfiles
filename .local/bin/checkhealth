@@ -89,18 +89,17 @@ miscellaneous() {
 
 terminals() {
     header Terminals
-    check_for_all st wezterm xterm
+    check_for_all xterm
+    check_for_one kitty wezterm st
 }
 
 tiling_window_manager() {
-    # TODO: dex? xss-lock?
-    # TODO: nitrogen? feh?
-    # TODO: amixer? pactl?
-    # dunst? send-notify?
+    # TODO: dex?
     header "Tiling Window Manager Dependencies"
-    check_for_all cbatticon dmenu jq loginctl lxappearance nm-applet pavucontrol pcmanfm picom xclip xsel yad
+    check_for_all cbatticon dmenu jq loginctl lxappearance nm-applet notify-send pavucontrol pcmanfm picom xclip xsel xss-lock xwallpaper yad
     check_for_one i3lock-fancy i3lock xlock
     check_for_one parcellite xfce4-clipman
+    check_for_one amixer pactl
 }
 
 environment_variables

@@ -2,7 +2,7 @@
 # Output a simple, one-line description of the current
 # weather using WeatherAPI
 
-set -euo pipefail
+set -eu
 
 if ! command -v jq >/dev/null; then
     echo "ERROR: jq is required" 1>&2 && exit 1

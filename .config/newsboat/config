@@ -1,5 +1,6 @@
 #include /usr/share/doc/newsboat/contrib/colorschemes/plain
-include /usr/share/doc/newsboat/contrib/colorschemes/universal-color
+#include /usr/share/doc/newsboat/contrib/colorschemes/universal-color
+include /usr/share/doc/newsboat/contrib/colorschemes/nord
 
 auto-reload yes
 reload-threads 100

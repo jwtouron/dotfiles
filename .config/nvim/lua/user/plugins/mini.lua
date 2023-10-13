@@ -62,6 +62,13 @@ local hipatterns_spec = {
 
 local move_spec = { opts = { mappings = { line_left = '', line_right = '', } } }
 
+local trailspace_spec = {
+  event = "VeryLazy",
+  init = function()
+    vim.cmd.highlight("MiniTrailspace gui=undercurl guisp=salmon")
+  end,
+}
+
 return {
   mini("ai"),
   mini("align"),
@@ -75,5 +82,5 @@ return {
   -- mini("move", move_spec),
   mini("operators"),
   mini("splitjoin"),
-  -- mini("trailspace"),
+  mini("trailspace", trailspace_spec),
 }

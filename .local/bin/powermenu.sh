@@ -1,12 +1,15 @@
 #!/bin/sh
 
+# NOTE: In xfce4-power-manager-settings, under the "Security" tab,
+# you may need to uncheck "Lock screen when system is going to sleep".
 __lock() {
-    for lock in i3lock-fancy i3lock xlock; do
-        if command -v "$lock" >/dev/null; then
-            "$lock"
-            break
-        fi
-    done
+    if command -v i3lock-fancy >/dev/null; then
+        i3lock-fancy -g
+    elif command -v i3lock >/dev/null; then
+        i3lock -f -c 333333
+    elif command -v xlock >/dev/null; then
+        xlock
+    fi
 }
 
 __logout() {
@@ -20,7 +23,7 @@ choice=$(printf "$options" | dmenu -i -n -c -bw 5 -l 5 | awk '{print $2}')
 
 case "$choice" in
     "Loc(k)")     __lock ;;
-    "Sus(p)end")  __lock; systemctl suspend ;;
+    "Sus(p)end")  pgrep xss-lock || __lock; systemctl suspend ;;  # Let xss-lock handle screen locking.
     "Lo(g)out")   loginctl kill-user '' ;;
     "(R)eboot")   systemctl reboot ;;
     "Shutdo(w)n") systemctl poweroff ;;

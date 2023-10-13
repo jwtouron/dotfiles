@@ -5,8 +5,7 @@ local function unimpaired_config()
 end
 
 return {
-  { "NvChad/nvim-colorizer.lua", config = true },
-  { "bronson/vim-trailing-whitespace", },
+  { "NvChad/nvim-colorizer.lua", event = "VeryLazy", config = true },
   { "dstein64/vim-startuptime", cmd = "StartupTime", config = function() vim.g.startuptime_tries = 10 end, },
   { "folke/todo-comments.nvim", dependencies = "nvim-lua/plenary.nvim", config = true, },
   { "kylechui/nvim-surround", event = "VeryLazy", config = true, },

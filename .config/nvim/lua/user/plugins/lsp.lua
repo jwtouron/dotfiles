@@ -8,6 +8,10 @@
 local function on_attach(client, bufnr)
   client.server_capabilities.semanticTokensProvider = nil
 
+  if client.server_capabilities.inlayHintProvider then
+    vim.lsp.inlay_hint(bufnr, true)
+  end
+
   vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
   local opts = function(desc)

@@ -14,15 +14,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       "ctermbg=NONE",
       "guibg=NONE",
     })
-
-    -- Trailing whitespace is shown by salmon underdots.
-    vim.cmd.highlight({
-      "ExtraWhitespace",
-      "guisp=#FA8072",
-      "gui=underdotted",
-      "ctermbg=NONE",
-      "guibg=NONE"
-    })
   end,
 })
 

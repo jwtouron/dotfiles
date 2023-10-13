@@ -1,12 +1,13 @@
 PATH="$HOME/.local/bin:$HOME/bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$HOME/.nimble/bin:$PATH"
 
-[ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+[ -x /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 __command() {
     command -v "$1" >/dev/null
 }
 
-for browser in firefox brave brave-browser chromium chrome google-chrome; do
+for browser in brave brave-browser firefox chromium chrome google-chrome; do
     if __command "$browser"; then
         BROWSER="$browser"
         break
