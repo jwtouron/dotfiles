@@ -35,6 +35,7 @@ setopt promptsubst
 autoload -Uz promptinit && promptinit
 
 prompt pure
+PURE_PROMPT_SYMBOL="$(for x in {1..$SHLVL}; do echo -n ❯; done)"
 prompt_pure_check_cmd_exec_time() {}
 [ -n "$ZSH_PRIV" ] && export PS1="%F{yellow}[PRIVATE] $PS1"
 #source $HOME/.config/zsh/bira-theme.zsh
@@ -50,7 +51,7 @@ zstyle ':completion:*:descriptions' format '[%d]'
 # set list-colors to enable filename colorizing
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # preview directory's content with exa when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'lsd -1 --color=always --icon=always $realpath 2>/dev/null || ls -1 --color=always $realpath'
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 

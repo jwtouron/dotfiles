@@ -13,6 +13,7 @@ return {
   { "mbbill/undotree", cmd = { "UndotreeShow", "UndotreeToggle" } },
   { "nelstrom/vim-visual-star-search", event = "VeryLazy", },
   { "romainl/vim-cool", event = "VeryLazy", config = function() vim.g.cool_total_matches = 1 end },
+  { "romainl/vim-devdocs", cmd = "DD" },
   { "romainl/vim-qf", init = function() vim.g.qf_mapping_ack_style = 1; vim.g.qf_auto_resize = 0; vim.g.qf_max_height = 0 end, },
   { "stevearc/oil.nvim", dependencies = "nvim-tree/nvim-web-devicons", event = "VeryLazy", config = true },
   { "tpope/vim-repeat", event = "VeryLazy", },

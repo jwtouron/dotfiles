@@ -37,6 +37,14 @@ local comment_spec = {
   }
 }
 
+local mini_files = {
+  "jwtouron/mini.files",
+  branch = "execute-command",
+  keys = {
+    { "<leader>ff", "<cmd>lua require('mini.files').open()<cr>", desc = "Open mini files" }
+  },
+}
+
 local files_spec = {
   keys = { { "<leader>ff", "<cmd>lua require('mini.files').open()<cr>", desc = "Open mini files" } },
 }
@@ -75,7 +83,8 @@ return {
   -- mini("bracketed"),
   mini("bufremove", bufremove_spec),
   mini("comment", comment_spec),
-  mini("files", files_spec),
+  mini_files,
+  -- mini("files", files_spec),
   mini("fuzzy"),
   -- mini("hipatterns", hipatterns_spec),
   mini("jump"),
