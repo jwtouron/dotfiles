@@ -2,12 +2,17 @@
 
 alias wl='wc -l'
 
-alias ls='ls --color=auto'
-alias ll='ls -lavF'   # show long listing of all except ".."
-alias la='ls -AF'
-alias l='ls -lavF'   # show long listing but no hidden dotfiles except "."
-alias lt='ls -lAFt'
-alias ltr='ls -lAFtr'
+if command -v lsd >/dev/null; then
+    alias ls='lsd'
+    alias la='lsd -A'
+    alias ll='lsd -Al'
+    alias ltr='lsd -Altr'
+else
+    alias ls='ls --color=auto'
+    alias la='ls -AFh'
+    alias ll='ls -AlFh'
+    alias ltr='ls -AltrFh'
+fi
 
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
