@@ -3,22 +3,20 @@ local act = wezterm.action
 
 local keys = {
   -- General
-  { key = 'd', mods =  'CTRL|SHIFT', action = act.ShowDebugOverlay },
-  { key = 'Backspace', mods =  'CTRL|SHIFT', action = act.ClearScrollback('ScrollbackOnly') },
-  -- { key = 'Colon', mods =  'CTRL|SHIFT', action = act.ActivateCommandPalette },
+  { key = ':', mods =  'CTRL|SHIFT', action = act.ActivateCommandPalette },
 
   -- Tabs
   { key = '{', mods = 'CTRL|SHIFT', action = act.ActivateTabRelative(-1) },
   { key = '}', mods = 'CTRL|SHIFT', action = act.ActivateTabRelative(1) },
 
   -- Panes
-  { key = '"', mods = 'CTRL|SHIFT', action = act.SplitVertical({domain="CurrentPaneDomain"})},
-  { key = '|', mods = 'CTRL|SHIFT', action = act.SplitHorizontal({domain="CurrentPaneDomain"})},
-  { key = 'R', mods = 'CTRL|SHIFT', action = act.RotatePanes('Clockwise') },
-  { key = '&', mods = 'CTRL|SHIFT', action = act.CloseCurrentPane({ confirm = false }) },
-  { key = 'p', mods = 'CTRL|SHIFT', action = act.PaneSelect({ alphabet = "1234567890" }) },
-  { key = 'h', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Left') },
-  { key = 'j', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Down') }, { key = 'k', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Up') }, { key = 'l', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Right') },
+  { key = 'R', mods = 'CTRL|SHIFT|ALT', action = act.RotatePanes('Clockwise') },
+  { key = 'W', mods = 'CTRL|SHIFT|ALT', action = act.CloseCurrentPane({ confirm = false }) },
+  { key = 'p', mods = 'CTRL|SHIFT|ALT', action = act.PaneSelect({ alphabet = "1234567890" }) },
+  { key = 'h', mods = 'CTRL|SHIFT|ALT', action = act.ActivatePaneDirection('Left') },
+  { key = 'j', mods = 'CTRL|SHIFT|ALT', action = act.ActivatePaneDirection('Down') },
+  { key = 'k', mods = 'CTRL|SHIFT|ALT', action = act.ActivatePaneDirection('Up') },
+  { key = 'l', mods = 'CTRL|SHIFT|ALT', action = act.ActivatePaneDirection('Right') },
 
   -- Disable SUPER keys
   { key = '-', mods = 'SUPER',       action = act.DisableDefaultAssignment },
@@ -84,9 +82,11 @@ local config = {
 --     font = require'wezterm'.font('Hack Nerd Font Mono')
 --     font_size = 10,
 --  }
-local _, custom = pcall(require, "custom")
-for k, v in pairs(custom or {}) do
-  config[k] = v
+local ok, custom = pcall(require, "custom")
+if ok then
+  for k, v in pairs(custom or {}) do
+    config[k] = v
+  end
 end
 
 return config
