@@ -7,6 +7,6 @@ return {
 
     local telescope = require("telescope")
     telescope.load_extension("projects")
-    vim.keymap.set("n", "<leader>sp", function() telescope.extensions.projects.projects() end, { desc = "[P]rojects" })
+    vim.keymap.set("n", "<leader>tp", function() telescope.extensions.projects.projects() end, { desc = "[P]rojects" })
   end,
 }

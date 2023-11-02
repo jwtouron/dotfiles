@@ -1,163 +1,85 @@
 vim9script
 
-# TODO: fzf live grep
-# TODO: <c-q> open quickfix with fzf contents
-
-g:mapleader = "\<space>"
+g:mapleader = " "
 
 augroup myaugroup
   autocmd!
 augroup END
 
-# Plugins
-
-plug#begin()
+call plug#begin()
 Plug 'airblade/vim-rooter'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'itchyny/lightline.vim'
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'machakann/vim-highlightedyank'
 Plug 'moll/vim-bbye'
-Plug 'nelstrom/vim-visual-star-search'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'nvim-zh/better-escape.vim'
 Plug 'romainl/vim-cool'
 Plug 'romainl/vim-devdocs'
-Plug 'romainl/vim-qlist'
-Plug 'tommcdo/vim-exchange'
+Plug 'romainl/vim-qf'
+Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
-Plug 'wellle/targets.vim'
+Plug 'yegappan/lsp'
 # Colorschemes
-Plug 'aditya-azad/candle-grey'
-Plug 'andreypopp/vim-colors-plain'
-Plug 'gruvbox-community/gruvbox'
-Plug 'nordtheme/vim', { 'as': 'nord' }
+Plug 'rafi/awesome-vim-colorschemes'
 Plug 'romainl/apprentice'
-Plug 'rose-pine/vim', { 'as': 'rose-pine' }
-plug#end()
+Plug 'rose-pine/vim'
+call plug#end()
 
-packadd cfilter
 packadd! matchit
 
-# bbye
-cabbr bd Bdelete
-cabbr bw Bwipeout
-
-# better-escape.vim
-g:better_escape_shortcut = ['jk', 'kj']
-
-# coc
-g:coc_global_extensions = ['coc-json', 'coc-markdownlint']
-
-def CocCurrentFunction()
-  return get(b:, 'coc_current_function', '')
-enddef
-g:lightline = {
-  'active': {
-    'left': [ [ 'mode', 'paste' ],
-      [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
-  },
-  'component_function': {
-    'cocstatus': 'coc#status',
-    'currentfunction': 'CocCurrentFunction'
-  },
-}
-
-# cool
-g:cool_total_matches = 1
-
-# rooter
-g:rooter_change_directory_for_non_project_files = 'current'
-g:rooter_patterns = ['.rooter', '.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json']
-
-# Mappings
-
-nnoremap <c-h> <c-w><c-h>
-nnoremap <c-j> <c-w><c-j>
-nnoremap <c-k> <c-w><c-k>
-nnoremap <c-l> <c-w><c-l>
-nnoremap <leader>\ :vsplit<cr>
-nnoremap <leader>- :split<cr>
-
-# https://gist.github.com/romainl/6351afff54003b3d58c5d9c56f9960e5
-def! g:Sort(type: string, ...args: list<string>)
-      :'[,']sort
-enddef
-nmap <silent> gs :set opfunc=g:Sort<CR>g@
-
-# https://gist.github.com/romainl/0f589e07a079ea4b7a77fd66ef16ebee
-nnoremap <expr> gt ":tabnext +" . v:count1 . '<CR>'
-nnoremap <expr> gT ":tabnext -" . v:count1 . '<CR>'
-
-# fzf
-nnoremap <leader><leader> :Files<cr>
-nnoremap <leader>, :Buffers<cr>
-nnoremap <leader>fh :History<cr>
-nnoremap <leader>fH :Helptags<cr>
-nnoremap <leader>fl :BLines<cr>
-nnoremap <leader>fL :Lines<cr>
-nnoremap <leader>fM :Maps<cr>
-nnoremap <leader>fm :Marks<cr>
-nnoremap <leader>fr :Rg 
-nnoremap <leader>fR :RG 
-nnoremap <leader>ft :Tags<cr>
-
-# Options
-
-set expandtab
-set gdefault
+set autoread
+set autowrite
 set hidden
 set hlsearch
 set ignorecase
 set incsearch
 set laststatus=2
-set lazyredraw
 set list
-set listchars=tab:>\ 
-set noshowmode
-set nowrap
+set listchars=tab:>\ ,extends:>,precedes:<
 set number
 set relativenumber
 set scrolloff=4
-set shiftwidth=0  # When zero the 'tabstop' value will be used.
 set sidescrolloff=8
+set signcolumn=yes
 set smartcase
+set t_vb=
+set termguicolors
+set vb
+# Spacing
+set expandtab
+set shiftwidth=0  # When zero the 'ts' value will be used.
+set softtabstop=-1  # When 'sts' is negative, the value of 'shiftwidth' is used.
 set tabstop=4
-set tags=./tags;,tags;
 set wildmenu
-set wildmode=list:longest,full
+set wildoptions=pum
+# Turn off settings
+set noswapfile
+set nowrap
 
 if executable("rg")
   set grepprg=rg\ --vimgrep\ -S
   set grepformat=%f:%l:%c:%m
 endif
 
-# Commands
+# Copied from $VIMRUNTIME/defaults.vim
+# When editing a file, always jump to the last known cursor position.
+autocmd myaugroup BufReadPost *
+  \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+  \ |   exe "normal! g`\""
+  \ | endif
 
-# https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3
-def Grep(...args: list<string>): string
-  return system(join([&grepprg] + [expandcmd(join(args, ' '))], ' '))
-enddef
-command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr Grep(<f-args>)
-command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr Grep(<f-args>)
-cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grep'  : 'grep'
-cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
+&t_SI = "\e[6 q"  # start insert mode (vertical bar cursor)
+&t_EI = "\e[2 q"  # end insert or replace mode (block cursor)
 
-# UI Customizations
+# undercurl support in wezterm
+&t_Cs = "\e[4:3m"
+&t_Ce = "\e[4:0m"
 
-autocmd myaugroup ColorScheme * highlight MatchParen term=underline cterm=underline gui=underline ctermbg=NONE guibg=NONE
-
-# Custom Configuration
-
-try
-  execute 'source' fnamemodify($MYVIMRC, ":p:h") .. "/custom.vim"
-catch
-endtry
+autocmd myaugroup ColorScheme * highlight MatchParen cterm=underline guibg=NONE ctermbg=NONE

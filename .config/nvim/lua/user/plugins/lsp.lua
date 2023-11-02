@@ -1,124 +1,112 @@
--- Documentation:
---
--- It's important that you set up the plugins in the following order:
--- 1. mason.nvim
--- 2. mason-lspconfig.nvim
--- 3. Setup servers via lspconfig
+-- Server Configurations
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+local servers = {
+  clangd = {},
 
-local function on_attach(client, bufnr)
-  client.server_capabilities.semanticTokensProvider = nil
-
-  if client.server_capabilities.inlayHintProvider then
-    vim.lsp.inlay_hint(bufnr, true)
-  end
-
-  vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-  local opts = function(desc)
-    return { silent = true, buffer = bufnr, desc = desc }
-  end
-
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts "Displays hover information about the symbol under the cursor.")
-  vim.keymap.set("n", "gD", vim.lsp.buf.definition, opts "Jumps to the definition of the symbol under the cursor.")
-  vim.keymap.set("n", "gd", vim.lsp.buf.declaration, opts "Jumps to the declaration of the symbol under the cursor.")
-  vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts "Show diagnostics in a floating window.")
-
-  vim.keymap.set("n", "<localleader>li", vim.lsp.buf.implementation, opts "Lists all the implementations for the symbol under the cursor in the quickfix window.")
-  vim.keymap.set("n", "<localleader>lt", vim.lsp.buf.type_definition, opts "Jumps to the definition of the type of the symbol under the cursor.")
-  vim.keymap.set("n", "<localleader>lr", vim.lsp.buf.references, opts "Lists all the references to the symbol under the cursor in the quickfix window.")
-  vim.keymap.set("n", "<localleader>ls", vim.lsp.buf.signature_help, opts "Displays signature information about the symbol under the cursor in a floating window.")
-  vim.keymap.set("n", "<localleader>lcr", vim.lsp.buf.rename, opts "Renames all references to the symbol under the cursor.")
-  vim.keymap.set("n", "<localleader>lcf", vim.lsp.buf.format, opts "Format code in current buffer.")
-  vim.keymap.set("n", "<localleader>lca", vim.lsp.buf.code_action, opts "Selects a code action available at the current cursor position.")
-  vim.keymap.set("n", "<localleader>ld", vim.diagnostic.open_float, opts "Show diagnostics in a floating window.")
-
-  vim.keymap.set({ "n", "v", }, "gm", vim.lsp.buf.format, opts "Format code.")
-end
-
-local function init_handlers()
-  local lspconfig = require("lspconfig")
-  local capabilities = require('cmp_nvim_lsp').default_capabilities
-  return {
-    function(server_name)
-      lspconfig[server_name].setup {
-        capabilites = capabilities,
-        on_attach = on_attach,
-      }
-    end,
-
-    efm = function()
-      lspconfig.efm.setup {
-          capabilites = capabilities,
-          on_attach = on_attach,
-          init_options = { documentFormatting = true },
-        }
-    end,
-
-    lua_ls = function()
-      lspconfig.lua_ls.setup {
-        capabilites = capabilities,
-        on_attach = on_attach,
-        settings = {
+  lua_ls = {
+    on_init = function(client)
+      local path = client.workspace_folders[1].name
+      if not vim.loop.fs_stat(path..'/.luarc.json') and not vim.loop.fs_stat(path..'/.luarc.jsonc') then
+        client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
           Lua = {
             runtime = {
-              -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-              version = 'LuaJIT',
+              -- Tell the language server which version of Lua you're using
+              -- (most likely LuaJIT in the case of Neovim)
+              version = 'LuaJIT'
             },
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global
-              globals = {'vim'},
-            },
+            -- Make the server aware of Neovim runtime files
             workspace = {
-              -- Make the server aware of Neovim runtime files
-              library = vim.api.nvim_get_runtime_file("", true),
               checkThirdParty = false,
-            },
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {
-              enable = false,
-            },
-          },
-        }
-      }
-    end,
+              library = {
+                vim.env.VIMRUNTIME
+                -- "${3rd}/luv/library"
+                -- "${3rd}/busted/library",
+              }
+              -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+              -- library = vim.api.nvim_get_runtime_file("", true)
+            }
+          }
+        })
+
+        client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+      end
+      return true
+    end
   }
+}
+
+local setup_diagnostics = function()
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Goto next diagnostic.", silent = true })
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Goto previous diagnostic.", silent = true })
+  vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Show diagnostics in a floating window.", silent = true })
+
+  vim.diagnostic.config({
+    severity_sort = true,
+    virtual_text = { prefix = '●', }
+  })
+
+  local signs = { Error = "󰅚 ", Warn = " ", Hint = "󰌶 ", Info = " " }
+  for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+  end
+end
+
+local on_lsp_attach = function(ev)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+  -- Buffer local mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local opts = function(desc)
+    if desc then desc = "LSP " .. desc end
+    return { buffer = ev.buf, desc = desc }
+  end
+  vim.keymap.set('n',           'gD', vim.lsp.buf.declaration, opts "Goto Declaration")
+  vim.keymap.set('n',           'gd', vim.lsp.buf.definition, opts "Goto Definition")
+  vim.keymap.set('n',           'gi', vim.lsp.buf.implementation, opts "Goto Implementation")
+  vim.keymap.set({ 'n', 'v', }, 'gm', vim.lsp.buf.format, opts "Format")
+  vim.keymap.set('n',           'go', vim.lsp.buf.type_definition, opts "Type Definition")
+  vim.keymap.set('n',           'gr', vim.lsp.buf.references, opts "References")
+  vim.keymap.set('n',           'gs', vim.lsp.buf.signature_help, opts "Signature Help")
+  vim.keymap.set('n',           'K', vim.lsp.buf.hover, opts "Hover")
+
+  vim.keymap.set({ 'n', 'v' }, '<localleader>la', vim.lsp.buf.code_action, opts "Code Action")
+  vim.keymap.set('n',          '<localleader>lf', function() vim.lsp.buf.format { async = true } end, opts "Format")
+  vim.keymap.set('n',          '<localleader>lr', vim.lsp.buf.rename, opts "Rename")
+  vim.keymap.set('n',          '<localleader>lwa', vim.lsp.buf.add_workspace_folder, opts "Add Workspace Folder")
+  vim.keymap.set('n',          '<localleader>lwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts "List Workspace Folders")
+  vim.keymap.set('n',          '<localleader>lwr', vim.lsp.buf.remove_workspace_folder, opts "Remove Workspace Folder")
+
+  local client = vim.lsp.get_client_by_id(ev.data.client_id)
+
+  client.server_capabilities.semanticTokensProvider = nil
+
+  if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+    vim.lsp.inlay_hint(ev.buf, true)
+  end
 end
 
 return {
   {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies =  "williamboman/mason.nvim",
-    -- event: Per documentation, don't make lazy.
+    "neovim/nvim-lspconfig",
+    event = "VeryLazy",
     config = function()
-      -- require("mason").setup() should already be completed as dependency.
-      local mason_lspconfig = require("mason-lspconfig")
-      mason_lspconfig.setup {
-        ensure_installed = { "efm", "jsonls", "lua_ls", "marksman", },
-      }
-      mason_lspconfig.setup_handlers(init_handlers())
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+        callback = on_lsp_attach,
+      })
+
+      setup_diagnostics()
+
+      local lspconfig = require('lspconfig')
+      for server, config in pairs(servers) do
+        lspconfig[server].setup(config)
+      end
     end,
   },
 
-  {
-    "neovim/nvim-lspconfig",
-    event = "VeryLazy",
-    dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", },
-    opts = {
-      inlay_hints = { enabled = true },
-    },
-    config = function()
-      -- Setup Diagnostics
-      vim.diagnostic.config({
-        severity_sort = true,
-        virtual_text = { prefix = '●', }
-      })
-      local signs = { Error = "󰅚 ", Warn = " ", Hint = "󰌶 ", Info = " " }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
-    end
-  },
+  { "williamboman/mason.nvim", event = "VeryLazy", config = true, },
 
   {
     "j-hui/fidget.nvim",

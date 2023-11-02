@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -eux
+
+command -v doas >/dev/null && doas systemctl restart NetworkManager || sudo systemctl restart NetworkManager

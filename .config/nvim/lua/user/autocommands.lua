@@ -26,7 +26,3 @@ end)
 CreateFileTypeAutocmd("lua", function()
   vim.opt_local.tabstop = 2
 end)
-
-CreateFileTypeAutocmd("qf", function()
-  vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = true, silent = true, })
-end)

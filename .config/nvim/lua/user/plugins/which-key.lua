@@ -1,5 +1,6 @@
 return {
   "folke/which-key.nvim",
+  enabled = false,
   event = "VeryLazy",
   config = function()
     local wk = require("which-key")
@@ -8,10 +9,9 @@ return {
       ["<leader>"] = {
         ["<tab>"] = { name = "Tabs" },
         b = { name = "[B]uffer" },
+        e = { name = "[E]Executor" },
         f = { name = "[F]ile" },
-        g = { name = "[G]it" },
-        o = { name = "[O]ption Toggle" },
-        s = { name = "[S]earch (telescope)" },
+        t = { name = "[T]elescope" },
         w = { name = "[W]indow" },
         x = { name = "Trouble" },
       }

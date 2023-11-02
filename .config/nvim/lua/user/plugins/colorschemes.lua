@@ -21,8 +21,6 @@ local function colorscheme(name, spec)
   local ret = {
     name,
     event = "VeryLazy",
-    -- lazy = true,
-    -- priority = 1000,
   }
   for k, v in pairs(spec or {}) do
     ret[k] = v

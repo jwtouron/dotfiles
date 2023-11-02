@@ -1,6 +1,4 @@
 local function unimpaired_config()
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Goto next diagnostic.", silent = true })
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Goto previous diagnostic.", silent = true })
   vim.keymap.set("n", "<leader>o", "<plug>(unimpaired-toggle)", { desc = "[O]ption Toggle" })
 end
 
