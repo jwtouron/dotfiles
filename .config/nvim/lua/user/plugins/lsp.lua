@@ -1,7 +1,20 @@
+-- NOTE:
+-- In case of lag in projects with many files:
+-- workspace = {
+--   didChangeWatchedFiles = {
+--     dynamicRegistration = false
+--  }
+-- }
+-- See: https://github.com/neovim/neovim/issues/23291
+
 -- Server Configurations
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 local servers = {
   clangd = {},
+
+  dockerls = {},
+
+  efm = {},
 
   lua_ls = {
     on_init = function(client)
@@ -116,4 +129,10 @@ return {
   },
 
   { "folke/neodev.nvim", config = true },
+
+  {
+    "hinell/lsp-timeout.nvim",
+    dependencies = "neovim/nvim-lspconfig",
+    event = "VeryLazy",
+  },
 }

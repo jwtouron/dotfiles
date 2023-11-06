@@ -70,6 +70,7 @@ return {
   colorscheme("kvrohit/rasmus.nvim"),
   colorscheme("lunacookies/vim-substrata"),
   colorscheme("mcchrish/zenbones.nvim", { init = function() vim.g.bones_compat = true end }),
+  colorscheme("miikanissi/modus-themes.nvim"),
   colorscheme("p00f/alabaster.nvim"),
   colorscheme("projekt0n/github-nvim-theme"),
   colorscheme("ramojus/mellifluous.nvim"),

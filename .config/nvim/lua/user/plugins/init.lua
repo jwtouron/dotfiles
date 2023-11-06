@@ -1,14 +1,19 @@
-local function unimpaired_config()
-  vim.keymap.set("n", "<leader>o", "<plug>(unimpaired-toggle)", { desc = "[O]ption Toggle" })
-end
+local indentwise_keys = {
+  { "<M-h>", "<Plug>(IndentWisePreviousLesserIndent)", mode = { "n", "v" } },
+  { "<M-j>", "<Plug>(IndentWiseNextEqualIndent)",      mode = { "n", "v" } },
+  { "<M-k>", "<Plug>(IndentWisePreviousEqualIndent)",  mode = { "n", "v" } },
+  { "<M-l>", "<Plug>(IndentWiseNextGreaterIndent)",    mode = { "n", "v" } },
+}
 
 return {
   { "NvChad/nvim-colorizer.lua", event = "VeryLazy", config = true },
   { "dstein64/vim-startuptime", cmd = "StartupTime", config = function() vim.g.startuptime_tries = 10 end, },
   { "folke/todo-comments.nvim", dependencies = "nvim-lua/plenary.nvim", config = true, },
+  { "jeetsukumaran/vim-indentwise", event = "VeryLazy", keys = indentwise_keys },
   { "kylechui/nvim-surround", event = "VeryLazy", config = true, },
   { "max397574/better-escape.nvim", event = "VeryLazy", opts = { mapping = { "jk", "kj" }, timeout = 250, } },
   { "mbbill/undotree", cmd = { "UndotreeShow", "UndotreeToggle" } },
+  { "michaeljsmith/vim-indent-object", event = "VeryLazy" },
   { "nelstrom/vim-visual-star-search", event = "VeryLazy", },
   { "romainl/vim-cool", event = "VeryLazy", config = function() vim.g.cool_total_matches = 1 end },
   { "romainl/vim-devdocs", cmd = "DD" },
@@ -17,7 +22,7 @@ return {
   { "tpope/vim-repeat", event = "VeryLazy", },
   { "tpope/vim-rsi", event = "VeryLazy", },
   { "tpope/vim-sleuth", event = "VeryLazy", },
-  { "tpope/vim-unimpaired", event = "VeryLazy", config = unimpaired_config },
+  { "tpope/vim-unimpaired", event = "VeryLazy", config = function() vim.keymap.set("n", "<leader>o", "<plug>(unimpaired-toggle)", { desc = "[O]ption Toggle" }) end },
 
   -- { "junegunn/vim-easy-align", keys = { { "ga", "<Plug>(EasyAlign)", mode = { "n", "x" } } } },
 }
