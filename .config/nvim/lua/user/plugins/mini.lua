@@ -11,23 +11,11 @@ local bufremove_spec = {
     { "<leader>bd", "<cmd>lua require('mini.bufremove').delete()<cr>", desc = "Delete buffer smartly" },
     { "<leader>bw", "<cmd>lua require('mini.bufremove').wipeout()<cr>", desc = "Wipeout buffer smartly" },
   },
-  cmd = { "Bd", "BD", "Bw", "BW" },
   init = function()
-    vim.cmd [[cabbrev bd BD]]
-    vim.cmd [[cabbrev bw BW]]
+    vim.cmd [[cabbrev bd lua require("mini.bufremove").delete()<left>]]
+    vim.cmd [[cabbrev bw lua require("mini.bufremove").wipeout()<left>]]
   end,
-  config = function()
-    local bufremove = require("mini.bufremove")
-    bufremove.setup()
-    for _, cmd in ipairs({{{ "Bd", "BD"}, "delete"}, {{ "Bw", "BW"}, "wipeout"}}) do
-      for _, c in ipairs(cmd[1]) do
-        vim.api.nvim_create_user_command(c, function(arg)
-          local buf = arg.fargs[1] and (tonumber(arg.fargs[1]) or vim.fn.bufnr(arg.fargs[1]))
-          bufremove[cmd[2]](buf, arg.bang)
-        end, { bang = true, complete = 'buffer', nargs = '?', desc = cmd[2] .. " buffer smartly"})
-      end
-    end
-  end,
+  config = true,
 }
 
 local clue_spec = {
