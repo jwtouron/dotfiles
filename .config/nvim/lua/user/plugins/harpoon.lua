@@ -17,8 +17,8 @@ return {
   keys = {
     { "<M-a>", mark('add_file()'),        desc = desc("Add File") },
     { "<M-m>", ui('toggle_quick_menu()'), desc = desc("Quick Menu") },
-    { "<M-]>", ui('nav_next()'),          desc = desc("Nav Next") },
-    { "<M-[>", ui('nav_prev()'),          desc = desc("Nav Prev") },
+    { "<M-l>", ui('nav_next()'),          desc = desc("Nav Next") },
+    { "<M-h>", ui('nav_prev()'),          desc = desc("Nav Prev") },
     { "<M-1>", ui('nav_file(1)'),         desc = desc("Nav File 1") },
     { "<M-2>", ui('nav_file(2)'),         desc = desc("Nav File 2") },
     { "<M-3>", ui('nav_file(3)'),         desc = desc("Nav File 3") },

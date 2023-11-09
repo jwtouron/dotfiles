@@ -10,7 +10,8 @@
 -- Server Configurations
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 local servers = {
-  clangd = {},
+  clangd = { capabilities = { offsetEncoding = "utf-8" } },  -- TODO: Might be able to change with NVIM 0.10
+  -- clangd = {},
 
   dockerls = {},
 

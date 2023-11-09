@@ -1,15 +1,8 @@
-local indentwise_keys = {
-  { "<M-h>", "<Plug>(IndentWisePreviousLesserIndent)", mode = { "n", "v" } },
-  { "<M-j>", "<Plug>(IndentWiseNextEqualIndent)",      mode = { "n", "v" } },
-  { "<M-k>", "<Plug>(IndentWisePreviousEqualIndent)",  mode = { "n", "v" } },
-  { "<M-l>", "<Plug>(IndentWiseNextGreaterIndent)",    mode = { "n", "v" } },
-}
-
 return {
   { "NvChad/nvim-colorizer.lua", event = "VeryLazy", config = true },
   { "dstein64/vim-startuptime", cmd = "StartupTime", config = function() vim.g.startuptime_tries = 10 end, },
   { "folke/todo-comments.nvim", dependencies = "nvim-lua/plenary.nvim", config = true, },
-  { "jeetsukumaran/vim-indentwise", event = "VeryLazy", keys = indentwise_keys },
+  { "jeetsukumaran/vim-indentwise", event = "VeryLazy", },
   { "kylechui/nvim-surround", event = "VeryLazy", config = true, },
   { "max397574/better-escape.nvim", event = "VeryLazy", opts = { mapping = { "jk", "kj" }, timeout = 250, } },
   { "mbbill/undotree", cmd = { "UndotreeShow", "UndotreeToggle" } },

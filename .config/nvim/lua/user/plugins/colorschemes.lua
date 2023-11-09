@@ -80,6 +80,7 @@ return {
   colorscheme("rose-pine/neovim"),
   colorscheme("sainnhe/everforest", everforest_spec),
   colorscheme("sainnhe/gruvbox-material", gruvbox_material_spec),
+  colorscheme("sainnhe/sonokai", { config = function() vim.g.sonokai_better_performance = 1 end }),
   colorscheme("shaunsingh/nord.nvim", nord_spec),
   colorscheme("water-sucks/darkrose.nvim"),
   -- Monochrome
