@@ -124,16 +124,8 @@ return {
 
   {
     "j-hui/fidget.nvim",
-    tag = "legacy",
-    event = "LspAttach",
     config = true,
   },
 
   { "folke/neodev.nvim", config = true },
-
-  {
-    "hinell/lsp-timeout.nvim",
-    dependencies = "neovim/nvim-lspconfig",
-    event = "VeryLazy",
-  },
 }

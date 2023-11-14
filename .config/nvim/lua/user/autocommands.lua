@@ -13,6 +13,14 @@ function CreateFileTypeAutocmd(ft, callback)
   })
 end
 
+CreateFileTypeAutocmd("qf", function()
+  vim.opt_local.buflisted = false
+  vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = true, silent = true, })
+  vim.keymap.set("n", "Q", "q", { buffer = true, })
+  vim.keymap.set("n", "<C-j>", "<cmd>:cnewer<cr>", { buffer = true, })
+  vim.keymap.set("n", "<C-k>", "<cmd>:colder<cr>", { buffer = true, })
+end)
+
 CreateFileTypeAutocmd("go", function()
   vim.opt_local.expandtab = false
   vim.opt_local.shiftwidth = 8
