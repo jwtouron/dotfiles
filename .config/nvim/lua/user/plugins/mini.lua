@@ -134,7 +134,13 @@ local move_spec = { opts = { mappings = { line_left = '', line_right = '', } } }
 local trailspace_spec = {
   event = "VeryLazy",
   init = function()
-    vim.cmd.highlight("MiniTrailspace guifg=salmon guisp=salmon gui=undercurl cterm=undercurl")
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      group = MyAugroup,
+      pattern = "*",
+      callback = function()
+        vim.cmd.highlight("MiniTrailspace guifg=salmon guisp=salmon gui=undercurl cterm=undercurl guibg=NONE ctermbg=NONE")
+      end
+    })
   end
 }
 
