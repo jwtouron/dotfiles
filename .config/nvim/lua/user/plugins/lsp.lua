@@ -15,7 +15,9 @@ local servers = {
 
   dockerls = {},
 
-  efm = {},
+  -- efm = {},
+
+  gopls = {},
 
   lua_ls = {
     on_init = function(client)
@@ -46,7 +48,9 @@ local servers = {
       end
       return true
     end
-  }
+  },
+
+  rust_analyzer = {},
 }
 
 local setup_diagnostics = function()

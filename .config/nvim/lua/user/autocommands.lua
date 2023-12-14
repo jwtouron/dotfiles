@@ -17,8 +17,8 @@ CreateFileTypeAutocmd("qf", function()
   vim.opt_local.buflisted = false
   vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = true, silent = true, })
   vim.keymap.set("n", "Q", "q", { buffer = true, })
-  vim.keymap.set("n", "<C-j>", "<cmd>:cnewer<cr>", { buffer = true, })
-  vim.keymap.set("n", "<C-k>", "<cmd>:colder<cr>", { buffer = true, })
+  vim.keymap.set("n", "<C-S-j>", "<cmd>:cnewer<cr>", { buffer = true, silent = false })
+  vim.keymap.set("n", "<C-S-k>", "<cmd>:colder<cr>", { buffer = true, silent = false })
 end)
 
 CreateFileTypeAutocmd("go", function()

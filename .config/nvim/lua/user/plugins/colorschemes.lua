@@ -60,19 +60,16 @@ local nord_spec = {
 }
 
 return {
-  colorscheme("EdenEast/nightfox.nvim"),
-  colorscheme("Mofiqul/vscode.nvim"),
   colorscheme("Wansmer/serenity.nvim", { config = true }),
   colorscheme("catppuccin/nvim", { name = "catppuccin" }),
   colorscheme("cocopon/iceberg.vim"),
-  colorscheme("folke/tokyonight.nvim"),
   colorscheme("ishan9299/modus-theme-vim"),
   colorscheme("kvrohit/rasmus.nvim"),
-  colorscheme("lunacookies/vim-substrata"),
   colorscheme("mcchrish/zenbones.nvim", { init = function() vim.g.bones_compat = true end }),
   colorscheme("miikanissi/modus-themes.nvim"),
+  colorscheme("navarasu/onedark.nvim", { config = function() require('onedark').load()
+ end }),
   colorscheme("p00f/alabaster.nvim"),
-  colorscheme("projekt0n/github-nvim-theme"),
   colorscheme("ramojus/mellifluous.nvim"),
   colorscheme("rebelot/kanagawa.nvim"),
   colorscheme("rockerBOO/boo-colorscheme-nvim"),

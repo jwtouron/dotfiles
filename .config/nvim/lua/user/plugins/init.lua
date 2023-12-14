@@ -12,6 +12,7 @@ return {
   { "romainl/vim-devdocs", cmd = "DD" },
   { "romainl/vim-qf", init = function() vim.g.qf_mapping_ack_style = 1; vim.g.qf_auto_resize = 0; vim.g.qf_max_height = 0 end, },
   { "stevearc/oil.nvim", dependencies = "nvim-tree/nvim-web-devicons", event = "VeryLazy", config = true },
+  { "tommcdo/vim-exchange", event = "VeryLazy" },
   { "tpope/vim-repeat", event = "VeryLazy", },
   { "tpope/vim-rsi", event = "VeryLazy", },
   { "tpope/vim-sleuth", event = "VeryLazy", },

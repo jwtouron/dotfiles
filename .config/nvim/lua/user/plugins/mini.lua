@@ -87,13 +87,15 @@ local completion_spec = {
   keys = {
     { '<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]],   mode = 'i', expr = true },
     { '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], mode = 'i', expr = true },
+    { 'jk', [[pumvisible() ? "<esc>" : "jk"]], mode = 'i', expr = true },
+    { 'kj', [[pumvisible() ? "<esc>" : "kj"]], mode = 'i', expr = true },
   },
   opts = {
     window = {
       -- nvim_open_win
       -- none, single, double, rounded, solid, shadow
-      info = { border = 'solid' },
-      signature = { border = 'solid' },
+      info = { border = 'rounded' },
+      signature = { border = 'rounded' },
     },
   },
 }
