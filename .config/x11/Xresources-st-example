@@ -1,0 +1,3 @@
+st.font:  FiraMono Nerd Font Mono:style=Regular:pixelsize=14:antialias=true:autohint=true
+st.font2: Liberation Mono:pixelsize=12:antialias=true:autohint=true
+st.font3: Inconsolata for Powerline:pixelsize=12:antialias=true:autohint=true

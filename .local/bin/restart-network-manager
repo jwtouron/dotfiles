@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# In order to run this without prompting for a password, do something like:
+# $ sudo visudo
+# Then add the following line:
+# john ALL=(ALL:ALL) NOPASSWD: /usr/bin/systemctl restart NetworkManager
+# Or:
+# ALL ALL=(ALL:ALL) NOPASSWD: /usr/bin/systemctl restart NetworkManager
+
 set -eux
 
-command -v doas >/dev/null && doas systemctl restart NetworkManager || sudo systemctl restart NetworkManager
+sudo systemctl restart NetworkManager

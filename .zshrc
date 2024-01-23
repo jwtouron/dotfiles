@@ -35,7 +35,7 @@ setopt promptsubst
 autoload -Uz promptinit && promptinit
 
 prompt pure
-PURE_PROMPT_SYMBOL="$(for x in {1..$SHLVL}; do echo -n ❯; done)"
+# PURE_PROMPT_SYMBOL="$(for x in {1..$SHLVL}; do echo -n ❯; done)"
 prompt_pure_check_cmd_exec_time() {}
 [ -n "$ZSH_PRIV" ] && export PS1="%F{yellow}[PRIVATE] $PS1"
 #source $HOME/.config/zsh/bira-theme.zsh

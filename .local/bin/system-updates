@@ -1,0 +1,158 @@
+#if 0
+    EXEC="/tmp/$(basename ${0}).out"
+    [ -x "$EXEC" ] || gcc -std=c99 -Wall -Wextra -O3 -x c -o "$EXEC" "$0"
+    exec "$EXEC" "$@"
+#endif
+
+#define _GNU_SOURCE
+#include <errno.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#define ASSERT(cond, msg, ...) if (!(cond)) { fprintf(stderr, msg "\n", ##__VA_ARGS__); exit(1); }
+
+static void *xrealloc(void *ptr, size_t size)
+{
+    void *ret = realloc(ptr, size);
+    ASSERT(ret, "Out of memory");
+    return ret;
+}
+
+static char *xasprintf(const char *fmt, ...)
+{
+    va_list args;
+    va_start(args, fmt);
+    char *result;
+    int ret = vasprintf(&result, fmt, args);
+    ASSERT(ret != -1, "Out of memory");
+    va_end(args);
+    return result;
+}
+
+static int start_process(const char *file, char *const argv[])
+{
+    int pipefd[2] = {-1, -1};
+
+    int err = pipe(pipefd);
+    ASSERT(err != -1, "pipe failed: %s", strerror(errno));
+
+    pid_t pid = fork();
+    ASSERT(pid != -1, "fork failed: %s", strerror(errno));
+
+    if (pid == 0) {
+        int err = dup2(pipefd[1], STDOUT_FILENO);
+        ASSERT(err != -1, "dup2 failed: %s", strerror(errno));
+
+        close(pipefd[0]);
+
+        err = execvp(file, argv);
+        ASSERT(err != -1, "execvp failed: %s", strerror(errno));
+
+        ASSERT(0, "Shouldn't reach tis");
+        return 0;
+    } else {
+        close(pipefd[1]);
+        return pipefd[0];
+    }
+}
+
+static char *read_fd_to_string(int fd)
+{
+    if (fd < 0) { return NULL; }
+
+    static char buf[8196];
+
+    size_t total_read = 0;
+    char *ret = 0;
+
+    while (true) {
+        ssize_t rd = read(fd, buf, sizeof(buf));
+        if (rd > 0) {
+            ret = xrealloc(ret, total_read + rd);
+            memcpy(&ret[total_read], buf, rd);
+            total_read += rd;
+        } else {
+            break;
+        }
+    }
+    ret = xrealloc(ret, total_read + 1);
+    ret[total_read] = '\0';
+    return ret;
+}
+
+static bool command(char *command)
+{
+    char *c = xasprintf("command -v %s", command);
+    int child_stdout = start_process("sh", (char *[]){"-l", "-c", c, NULL});
+    char *s = read_fd_to_string(child_stdout);
+    bool ret = strstr(s, command) != NULL;
+    return ret;
+}
+
+static int distro_updates()
+{
+    if (command("apt")) {
+        return start_process("sh",  (char *[]){"-l", "-c", "echo -n apt: $(apt list --upgradable 2>/dev/null | grep '\\[upgradable' | wc -l)", NULL});
+    }
+
+    ASSERT(0, "Can't determine distro");
+    return 0;
+}
+
+static int flatpak_updates()
+{
+    if (!command("flatpak")) {
+        return -1;
+    }
+    return start_process("sh", (char *[]){"-l", "-c", "echo -n flatpak: $(echo n | flatpak update | grep '^ *[0-9]' | wc -l)", NULL});
+}
+
+static int brew_updates()
+{
+    if (!command("brew")) {
+        return -1;
+    }
+    return start_process("sh", (char *[]){"-l", "-c", "echo -n brew: $(brew outdated -q 2>/dev/null | wc -l)", NULL});
+}
+
+static int get_count(const char *output)
+{
+    if (output == NULL) {
+        return 0;
+    }
+    int count;
+    static char tmp[100];
+    int ret = sscanf(output, "%s %d", tmp, &count);
+    ASSERT(ret == 2, "sscanf failed, returned: %d", ret);
+    return count;
+}
+
+int main()
+{
+    int distro = distro_updates();
+    int flatpak = flatpak_updates();
+    int brew = brew_updates();
+
+    const char *distro_str = read_fd_to_string(distro);
+    const char *flatpak_str = read_fd_to_string(flatpak);
+    const char *brew_str = read_fd_to_string(brew);
+
+    int distro_count = get_count(distro_str);
+    int flatpak_count = get_count(flatpak_str);
+    int brew_count = get_count(brew_str);
+
+    printf(
+        "%s%s%s",
+        distro_count > 0 ? xasprintf("%s\n", distro_str) : "",
+        flatpak_count > 0 ? xasprintf("%s\n", flatpak_str) : "",
+        brew_count > 0 ? xasprintf("%s\n", brew_str) : ""
+    );
+
+    return 0;
+}
+
+// vim: set filetype=c:

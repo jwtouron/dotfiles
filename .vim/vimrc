@@ -1,85 +1,101 @@
 vim9script
 
 g:mapleader = " "
+g:mapleader = "\\"
 
 augroup myaugroup
   autocmd!
 augroup END
 
-call plug#begin()
-Plug 'airblade/vim-rooter'
+plug#begin()
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'machakann/vim-highlightedyank'
+autocmd myaugroup VimEnter * highlight ExtraWhitespace guifg=salmon guisp=salmon gui=underdotted cterm=underdotted guibg=NONE ctermbg=NONE
+Plug 'justinmk/vim-sneak'
 Plug 'moll/vim-bbye'
+cabbr bd Bdelete
+cabbr bw Bwipeout
 Plug 'romainl/vim-cool'
-Plug 'romainl/vim-devdocs'
-Plug 'romainl/vim-qf'
-Plug 'scrooloose/nerdtree'
+g:cool_total_matches = 1
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-vinegar'
-Plug 'yegappan/lsp'
 # Colorschemes
-Plug 'rafi/awesome-vim-colorschemes'
+Plug 'joshdick/onedark.vim'
 Plug 'romainl/apprentice'
 Plug 'rose-pine/vim'
-call plug#end()
+plug#end()
 
-packadd! matchit
+syntax on
 
-set autoread
+set expandtab tabstop=4 shiftwidth=0 softtabstop=0
+
 set autowrite
+set completeopt=menu,popup
 set hidden
 set hlsearch
 set ignorecase
 set incsearch
 set laststatus=2
 set list
-set listchars=tab:>\ ,extends:>,precedes:<
+set listchars=tab:>\ 
+set modeline
+set mouse=a
 set number
 set relativenumber
 set scrolloff=4
 set sidescrolloff=8
-set signcolumn=yes
 set smartcase
-set t_vb=
 set termguicolors
-set vb
-# Spacing
-set expandtab
-set shiftwidth=0  # When zero the 'ts' value will be used.
-set softtabstop=-1  # When 'sts' is negative, the value of 'shiftwidth' is used.
-set tabstop=4
 set wildmenu
 set wildoptions=pum
-# Turn off settings
+
 set noswapfile
 set nowrap
 
 if executable("rg")
-  set grepprg=rg\ --vimgrep\ -S
-  set grepformat=%f:%l:%c:%m
+    set grepprg=rg\ --vimgrep\ --smart-case
 endif
 
-# Copied from $VIMRUNTIME/defaults.vim
-# When editing a file, always jump to the last known cursor position.
-autocmd myaugroup BufReadPost *
-  \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-  \ |   exe "normal! g`\""
-  \ | endif
+inoremap jk <esc>
+inoremap kj <esc>
 
-&t_SI = "\e[6 q"  # start insert mode (vertical bar cursor)
-&t_EI = "\e[2 q"  # end insert or replace mode (block cursor)
+# Correct last spelling mistake
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
-# undercurl support in wezterm
-&t_Cs = "\e[4:3m"
-&t_Ce = "\e[4:0m"
+nnoremap Y y$
+
+nnoremap <C-h> <C-w><C-h>
+nnoremap <C-j> <C-w><C-j>
+nnoremap <C-k> <C-w><C-k>
+nnoremap <C-l> <C-w><C-l>
+
+nnoremap <expr> n v:searchforward ? 'n' : 'N'
+nnoremap <expr> N v:searchforward ? 'N' : 'n'
+
+nnoremap <expr> j v:count == 0 ? 'gj' : 'j'
+nnoremap <expr> k v:count == 0 ? 'gk' : 'k'
+
+nnoremap <C-Up> :resize +2<cr>
+nnoremap <C-Down> :resize -2<cr>
+nnoremap <C-Left> :vertical resize -2<cr>
+nnoremap <C-Right> :vertical resize +2<cr>
+
+# Search for current visual selection
+vnoremap // y/\V<C-R>=escape(@",'/\')<cr><cr>
+
+xnoremap p "0p
+xnoremap P "0P
+
+# Commands
+
+command! ReadDate read !date '+\%Y-\%m-\%d'
+
+# UI
+
+# Vertical bar cursor when entering insert mode
+&t_SI = "\e[6 q"
+&t_EI = "\e[2 q"  
 
 autocmd myaugroup ColorScheme * highlight MatchParen cterm=underline guibg=NONE ctermbg=NONE

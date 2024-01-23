@@ -1,14 +1,3 @@
-! st
-st*.font: \n\
-    DejaVu Sans Mono:style=Book:pixelsize=14:antialias=true:autohint=true \n\
-    mono:pixelsize=14:antialias=true:autohint=true
-
-! URxvt
-URxvt.font: xft:DejaVu Sans Mono:style=Book:size=11, xft:Symbola:size=11, xft:mono:size=11
-URxvt.letterSpace: -1
-URxvt.perl-ext-common: tabbed,resize-font
-URxvt.scrollBar: false
-
 ! XTerm
 XTerm.vt100.faceName: DejaVu Sans Mono:style=Book \n\
                       mono

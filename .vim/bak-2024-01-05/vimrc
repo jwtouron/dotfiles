@@ -1,0 +1,85 @@
+vim9script
+
+g:mapleader = " "
+
+augroup myaugroup
+  autocmd!
+augroup END
+
+call plug#begin()
+Plug 'airblade/vim-rooter'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'machakann/vim-highlightedyank'
+Plug 'moll/vim-bbye'
+Plug 'romainl/vim-cool'
+Plug 'romainl/vim-devdocs'
+Plug 'romainl/vim-qf'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
+Plug 'yegappan/lsp'
+# Colorschemes
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'romainl/apprentice'
+Plug 'rose-pine/vim'
+call plug#end()
+
+packadd! matchit
+
+set autoread
+set autowrite
+set hidden
+set hlsearch
+set ignorecase
+set incsearch
+set laststatus=2
+set list
+set listchars=tab:>\ ,extends:>,precedes:<
+set number
+set relativenumber
+set scrolloff=4
+set sidescrolloff=8
+set signcolumn=yes
+set smartcase
+set t_vb=
+set termguicolors
+set vb
+# Spacing
+set expandtab
+set shiftwidth=0  # When zero the 'ts' value will be used.
+set softtabstop=-1  # When 'sts' is negative, the value of 'shiftwidth' is used.
+set tabstop=4
+set wildmenu
+set wildoptions=pum
+# Turn off settings
+set noswapfile
+set nowrap
+
+if executable("rg")
+  set grepprg=rg\ --vimgrep\ -S
+  set grepformat=%f:%l:%c:%m
+endif
+
+# Copied from $VIMRUNTIME/defaults.vim
+# When editing a file, always jump to the last known cursor position.
+autocmd myaugroup BufReadPost *
+  \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+  \ |   exe "normal! g`\""
+  \ | endif
+
+&t_SI = "\e[6 q"  # start insert mode (vertical bar cursor)
+&t_EI = "\e[2 q"  # end insert or replace mode (block cursor)
+
+# undercurl support in wezterm
+&t_Cs = "\e[4:3m"
+&t_Ce = "\e[4:0m"
+
+autocmd myaugroup ColorScheme * highlight MatchParen cterm=underline guibg=NONE ctermbg=NONE

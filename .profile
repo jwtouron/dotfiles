@@ -22,7 +22,7 @@ for editor in nvim vim vi nano; do
     fi
 done
 
-for terminal in wezterm kitty st alacritty xterm; do
+for terminal in st wezterm kitty alacritty xterm; do
     if __command "$terminal"; then
         export TERMINAL="$terminal"
         break
@@ -36,5 +36,12 @@ elif __command fd; then
 elif __command rg; then
     export FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/*'"
 fi
+
+# Xresources
+x11_path="$HOME/.config/x11"
+([ -f "$x11_path/Xresources-colors" ] && xrdb -merge "$x11_path/Xresources-colors") \
+    || xrdb -merge "$x11_path/colors/default" 
+[ -f "$x11_path/Xresources-st" ] && xrdb -merge "$x11_path/Xresources-st"
+[ -f "$x11_path/Xresources-dmenu" ] && xrdb -merge "$x11_path/Xresources-dmenu"
 
  # vim: ft=bash:

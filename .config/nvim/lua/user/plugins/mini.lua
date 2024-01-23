@@ -91,6 +91,8 @@ local completion_spec = {
     { 'kj', [[pumvisible() ? "<esc>" : "kj"]], mode = 'i', expr = true },
   },
   opts = {
+    delay = { completion = 200, info = 200, signature = 100 },
+    -- delay = { completion = 100, info = 100, signature = 50 },
     window = {
       -- nvim_open_win
       -- none, single, double, rounded, solid, shadow
@@ -153,7 +155,7 @@ return {
   mini("bufremove", bufremove_spec),
   mini("clue", clue_spec),
   mini("comment", comment_spec),
-  mini("completion", completion_spec),
+  -- mini("completion", completion_spec),
   mini_files,
   -- mini("files", files_spec),
   mini("fuzzy"),

@@ -6,7 +6,7 @@ font pango:monospace 8
 
 exec --no-startup-id ~/.local/bin/twm-autostart.sh
 exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id xss-lock --transfer-sleep-lock -- sh -c "command -v i3lock-fancy && i3lock-fancy -g || i3lock -f -c 333333 --nofork"
+exec --no-startup-id xss-lock --transfer-sleep-lock -- sh -c "$HOME/.local/bin/twm-lockscreen.sh"
 
 # change volume or toggle mute
 

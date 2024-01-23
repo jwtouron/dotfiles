@@ -1,0 +1,46 @@
+! URxvt
+URxvt.font: xft:FiraMono Nerd Font Mono:style=Regular:size=11:autohint=true:antialias=true
+
+URxvt.letterSpace: -1
+URxvt.scrollBar: false
+
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+
+URxvt.perl-ext-common: default,keyboard-select,resize-font,url-select,-confirm-paste
+
+! keyboard-select extension
+! h/j/k/l:    Move cursor left/down/up/right (also with arrow keys)
+! g/G/0/^/$/H/M/L/f/F/;/,/w/W/b/B/e/E: More vi-like cursor movement keys
+! '/'/?:      Start forward/backward search
+! n/N:        Repeat last search, N: in reverse direction
+! Ctrl-f/b:   Scroll down/up one screen
+! Ctrl-d/u:   Scroll down/up half a screen
+! v/V/Ctrl-v: Toggle normal/linewise/blockwise selection
+! y/Return:   Copy selection to primary buffer, Return: quit afterwards
+! Y:          Copy selected lines to primary buffer or cursor line and quit
+! q/Escape:   Quit keyboard selection mode
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.keysym.M-s: perl:keyboard-select:search
+URxvt.keyboard-select.clipboard: true
+
+! resize-font extension
+URxvt.keysym.C-underscore:  resize-font:smaller
+URxvt.keysym.C-S-plus:      resize-font:bigger
+URxvt.keysym.C-parenright:  resize-font:reset
+URxvt.keysym.C-question:    resize-font:show
+
+! url-select extension
+! Alt+u     Enter selection mode. The last URL on your screen will be selected. You can repeat Alt+u to select the next upward URL.
+! k	        Select next upward URL
+! j	        Select next downward URL
+! Return	Open selected URL in browser and quit selection mode
+! o	        Open selected URL in browser without quitting selection mode
+! y	        Copy (yank) selected URL and quit selection mode
+! Esc	    Cancel URL selection mode
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.url-select.launcher: /usr/bin/xdg-open
+URxvt.url-select.underline: true
