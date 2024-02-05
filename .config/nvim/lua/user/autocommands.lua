@@ -1,36 +1,23 @@
-vim.api.nvim_create_autocmd("TextYankPost", {
+vim.api.nvim_create_autocmd("FileType", {
   group = MyAugroup,
-  callback = function() vim.highlight.on_yank() end,
+  pattern = "lua",
+  command = "setlocal tabstop=2",
 })
 
--- FileType autocommands
+vim.api.nvim_create_autocmd("FileType", {
+  group = MyAugroup,
+  pattern = "help",
+  command = "nnoremap q <cmd>q<cr>",
+})
 
-function CreateFileTypeAutocmd(ft, callback)
-  vim.api.nvim_create_autocmd("FileType", {
-    group = MyAugroup,
-    pattern = ft,
-    callback = callback,
-  })
-end
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = MyAugroup,
+  pattern = "*",
+  command = "lua vim.highlight.on_yank()",
+})
 
-CreateFileTypeAutocmd("qf", function()
-  vim.opt_local.buflisted = false
-  vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = true, silent = true, })
-  vim.keymap.set("n", "Q", "q", { buffer = true, })
-  vim.keymap.set("n", "<C-S-j>", "<cmd>:cnewer<cr>", { buffer = true, silent = false })
-  vim.keymap.set("n", "<C-S-k>", "<cmd>:colder<cr>", { buffer = true, silent = false })
-end)
-
-CreateFileTypeAutocmd("go", function()
-  vim.opt_local.expandtab = false
-  vim.opt_local.shiftwidth = 8
-  vim.opt_local.tabstop = 8
-end)
-
-CreateFileTypeAutocmd("help", function()
-  vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = true, silent = true, })
-end)
-
-CreateFileTypeAutocmd("lua", function()
-  vim.opt_local.tabstop = 2
-end)
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = MyAugroup,
+  pattern = "*",
+  command = "highlight MatchParen term=underline cterm=underline gui=underline ctermbg=NONE guibg=NONE",
+})

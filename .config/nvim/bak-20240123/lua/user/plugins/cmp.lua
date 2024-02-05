@@ -17,8 +17,6 @@ return {
     local CompletionItemKind = cmp.lsp.CompletionItemKind  -- Storing this table, possible for faster access???
 
     cmp.setup({
-      completion = { autocomplete = false },
-
       snippet = {
         expand = function(args)
           vim.fn["vsnip#anonymous"](args.body)
@@ -28,13 +26,16 @@ return {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
       },
-
       mapping = cmp.mapping.preset.insert({
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({ select = false }),
+        ["<S-CR>"] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        }),
         ["<Tab>"] = function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
@@ -73,28 +74,5 @@ return {
         { name = 'cmdline' }
       })
     })
-
-    -- debounce (https://github.com/hrsh7th/nvim-cmp/issues/598#issuecomment-984930668)
-    local timer = vim.loop.new_timer()
-    local DEBOUNCE_DELAY = 1000
-
-    function MyCmpDebounce()
-      timer:stop()
-      timer:start(
-        DEBOUNCE_DELAY,
-        0,
-        vim.schedule_wrap(function()
-          cmp.complete({ reason = cmp.ContextReason.Auto })
-        end)
-      )
-    end
-
-    vim.cmd([[
-      augroup CmpDebounceAuGroup
-        au!
-        au TextChangedI * lua MyCmpDebounce()
-      augroup end
-    ]])
-
   end,
 }
