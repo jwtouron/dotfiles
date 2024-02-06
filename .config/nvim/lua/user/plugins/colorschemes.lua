@@ -13,6 +13,7 @@ return {
   colorscheme("mcchrish/zenbones.nvim", { init = function() vim.g.bones_compat = true end }),
   colorscheme("navarasu/onedark.nvim"),
   colorscheme("ramojus/mellifluous.nvim"),
+  colorscheme("rebelot/kanagawa.nvim"),
   colorscheme("romainl/Apprentice"),
   colorscheme("rose-pine/neovim"),
 }
