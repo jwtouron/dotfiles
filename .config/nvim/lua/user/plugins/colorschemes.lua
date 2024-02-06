@@ -20,5 +20,6 @@ return {
   -- Simple Colorschemes
   colorscheme("fxn/vim-monochrome"),
   colorscheme("hardselius/warlock"),
+  colorscheme("kvrohit/rasmus.nvim"),
   colorscheme("widatama/vim-phoenix"),
 }

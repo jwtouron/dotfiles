@@ -7,3 +7,13 @@ vim.keymap.set("n", "n", [[v:searchforward?'n':'N']], { expr = true, silent = tr
 vim.keymap.set("x", "n", [[v:searchforward?'n':'N']], { expr = true, silent = true })
 vim.keymap.set("n", "N", [[v:searchforward?'N':'n']], { expr = true, silent = true })
 vim.keymap.set("x", "N", [[v:searchforward?'N':'n']], { expr = true, silent = true })
+
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+
+vim.keymap.set("n", "cg*", "*Ncgn", { desc = "Change word under cursor, '.' to continue." })
+
+-- Don't overwrite paste register when pasting in visual mode
+-- vim.keymap.set("x", "p", [["_dP]], { desc = "Paste in visual mode without overwriting paste register." })
+vim.keymap.set("x", "p", [["0p]], { desc = "Paste in visual mode from register 0" })
+vim.keymap.set("x", "P", [["0P]], { desc = "Paste in visual mode from register 0" })

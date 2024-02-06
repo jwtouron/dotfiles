@@ -9,6 +9,11 @@ return {
   },
 
   {
+    "mbbill/undotree",
+    cmd = { "UndotreeShow", "UndotreeToggle" }
+  },
+
+  {
     "romainl/vim-cool",
     event = "CmdlineEnter",
     config = function()
@@ -24,6 +29,11 @@ return {
       vim.g.qf_auto_resize = 0
       vim.g.qf_max_height = 0
     end,
+  },
+
+  {
+    "tpope/vim-fugitive",
+    cmd = { "G", "Git" },
   },
 
   {
