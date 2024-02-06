@@ -28,7 +28,9 @@ local server_configs = {
       end
       return true
     end
-  }
+  },
+
+  rust_analyzer = {},
 }
 
 return {

@@ -10,10 +10,15 @@ local function colorscheme(name, spec)
 end
 
 return {
+  colorscheme("Badacadabra/vim-archery"),
   colorscheme("mcchrish/zenbones.nvim", { init = function() vim.g.bones_compat = true end }),
   colorscheme("navarasu/onedark.nvim"),
   colorscheme("ramojus/mellifluous.nvim"),
   colorscheme("rebelot/kanagawa.nvim"),
   colorscheme("romainl/Apprentice"),
   colorscheme("rose-pine/neovim"),
+  -- Simple Colorschemes
+  colorscheme("fxn/vim-monochrome"),
+  colorscheme("hardselius/warlock"),
+  colorscheme("widatama/vim-phoenix"),
 }
