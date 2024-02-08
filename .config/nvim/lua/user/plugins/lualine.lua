@@ -1,9 +1,6 @@
-local function filename()
-  local ret = vim.fn.expand("%:~:.")
-  if ret == "" then
-    ret = "[No Name]"
-  end
-  return ret
+local function cwd()
+  local path = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
+  return path:gsub("(%.?[^/])[^/]*/", "%1/")
 end
 
 return {
@@ -17,7 +14,14 @@ return {
     },
     sections = {
       lualine_b = {'diagnostics'},
-      lualine_c = {filename},
+      lualine_c = {
+        cwd,
+        {
+          'filename',
+          newfile_status = true,
+          path = 1,
+        }
+      },
     },
   },
 }

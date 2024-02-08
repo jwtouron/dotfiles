@@ -76,7 +76,7 @@ return {
 
     -- debounce (https://github.com/hrsh7th/nvim-cmp/issues/598#issuecomment-984930668)
     local timer = vim.loop.new_timer()
-    local DEBOUNCE_DELAY = 1000
+    local DEBOUNCE_DELAY = 500
 
     function MyCmpDebounce()
       timer:stop()
