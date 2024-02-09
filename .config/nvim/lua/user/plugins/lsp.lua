@@ -30,6 +30,8 @@ local server_configs = {
     end
   },
 
+  pyright = {},
+
   rust_analyzer = {},
 }
 
