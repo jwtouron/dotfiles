@@ -1,7 +1,7 @@
 separator_block_width=31
 
-[volume-pulseaudio]
-command=scripts/volume-pulseaudio
+[volume-pipewire]
+command=scripts/volume-pipewire
 interval=once
 signal=1
 LONG_FORMAT="${SYMB} ${VOL}%"

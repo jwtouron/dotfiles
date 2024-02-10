@@ -31,6 +31,6 @@ cpu="$(__format $cpu)"
 mem="$(__get_mem)"
 mem="$(__format $mem)"
 
-echo " $cpu    $mem"
+echo "   $cpu      $mem"
 
 # vim: filetype=sh

@@ -50,7 +50,7 @@ check_for_one() {
 
 commandline_utilities() {
     header "Commandline Utilities"
-    check_for_all 7z bat fd fzf htop lsd rg tmux xplr
+    check_for_all 7z bat fd fzf htop lsd rg tmux
 }
 
 environment_variables() {
