@@ -18,3 +18,5 @@ vim.opt.wrap = false
 if vim.fn.executable("rg") then
   vim.opt.grepprg = "rg --smart-case --vimgrep"
 end
+
+vim.g.netrw_winsize = 25

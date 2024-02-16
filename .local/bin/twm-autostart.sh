@@ -2,7 +2,7 @@
 
 start() {
     FILE="$(basename $1)"
-    pgrep "${FILE%%.*}" >/dev/null || "$1"
+    pgrep -f "${FILE%%.*}" >/dev/null || "$1"
 }
 
 start cbatticon &

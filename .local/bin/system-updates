@@ -99,6 +99,10 @@ static int distro_updates()
         return start_process("sh",  (char *[]){"-l", "-c", "echo -n apt: $(apt list --upgradable 2>/dev/null | grep '\\[upgradable' | wc -l)", NULL});
     }
 
+    if (command("checkupdates")) {
+        return start_process("sh", (char *[]){"-l", "-c", "echo -n pacman: $(checkupdates | wc -l)", NULL});
+    }
+
     ASSERT(0, "Can't determine distro");
     return 0;
 }
