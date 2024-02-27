@@ -11,6 +11,7 @@ end
 
 return {
   colorscheme("Badacadabra/vim-archery"),
+  colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("mcchrish/zenbones.nvim", { init = function() vim.g.bones_compat = true end }),
   colorscheme("navarasu/onedark.nvim"),
   colorscheme("ramojus/mellifluous.nvim"),
