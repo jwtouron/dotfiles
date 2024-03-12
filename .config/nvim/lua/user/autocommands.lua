@@ -1,7 +1,8 @@
-vim.api.nvim_create_autocmd("ColorScheme", {
-  group = MyAugroup,
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
   pattern = "*",
-  command = "highlight MatchParen term=underline cterm=underline gui=underline ctermbg=NONE guibg=NONE",
+  callback = function()
+    vim.api.nvim_exec('silent! normal! g`"zvzz', false)
+  end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {

@@ -9,6 +9,7 @@ return {
       { "<leader>]", "<cmd>Telescope tags<cr>", desc = "Search tags with Telescope" },
 
       { "<leader>tc", "<cmd>Telescope commands<cr>", desc = "Search commands with Telescope" },
+      { "<leader>td", "<cmd>Telescope diagnostics<cr>", desc = "Search diagnostics with Telescope" },
       { "<leader>th", "<cmd>Telescope help_tags<cr>", desc = "Search help tags with Telescope" },
       { "<leader>tk", "<cmd>Telescope keymaps<cr>", desc = "Search keymaps with Telescope" },
       { "<leader>tl", "<cmd>Telescope loclist<cr>", desc = "Search loclist with Telescope" },
@@ -35,7 +36,7 @@ return {
     "nvim-telescope/telescope-live-grep-args.nvim",
     dependencies = "nvim-telescope/telescope.nvim",
     keys = {
-      { "<leader>fg", "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>" },
+      { "<leader>tg", "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>" },
     },
     config = function()
       require("telescope").load_extension("live_grep_args")

@@ -69,6 +69,16 @@ return {
         config = vim.tbl_extend("error", config, { capabilities = capabilities })
         lspconfig[server].setup(config)
       end
+
+      vim.api.nvim_create_user_command('LspCodeAction', function()
+        vim.lsp.buf.code_action()
+      end,
+      {})
+
+      vim.api.nvim_create_user_command('LspRename', function(arg)
+        vim.lsp.buf.rename(arg.fargs[1])
+      end,
+      { nargs = '?' })
     end,
   },
   {
