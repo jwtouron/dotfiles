@@ -25,6 +25,7 @@ return {
   {
     'nvim-telescope/telescope-fzf-native.nvim',
     dependencies = "nvim-telescope/telescope.nvim",
+    cond = vim.fn.has('unix') and not vim.fn.has('mac'),
     build = 'make',
     event = "VeryLazy",
     config = function()
