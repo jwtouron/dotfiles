@@ -5,7 +5,7 @@ return {
     dependencies = 'nvim-lua/plenary.nvim',
     keys = {
       { "<leader><space>", "<cmd>Telescope find_files<cr>", desc = "Search for files with Telescope" },
-      { "<leader>,", "<cmd>Telescope buffers<cr>", desc = "Search for open buffers with Telescope" },
+      { "<leader>,", function() require('telescope.builtin').buffers({ sort_mru = true, ignore_current_buffer = true }) end, desc = "Search for open buffers with Telescope" },
       { "<leader>]", "<cmd>Telescope tags<cr>", desc = "Search tags with Telescope" },
 
       { "<leader>tc", "<cmd>Telescope commands<cr>", desc = "Search commands with Telescope" },

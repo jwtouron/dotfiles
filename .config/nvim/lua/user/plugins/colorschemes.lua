@@ -46,7 +46,7 @@ return {
   colorscheme("rebelot/kanagawa.nvim"),
   colorscheme("romainl/Apprentice"),
   colorscheme("rose-pine/neovim"),
-  colorscheme("sainnhe/gruvbox-material"),
+  colorscheme("sainnhe/gruvbox-material", { init = function() vim.g.gruvbox_material_background = 'hard' end }),
   -- Simple Colorschemes
   colorscheme("hardselius/warlock"),
   colorscheme("kvrohit/rasmus.nvim"),
