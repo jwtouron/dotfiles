@@ -14,7 +14,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
   group = MyAugroup,
   pattern = "help",
-  command = "nnoremap q <cmd>q<cr>",
+  command = "nnoremap <buffer> q <cmd>q<cr>",
 })
 
 vim.api.nvim_create_autocmd("FileType", {
