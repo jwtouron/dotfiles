@@ -6,7 +6,7 @@ local shortcuts = { 'a', 's', 'd', 'f', 'j', 'k', 'l', ';' }
 vim.cmd "highlight QuickHistory_VirtText guifg=bg guibg=fg"
 
 local function show_virt_text(buf)
-  for i=1,8 do
+  for i=1, vim.fn.min({8, vim.fn.line('$')}) do
     vim.api.nvim_buf_set_extmark(buf, ns_id, vim.fn.line('w0') - 2 + i, 0, { virt_text = { { shortcuts[i], "QuickHistory_VirtText" } }, virt_text_pos = 'overlay' })
   end
   showing_virt_text = true
@@ -27,7 +27,7 @@ end
 
 local function calculate_buffer_contents(pattern)
   pattern = pattern or '.'
-  local history_output = vim.fn.execute('history')
+  local history_output = vim.fn.execute('history :')
   history_output = vim.split(history_output, '\n')
   local result = {}
   for i=#history_output, 1, -1 do
@@ -42,8 +42,10 @@ end
 
 local function execute_line_and_quit(lnum)
   local line = vim.fn.getline(lnum)
-  vim.api.nvim_input(':' .. line .. '\n')
-  vim.cmd('q')
+  if line ~= '' then
+    vim.api.nvim_input(':' .. line .. '\n')
+    vim.cmd('q')
+  end
 end
 
 local function create_buffer()
@@ -56,8 +58,10 @@ local function create_buffer()
   for i=1,8 do
     local shortcut = shortcuts[i]
     vim.keymap.set('n', shortcut, function()
-      if showing_virt_text then
-        execute_line_and_quit(vim.fn.line('w0') - 1 + i)
+      local lnum = vim.fn.line('w0') - 1 + i
+      local line = vim.fn.getline(lnum)
+      if showing_virt_text and line ~= '' then
+        execute_line_and_quit(lnum)
       else
         vim.api.nvim_feedkeys(shortcut, 'n', true)
       end
@@ -106,5 +110,10 @@ M.open = function(pattern)
 
   create_window(buf)
 end
+
+M.setup = function()
+  vim.api.nvim_create_user_command("QuickHistory", "lua require('quick-history').open(<f-args>)", { nargs = 1 })
+end
+
 
 return M

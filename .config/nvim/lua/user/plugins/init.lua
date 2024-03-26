@@ -32,6 +32,24 @@ return {
   },
 
   {
+    "quick-history",
+    dir = vim.fn.stdpath("config") .. '/lua/user/quick-history.nvim',
+    cmd = "QuickHistory",
+    keys = function()
+      local make_callback = function(pat)
+        return function() require('quick-history').open([[^\(.*|\)\? *\<]] .. pat .. [[\>]]) end
+      end
+      return {
+        { "<leader>hd", make_callback([[cd]]) },
+        { "<leader>he", make_callback([[e\(dit\)\?]]) },
+        { "<leader>hg", make_callback([[grep!\?]]) },
+        { "<leader>hm", make_callback([[make\?]]) },
+      }
+    end,
+    config = true,
+  },
+
+  {
     "tpope/vim-fugitive",
     cmd = { "G", "Git" },
   },

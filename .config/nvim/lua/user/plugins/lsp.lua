@@ -1,4 +1,6 @@
 local server_configs = {
+  basedpyright = {},
+
   gopls = {},
 
   lua_ls = {

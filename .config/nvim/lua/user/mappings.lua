@@ -14,8 +14,8 @@ vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set("n", "cg*", "*Ncgn", { desc = "Change word under cursor, '.' to continue." })
 
 -- https://vim.fandom.com/wiki/Search_for_visually_selected_text
-vim.keymap.set("v", "*", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]])
-vim.keymap.set("v", "#", [[y?\V<C-R>=escape(@",'/\')<CR><CR>]])
+vim.keymap.set("x", "*", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]])
+vim.keymap.set("x", "#", [[y?\V<C-R>=escape(@",'/\')<CR><CR>]])
 
 -- Don't overwrite paste register when pasting in visual mode
 vim.keymap.set("x", "p", [["_dP]], { desc = "Paste in visual mode without overwriting paste register." })
