@@ -34,7 +34,7 @@ local server_configs = {
     end
   },
 
-  pyright = {},
+  -- pyright = {},
 
   rust_analyzer = {},
 }
@@ -49,6 +49,9 @@ return {
         group = MyAugroup,
         pattern = "*",
         callback = function(ev)
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          client.server_capabilities.semanticTokensProvider = nil
+
           vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
           local opts = { buffer = ev.buf }
