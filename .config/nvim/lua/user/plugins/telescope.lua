@@ -1,6 +1,7 @@
 return {
   {
     'nvim-telescope/telescope.nvim',
+    enabled = false,
     branch = '0.1.x',
     dependencies = 'nvim-lua/plenary.nvim',
     keys = {
@@ -24,6 +25,7 @@ return {
 
   {
     'nvim-telescope/telescope-fzf-native.nvim',
+    enabled = false,
     dependencies = "nvim-telescope/telescope.nvim",
     cond = vim.fn.has('unix') and not vim.fn.has('mac'),
     build = 'make',
@@ -35,19 +37,13 @@ return {
 
   {
     "nvim-telescope/telescope-live-grep-args.nvim",
+    enabled = false,
     dependencies = "nvim-telescope/telescope.nvim",
     keys = {
       { "<leader>tg", "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>" },
     },
     config = function()
       require("telescope").load_extension("live_grep_args")
-    end,
-  },
-
-  {
-    "debugloop/telescope-undo.nvim",
-    config = function()
-      require("telescope").load_extension("undo")
     end,
   },
 }

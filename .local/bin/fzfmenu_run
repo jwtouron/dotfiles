@@ -1,5 +1,2 @@
 #!/bin/sh
-
-fzfmenu_path | fzfmenu --exact --reverse --prompt='Run: ' --preview='x=$(which {}); if echo "$x" | grep -q "shell built-in command"; then echo "$x"; else echo $(file $(which $x)) | sed "s@: @\n\n@"; fi' --preview-window='noborder:wrap' | ${SHELL:-"/bin/sh"} &
-
-#fzfmenu_path | fzfmenu "$@" | ${SHELL:-"/bin/sh"} &
+fzfmenu_path | fzfmenu --reverse --prompt "Run: " --preview 'file $(command -v {}) || command -v {}' --preview-window 'bottom' "$@" | ${SHELL:-"/bin/sh"} &

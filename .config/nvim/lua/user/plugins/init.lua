@@ -40,10 +40,10 @@ return {
         return function() require('quick-history').open([[^\(.*|\)\? *\<]] .. pat .. [[\>]]) end
       end
       return {
-        { "<leader>hd", make_callback([[cd]]) },
-        { "<leader>he", make_callback([[e\(dit\)\?]]) },
-        { "<leader>hg", make_callback([[grep!\?]]) },
-        { "<leader>hm", make_callback([[make\?]]) },
+        { "<leader>hd", make_callback([[cd]]), desc = "Quick History CD" },
+        { "<leader>he", make_callback([[e\(dit\)\?]]), desc = "Quick History Edit" },
+        { "<leader>hg", make_callback([[grep!\?]]), desc = "Quick History Grep" },
+        { "<leader>hm", make_callback([[make\?]]), desc = "Quick History Make" },
       }
     end,
     config = true,

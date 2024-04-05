@@ -19,7 +19,7 @@ __logout() {
 }
 
 options="1. Loc(k)\n2. Sus(p)end\n3. Lo(g)out\n4. (R)eboot\n5. Shutdo(w)n\n"
-choice=$(printf "$options" | dmenu -i -n -c -bw 5 -l 5 | awk '{print $2}')
+choice=$(printf "$options" | fzfmenu --reverse | awk '{print $2}')
 
 case "$choice" in
     "Loc(k)")     __lock ;;

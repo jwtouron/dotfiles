@@ -7,7 +7,7 @@ __command() {
     command -v "$1" >/dev/null
 }
 
-for browser in brave brave-browser firefox chromium chrome google-chrome; do
+for browser in firefox brave brave-browser chromium chrome google-chrome; do
     if __command "$browser"; then
         BROWSER="$browser"
         break
@@ -38,10 +38,12 @@ elif __command rg; then
 fi
 
 # Xresources
-x11_path="$HOME/.config/x11"
-([ -f "$x11_path/Xresources-colors" ] && xrdb -merge "$x11_path/Xresources-colors") \
-    || xrdb -merge "$x11_path/colors/default" 
-[ -f "$x11_path/Xresources-st" ] && xrdb -merge "$x11_path/Xresources-st"
-[ -f "$x11_path/Xresources-dmenu" ] && xrdb -merge "$x11_path/Xresources-dmenu"
+if command -v xrdb >/dev/null; then
+    x11_path="$HOME/.config/x11"
+    ([ -f "$x11_path/Xresources-colors" ] && xrdb -merge "$x11_path/Xresources-colors") \
+        || xrdb -merge "$x11_path/colors/default"
+    [ -f "$x11_path/Xresources-st" ] && xrdb -merge "$x11_path/Xresources-st"
+    [ -f "$x11_path/Xresources-dmenu" ] && xrdb -merge "$x11_path/Xresources-dmenu"
+fi
 
  # vim: ft=bash:

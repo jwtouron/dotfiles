@@ -96,7 +96,7 @@ terminals() {
 tiling_window_manager() {
     # TODO: dex?
     header "Tiling Window Manager Dependencies"
-    check_for_all cbatticon dmenu jq loginctl lxappearance nm-applet notify-send pavucontrol pcmanfm picom scrot xclip xsel xss-lock xwallpaper yad
+    check_for_all cbatticon jq loginctl lxappearance nm-applet notify-send pavucontrol pcmanfm picom scrot xclip xsel xss-lock xwallpaper yad
     check_for_one i3lock-fancy i3lock xlock
     check_for_one parcellite xfce4-clipman
     check_for_one amixer pactl
