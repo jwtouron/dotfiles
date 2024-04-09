@@ -3,7 +3,7 @@ vim.opt.expandtab = true
 vim.opt.ignorecase = true
 vim.opt.jumpoptions = { "stack" }
 vim.opt.list = true
-vim.opt.listchars =  { tab = "> " }
+vim.opt.listchars =  { tab = "» " }
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 4
