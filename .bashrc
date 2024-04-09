@@ -25,8 +25,9 @@ alias priv='BASH_PRIV=1 bash'
 [ -n "$BASH_PRIV" ] && unset HISTFILE
 
 # FZF
-source "$HOME/.config/fzf/key-bindings.bash"
-source "$HOME/.config/fzf/completion.bash"
+eval "$(fzf --bash)"
+# source "$HOME/.config/fzf/key-bindings.bash"
+# source "$HOME/.config/fzf/completion.bash"
 _fzf_setup_completion path ag git kubectl
 _fzf_setup_completion dir tree
 _fzf_setup_completion path config

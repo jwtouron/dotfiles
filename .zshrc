@@ -41,8 +41,9 @@ prompt_pure_check_cmd_exec_time() {}
 #source $HOME/.config/zsh/bira-theme.zsh
 
 # FZF
-source ~/.config/fzf/completion.zsh
-source ~/.config/fzf/key-bindings.zsh
+eval "$(fzf --zsh)"
+# source ~/.config/fzf/completion.zsh
+# source ~/.config/fzf/key-bindings.zsh
 source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
