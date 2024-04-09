@@ -39,6 +39,7 @@ local phoenix_spec = {
 
 return {
   colorscheme("EdenEast/nightfox.nvim"),
+  colorscheme("jnurmine/Zenburn"),
   colorscheme("mcchrish/zenbones.nvim", { init = function() vim.g.bones_compat = true end }),
   colorscheme("mellow-theme/mellow.nvim"),
   colorscheme("navarasu/onedark.nvim"),
