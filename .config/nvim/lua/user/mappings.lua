@@ -19,5 +19,3 @@ vim.keymap.set("x", "#", [[y?\V<C-R>=escape(@",'/\')<CR><CR>]])
 
 -- Don't overwrite paste register when pasting in visual mode
 vim.keymap.set("x", "p", [["_dP]], { desc = "Paste in visual mode without overwriting paste register." })
--- vim.keymap.set("x", "p", [["0p]], { desc = "Paste in visual mode from register 0" })
--- vim.keymap.set("x", "P", [["0P]], { desc = "Paste in visual mode from register 0" })

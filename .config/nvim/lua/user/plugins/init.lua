@@ -14,24 +14,6 @@ return {
   },
 
   {
-    "romainl/vim-cool",
-    event = "CmdlineEnter",
-    config = function()
-      vim.g.cool_total_matches = 1
-    end
-  },
-
-  {
-    "romainl/vim-qf",
-    event = "QuickFixCmdPre",
-    init = function()
-      vim.g.qf_mapping_ack_style = 1
-      vim.g.qf_auto_resize = 0
-      vim.g.qf_max_height = 0
-    end,
-  },
-
-  {
     "quick-history",
     dir = vim.fn.stdpath("config") .. '/lua/user/quick-history.nvim',
     cmd = "QuickHistory",
@@ -50,17 +32,54 @@ return {
   },
 
   {
+    "rlane/pounce.nvim",
+    keys = {
+      { "s", function() require'pounce'.pounce { } end, mode = { "n", "x" }, desc = "Pounce" },
+      { "S", function() require'pounce'.pounce { do_repeat = true } end, desc = "Pounce Repeat" },
+    },
+  },
+
+  {
+    "romainl/vim-cool",
+    event = "CmdlineEnter",
+    config = function()
+      vim.g.cool_total_matches = 1
+    end
+  },
+
+  {
+    "romainl/vim-qf",
+    event = "QuickFixCmdPre",
+    init = function()
+      vim.g.qf_auto_resize = 0
+      vim.g.qf_max_height = 0
+    end,
+  },
+
+  {
+    'stevearc/oil.nvim',
+    event = "VeryLazy",
+    opts = {},
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+
+  {
     "tpope/vim-fugitive",
     cmd = { "G", "Git" },
   },
 
   {
     "tpope/vim-rsi",
-    event = "VeryLazy",
+    event = { "InsertEnter", "CmdlineEnter" },
     config = function()
       vim.keymap.set("n", "[<space>", function() vim.cmd [[normal! O]] end)
       vim.keymap.set("n", "]<space>", function() vim.cmd [[normal! o]] end)
     end,
+  },
+
+  {
+    "tpope/vim-sleuth",
+    event = "VeryLazy",
   },
 
 }

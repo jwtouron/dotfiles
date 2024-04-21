@@ -16,7 +16,7 @@ interval=1
 color=#888888
 
 [weather]
-command=~/.local/bin/weather-simple.sh; case $button in 1) xterm -class xterm-floating -geometry 80x40 -e '~/.local/bin/weather-detailed.sh | less' ;; esac
+command=~/.local/bin/weather-simple.sh; case $button in 1) xterm -class terminal-popup -geometry 80x40 -e '~/.local/bin/weather-detailed.sh | less' ;; esac
 interval=1800
 color=#888888
 

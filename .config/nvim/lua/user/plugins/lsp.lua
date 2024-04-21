@@ -1,8 +1,10 @@
+-- Reference: https://github.com/williamboman/mason-lspconfig.nvim/blob/main/lua/mason-lspconfig/mappings/server.lua
+local package_to_lspconfig = {
+  ["lua-language-server"] = "lua_ls",
+  ["rust-analyzer"] = "rust_analyzer",
+}
+
 local server_configs = {
-  basedpyright = {},
-
-  gopls = {},
-
   lua_ls = {
     on_init = function(client)
       local path = client.workspace_folders[1].name
@@ -34,15 +36,17 @@ local server_configs = {
     end
   },
 
+  -- basedpyright = {},
+  -- gopls = {},
   -- pyright = {},
-
-  rust_analyzer = {},
+  -- rust_analyzer = {},
 }
 
 return {
+
   {
     "neovim/nvim-lspconfig",
-    dependencies = 'hrsh7th/cmp-nvim-lsp',
+    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'williamboman/mason.nvim' },
     event = "VeryLazy",
     init = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -68,11 +72,18 @@ return {
       })
     end,
     config = function()
+      -- Setup servers
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require("lspconfig")
-      for server, config in pairs(server_configs) do
-        config = vim.tbl_extend("error", config, { capabilities = capabilities })
-        lspconfig[server].setup(config)
+      local mason_registry = require("mason-registry")
+      local package_names = mason_registry.get_installed_package_names()
+      for _, package_name in pairs(package_names) do
+        local lspconfig_name = package_to_lspconfig[package_name] or package_name
+        local config = { capabilities = capabilities }
+        if server_configs[lspconfig_name] then
+          config = vim.tbl_extend("error", server_configs[lspconfig_name], config)
+        end
+        lspconfig[lspconfig_name].setup(config)
       end
 
       vim.api.nvim_create_user_command('LspCodeAction', function()
@@ -86,19 +97,23 @@ return {
       { nargs = '?' })
     end,
   },
+
   {
     "williamboman/mason.nvim",
     event = "VeryLazy",
     opts = {},
   },
+
   {
     "folke/neodev.nvim",
     event = "VeryLazy",
     opts = {}
   },
+
   {
     "j-hui/fidget.nvim",
     event = "VeryLazy",
     opts = {},
   },
+
 }

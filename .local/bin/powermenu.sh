@@ -1,5 +1,7 @@
 #!/bin/sh
 
+pidof -o %PPID -x "powermenu.sh" >/dev/null && exit 1
+
 # NOTE: In xfce4-power-manager-settings, under the "Security" tab,
 # you may need to uncheck "Lock screen when system is going to sleep".
 __lock() {

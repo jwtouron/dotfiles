@@ -1,2 +1,5 @@
 #!/bin/sh
+
+[ "$(ps x | grep 'fzfmenu --reverse --prompt' | wc -l)" -gt 1 ] && exit 1
+
 fzfmenu_path | fzfmenu --reverse --prompt "Run: " --preview 'file $(command -v {}) || command -v {}' --preview-window 'bottom' "$@" | ${SHELL:-"/bin/sh"} &
