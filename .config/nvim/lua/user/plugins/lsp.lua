@@ -1,5 +1,8 @@
 -- Reference: https://github.com/williamboman/mason-lspconfig.nvim/blob/main/lua/mason-lspconfig/mappings/server.lua
 local package_to_lspconfig = {
+  ["docker-compose-language-service"] = "docker_compose_language_service",
+  ["dockerfile-language-server"] = "dockerls",
+  ["json-lsp"] = "jsonls",
   ["lua-language-server"] = "lua_ls",
   ["rust-analyzer"] = "rust_analyzer",
 }
