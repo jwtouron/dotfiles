@@ -1,6 +1,7 @@
 from typing import List
 from kitty.boss import Boss
 import os
+import shlex
 import sys
 import tempfile
 
@@ -16,8 +17,5 @@ from kittens.tui.handler import result_handler
 def handle_result(args: List[str], stdin_data: str, target_window_id: int, boss: Boss) -> None:
     w = boss.window_id_map.get(target_window_id)
     if w is not None:
-        dir = tempfile.gettempdir()
-        filename = dir + os.sep + 'kitten-last-cmd-output-' + str(w.id)
-        with open(filename, 'w') as f:
-            f.write(stdin_data)
-            boss.call_remote_control(w, ('launch', '--type=overlay', '--no-response', 'vim', '-u', '$HOME/.config/kitty/scrollback_pager.vim', filename))
+        command = f'echo {shlex.quote(stdin_data)} | vim -u "$HOME/.config/kitty/scrollback_pager.vim" -'
+        boss.call_remote_control(w, ('launch', '--type=overlay', '--no-response', 'sh', '-c', command))
