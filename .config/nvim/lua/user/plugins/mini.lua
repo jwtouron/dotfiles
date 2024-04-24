@@ -68,9 +68,10 @@ local clue_spec = {
         { mode = "n", keys = "<leader><space>", desc = "FZF Files" },
         { mode = "n", keys = "<leader>,", desc = "FZF Buffers" },
 
-        { mode = "n", keys = "<leader>f", desc = "Mini [F]iles" },
+        { mode = "n", keys = "<leader>e", desc = ":[E]xec last command" },
         { mode = "n", keys = "<leader>h", desc = "Quick [H]istory" },
         { mode = "n", keys = "<leader>l", desc = "[L]SP" },
+        { mode = "n", keys = "<leader>o", desc = "[O]il" },
         { mode = "n", keys = "<leader>z", desc = "F[Z]F" },
       },
     })

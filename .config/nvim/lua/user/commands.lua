@@ -5,6 +5,7 @@ vim.api.nvim_create_user_command(
 )
 
 local exec_window = nil
+local exec_last_command = nil
 
 vim.api.nvim_create_user_command(
   "Exec",
@@ -20,6 +21,7 @@ vim.api.nvim_create_user_command(
     local contents = vim.fn.execute(arg.args)
     contents = vim.split(contents, '\n')
     vim.api.nvim_buf_set_lines(buf, 0, -1, true, contents)
+    exec_last_command = arg.args
 
     vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
 
@@ -43,3 +45,15 @@ vim.api.nvim_create_user_command(
     nargs = 1,
   }
 )
+
+vim.keymap.set(
+  "n",
+  "<leader>e",
+  function()
+    if exec_last_command then
+      vim.cmd("Exec " .. exec_last_command)
+    else
+      vim.cmd "echo '[Exec] No existing Exec last command'"
+    end
+  end,
+  { desc = "Run :Exec with last command." })
