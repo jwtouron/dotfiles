@@ -37,6 +37,7 @@ return {
     { "<leader><space>", "<cmd>lua require('fzf-lua').files()<cr>", desc = "FZF Files" },
     { "<leader>,", "<cmd>lua require('fzf-lua').buffers()<cr>", desc = "FZF Buffers" },
     { "<leader>/", "<cmd>lua require('fzf-lua').blines()<cr>", desc = "FZF Buffer Lines" },
+    { "<leader>]", "<cmd>lua require('fzf-lua').tags()<cr>", desc = "FZF Tags" },
 
     { "<leader>zc", "<cmd>lua require('fzf-lua').command_history()<cr>", desc = "FZF Command History" },
     { "<leader>zd", "<cmd>lua require('fzf-lua').diagnostics_document()<cr>", desc = "FZF Diagnostics Document" },
