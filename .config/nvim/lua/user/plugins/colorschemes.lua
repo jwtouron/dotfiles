@@ -35,15 +35,6 @@ local gruvbox_material_spec = {
   end
 }
 
-local phoenix_spec = {
-  init = function()
-    create_colorscheme_autocmd(
-      "phoenix",
-      "hi Identifier guifg=#999999 guibg=NONE gui=NONE ctermfg=246"
-    )
-  end
-}
-
 local tokyonight_spec = {
   opts = {
     on_highlights = function(hl)
@@ -54,10 +45,13 @@ local tokyonight_spec = {
 }
 
 return {
-  colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
+  colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
+  colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("folke/tokyonight.nvim", tokyonight_spec),
+  colorscheme("hardselius/warlock"),
   colorscheme("jnurmine/Zenburn"),
+  colorscheme("kvrohit/rasmus.nvim"),
   colorscheme("mcchrish/zenbones.nvim", { config = function() vim.g.bones_compat = true end }),
   colorscheme("mellow-theme/mellow.nvim"),
   colorscheme("navarasu/onedark.nvim"),
@@ -67,8 +61,5 @@ return {
   colorscheme("romainl/Apprentice"),
   colorscheme("rose-pine/neovim", { name = "rose-pine" }),
   colorscheme("sainnhe/gruvbox-material", gruvbox_material_spec),
-  -- Simple Colorschemes
-  colorscheme("hardselius/warlock"),
-  colorscheme("kvrohit/rasmus.nvim"),
-  colorscheme("widatama/vim-phoenix", phoenix_spec),
+  colorscheme("water-sucks/darkrose.nvim"),
 }
