@@ -35,20 +35,11 @@ local gruvbox_material_spec = {
   end
 }
 
-local tokyonight_spec = {
-  opts = {
-    on_highlights = function(hl)
-      hl.Error = { bg = nil }
-      hl.Todo = { bg = nil }
-    end,
-  },
-}
-
 return {
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
   colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
   colorscheme("EdenEast/nightfox.nvim"),
-  colorscheme("folke/tokyonight.nvim", tokyonight_spec),
+  colorscheme("folke/tokyonight.nvim"),
   colorscheme("hardselius/warlock"),
   colorscheme("jnurmine/Zenburn"),
   colorscheme("kvrohit/rasmus.nvim"),

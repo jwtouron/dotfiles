@@ -99,25 +99,6 @@ local files_spec = {
   end,
 }
 
-local hipatterns_spec = {
-  event = "VeryLazy",
-  config = function()
-    local hipatterns = require('mini.hipatterns')
-    hipatterns.setup({
-      highlighters = {
-        -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
-        fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-        hack  = { pattern = '%f[%w]()HACK()%f[%W]',  group = 'MiniHipatternsHack'  },
-        todo  = { pattern = '%f[%w]()TODO()%f[%W]',  group = 'MiniHipatternsTodo'  },
-        note  = { pattern = '%f[%w]()NOTE()%f[%W]',  group = 'MiniHipatternsNote'  },
-
-        -- Highlight hex color strings (`#rrggbb`) using that color
-        hex_color = hipatterns.gen_highlighter.hex_color(),
-      },
-    })
-  end
-}
-
 local trailspace_spec = {
   event = "VeryLazy",
   opts = {},
@@ -136,7 +117,6 @@ return {
   mini('clue', clue_spec),
   mini('comment'),
   -- mini('files', files_spec),
-  mini('hipatterns', hipatterns_spec),
   -- mini('statusline', { opts = {} }),
   mini('trailspace', trailspace_spec),
 }
