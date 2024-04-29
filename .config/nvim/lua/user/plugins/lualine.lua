@@ -1,11 +1,10 @@
-local function cwd()
-  local path = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
-  return path:gsub("(%.?[^/])[^/]*/", "%1/")
-end
+-- local function cwd()
+--   local path = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
+--   return path:gsub("(%.?[^/])[^/]*/", "%1/")
+-- end
 
 return {
   'nvim-lualine/lualine.nvim',
-  enabled = false,
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   init = function() vim.opt.showmode = false end,
   opts = {
@@ -16,7 +15,7 @@ return {
     sections = {
       lualine_b = {'diagnostics'},
       lualine_c = {
-        cwd,
+        function() return vim.fn.fnamemodify(vim.fn.getcwd(), ":~") end,
         {
           'filename',
           newfile_status = true,

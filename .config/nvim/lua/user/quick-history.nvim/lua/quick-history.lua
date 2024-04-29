@@ -115,5 +115,4 @@ M.setup = function()
   vim.api.nvim_create_user_command("QuickHistory", "lua require('quick-history').open(<f-args>)", { nargs = 1 })
 end
 
-
 return M

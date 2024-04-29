@@ -68,7 +68,7 @@ local clue_spec = {
         { mode = "n", keys = "<leader><space>", desc = "FZF Files" },
         { mode = "n", keys = "<leader>,", desc = "FZF Buffers" },
 
-        { mode = "n", keys = "<leader>e", desc = ":[E]xec last command" },
+        { mode = "n", keys = "<leader>e", desc = "[E]xec" },
         { mode = "n", keys = "<leader>h", desc = "Quick [H]istory" },
         { mode = "n", keys = "<leader>l", desc = "[L]SP" },
         { mode = "n", keys = "<leader>o", desc = "[O]il" },
@@ -137,6 +137,6 @@ return {
   mini('comment'),
   -- mini('files', files_spec),
   mini('hipatterns', hipatterns_spec),
-  mini('statusline', { opts = {} }),
+  -- mini('statusline', { opts = {} }),
   mini('trailspace', trailspace_spec),
 }

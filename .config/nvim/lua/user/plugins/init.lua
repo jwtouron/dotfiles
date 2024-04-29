@@ -1,6 +1,17 @@
 return {
 
   {
+    "exec",
+    dir = vim.fn.stdpath("config") .. '/lua/user/exec.nvim',
+    cmd = { "Exec", "ExecHistory", "ExecLastCommand" },
+    keys = {
+      { "<leader>ee", function() require('exec').exec_last_command() end, desc = "Exec last command" },
+      { "<leader>eh", function() require('exec').exec_history() end, desc = "Exec history" },
+    },
+    config = true,
+  },
+
+  {
     "max397574/better-escape.nvim",
     event = "InsertEnter",
     config = function()
@@ -75,10 +86,10 @@ return {
   {
     "tpope/vim-rsi",
     event = { "InsertEnter", "CmdlineEnter" },
-    config = function()
-      vim.keymap.set("n", "[<space>", function() vim.cmd [[normal! O]] end)
-      vim.keymap.set("n", "]<space>", function() vim.cmd [[normal! o]] end)
-    end,
+    keys = {
+      { "[<space>", function() vim.cmd [[normal! O]] end },
+      { "]<space>", function() vim.cmd [[normal! o]] end },
+    },
   },
 
   {
