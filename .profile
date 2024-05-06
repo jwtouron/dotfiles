@@ -7,7 +7,7 @@ __command() {
     command -v "$1" >/dev/null
 }
 
-for browser in firefox brave brave-browser chromium chrome google-chrome; do
+for browser in brave brave-browser firefox chromium chrome google-chrome; do
     if __command "$browser"; then
         BROWSER="$browser"
         break
