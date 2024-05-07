@@ -28,6 +28,13 @@ local function colorscheme(name, spec)
   return ret
 end
 
+local everforest_material_spec = {
+  config = function()
+    vim.g.everforest_material_background = 'hard'
+    vim.g.everforest_material_better_performance = 1
+  end
+}
+
 local gruvbox_material_spec = {
   config = function()
     vim.g.gruvbox_material_background = 'hard'
@@ -54,6 +61,9 @@ return {
   colorscheme("rmehri01/onenord.nvim"),
   colorscheme("romainl/Apprentice"),
   colorscheme("rose-pine/neovim", { name = "rose-pine" }),
+  colorscheme("sainnhe/everforest", everforest_material_spec),
   colorscheme("sainnhe/gruvbox-material", gruvbox_material_spec),
+  colorscheme("sainnhe/sonokai", { config = function() vim.g.sonokai_material_better_performance = 1 end
+}),
   colorscheme("water-sucks/darkrose.nvim"),
 }
