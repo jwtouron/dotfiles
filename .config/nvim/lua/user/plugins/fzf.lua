@@ -33,6 +33,7 @@ end
 return {
   "ibhagwan/fzf-lua",
   dependencies = "nvim-tree/nvim-web-devicons",
+  cmd = "FzfLua",
   keys = {
     { "<leader><space>", "<cmd>lua require('fzf-lua').files()<cr>", desc = "FZF Files" },
     { "<leader>,", "<cmd>lua require('fzf-lua').buffers()<cr>", desc = "FZF Buffers" },
