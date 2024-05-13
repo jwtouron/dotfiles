@@ -7,7 +7,7 @@ return {
     keys = {
       { "<leader>ee", function() require('exec').exec_last_command() end, desc = "Exec last command" },
       { "<leader>eh", function() require('exec').exec_history() end, desc = "Exec history" },
-      { "<leader>el", function() require('exec').show_last_output() end, desc = "Show last Exec output" },
+      { "<leader>eo", function() require('exec').toggle_output() end, desc = "Toggle open Exec output" },
     },
     config = true,
   },
@@ -45,7 +45,6 @@ return {
 
   {
     "rlane/pounce.nvim",
-    enabled = false,
     keys = {
       { "s", function() require'pounce'.pounce { } end, mode = { "n", "x" }, desc = "Pounce" },
       { "S", function() require'pounce'.pounce { do_repeat = true } end, desc = "Pounce Repeat" },

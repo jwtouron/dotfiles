@@ -1,24 +1,9 @@
-local globals = {
-  exec_window = nil,
-  exec_buffer = nil,
+-- Helper functions
 
-  exec_history = {},
-  exec_history_window = nil,
-}
-
-for i = 1, 25 do
-  globals.exec_history[i] = ''
-end
-
-local function update_history(command)
-  local move = command
-  for i = 1, #globals.exec_history do
-    local tmp = globals.exec_history[i]
-    globals.exec_history[i] = move
-    if tmp == command then
-      return
-    end
-    move = tmp
+local function delete_buffer(self)
+  if self.buffer ~= nil and vim.api.nvim_buf_is_valid(self.buffer) then
+    vim.api.nvim_buf_delete(self.buffer, { force = true })
+    self.buffer = nil
   end
 end
 
@@ -26,14 +11,24 @@ local function win_is_valid(window)
   return window ~= nil and vim.api.nvim_win_is_valid(window)
 end
 
-local function close_window(window)
-  if globals[window] and vim.api.nvim_win_is_valid(globals[window]) then
-    vim.api.nvim_win_close(globals[window], { force = true })
-    globals[window] = nil
+local function close_window(self)
+  if win_is_valid(self.window) then
+    vim.api.nvim_win_close(self.window, { force = true })
+    self.window = nil
   end
 end
 
-local function create_window(buf, window)
+local function create_buffer_with_content(content)
+  if type(content) == 'string' then
+    content = vim.split(content, '\n')
+  end
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, true, content)
+  return buf
+end
+
+local function create_window(buf, title)
+  title = title or 'Done.'
   local margin = 0.05
   local row = math.floor(vim.o.lines * margin)
   local col = math.floor(vim.o.columns * margin)
@@ -45,20 +40,156 @@ local function create_window(buf, window)
     col = col,
     style = 'minimal',
     border = 'rounded',
+    title = title,
+    title_pos = 'center',
   }
-  globals[window] = vim.api.nvim_open_win(buf, true, win_config)
+  return vim.api.nvim_open_win(buf, true, win_config)
 end
 
-local function create_buffer(contents)
-  if type(contents) == 'string' then
-    contents = vim.split(contents, '\n')
-  end
-  local buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_lines(buf, 0, -1, true, contents)
-  return buf
+-- Exec
+
+local Exec = {}
+
+function Exec:new()
+  local o = {}
+  setmetatable(o, self)
+  self.__index = self
+  return o
 end
+
+function Exec:run(command)
+  self:close_window()
+  self:delete_buffer()
+  self:stop_job()
+
+  local title = nil
+
+  local i, j = command:find('^ *!')
+  if i then
+    local aborted = false
+
+    local buf = vim.api.nvim_create_buf(false, true)
+    local bufnr = vim.fn.bufnr(buf)
+
+    vim.keymap.set('n', '<C-c>', function()
+      self:stop_job()
+      aborted = true
+    end,
+    { buffer = bufnr })
+
+    local opts = {
+      on_stdout = function(_, data)
+        vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
+        vim.api.nvim_buf_set_lines(buf, -1, -1, true, data)
+        vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
+      end,
+      on_exit = function()
+        if aborted then title = 'Aborted.' else title = 'Done.' end
+        vim.api.nvim_win_set_config(0, { title = title, title_pos = 'center', })
+      end,
+      stderr_buffered = false,
+      stdout_buffered = false,
+    }
+    opts.on_stderr = opts.on_stdout
+    self.job = vim.fn.jobstart(string.sub(command, j + 1), opts)
+
+    title = 'Runninng...'
+    self.buffer = buf
+  else
+    local contents = vim.fn.execute(command)
+    self.buffer = create_buffer_with_content(contents)
+  end
+
+  local bufnr = vim.fn.bufnr(self.buffer)
+  vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = bufnr })
+  vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
+
+  self:open_window(title)
+end
+
+Exec.close_window = close_window
+
+Exec.delete_buffer = delete_buffer
+
+function Exec:has_run()
+  return self.buffer ~= nil
+end
+
+function Exec:is_open()
+  return win_is_valid(self.window)
+end
+
+function Exec:open_window(title)
+  self.window = create_window(self.buffer, title)
+end
+
+function Exec:stop_job()
+  if self.job ~= nil then
+    vim.fn.jobstop(self.job)
+    self.job = nil
+  end
+end
+
+-- Exec history
+
+local ExecHistory = {}
+
+function ExecHistory:new(n)
+  local o = { history = {} }
+  n = n or 25
+  for i = 1, n do
+    o.history[i] = ''
+  end
+  setmetatable(o, self)
+  self.__index = self
+  return o
+end
+
+function ExecHistory:open()
+  self:close_window()
+
+  self:delete_buffer()
+  self.buffer = create_buffer_with_content(self.history)
+  local bufnr = vim.fn.bufnr(self.buffer)
+  vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = bufnr })
+  vim.keymap.set('n', '<cr>', function() vim.cmd("Exec " .. vim.fn.getline('.')) end, { buffer = bufnr })
+
+  self.window = create_window(self.buffer)
+end
+
+function ExecHistory:run_last_command()
+  if self.history[1] ~= '' then
+    vim.cmd("Exec " .. self.history[1])
+  else
+    vim.cmd [[echo '[Exec] Empty history!']]
+  end
+end
+
+function ExecHistory:update(command)
+  local move = command
+  for i = 1, #self.history do
+    local tmp = self.history[i]
+    self.history[i] = move
+    if tmp == command then
+      return
+    end
+    move = tmp
+  end
+end
+
+function ExecHistory:is_open()
+  return win_is_valid(self.window)
+end
+
+ExecHistory.close_window = close_window
+
+ExecHistory.delete_buffer = delete_buffer
+
+-- Module
 
 local M = {}
+local exec = Exec:new()
+local exec_history = ExecHistory:new()
 
 M.setup = function()
   vim.api.nvim_create_user_command(
@@ -72,59 +203,34 @@ M.setup = function()
 end
 
 M.exec = function(command)
-  close_window('exec_window')
-  close_window('exec_history_window')
-
-  local contents = vim.fn.execute(command)
-  local buf = create_buffer(contents)
-  if globals['exec_buffer'] ~= nil then
-    vim.api.nvim_buf_delete(globals['exec_buffer'], { force = true })
-  end
-  globals['exec_buffer'] = buf
-  local bufnr = vim.fn.bufnr(buf)
-  vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = bufnr })
-  vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
-
-  update_history(command)
-
-  create_window(buf, 'exec_window')
+  exec_history:close_window()
+  exec:run(command)
+  exec_history:update(command)
 end
 
 M.exec_history = function()
-  if win_is_valid(globals['exec_history_window']) then
+  if exec_history:is_open() then
     return
   end
-
-  close_window('exec_window')
-
-  local buf = create_buffer(globals['exec_history'])
-  local bufnr = vim.fn.bufnr(buf)
-  vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = bufnr })
-  vim.keymap.set('n', '<cr>', function() M.exec(vim.fn.getline('.')) end, { buffer = bufnr })
-
-  create_window(buf, 'exec_history_window')
+  exec:close_window()
+  exec_history:open()
 end
 
 M.exec_last_command = function()
-  if globals['exec_history'][1] ~= '' then
-    M.exec(globals['exec_history'][1])
-  else
-    vim.cmd [[echo '[Exec] Empty history!']]
-  end
+  exec_history:run_last_command()
 end
 
-M.show_last_output = function()
-  if globals['exec_buffer'] == nil then
+M.toggle_output = function()
+  if not exec:has_run() then
     vim.cmd [[echo '[Exec] Empty history!']]
     return
   end
 
-  if win_is_valid(globals['exec_window']) then
-    return
+  if exec:is_open() then
+    exec:close_window()
+  else
+    exec:open_window()
   end
-
-  close_window('exec_history_window')
-  create_window(globals['exec_buffer'], 'exec_window')
 end
 
 return M
