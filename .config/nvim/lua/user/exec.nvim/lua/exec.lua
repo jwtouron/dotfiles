@@ -62,30 +62,52 @@ function Exec:run(command)
   self:delete_buffer()
   self:stop_job()
 
-  local title = nil
-
   local i, j = command:find('^ *!')
   if i then
-    local aborted = false
-
     local buf = vim.api.nvim_create_buf(false, true)
     local bufnr = vim.fn.bufnr(buf)
 
     vim.keymap.set('n', '<C-c>', function()
       self:stop_job()
-      aborted = true
+      self.title = 'Aborted.'
     end,
     { buffer = bufnr })
 
+    local function append_line(line)
+      vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
+      vim.api.nvim_buf_set_lines(buf, -1, -1, true, { line })
+      vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
+    end
+
+    local stdout_line = ''
+    local stderr_line = ''
     local opts = {
-      on_stdout = function(_, data)
-        vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
-        vim.api.nvim_buf_set_lines(buf, -1, -1, true, data)
-        vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
+      on_stdout = function(_, data, src)
+        if #data == 1 and data[1] == '' then
+          -- EOF
+          return
+        end
+        if src == 'stdout' then
+          stdout_line = stdout_line .. data[1]
+          append_line(stdout_line)
+          stdout_line = data[#data]
+        elseif src == 'stderr' then
+          stderr_line = stderr_line .. data[1]
+          append_line(stderr_line)
+          stderr_line = data[#data]
+        else
+          vim.api.nvim_err_writeln("[Exec] Unknown output source: " .. src)
+          return
+        end
+        for ii = 2, #data - 1 do
+          append_line(data[ii])
+        end
       end,
       on_exit = function()
-        if aborted then title = 'Aborted.' else title = 'Done.' end
-        vim.api.nvim_win_set_config(0, { title = title, title_pos = 'center', })
+        if self.title == 'Running...' then
+          self.title = 'Done.'
+        end
+        vim.api.nvim_win_set_config(0, { title = self.title, title_pos = 'center', })
       end,
       stderr_buffered = false,
       stdout_buffered = false,
@@ -93,7 +115,7 @@ function Exec:run(command)
     opts.on_stderr = opts.on_stdout
     self.job = vim.fn.jobstart(string.sub(command, j + 1), opts)
 
-    title = 'Runninng...'
+    self.title = 'Running...'
     self.buffer = buf
   else
     local contents = vim.fn.execute(command)
@@ -104,7 +126,7 @@ function Exec:run(command)
   vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = bufnr })
   vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
 
-  self:open_window(title)
+  self:open_window()
 end
 
 Exec.close_window = close_window
@@ -119,8 +141,8 @@ function Exec:is_open()
   return win_is_valid(self.window)
 end
 
-function Exec:open_window(title)
-  self.window = create_window(self.buffer, title)
+function Exec:open_window()
+  self.window = create_window(self.buffer, self.title)
 end
 
 function Exec:stop_job()
