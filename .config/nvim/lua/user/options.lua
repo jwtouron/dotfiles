@@ -1,4 +1,5 @@
 vim.opt.autowrite = true
+vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect', }
 vim.opt.expandtab = true
 vim.opt.ignorecase = true
 vim.opt.jumpoptions = { "stack" }

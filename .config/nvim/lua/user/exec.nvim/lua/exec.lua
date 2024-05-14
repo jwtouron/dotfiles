@@ -1,5 +1,9 @@
 -- Helper functions
 
+local function write_err(msg)
+  vim.api.nvim_err_writeln('[Exec] ' .. msg)
+end
+
 local function delete_buffer(self)
   if self.buffer ~= nil and vim.api.nvim_buf_is_valid(self.buffer) then
     vim.api.nvim_buf_delete(self.buffer, { force = true })
@@ -83,20 +87,24 @@ function Exec:run(command)
     local stderr_line = ''
     local opts = {
       on_stdout = function(_, data, src)
-        if #data == 1 and data[1] == '' then
-          -- EOF
-          return
-        end
         if src == 'stdout' then
-          stdout_line = stdout_line .. data[1]
-          append_line(stdout_line)
-          stdout_line = data[#data]
+          if #data == 1 and data[1] == '' then
+            append_line(stdout_line)
+          else
+            stdout_line = stdout_line .. data[1]
+            append_line(stdout_line)
+            stdout_line = data[#data]
+          end
         elseif src == 'stderr' then
-          stderr_line = stderr_line .. data[1]
-          append_line(stderr_line)
-          stderr_line = data[#data]
+          if #data == 1 and data[1] == '' then
+            append_line(stderr_line)
+          else
+            stderr_line = (stderr_line or '') .. data[1]
+            append_line(stderr_line)
+            stderr_line = data[#data]
+          end
         else
-          vim.api.nvim_err_writeln("[Exec] Unknown output source: " .. src)
+          write_err("Unknown output source: " .. src)
           return
         end
         for ii = 2, #data - 1 do
@@ -183,7 +191,7 @@ function ExecHistory:run_last_command()
   if self.history[1] ~= '' then
     vim.cmd("Exec " .. self.history[1])
   else
-    vim.cmd [[echo '[Exec] Empty history!']]
+    write_err('Empty history!')
   end
 end
 
@@ -244,7 +252,7 @@ end
 
 M.toggle_output = function()
   if not exec:has_run() then
-    vim.cmd [[echo '[Exec] Empty history!']]
+    write_err('Empty history!')
     return
   end
 
