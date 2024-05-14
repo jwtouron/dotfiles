@@ -69,7 +69,7 @@ function Exec:run(command)
 
     vim.keymap.set('n', '<C-c>', function()
       self:stop_job()
-      self.title = 'Aborted.'
+      self.window_title = 'Aborted.'
     end,
     { buffer = bufnr })
 
@@ -104,10 +104,10 @@ function Exec:run(command)
         end
       end,
       on_exit = function()
-        if self.title == 'Running...' then
-          self.title = 'Done.'
+        if self.window_title == 'Running...' then
+          self.window_title = 'Done.'
         end
-        vim.api.nvim_win_set_config(0, { title = self.title, title_pos = 'center', })
+        vim.api.nvim_win_set_config(0, { title = self.window_title, title_pos = 'center', })
       end,
       stderr_buffered = false,
       stdout_buffered = false,
@@ -115,7 +115,7 @@ function Exec:run(command)
     opts.on_stderr = opts.on_stdout
     self.job = vim.fn.jobstart(string.sub(command, j + 1), opts)
 
-    self.title = 'Running...'
+    self.window_title = 'Running...'
     self.buffer = buf
   else
     local contents = vim.fn.execute(command)
@@ -142,7 +142,7 @@ function Exec:is_open()
 end
 
 function Exec:open_window()
-  self.window = create_window(self.buffer, self.title)
+  self.window = create_window(self.buffer, self.window_title)
 end
 
 function Exec:stop_job()
