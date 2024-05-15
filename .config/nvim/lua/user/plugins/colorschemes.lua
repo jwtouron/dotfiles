@@ -45,9 +45,9 @@ local gruvbox_material_spec = {
 return {
   colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
+  colorscheme("blazkowolf/gruber-darker.nvim"),
   colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
   colorscheme("cocopon/iceberg.vim"),
-  colorscheme("dgox16/oldworld.nvim"),
   colorscheme("folke/tokyonight.nvim"),
   colorscheme("hardselius/warlock"),
   colorscheme("jacoborus/tender.vim"),
