@@ -69,17 +69,6 @@ return {
   },
 
   {
-    'stevearc/oil.nvim',
-    event = "CmdlineEnter",
-    cmd = "Oil",
-    keys = {
-      { "<leader>o", function() require('oil').toggle_float() end, desc = "Oil" }
-    },
-    opts = { float = { padding = 4 } },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-  },
-
-  {
     "tpope/vim-fugitive",
     cmd = { "G", "Git" },
   },
