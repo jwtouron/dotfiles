@@ -21,7 +21,7 @@ return {
     cmp.setup({
       completion = {
         autocomplete = false,
-        completeopt = 'menu,menuone,noinsert,noselect',
+        completeopt = 'menu,menuone,noinsert,noselect,popup',
       },
       formatting = {
         format = function(entry, vim_item)

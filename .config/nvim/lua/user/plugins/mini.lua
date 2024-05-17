@@ -115,7 +115,7 @@ return {
   mini('bracketed'),
   mini('bufremove', bufremove_spec),
   mini('clue', clue_spec),
-  mini('comment'),
+  -- mini('comment'),
   -- mini('files', files_spec),
   -- mini('statusline', { opts = {} }),
   mini('trailspace', trailspace_spec),
