@@ -51,7 +51,8 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'williamboman/mason.nvim' },
-    event = "VeryLazy",
+    event = "FileType",
+    -- event = "VeryLazy",
     init = function()
       vim.api.nvim_create_autocmd('LspAttach', {
         group = MyAugroup,
@@ -104,19 +105,22 @@ return {
 
   {
     "williamboman/mason.nvim",
-    event = "VeryLazy",
+    event = "FileType",
+    -- event = "VeryLazy",
     opts = {},
   },
 
   {
     "folke/neodev.nvim",
-    event = "VeryLazy",
+    event = "FileType",
+    -- event = "VeryLazy",
     opts = {}
   },
 
   {
     "j-hui/fidget.nvim",
-    event = "VeryLazy",
+    event = "FileType",
+    -- event = "VeryLazy",
     opts = {},
   },
 

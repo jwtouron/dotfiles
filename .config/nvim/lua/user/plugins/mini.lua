@@ -100,7 +100,6 @@ local files_spec = {
 }
 
 local trailspace_spec = {
-  event = "VeryLazy",
   opts = {},
   init = function()
     vim.api.nvim_create_autocmd("ColorScheme", {
