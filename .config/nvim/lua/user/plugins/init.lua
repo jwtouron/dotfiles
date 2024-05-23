@@ -54,9 +54,6 @@ return {
   {
     "romainl/vim-cool",
     event = "CmdlineEnter",
-    config = function()
-      vim.g.cool_total_matches = 1
-    end
   },
 
   {
