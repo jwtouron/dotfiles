@@ -25,3 +25,24 @@ vim.api.nvim_create_user_command(
     bang = true,
   }
 )
+
+vim.api.nvim_create_autocmd("TermClose", {
+  group = vim.api.nvim_create_augroup("user-tui", { clear = true }),
+  callback = function()
+    require('mini.bufremove').wipeout(0)
+  end
+})
+--
+for _, name in ipairs({ "Tui", "TUI" }) do
+  vim.api.nvim_create_user_command(
+    name,
+    function(arg)
+      vim.cmd(
+        "enew | exec 'term " .. arg.args .. "' | setl nonumber norelativenumber | startinsert"
+      )
+    end,
+    {
+      nargs = 1,
+    }
+  )
+end
