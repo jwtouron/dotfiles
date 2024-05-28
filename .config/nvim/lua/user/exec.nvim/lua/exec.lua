@@ -266,7 +266,7 @@ end
 
 M.toggle_output = function()
   if not exec:buffer_is_valid() then
-    write_err('Empty history!')
+    write_err('Cannot display last output: Either a command has never been run or the the buffer has been deleted.')
     return
   end
   if exec:window_is_valid() then
