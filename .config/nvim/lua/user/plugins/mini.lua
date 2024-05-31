@@ -111,6 +111,7 @@ local trailspace_spec = {
 }
 
 return {
+  mini('ai'),
   mini('bracketed'),
   mini('bufremove', bufremove_spec),
   mini('clue', clue_spec),
