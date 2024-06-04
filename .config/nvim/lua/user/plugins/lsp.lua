@@ -63,14 +63,26 @@ return {
 
           vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-          local opts = { buffer = ev.buf }
+          local mappings = {
+            {'n', 'gD', 'declaration'},
+            {'n', 'gd', 'definition'},
+            {'n', 'gri', 'implementation'},
 
-          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-          -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-          vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-          vim.keymap.set('i', '<C-l>', vim.lsp.buf.signature_help, opts)
-          vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+            -- Default mappings in Neovim nightly
+            -- TODO: Remove after new Neovim release
+            {'n', 'grn', 'rename'},
+            {{ 'n', 'x' }, 'gra', 'code_action'},
+            {'n', 'grr', 'references'},
+            {'i', '<C-S>', 'signature_help'},
+          }
+
+          for _, mapping in ipairs(mappings) do
+            vim.keymap.set(
+              mapping[1],
+              mapping[2],
+              vim.lsp.buf[mapping[3]],
+              { desc = 'vim.lsp.buf.' .. mapping[3] .. '()', buffer = ev.buf })
+          end
 
           vim.opt_local.signcolumn = 'yes'
         end,
