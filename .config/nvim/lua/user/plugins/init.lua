@@ -13,6 +13,22 @@ return {
   },
 
   {
+    "jeetsukumaran/vim-indentwise",
+    keys = {
+      {"[-", mode = {"n", "x", "o"}},
+      {"[=", mode = {"n", "x", "o"}},
+      {"[+", mode = {"n", "x", "o"}},
+      {"]-", mode = {"n", "x", "o"}},
+      {"]=", mode = {"n", "x", "o"}},
+      {"]+", mode = {"n", "x", "o"}},
+      {"[_", mode = {"n", "x", "o"}},
+      {"]_", mode = {"n", "x", "o"}},
+      {"[%", mode = {"n", "x", "o"}},
+      {"]%", mode = {"n", "x", "o"}},
+    },
+  },
+
+  {
     "max397574/better-escape.nvim",
     event = "InsertEnter",
     config = function()
