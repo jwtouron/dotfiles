@@ -13,5 +13,8 @@ return {
   event = "CmdlineEnter",
   cmd = "Oil",
   keys = { { "<leader>o", toggle_oil, desc = "Oil" } },
-  opts = { float = { padding = 4 } },
+  opts = {
+    delete_to_trash = true,
+    float = { padding = 4 },
+  },
 }
