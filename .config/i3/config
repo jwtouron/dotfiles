@@ -195,7 +195,7 @@ for_window [class="Yad"] floating enable
 # finds out, if available)
 bar {
     status_command i3blocks
-    font pango:sans 10:monospace 10
+    font pango:sans 12:monospace 12
     separator_symbol "⋅"
     colors {
         background #0c0c0c
