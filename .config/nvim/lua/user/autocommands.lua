@@ -25,8 +25,8 @@ local function create_filetype_autocmd(pattern, command)
     opts.command = command
   else
     opts.callback = command
-    vim.api.nvim_create_autocmd("FileType", opts)
   end
+  vim.api.nvim_create_autocmd("FileType", opts)
 end
 
 create_filetype_autocmd("go", "setlocal tabstop=8 noexpandtab")
