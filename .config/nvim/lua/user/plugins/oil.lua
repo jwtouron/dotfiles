@@ -7,6 +7,8 @@ local function toggle_oil()
   end
 end
 
+local detail = false
+
 return {
   'stevearc/oil.nvim',
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -16,5 +18,18 @@ return {
   opts = {
     delete_to_trash = true,
     float = { padding = 4 },
-  },
+    keymaps = {
+      ["gd"] = {
+        desc = "Toggle file detail view",
+        callback = function()
+          detail = not detail
+          if detail then
+            require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
+          else
+            require("oil").set_columns({ "icon" })
+          end
+        end,
+      },
+    },
+  }
 }
