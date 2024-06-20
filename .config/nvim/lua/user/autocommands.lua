@@ -1,4 +1,4 @@
-local augroup = vim.api.nvim_create_augroup("db35933f-c123-4261-9041-f2895fcf9fb5", { clear = true })
+local augroup = vim.api.nvim_create_augroup("user.autocommands", { clear = true })
 
 -- Jump to last location when opening a buffer.
 vim.api.nvim_create_autocmd({ "BufReadPost" }, {
@@ -35,4 +35,4 @@ create_filetype_autocmd("help", "nnoremap <buffer> q <cmd>q<cr>")
 
 create_filetype_autocmd("lua", "setlocal tabstop=2")
 
-create_filetype_autocmd({"markdown", "text"}, "setlocal wrap linebreak breakindent")
+create_filetype_autocmd({"markdown", "text"}, "setlocal tabstop=2 wrap linebreak breakindent")

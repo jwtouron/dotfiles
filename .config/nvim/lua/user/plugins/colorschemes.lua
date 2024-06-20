@@ -1,12 +1,14 @@
+local augroup = vim.api.nvim_create_augroup("user.plugins.colorschemes", { clear = true })
+
 vim.api.nvim_create_autocmd("ColorScheme", {
-  group = MyAugroup,
+  group = augroup,
   pattern = "*",
   command = "highlight MatchParen term=underline cterm=underline gui=underline ctermbg=NONE guibg=NONE",
 })
 
 local function create_colorscheme_autocmd(pattern, callback)
   local opts = {
-    group = MyAugroup,
+    group = augroup,
     pattern = pattern,
   }
   if type(callback) == 'function' then

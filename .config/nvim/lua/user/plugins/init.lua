@@ -14,6 +14,7 @@ return {
 
   {
     "jeetsukumaran/vim-indentwise",
+    enabled = false,
     keys = {
       {"[-", mode = {"n", "x", "o"}},
       {"[=", mode = {"n", "x", "o"}},
@@ -31,6 +32,41 @@ return {
       -- {"<c-k>", "<Plug>(IndentWisePreviousEqualIndent)", mode = {"n", "x", "o"}},
       -- {"<c-l>", "<Plug>(IndentWiseNextGreaterIndent)", mode = {"n", "x", "o"}},
     },
+  },
+
+  {
+    "jessekelighine/vindent.vim",
+    keys = {
+      { '[=', mode = { 'n', 'x', 'o' } },
+      { ']=', mode = { 'n', 'x', 'o' } },
+      { '[+', mode = { 'n', 'x', 'o' } },
+      { ']+', mode = { 'n', 'x', 'o' } },
+      { '[-', mode = { 'n', 'x', 'o' } },
+      { ']-', mode = { 'n', 'x', 'o' } },
+      { '[;', mode = { 'n', 'x', 'o' } },
+      { '];', mode = { 'n', 'x', 'o' } },
+      { '[p', mode = { 'n', 'x', 'o' } },
+      { ']p', mode = { 'n', 'x', 'o' } },
+      { 'ii', mode = { 'n', 'x', 'o' } },
+      { 'ai', mode = { 'n', 'x', 'o' } },
+      { 'aI', mode = { 'n', 'x', 'o' } },
+    },
+    init = function()
+      vim.g.vindent_motion_OO_prev   = '[='
+      vim.g.vindent_motion_OO_next   = ']='
+      vim.g.vindent_motion_more_prev = '[+'
+      vim.g.vindent_motion_more_next = ']+'
+      vim.g.vindent_motion_less_prev = '[-'
+      vim.g.vindent_motion_less_next = ']-'
+      vim.g.vindent_motion_diff_prev = '[;'
+      vim.g.vindent_motion_diff_next = '];'
+      vim.g.vindent_motion_XX_ss     = '[p'
+      vim.g.vindent_motion_XX_se     = ']p'
+      vim.g.vindent_object_XX_ii     = 'ii'
+      vim.g.vindent_object_XX_ai     = 'ai'
+      vim.g.vindent_object_XX_aI     = 'aI'
+      vim.g.vindent_infer          = 1
+    end
   },
 
   {

@@ -1,3 +1,5 @@
+local augroup = vim.api.nvim_create_augroup("user.plugins.lsp", { clear = true })
+
 -- Reference: https://github.com/williamboman/mason-lspconfig.nvim/blob/main/lua/mason-lspconfig/mappings/server.lua
 local package_to_lspconfig = {
   ["docker-compose-language-service"] = "docker_compose_language_service",
@@ -55,7 +57,7 @@ return {
     -- event = "VeryLazy",
     init = function()
       vim.api.nvim_create_autocmd('LspAttach', {
-        group = MyAugroup,
+        group = augroup,
         pattern = "*",
         callback = function(ev)
           local client = vim.lsp.get_client_by_id(ev.data.client_id)

@@ -1,3 +1,5 @@
+local augroup = vim.api.nvim_create_augroup("user.plugins.mini", { clear = true })
+
 local function mini(name, spec)
   local ret = {
     "echasnovski/mini." .. name,
@@ -85,7 +87,7 @@ local files_spec = {
   },
   config = function()
     vim.api.nvim_create_autocmd("FileType", {
-      group = MyAugroup,
+      group = augroup,
       pattern = "minifiles",
       callback = function()
         vim.keymap.set("n", "!", function()
@@ -103,7 +105,7 @@ local trailspace_spec = {
   opts = {},
   init = function()
     vim.api.nvim_create_autocmd("ColorScheme", {
-      group = MyAugroup,
+      group = augroup,
       pattern = "*",
       command = "highlight MiniTrailspace guifg=salmon guisp=salmon gui=undercurl cterm=undercurl guibg=NONE ctermbg=NONE"
     })
