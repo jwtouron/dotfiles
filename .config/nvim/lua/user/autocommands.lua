@@ -35,4 +35,6 @@ create_filetype_autocmd("help", "nnoremap <buffer> q <cmd>q<cr>")
 
 create_filetype_autocmd("lua", "setlocal tabstop=2")
 
-create_filetype_autocmd({"markdown", "text"}, "setlocal tabstop=2 wrap linebreak breakindent")
+create_filetype_autocmd("markdown", "setlocal wrap linebreak breakindent tabstop=2 conceallevel=2 concealcursor= nofoldenable")
+
+create_filetype_autocmd("text",     "setlocal wrap linebreak breakindent")

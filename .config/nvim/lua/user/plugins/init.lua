@@ -13,6 +13,11 @@ return {
   },
 
   {
+    'godlygeek/tabular',
+    cmd = { "Tabularize", "Tab", },
+  },
+
+  {
     "jeetsukumaran/vim-indentwise",
     enabled = false,
     keys = {
@@ -80,6 +85,17 @@ return {
   {
     "mbbill/undotree",
     cmd = { "UndotreeShow", "UndotreeToggle" }
+  },
+
+  {
+    'preservim/vim-markdown',
+    dependencies = 'godlygeek/tabular',
+    ft = "markdown",
+    init = function()
+      vim.g.vim_markdown_folding_disabled = 1
+      vim.g.vim_markdown_conceal_code_blocks = 0
+      vim.g.vim_markdown_new_list_item_indent = 2
+    end,
   },
 
   {
