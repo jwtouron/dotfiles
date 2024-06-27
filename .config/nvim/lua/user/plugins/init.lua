@@ -118,7 +118,6 @@ return {
 
   {
     "rlane/pounce.nvim",
-    enabled = false,
     keys = {
       { "s", function() require'pounce'.pounce { } end, mode = { "n", "x" }, desc = "Pounce" },
       { "S", function() require'pounce'.pounce { do_repeat = true } end, desc = "Pounce Repeat" },
