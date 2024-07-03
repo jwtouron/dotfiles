@@ -8,8 +8,28 @@ end
 
 vim.api.nvim_create_user_command(
   "ReadDate",
-  "read !date '+\\%Y-\\%m-\\%d'",
-  { desc = "Insert the current date as YYYY-MM-DD below the current line." }
+  function(arg)
+    local command = "read !date"
+    if arg.args ~= "" then
+      local begin, _, sign, amt, unit = string.find(arg.args, '^([-+]?)(%d+)([mdy])$')
+      if not begin then
+        vim.api.nvim_err_writeln("[ReadDate] Invalid argument: " .. arg.args)
+        return
+      end
+      local unit = ({ d = 'day', m = 'month', y = 'year' })[unit]
+      command = command .. " -d '" .. amt .. " " .. unit
+      if sign == '-' then
+        command = command .. " ago"
+      end
+      command = command .. "'"
+    end
+    command = command .. " '+\\%Y-\\%m-\\%d'"
+    vim.cmd(command)
+  end,
+  {
+    desc = "Insert the current date as YYYY-MM-DD below the current line.",
+    nargs = '?',
+  }
 )
 
 vim.api.nvim_create_user_command(

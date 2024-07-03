@@ -45,6 +45,7 @@ local gruvbox_material_spec = {
 }
 
 return {
+  colorscheme("2giosangmitom/nightfall.nvim", { build = ":NightfallCompile", opts = { compile_path = nil }, }),
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
   colorscheme("antonk52/lake.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
