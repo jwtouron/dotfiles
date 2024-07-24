@@ -1,3 +1,5 @@
+local augroup = vim.api.nvim_create_augroup("user.plugins.init", { clear = true })
+
 return {
 
   {
@@ -106,6 +108,17 @@ return {
     init = function()
       vim.g.qf_auto_resize = 0
       vim.g.qf_max_height = 0
+    end,
+  },
+
+  {
+    "Tetralux/odin.vim",
+    config = function()
+      vim.api.nvim_create_autocmd({ "FileType" }, {
+        group = augroup,
+        pattern = "odin",
+        command = "setlocal smartindent indentexpr=",
+      })
     end,
   },
 

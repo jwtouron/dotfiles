@@ -4,7 +4,7 @@ vim.opt.cursorline = true
 vim.opt.cursorlineopt = 'number'
 vim.opt.expandtab = true
 vim.opt.ignorecase = true
-vim.opt.inccommand = 'split'
+-- vim.opt.inccommand = 'split'
 vim.opt.jumpoptions = { "stack" }
 vim.opt.list = true
 vim.opt.listchars =  { tab = "» " }

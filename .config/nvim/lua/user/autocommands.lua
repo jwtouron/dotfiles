@@ -38,3 +38,5 @@ create_filetype_autocmd("lua", "setlocal tabstop=2")
 create_filetype_autocmd("markdown", "setlocal wrap linebreak breakindent tabstop=2 conceallevel=2 concealcursor= nofoldenable")
 
 create_filetype_autocmd("text",     "setlocal wrap linebreak breakindent")
+
+create_filetype_autocmd("zig", "let g:zig_fmt_autosave = 0")
