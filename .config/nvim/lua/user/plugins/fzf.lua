@@ -22,6 +22,7 @@ local function live_grep()
       ["alt-l"]   = require('fzf-lua').actions.file_sel_to_ll,
     },
     fzf_opts = {
+      ['--prompt'] = 'Rg) ',
       ['--preview'] = 'if command -v bat >/dev/null; then bat -p --color always --highlight-line {2} {1}; else cat {1}; fi',
       ['--preview-window'] = 'nohidden,down,50%,+{2}/3',
       ['--delimiter'] = ':',

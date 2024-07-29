@@ -42,6 +42,7 @@ return {
 
   {
     "max397574/better-escape.nvim",
+    enabled = false,
     event = "InsertEnter",
     config = function()
       require("better_escape").setup {
@@ -58,6 +59,12 @@ return {
   {
     "mbbill/undotree",
     cmd = { "UndotreeShow", "UndotreeToggle" }
+  },
+
+  {
+    "nvim-zh/better-escape.vim",
+    event = "InsertEnter",
+    config = function() vim.g.better_escape_shortcut = {'jk', 'kj'} end,
   },
 
   {
@@ -117,7 +124,7 @@ return {
       vim.api.nvim_create_autocmd({ "FileType" }, {
         group = augroup,
         pattern = "odin",
-        command = "setlocal smartindent indentexpr=",
+        command = "setlocal smartindent indentexpr= tabstop=8 noexpandtab errorformat=%f(%l:%c)\\ %m",
       })
     end,
   },
