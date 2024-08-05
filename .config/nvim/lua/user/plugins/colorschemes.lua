@@ -46,6 +46,7 @@ local gruvbox_material_spec = {
 
 return {
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
+  colorscheme("Aliqyan-21/darkvoid.nvim"),
   colorscheme("antonk52/lake.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
   colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
@@ -71,6 +72,7 @@ return {
   colorscheme("sainnhe/everforest", everforest_spec),
   colorscheme("sainnhe/gruvbox-material", gruvbox_material_spec),
   colorscheme("sainnhe/sonokai", { config = function() vim.g.sonokai_better_performance = 1 end }),
+  colorscheme("scottmckendry/cyberdream.nvim"),
   colorscheme("slugbyte/lackluster.nvim"),
   colorscheme("vague2k/vague.nvim"),
   colorscheme("water-sucks/darkrose.nvim"),
