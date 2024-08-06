@@ -62,9 +62,19 @@ return {
   },
 
   {
+    "norcalli/nvim-colorizer.lua",
+    name = "colorizer",
+    init = function() vim.opt.termguicolors = true end,
+    config = function() require("colorizer").setup() end,
+  },
+
+  {
     "nvim-zh/better-escape.vim",
     event = "InsertEnter",
-    config = function() vim.g.better_escape_shortcut = {'jk', 'kj'} end,
+    config = function()
+      vim.g.better_escape_shortcut = {'jk', 'kj'}
+      vim.g.better_escape_interval = 1000
+    end,
   },
 
   {

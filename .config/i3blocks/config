@@ -1,3 +1,4 @@
+color=#F0C674
 separator_block_width=31
 
 [volume-pipewire]
@@ -6,23 +7,21 @@ interval=once
 signal=1
 LONG_FORMAT="${SYMB} ${VOL}%"
 SHORT_FORMAT="${SYMB} ${VOL}%"
-DEFAULT_COLOR="#888888"
+DEFAULT_COLOR=#F0C674
+# DEFAULT_COLOR="#888888"
 MUTED_COLOR="#333333"
 
 [cpu]
 command=scripts/cpumem
 markup=pango
 interval=1
-color=#888888
 
 [weather]
 command=~/.local/bin/weather-simple.sh; case $button in 1) xterm -class terminal-popup -geometry 80x40 -e '~/.local/bin/weather-detailed.sh | less' ;; esac
 interval=1800
-color=#888888
 
 [time]
 command=scripts/date
 interval=5
-color=#888888
 
 # vim: filetype=conf
