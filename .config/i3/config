@@ -199,5 +199,6 @@ bar {
     separator_symbol "⋅"
     colors {
         background #0c0c0c
+        separator #F0C674
     }
 }
