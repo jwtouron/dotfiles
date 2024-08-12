@@ -121,7 +121,7 @@ return {
 
   {
     "romainl/vim-qf",
-    event = "QuickFixCmdPre",
+    event = "VeryLazy",
     init = function()
       vim.g.qf_auto_resize = 0
       vim.g.qf_max_height = 0
