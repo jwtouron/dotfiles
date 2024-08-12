@@ -71,9 +71,9 @@ return {
   {
     "nvim-zh/better-escape.vim",
     event = "InsertEnter",
-    config = function()
+    init = function()
       vim.g.better_escape_shortcut = {'jk', 'kj'}
-      vim.g.better_escape_interval = 1000
+      -- vim.g.better_escape_interval = 300
     end,
   },
 

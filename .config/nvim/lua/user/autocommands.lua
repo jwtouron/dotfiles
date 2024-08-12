@@ -29,6 +29,8 @@ local function create_filetype_autocmd(pattern, command)
   vim.api.nvim_create_autocmd("FileType", opts)
 end
 
+create_filetype_autocmd("c3", "setlocal smartindent errorformat=(%f:%l:%c)\\ %m")
+
 create_filetype_autocmd("go", "setlocal tabstop=8 noexpandtab")
 
 create_filetype_autocmd("help", "nnoremap <buffer> q <cmd>q<cr>")

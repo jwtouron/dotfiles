@@ -72,6 +72,7 @@ return {
   colorscheme("sainnhe/everforest", everforest_spec),
   colorscheme("sainnhe/gruvbox-material", gruvbox_material_spec),
   colorscheme("sainnhe/sonokai", { config = function() vim.g.sonokai_better_performance = 1 end }),
+  colorscheme("samharju/serene.nvim"),
   colorscheme("scottmckendry/cyberdream.nvim"),
   colorscheme("slugbyte/lackluster.nvim"),
   colorscheme("vague2k/vague.nvim"),
