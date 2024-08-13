@@ -37,15 +37,18 @@ vim.api.nvim_create_user_command(
   function(arg)
     local dir = arg.args ~= '' and arg.args or '.'
     local grepprg = vim.opt.grepprg:get()  -- save grepprg
+    local grepformat = vim.opt.grepformat:get()  -- save grepformat
     local regex = '(FIXME\\|HACK\\|NOTE\\|TODO) *(\\([^)]*\\))? *:'
     if vim.fn.executable("rg") == 1 then
       vim.opt.grepprg = "rg --vimgrep '" .. regex .. "' " .. dir
     else
-      vim.opt.grepprg = "grep -rnE '" .. regex .. "' " .. dir
+      vim.opt.grepprg = "grep -HInrE '" .. regex .. "' " .. dir
+      vim.opt.grepformat = "%f:%l:%m"
     end
     local bang = arg.bang and '!' or ''
     pcall(function() vim.cmd("grep" .. bang) end)
     vim.opt.grepprg = grepprg  -- restore grepprg
+    vim.opt.grepformat = grepformat  -- restore grepformat
   end,
   {
     desc = "Find all FIXMEs, HACKs, NOTEs, and TODOs",
