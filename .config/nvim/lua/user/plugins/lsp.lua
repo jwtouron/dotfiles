@@ -7,6 +7,7 @@ local package_to_lspconfig = {
   ["json-lsp"] = "jsonls",
   ["lua-language-server"] = "lua_ls",
   ["rust-analyzer"] = "rust_analyzer",
+  ["python-lsp-server"] = "pylsp",
 }
 
 local server_configs = {
