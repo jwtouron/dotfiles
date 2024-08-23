@@ -1,0 +1,36 @@
+#!/bin/sh
+
+file="$1"
+w="$2"
+h="$3"
+x="$4"
+y="$5"
+mime_type="$(file -Lb --mime-type "$file")"
+case "$mime_type" in
+    application/pdf)
+        command -v pdftotext && pdftotext "$file" - || echo "$mime_type (install pdftotext)"
+        ;;
+    application/x-7z-compressed)
+        command -v 7z >/dev/null & 7z l "$file" || echo "$mime_type (install 7z)"
+        ;;
+    application/zip)
+        command -v unzip >/dev/null && unzip -l "$file" || echo "$mime_type (install unzip)"
+        ;;
+    image/*)
+        if [ -n "$KITTY_PID" ]; then
+            kitty +kitten icat --silent --stdin no --transfer-mode file --place "${w}x${h}@${x}x${y}" "$1" </dev/null >/dev/tty
+            exit 1
+        else
+            echo "$mime_type"
+        fi
+        ;;
+    inode/directory)
+        command ls -dAlhF "$file"
+        ;;
+    text/*)
+        if command -v bat >/dev/null; then bat "$file"; else cat "$file"; fi
+        ;;
+    *)
+        echo "$mime_type"
+        ;;
+esac

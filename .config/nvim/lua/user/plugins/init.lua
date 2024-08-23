@@ -41,6 +41,19 @@ return {
   },
 
   {
+    "lmburns/lf.nvim",
+    dependencies = "akinsho/toggleterm.nvim",
+    cmd = "Lf",
+    opts = {
+      border = "rounded",
+      width = 9999,
+      height = 9999,
+      default_file_manager = true,
+    },
+    init = function() vim.g.lf_netrw = 1 end,
+  },
+
+  {
     "max397574/better-escape.nvim",
     enabled = false,
     event = "InsertEnter",
@@ -129,12 +142,13 @@ return {
   },
 
   {
-    "Tetralux/odin.vim",
+    "jwtouron/odin.vim",
+    ft = "odin",
     config = function()
       vim.api.nvim_create_autocmd({ "FileType" }, {
         group = augroup,
         pattern = "odin",
-        command = "setlocal smartindent indentexpr= tabstop=8 noexpandtab errorformat=%f(%l:%c)\\ %m",
+        command = "setlocal tabstop=8 noexpandtab errorformat=%f(%l:%c)\\ %m indentkeys+=<:>,0=},0=)",
       })
     end,
   },
