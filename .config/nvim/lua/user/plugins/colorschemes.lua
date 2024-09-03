@@ -61,7 +61,6 @@ return {
   colorscheme("mellow-theme/mellow.nvim"),
   colorscheme("miikanissi/modus-themes.nvim"),
   colorscheme("navarasu/onedark.nvim"),
-  colorscheme("ptdewey/darkearth-nvim"),
   colorscheme("ramojus/mellifluous.nvim"),
   colorscheme("rebelot/kanagawa.nvim"),
   colorscheme("romainl/Apprentice"),
