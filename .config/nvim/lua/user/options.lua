@@ -3,6 +3,7 @@ vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect', 'popup', }
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = 'number'
 vim.opt.expandtab = true
+vim.opt.exrc = true
 vim.opt.ignorecase = true
 -- vim.opt.inccommand = 'split'
 vim.opt.jumpoptions = { "stack" }

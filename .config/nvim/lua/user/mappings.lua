@@ -20,8 +20,8 @@ vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
 -- https://vim.fandom.com/wiki/Search_for_visually_selected_text
-vim.keymap.set("x", "*", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]])
-vim.keymap.set("x", "#", [[y?\V<C-R>=escape(@",'/\')<CR><CR>]])
+-- vim.keymap.set("x", "*", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]])
+-- vim.keymap.set("x", "#", [[y?\V<C-R>=escape(@",'/\')<CR><CR>]])
 
 -- Tabs
 

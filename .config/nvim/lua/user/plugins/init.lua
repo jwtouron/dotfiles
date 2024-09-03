@@ -3,6 +3,10 @@ local augroup = vim.api.nvim_create_augroup("user.plugins.init", { clear = true 
 return {
 
   {
+    "bronson/vim-visual-star-search",
+  },
+
+  {
     "exec",
     dir = vim.fn.stdpath("config") .. '/lua/user/exec.nvim',
     cmd = { "Exec", "ExecHistory", "ExecLastCommand" },
@@ -139,6 +143,13 @@ return {
       vim.g.qf_auto_resize = 0
       vim.g.qf_max_height = 0
     end,
+  },
+
+  {
+    "inkarkat/vim-redocommand",
+    cmd = {
+      "Redocommand", "R", "RedoRepeat", "RR", "RedoBufferRepeat", "RB", "RedoWindowRepeat", "RW"
+    },
   },
 
   {
