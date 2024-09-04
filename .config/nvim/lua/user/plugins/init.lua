@@ -4,7 +4,10 @@ return {
 
   {
     "bronson/vim-visual-star-search",
-    event = "VeryLazy",
+    keys = {
+      { "*", mode = 'x' },
+      { "#", mode = 'x' },
+    },
   },
 
   {
