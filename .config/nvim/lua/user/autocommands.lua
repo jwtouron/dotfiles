@@ -29,16 +29,16 @@ local function create_filetype_autocmd(pattern, command)
   vim.api.nvim_create_autocmd("FileType", opts)
 end
 
-create_filetype_autocmd("c3", "setlocal smartindent errorformat=(%f:%l:%c)\\ %m")
-
-create_filetype_autocmd("go", "setlocal tabstop=8 noexpandtab")
-
-create_filetype_autocmd("help", "nnoremap <buffer> q <cmd>q<cr>")
-
-create_filetype_autocmd("lua", "setlocal tabstop=2")
-
-create_filetype_autocmd("markdown", "setlocal wrap linebreak breakindent tabstop=2 conceallevel=2 concealcursor= nofoldenable")
-
-create_filetype_autocmd("text",     "setlocal wrap linebreak breakindent")
-
-create_filetype_autocmd("zig", "let g:zig_fmt_autosave = 0")
+local ft_commands = {
+  c3        = "setlocal smartindent errorformat=(%f:%l:%c)\\ %m",
+  go        = "setlocal tabstop=8 noexpandtab",
+  -- help      = "nnoremap <buffer> q <cmd>q<cr>",
+  lua       = "setlocal tabstop=2",
+  markdown  = "setlocal wrap linebreak breakindent tabstop=2 conceallevel=2 concealcursor= nofoldenable",
+  text      = "setlocal wrap linebreak breakindent",
+  vim       = "setlocal tabstop=2",
+  zig       = "let g:zig_fmt_autosave = 0",
+}
+for ft, cmd in pairs(ft_commands) do
+  create_filetype_autocmd(ft, cmd)
+end
