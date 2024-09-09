@@ -11,7 +11,6 @@ local detail = false
 
 return {
   'stevearc/oil.nvim',
-  enabled = false,
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "CmdlineEnter",
   cmd = "Oil",
@@ -31,6 +30,17 @@ return {
           end
         end,
       },
+      ["gg"] = {
+        desc = "Execute grep on file",
+        callback = function()
+          local oil = require("oil")
+          local dir = oil.get_current_dir()
+          local entry = oil.get_cursor_entry().name
+          local path = vim.fn.fnamemodify(dir, ':p') .. entry
+          local keys = vim.api.nvim_replace_termcodes(':grep ' .. path .. "<Home><Right><Right><Right><Right>", true, false, true)
+          vim.api.nvim_feedkeys(keys, 'm', true)
+        end,
+      }
     },
   }
 }
