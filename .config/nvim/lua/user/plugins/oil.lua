@@ -19,6 +19,17 @@ return {
     delete_to_trash = true,
     float = { padding = 4 },
     keymaps = {
+      ["g!"] = {
+        desc = "Execute ! on file",
+        callback = function()
+          local oil = require("oil")
+          local dir = oil.get_current_dir()
+          local entry = oil.get_cursor_entry().name
+          local path = vim.fn.fnamemodify(dir, ':p') .. entry
+          local keys = vim.api.nvim_replace_termcodes(':! ' .. path .. "<Home><Right>", true, false, true)
+          vim.api.nvim_feedkeys(keys, 'm', true)
+        end,
+      },
       ["gd"] = {
         desc = "Toggle file detail view",
         callback = function()
@@ -40,7 +51,7 @@ return {
           local keys = vim.api.nvim_replace_termcodes(':grep ' .. path .. "<Home><Right><Right><Right><Right>", true, false, true)
           vim.api.nvim_feedkeys(keys, 'm', true)
         end,
-      }
+      },
     },
   }
 }
