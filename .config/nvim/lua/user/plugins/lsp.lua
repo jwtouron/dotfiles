@@ -121,6 +121,7 @@ return {
   {
     "williamboman/mason.nvim",
     event = "FileType",
+    cmd = "Mason",
     -- event = "VeryLazy",
     opts = {},
   },
