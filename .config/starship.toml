@@ -12,6 +12,12 @@ $character"""
 
 add_newline = true
 
+[username]
+format = '[$user]($style)'
+
+[hostname]
+format = '@[$hostname]($style) $ssh_symbol'
+
 [directory]
 style = "blue"
 truncate_to_repo = false
@@ -48,8 +54,7 @@ style = "#6c6c6c"
 # style = "bright-black"
 
 [custom.ZSH_PRIV]
-command = """echo '[PRIVATE]'"""
-format = "[$output]($style)"
+command = ''' echo '[PRIVATE]' '''
 style = "yellow"
 when = ''' test -n "$ZSH_PRIV" '''
 
