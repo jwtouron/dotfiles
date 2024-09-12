@@ -6,6 +6,7 @@ $git_branch\
 $git_state\
 $git_status\
 $line_break\
+${custom.ZSH_PRIV}\
 $python\
 $character"""
 
@@ -13,6 +14,7 @@ add_newline = true
 
 [directory]
 style = "blue"
+truncate_to_repo = false
 
 [character]
 success_symbol = "[❯](purple)"
@@ -21,7 +23,8 @@ vimcmd_symbol = "[❮](green)"
 
 [git_branch]
 format = "[$branch]($style)"
-style = "bright-black"
+style = "#6c6c6c"
+# style = "bright-black"
 
 [git_status]
 format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
@@ -36,8 +39,23 @@ stashed = "≡"
 
 [git_state]
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
-style = "bright-black"
+style = "#6c6c6c"
+# style = "bright-black"
 
 [python]
 format = "[$virtualenv]($style) "
-style = "bright-black"
+style = "#6c6c6c"
+# style = "bright-black"
+
+[custom.ZSH_PRIV]
+command = """echo '[PRIVATE]'"""
+format = "[$output]($style)"
+style = "yellow"
+when = ''' test -n "$ZSH_PRIV" '''
+
+# Unused
+[env_var.ZSH_PRIV]
+default = ''
+format = "[(\\[PRIVATE\\])]($style)"
+style = "yellow"
+variable = "ZSH_PRIV"
