@@ -27,18 +27,22 @@ autoload -Uz compinit && compinit
 # bindkey -M menuselect 'l' vi-forward-char
 # bindkey '^I' menu-complete
 
-source $HOME/.config/zsh/git.zsh
-# source $HOME/.config/zsh/termsupport.zsh
+# Prompt
 
-fpath+=($HOME/.config/zsh/pure)
-setopt promptsubst
-autoload -Uz promptinit && promptinit
+eval "$(starship init zsh)"
 
-prompt pure
-PURE_PROMPT_SYMBOL="$([ $SHLVL -gt 1 ] && echo -n ${SHLVL}❯)"
-prompt_pure_check_cmd_exec_time() {}
-[ -n "$ZSH_PRIV" ] && export PS1="%F{yellow}[PRIVATE] $PS1"
-#source $HOME/.config/zsh/bira-theme.zsh
+# source $HOME/.config/zsh/git.zsh
+# # source $HOME/.config/zsh/termsupport.zsh
+#
+# fpath+=($HOME/.config/zsh/pure)
+# setopt promptsubst
+# autoload -Uz promptinit && promptinit
+#
+# prompt pure
+# PURE_PROMPT_SYMBOL="$([ $SHLVL -gt 1 ] && echo -n ${SHLVL}❯)"
+# prompt_pure_check_cmd_exec_time() {}
+# [ -n "$ZSH_PRIV" ] && export PS1="%F{yellow}[PRIVATE] $PS1"
+# #source $HOME/.config/zsh/bira-theme.zsh
 
 # FZF
 eval "$(fzf --zsh)"

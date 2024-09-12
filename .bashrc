@@ -38,32 +38,34 @@ source "$HOME/.config/shell/rc"
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
 
 # Prompt
-PROMPT_COMMAND=__prompt_command
-__prompt_command() {
-    local last_error="$?"
-    local blue="\e[0;34m"
-    local green="\e[0;32m"
-    local red="\e[0;31m"
-    local yellow="\e[0;33m"
-    local nc="\e[0m"
 
-    PS1="\n${blue}\w${nc}"
+eval "$(starship init bash)"
 
-    # Git
-    local git_status
-    git_status="$(git status 2>&1)"
-    if echo "$git_status" | grep -q -v "fatal: not a git repository" -; then
-        local branch
-        branch=$(echo "$git_status" |  cut -d ' ' -f 3 | head -n1)
-        PS1+=" ${yellow} $branch ${nc}"
-        echo "$git_status" | grep -q "nothing to commit, working tree clean" - && \
-            PS1+="${green}✓${nc}" || \
-            PS1+="${red}✗${nc}"
-    fi
-
-    PS1+="\n"
-    [ -n "$BASH_PRIV" ] && PS1+="${yellow}[PRIVATE]${nc} "
-    [[ "$last_error" -eq 0 ]] && PS1+="${green}" || PS1+="${red}"
-    PS1+="❯${nc} "
-}
-# command -v starship ❯/dev/null && eval "$(starship init bash)"
+# PROMPT_COMMAND=__prompt_command
+# __prompt_command() {
+#     local last_error="$?"
+#     local blue="\e[0;34m"
+#     local green="\e[0;32m"
+#     local red="\e[0;31m"
+#     local yellow="\e[0;33m"
+#     local nc="\e[0m"
+#
+#     PS1="\n${blue}\w${nc}"
+#
+#     # Git
+#     local git_status
+#     git_status="$(git status 2>&1)"
+#     if echo "$git_status" | grep -q -v "fatal: not a git repository" -; then
+#         local branch
+#         branch=$(echo "$git_status" |  cut -d ' ' -f 3 | head -n1)
+#         PS1+=" ${yellow} $branch ${nc}"
+#         echo "$git_status" | grep -q "nothing to commit, working tree clean" - && \
+#             PS1+="${green}✓${nc}" || \
+#             PS1+="${red}✗${nc}"
+#     fi
+#
+#     PS1+="\n"
+#     [ -n "$BASH_PRIV" ] && PS1+="${yellow}[PRIVATE]${nc} "
+#     [[ "$last_error" -eq 0 ]] && PS1+="${green}" || PS1+="${red}"
+#     PS1+="❯${nc} "
+# }
