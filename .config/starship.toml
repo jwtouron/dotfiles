@@ -49,7 +49,7 @@ style = "#6c6c6c"
 # style = "bright-black"
 
 [python]
-format = "[$virtualenv]($style) "
+format = "[(\\($symbol$virtualenv\\) )]($style)"
 style = "#6c6c6c"
 # style = "bright-black"
 
