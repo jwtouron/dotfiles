@@ -35,14 +35,11 @@ vim.api.nvim_create_user_command(
         buffer = nil
       end
 
-      local buffer_name = 'exec:///' .. command
-      pcall(vim.cmd, "silent bdelete! " .. buffer_name)
-
       buffer = vim.api.nvim_create_buf(false, true)
       local bufnr = vim.fn.bufnr(buffer)
 
       vim.cmd("b " .. bufnr)
-      vim.cmd("silent keepalt noautocmd file " .. buffer_name)
+      vim.cmd("silent 0file | silent keepalt noautocmd file exec:///" .. command)
 
       print("Running: " .. command)
       local _, output = pcall(vim.fn.execute, command)
