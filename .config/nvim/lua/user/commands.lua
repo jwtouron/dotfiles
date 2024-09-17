@@ -6,6 +6,38 @@ for _, cmd in ipairs({ "Cdf", "CDF" }) do
   )
 end
 
+local last_e_command = ""
+
+vim.api.nvim_create_user_command(
+  "E",
+  function(arg)
+    if arg.args == "" and last_e_command == "" then
+      vim.api.nvim_err_writeln("Argument required.")
+      return
+    end
+
+    if arg.bang then
+      vim.cmd("write")
+    end
+
+    local command = nil
+
+    if arg.args == "" then
+      command = last_e_command
+    else
+      command = arg.args
+    end
+
+    vim.cmd("enew | nnoremap <buffer> q :bw!<cr> | redir => e_command | silent " .. command .. " | redir END | put=e_command")
+    last_e_command = command
+  end,
+  {
+    bang = true,
+    desc = "Execute a command and put the output in a new buffer.",
+    nargs = "*",
+  }
+)
+
 vim.api.nvim_create_user_command(
   "ReadDate",
   function(arg)
