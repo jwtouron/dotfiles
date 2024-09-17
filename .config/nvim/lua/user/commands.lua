@@ -28,7 +28,9 @@ vim.api.nvim_create_user_command(
       command = arg.args
     end
 
-    vim.cmd("enew | nnoremap <buffer> q :bw!<cr> | redir => e_command | silent " .. command .. " | redir END | put=e_command")
+    vim.cmd("enew | nnoremap <buffer> q :bw!<cr> | redir => e_command")
+    pcall(function(a) vim.cmd(a) end, "silent " .. command)
+    vim.cmd("redir END | put=e_command")
     last_e_command = command
   end,
   {
