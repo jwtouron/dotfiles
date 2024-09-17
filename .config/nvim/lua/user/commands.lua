@@ -6,33 +6,53 @@ for _, cmd in ipairs({ "Cdf", "CDF" }) do
   )
 end
 
-local last_e_command = ""
-
 vim.api.nvim_create_user_command(
   "E",
-  function(arg)
-    if arg.args == "" and last_e_command == "" then
-      vim.api.nvim_err_writeln("Argument required.")
-      return
+  (function()
+    local last_command = ""
+    local buffer = nil
+
+    return function(arg)
+      if arg.args == "" and last_command == "" then
+        vim.api.nvim_err_writeln("Argument required.")
+        return
+      end
+
+      if arg.bang then
+        vim.cmd("silent write")
+      end
+
+      local command = nil
+
+      if arg.args == "" then
+        command = last_command
+      else
+        command = arg.args
+      end
+
+      if buffer and vim.api.nvim_buf_is_valid(buffer) then
+        vim.api.nvim_buf_delete(buffer, { force = true })
+        buffer = nil
+      end
+
+      local buffer_name = 'exec:///' .. command
+      pcall(vim.cmd, "silent bdelete! " .. buffer_name)
+
+      buffer = vim.api.nvim_create_buf(false, true)
+      local bufnr = vim.fn.bufnr(buffer)
+
+      vim.cmd("b " .. bufnr)
+      vim.cmd("silent keepalt noautocmd file " .. buffer_name)
+
+      print("Running: " .. command)
+      local _, output = pcall(vim.fn.execute, command)
+
+      vim.api.nvim_buf_set_lines(buffer, 0, -1, true, vim.split(output, '\n'))
+      vim.api.nvim_set_option_value('modifiable', false, { buf = bufnr })
+
+      last_command = command
     end
-
-    if arg.bang then
-      vim.cmd("write")
-    end
-
-    local command = nil
-
-    if arg.args == "" then
-      command = last_e_command
-    else
-      command = arg.args
-    end
-
-    vim.cmd("enew | nnoremap <buffer> q :bw!<cr> | redir => e_command")
-    pcall(function(a) vim.cmd(a) end, "silent " .. command)
-    vim.cmd("redir END | put=e_command")
-    last_e_command = command
-  end,
+  end)(),
   {
     bang = true,
     desc = "Execute a command and put the output in a new buffer.",
