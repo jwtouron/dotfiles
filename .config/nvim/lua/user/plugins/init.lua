@@ -13,12 +13,22 @@ return {
   {
     "exec",
     dir = vim.fn.stdpath("config") .. '/lua/user/exec.nvim',
-    cmd = { "Exec", "ExecHistory", "ExecLastCommand" },
-    keys = {
-      { "<leader>ee", function() require('exec').exec_last_command() end, desc = "Exec last command" },
-      { "<leader>eh", function() require('exec').exec_history() end, desc = "Exec history" },
-      { "<leader>eo", function() require('exec').toggle_output() end, desc = "Toggle open Exec output" },
-    },
+    keys = function()
+      local exec = require("exec")
+      return {
+        { "<leader>ee", function() vim.api.nvim_feedkeys(":Exec " .. ((exec.last_command() or {})[1] or ""), '', true) end, mode = { 'n', 'v' } },
+        { "<leader>eh", function() exec.open_history() end },
+        { "<leader>er", function() exec.rerun() end },
+        { "<leader>eo", function() exec.toggle_output() end },
+        {
+          "<leader>ev",
+          function()
+            vim.cmd("normal! vip")
+            vim.api.nvim_feedkeys(":Exec " .. ((exec.last_command() or {})[1] or ""), '', true)
+          end
+        },
+      }
+    end,
     config = true,
   },
 
