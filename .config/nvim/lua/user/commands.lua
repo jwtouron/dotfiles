@@ -1,3 +1,11 @@
+for _, cmd in ipairs({ "Bd", "BD" }) do
+  vim.api.nvim_create_user_command(cmd, [[b#|bd#]], {})
+end
+
+for _, cmd in ipairs({ "Bw", "BW" }) do
+  vim.api.nvim_create_user_command(cmd, [[b#|bw#]], {})
+end
+
 for _, cmd in ipairs({ "Cdf", "CDF" }) do
   vim.api.nvim_create_user_command(
     cmd,
@@ -110,9 +118,10 @@ vim.api.nvim_create_user_command(
 
 vim.api.nvim_create_autocmd("TermClose", {
   group = vim.api.nvim_create_augroup("user-tui", { clear = true }),
-  callback = function()
-    require('mini.bufremove').wipeout(0)
-  end
+  command = "b#|bw#",
+  -- callback = function()
+  --   require('mini.bufremove').wipeout(0)
+  -- end
 })
 --
 for _, name in ipairs({ "Tui", "TUI" }) do

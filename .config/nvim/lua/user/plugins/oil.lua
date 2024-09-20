@@ -1,7 +1,8 @@
 local function toggle_oil()
   if vim.bo.filetype == 'oil' then
-    require('mini.bufremove').wipeout()
-    -- vim.api.nvim_buf_delete(0, { force = true })
+    -- vim.cmd("b#|bw#")
+    -- require('mini.bufremove').wipeout()
+    vim.api.nvim_buf_delete(0, { force = true })
   else
     require('oil').open()
   end
