@@ -48,8 +48,8 @@ vim.api.nvim_create_user_command(
 
       vim.cmd("b " .. bufnr)
       vim.cmd("silent 0file | silent keepalt noautocmd file exec:///" .. command)
+      vim.keymap.set('n', 'q', '<cmd>bp | bw #<cr>', { buffer = bufnr })
 
-      print("Running: " .. command)
       local _, output = pcall(vim.fn.execute, command)
 
       vim.api.nvim_buf_set_lines(buffer, 0, -1, true, vim.split(output, '\n'))
