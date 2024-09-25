@@ -27,7 +27,7 @@ vim.api.nvim_create_user_command(
       end
 
       if arg.bang then
-        vim.cmd("silent write")
+        pcall(function(x) vim.cmd(x) end, "silent write")  -- pcall in case buffer isn't writable... just ignore
       end
 
       local command = nil

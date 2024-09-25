@@ -80,8 +80,8 @@ end
 --- Exec
 --------------------------------------------------------------------------------
 
-Exec = {}
-Exec.index = Exec
+local Exec = {}
+Exec.__index = Exec
 
 function Exec.run(command, stdin)
   local self = setmetatable({}, Exec)
@@ -135,28 +135,81 @@ function Exec:close()
   end
 end
 
+function Exec:toggle_window()
+  if self.window ~= nil and vim.api.nvim_win_is_valid(self.window) then
+    vim.api.nvim_win_close(self.window, true)
+    self.window = nil
+  else
+    local title = 'Running...'
+    if self.aborted then
+      title = 'Aborted.'
+    elseif self.exit_code then
+      title = 'Done.'
+    end
+    self.window = open_floating_window(self.buffer, title)
+  end
+end
+
+--------------------------------------------------------------------------------
+--- History
+--------------------------------------------------------------------------------
+
+local History = {}
+History.__index = History
+
+function History.new(capacity)
+  local self = setmetatable({ execs = {} }, History)
+  self.capacity = capacity or 25
+  self.buffer = vim.api.nvim_create_buf(false, true)
+  return self
+end
+
+function History:add(exec)
+  self.execs[self.capacity] = nil
+  table.insert(self.execs, 1, exec)
+end
+
+function History:toggle_window()
+end
+
 --------------------------------------------------------------------------------
 --- Module
 --------------------------------------------------------------------------------
 
-local exec = nil
+local history = History.new()
 local M = {}
 
 M.setup = function()
 end
 
 M.run = function(command, stdin)
-  local prev_exec = nil
-
-  if exec then
-    prev_exec = exec
-    print(prev_exec.close)
-    prev_exec:close()
+  if history.execs[1] then
+    history[1]:close()
   end
 
-  exec = Exec.run(command, stdin)
+  history:add(Exec.run(command, stdin))
 end
 
-vim.keymap.set('n', '<space><space>', function() M.run(vim.fn.input('Run: ')) end)
+M.rerun = function()
+  if history[1] then
+    local exec =  Exec.run(history[1].command, history[1].stdin)
+    history[1]:close()
+    history[1] = exec
+  else
+    vim.api.nvim_err_writeln("[Exec] Empty history!")
+  end
+end
+
+M.toggle_output = function()
+  if history[1] then
+    history[1]:toggle_window()
+  else
+    vim.api.nvim_err_writeln("[Exec] Empty history!")
+  end
+end
+
+vim.keymap.set('n', '<space>ee', function() M.run(vim.fn.input('Run: ')) end)
+vim.keymap.set('n', '<space>er', M.rerun)
+vim.keymap.set('n', '<space>eo', M.toggle_output)
 
 return M

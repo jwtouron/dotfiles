@@ -31,6 +31,7 @@ local function colorscheme(name, spec)
 end
 
 return {
+  colorscheme("akinsho/horizon.nvim", { version = "*" }),
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
   colorscheme("antonk52/lake.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),

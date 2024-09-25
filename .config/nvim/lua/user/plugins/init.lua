@@ -12,6 +12,7 @@ return {
 
   {
     "exec",
+    enabled = false,
     dir = vim.fn.stdpath("config") .. '/lua/user/exec.nvim',
     keys = function()
       local exec = require("exec")
