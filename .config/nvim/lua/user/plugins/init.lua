@@ -1,6 +1,24 @@
+-- vim: set foldenable foldmethod=marker:
+
 local augroup = vim.api.nvim_create_augroup("user.plugins.init", { clear = true })
 
 return {
+
+  -- {{{1 adigitoleo/haunt.nvim
+
+  {
+    "adigitoleo/haunt.nvim",
+    cmd = { "HauntTerm", "HauntHelp", "HauntMan", "HauntLs" },
+    init = function()
+      vim.cmd("cabbrev h HauntHelp")
+      vim.cmd("cabbrev man HauntHelp")
+    end,
+    opts = {
+      window = { winblend = 0 }
+    },
+  },
+
+  -- {{{1 bronson/vim-visual-star-search
 
   {
     "bronson/vim-visual-star-search",
@@ -9,6 +27,8 @@ return {
       { "#", mode = 'x' },
     },
   },
+
+  -- {{{1 exec
 
   {
     "exec",
@@ -33,10 +53,14 @@ return {
     config = true,
   },
 
+  -- {{{1 godlygeek/tabular'
+
   {
     'godlygeek/tabular',
     cmd = { "Tabularize", "Tab", },
   },
+
+  -- {{{1 jeetsukumaran/vim-indentwise
 
   {
     "jeetsukumaran/vim-indentwise",
@@ -59,6 +83,8 @@ return {
     },
   },
 
+  -- {{{1 lmburns/lf.nvim
+
   {
     "lmburns/lf.nvim",
     disabled = true,
@@ -72,6 +98,8 @@ return {
     },
     init = function() vim.g.lf_netrw = 1 end,
   },
+
+  -- {{{1 max397574/better-escape.nvim
 
   {
     "max397574/better-escape.nvim",
@@ -89,10 +117,14 @@ return {
     end,
   },
 
+  -- {{{1 mbbill/undotree
+
   {
     "mbbill/undotree",
     cmd = { "UndotreeShow", "UndotreeToggle" }
   },
+
+  -- {{{1 norcalli/nvim-colorizer.lua
 
   {
     "norcalli/nvim-colorizer.lua",
@@ -100,6 +132,8 @@ return {
     init = function() vim.opt.termguicolors = true end,
     config = function() require("colorizer").setup() end,
   },
+
+  -- {{{1 nvim-zh/better-escape.vim
 
   {
     "nvim-zh/better-escape.vim",
@@ -110,6 +144,8 @@ return {
     end,
   },
 
+  -- {{{1 preservim/vim-markdown
+
   {
     'preservim/vim-markdown',
     dependencies = 'godlygeek/tabular',
@@ -119,6 +155,8 @@ return {
       vim.g.vim_markdown_conceal_code_blocks = 0
     end,
   },
+
+  -- {{{1 quick-history
 
   {
     "quick-history",
@@ -138,6 +176,8 @@ return {
     config = true,
   },
 
+  -- {{{1 rlane/pounce.nvim
+
   {
     "rlane/pounce.nvim",
     keys = {
@@ -146,10 +186,14 @@ return {
     },
   },
 
+  -- {{{1 romainl/vim-cool
+
   {
     "romainl/vim-cool",
     event = "CmdlineEnter",
   },
+
+  -- {{{1 romainl/vim-qf
 
   {
     "romainl/vim-qf",
@@ -160,12 +204,7 @@ return {
     end,
   },
 
-  {
-    "inkarkat/vim-redocommand",
-    cmd = {
-      "Redocommand", "R", "RedoRepeat", "RR", "RedoBufferRepeat", "RB", "RedoWindowRepeat", "RW"
-    },
-  },
+  -- {{{1 jwtouron/odin.vim
 
   {
     "jwtouron/odin.vim",
@@ -179,10 +218,14 @@ return {
     end,
   },
 
+  -- {{{1 tpope/vim-fugitive
+
   {
     "tpope/vim-fugitive",
     cmd = { "G", "Git" },
   },
+
+  -- {{{1 tpope/vim-rsi
 
   {
     "tpope/vim-rsi",
@@ -192,6 +235,8 @@ return {
       { "]<space>", function() vim.cmd [[normal! o]] end },
     },
   },
+
+  -- {{{1 tpope/vim-sleuth
 
   {
     "tpope/vim-sleuth",

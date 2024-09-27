@@ -1,6 +1,11 @@
---------------------------------------------------------------------------------
---- Job
---------------------------------------------------------------------------------
+-- vim: set foldenable foldmethod=marker:
+
+local namespace = vim.api.nvim_create_namespace('Exec')
+vim.api.nvim_set_hl(namespace, 'Success', { fg = 'green', bg = 'none' })
+vim.api.nvim_set_hl(namespace, 'Error', { fg = 'red', bg = 'none' })
+vim.api.nvim_set_hl(namespace, 'Stdin', { fg = 'blue', bg = 'none' })
+
+-- {{{1 Job
 
 local function start_job(command, on_line, on_exit, stdin)
   local opts = { on_exit = on_exit }
@@ -51,34 +56,7 @@ local function start_job(command, on_line, on_exit, stdin)
   return job_id
 end
 
---------------------------------------------------------------------------------
---- Floating Windows
---------------------------------------------------------------------------------
-
-local function open_floating_window(buffer, title)
-  local margin = 0.05
-  local row = math.floor(vim.o.lines * margin)
-  local col = math.floor(vim.o.columns * margin)
-  local win_config = {
-    relative = 'editor',
-    width = math.floor(vim.o.columns * (1 - margin * 2)),
-    height = math.floor(vim.o.lines * (1 - margin * 2)),
-    row = row,
-    col = col,
-    style = 'minimal',
-    border = 'rounded',
-  }
-  if title then
-    win_config.title = title
-    win_config.title_pos = 'center'
-  end
-
-  return vim.api.nvim_open_win(buffer, true, win_config)
-end
-
---------------------------------------------------------------------------------
---- Exec
---------------------------------------------------------------------------------
+-- {{{1 Exec
 
 local Exec = {}
 Exec.__index = Exec
@@ -95,7 +73,7 @@ function Exec.run(command, stdin)
 
   vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = self.bufnr })
 
-  self.window = open_floating_window(self.buffer, "Running...")
+  self.window = self:_open_window("Running...")
 
   local function on_line(line)
     table.insert(self.output, line)
@@ -146,21 +124,39 @@ function Exec:toggle_window()
     elseif self.exit_code then
       title = 'Done.'
     end
-    self.window = open_floating_window(self.buffer, title)
+    self.window = self:_open_window(title)
   end
 end
 
---------------------------------------------------------------------------------
---- History
---------------------------------------------------------------------------------
+function Exec:_open_window(title)
+  local margin = 0.05
+  local row = math.floor(vim.o.lines * margin)
+  local col = math.floor(vim.o.columns * margin)
+  local win_config = {
+    relative = 'editor',
+    width = math.floor(vim.o.columns * (1 - margin * 2)),
+    height = math.floor(vim.o.lines * (1 - margin * 2)),
+    row = row,
+    col = col,
+    style = 'minimal',
+    border = 'rounded',
+  }
+  if title then
+    win_config.title = title
+    win_config.title_pos = 'center'
+  end
+
+  return vim.api.nvim_open_win(self.buffer, true, win_config)
+end
+
+-- {{{1 History
 
 local History = {}
 History.__index = History
 
 function History.new(capacity)
-  local self = setmetatable({ execs = {} }, History)
+  local self = setmetatable({ execs = {}, windows = {}, }, History)
   self.capacity = capacity or 25
-  self.buffer = vim.api.nvim_create_buf(false, true)
   return self
 end
 
@@ -170,11 +166,77 @@ function History:add(exec)
 end
 
 function History:toggle_window()
+  if self.windows.execs ~= nil and vim.api.nvim_win_is_valid(self.windows.execs) then
+    self:close_windows()
+  else
+    self:open_windows()
+  end
 end
 
---------------------------------------------------------------------------------
---- Module
---------------------------------------------------------------------------------
+function History:open_windows()
+  self:open_window_execs()
+end
+
+function History:open_window_execs()
+  local buffer = vim.api.nvim_create_buf(false, true)
+  local bufnr = vim.fn.bufnr(buffer)
+
+  local content = {}
+  for _, exec in ipairs(self.execs) do
+    local line = ''
+
+    if exec.stdin then
+      line = line .. '● '
+    else
+      line = line .. '  '
+    end
+
+    if exec.exit_code == 0 then
+      line = line .. '✓ '
+    elseif exec.exit_code ~= nil then
+      line = line .. '✗ '
+    else
+      line = line .. '  '
+    end
+
+    line = line .. exec.command
+
+    table.insert(content, line)
+  end
+  vim.api.nvim_buf_set_lines(buffer, 0, -1, true, content)
+
+  vim.api.nvim_buf_add_highlight(bufnr, namespace, 'Stdin', 0, 0, -1)
+  -- vim.api.nvim_buf_set_extmark(buffer, namespace, 0, 0, { hl_group = 'stdin', })
+  -- vim.api.nvim_buf_set_extmark(buffer, namespace, 1, 0, { hl_group = 'stdin', hl_mode = 'combine', })
+  -- vim.api.nvim_buf_set_extmark(buffer, namespace, (content[#content] or 1) - 1, 0, { hl_group = 'stdin', hl_mode = 'combine', })
+
+  local margin = 0.05
+  local row = math.floor(vim.o.lines * margin)
+  local col = math.floor(vim.o.columns * margin)
+  local config = {
+    relative = 'editor',
+    width = math.floor(vim.o.columns * (1 - margin * 2)),
+    height = math.floor(vim.o.lines * (1 - margin * 2)),
+    row = row,
+    col = col,
+    style = 'minimal',
+    border = 'rounded',
+  }
+  self.windows.execs = vim.api.nvim_open_win(buffer, true, config)
+
+  vim.api.nvim_buf_set_option(buffer, "bufhidden", "wipe")
+end
+
+function History:close_windows()
+  for _, window in ipairs(self.windows) do
+    if window ~= nil and vim.api.nvim_win_is_valid(window) then
+      vim.api.nvim_win_close(window, true)
+    end
+  end
+  self.windows = {}
+end
+
+-- {{{1 Module
 
 local history = History.new()
 local M = {}
@@ -208,8 +270,9 @@ M.toggle_output = function()
   end
 end
 
-vim.keymap.set('n', '<space>ee', function() M.run(vim.fn.input('Run: ')) end)
+vim.keymap.set('n', '<space>ee', function() M.run('python3', 'print("hello")') end)
 vim.keymap.set('n', '<space>er', M.rerun)
 vim.keymap.set('n', '<space>eo', M.toggle_output)
+vim.keymap.set('n', '<space>eh', function() history:toggle_window() end)
 
 return M

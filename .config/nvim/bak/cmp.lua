@@ -28,6 +28,7 @@ local kind_icons = {
 
 return {
   "hrsh7th/nvim-cmp",
+  enabled = false,
   version = false,
   event = "InsertEnter",
   dependencies = {

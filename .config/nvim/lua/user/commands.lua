@@ -1,3 +1,7 @@
+-- vim: set foldenable foldmethod=marker:
+
+-- {{{1 Bd, BD, Bw, BW: Wipe and delete buffer
+
 for _, cmd in ipairs({ "Bd", "BD" }) do
   vim.api.nvim_create_user_command(cmd, [[b#|bd#]], {})
 end
@@ -6,6 +10,8 @@ for _, cmd in ipairs({ "Bw", "BW" }) do
   vim.api.nvim_create_user_command(cmd, [[b#|bw#]], {})
 end
 
+-- {{{1 Cdf, CDF: Change to directory of current file
+
 for _, cmd in ipairs({ "Cdf", "CDF" }) do
   vim.api.nvim_create_user_command(
     cmd,
@@ -13,6 +19,8 @@ for _, cmd in ipairs({ "Cdf", "CDF" }) do
     { desc = "cd to the directory of the current file" }
   )
 end
+
+-- {{{1 E: Execute a command and put the output in a new buffer.
 
 vim.api.nvim_create_user_command(
   "E",
@@ -44,18 +52,19 @@ vim.api.nvim_create_user_command(
       end
 
       buffer = vim.api.nvim_create_buf(false, true)
+      vim.api.nvim_buf_set_option(self.buffer, "bufhidden", "wipe")
       local bufnr = vim.fn.bufnr(buffer)
 
       vim.cmd("b " .. bufnr)
       vim.cmd("silent 0file | silent keepalt noautocmd file exec:///" .. command)
-      vim.keymap.set('n', 'q', '<cmd>bp | bw #<cr>', { buffer = bufnr })
+      vim.keymap.set('n', 'q', '<cmd>b# | bw #<cr>', { buffer = bufnr })
 
-      local _, output = pcall(vim.fn.execute, command)
-
-      vim.api.nvim_buf_set_lines(buffer, 0, -1, true, vim.split(output, '\n'))
-      vim.api.nvim_set_option_value('modifiable', false, { buf = bufnr })
-
-      last_command = command
+      local ok, output = pcall(vim.fn.execute, command)
+      if ok then
+        vim.api.nvim_buf_set_lines(buffer, 0, -1, true, vim.split(output, '\n'))
+        vim.api.nvim_set_option_value('modifiable', false, { buf = bufnr })
+        last_command = command
+      end
     end
   end)(),
   {
@@ -64,6 +73,8 @@ vim.api.nvim_create_user_command(
     nargs = "*",
   }
 )
+
+-- {{{1  ReadDate
 
 vim.api.nvim_create_user_command(
   "ReadDate",
@@ -91,6 +102,127 @@ vim.api.nvim_create_user_command(
   }
 )
 
+-- {{{1 R, RD, RL: Rerun Commands
+
+local rerun_command = { saved_commands = {} }
+
+vim.api.nvim_create_user_command(
+  "R",
+  function(arg)
+    local pattern = nil
+    local index = nil
+    local command = nil
+
+    if arg.args ~= "" then
+      pattern = arg.args
+    end
+
+    if arg.range == 1 then
+      index = arg.line1
+    end
+
+    if pattern then
+      -- Search for pattern in history
+      local history = vim.fn.split(vim.fn.execute('silent history'), '\n')
+      for i = #history, 1, -1 do
+        if history[i]:find(pattern) and not history[i]:find('%d*R .*' .. pattern) then
+          command = history[i]:gsub("^>?%s*%d+%s*", "")
+          break
+        end
+      end
+
+      if not command then
+        vim.api.nvim_err_writeln("Could not find command in history: " .. pattern)
+        return
+      end
+
+      if index then
+        self.saved_commands[index] = command
+      end
+    elseif index then
+      -- No command given, but have index... execute command saved at index
+      if self.saved_commands[index] then
+        command = self.saved_commands[index]
+      else
+        vim.api.nvim_err_writeln("No saved command at given index: " .. index)
+        return
+      end
+    else
+      -- Neither pattern nor index, find first saved command, if exists
+      for _, cmd in ipairs(self.saved_commands) do
+        if cmd then
+          command = cmd
+          break
+        end
+      end
+
+      if not command then
+        vim.api.nvim_err_writeln("No saved commands!")
+        return
+      end
+    end
+
+    vim.cmd(command)
+  end,
+  {
+    desc = "Rerun a command",
+    nargs = '?',
+    count = 1,
+    bar = true,
+  }
+)
+
+vim.api.nvim_create_user_command(
+  "RD",
+  function(arg)
+    local indices = {}
+
+    for _, arg in ipairs(arg.fargs) do
+      if not arg:find("^%d(-%d)?$") then
+        vim.api.nvim_err_writeln("Arguments for RD must be in the form: RD 1-2 3")
+        return
+      end
+
+      local splits = vim.fn.split(arg, "-")
+      for i, num in ipairs(splits) do splits[i] = tonumber(num) end
+
+      if #splits == 1 then
+        table.insert(indices, splits[1])
+      else
+        for i = splits[1], splits[2] do
+          table.insert(indices, i)
+        end
+      end
+    end
+
+    for _, index in ipairs(indices) do
+      self.saved_commands[index] = nil
+    end
+  end,
+  {
+    desc = "Delete a saved rerun command",
+    nargs = "+",
+    bar = true,
+  }
+)
+
+vim.api.nvim_create_user_command(
+  "RL",
+  function()
+    for i, command in ipairs(self.saved_commands) do
+      if command then
+        print(i, command)
+      end
+    end
+  end,
+  {
+    desc = "List saved rerun commands",
+    bar = true,
+  }
+)
+
+-- {{{1 Todos
+
 vim.api.nvim_create_user_command(
   "Todos",
   function(arg)
@@ -115,6 +247,8 @@ vim.api.nvim_create_user_command(
     bang = true,
   }
 )
+
+-- {{{1 Tui, TUI: Run a TUI application using :term
 
 vim.api.nvim_create_autocmd("TermClose", {
   group = vim.api.nvim_create_augroup("user-tui", { clear = true }),
