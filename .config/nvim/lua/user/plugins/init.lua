@@ -11,6 +11,7 @@ return {
     cmd = { "HauntTerm", "HauntHelp", "HauntMan", "HauntLs" },
     init = function()
       vim.cmd("cabbrev h HauntHelp")
+      vim.cmd("cabbrev ht HauntTerm")
       vim.cmd("cabbrev man HauntHelp")
     end,
     opts = {

@@ -53,8 +53,7 @@ return {
 
   {
     "neovim/nvim-lspconfig",
-    dependencies = { 'williamboman/mason.nvim' },
-    -- dependencies = { 'hrsh7th/cmp-nvim-lsp', 'williamboman/mason.nvim' },
+    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'williamboman/mason.nvim' },
     event = "FileType",
     -- event = "VeryLazy",
     init = function()
@@ -94,8 +93,7 @@ return {
     end,
     config = function()
       -- Setup servers
-      local capabilities = nil
-      -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require("lspconfig")
       local mason_registry = require("mason-registry")
       local package_names = mason_registry.get_installed_package_names()
