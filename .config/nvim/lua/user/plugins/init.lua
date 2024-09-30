@@ -21,16 +21,6 @@ return {
   -- {{{1 bronson/vim-visual-star-search
 
   {
-    "bronson/vim-visual-star-search",
-    keys = {
-      { "*", mode = 'x' },
-      { "#", mode = 'x' },
-    },
-  },
-
-  -- {{{1 exec
-
-  {
     "exec",
     enabled = false,
     dir = vim.fn.stdpath("config") .. '/lua/user/exec.nvim',

@@ -36,8 +36,8 @@ vim.keymap.set("n", "}", function() vim.fn.search('^\\s*$', 'W') end, { silent =
 -- vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
 -- https://vim.fandom.com/wiki/Search_for_visually_selected_text
--- vim.keymap.set("x", "*", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]])
--- vim.keymap.set("x", "#", [[y?\V<C-R>=escape(@",'/\')<CR><CR>]])
+vim.keymap.set("x", "*", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]])
+vim.keymap.set("x", "#", [[y?\V<C-R>=escape(@",'/\')<CR><CR>]])
 
 --------------------------------------------------------------------------------
 -- Tabs
