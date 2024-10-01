@@ -52,8 +52,8 @@ vim.api.nvim_create_user_command(
       end
 
       buffer = vim.api.nvim_create_buf(false, true)
-      vim.api.nvim_buf_set_option(self.buffer, "bufhidden", "wipe")
       local bufnr = vim.fn.bufnr(buffer)
+      vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
 
       vim.cmd("b " .. bufnr)
       vim.cmd("silent 0file | silent keepalt noautocmd file exec:///" .. command)
@@ -137,19 +137,19 @@ vim.api.nvim_create_user_command(
       end
 
       if index then
-        self.saved_commands[index] = command
+        rerun_command.saved_commands[index] = command
       end
     elseif index then
       -- No command given, but have index... execute command saved at index
-      if self.saved_commands[index] then
-        command = self.saved_commands[index]
+      if rerun_command.saved_commands[index] then
+        command = rerun_command.saved_commands[index]
       else
         vim.api.nvim_err_writeln("No saved command at given index: " .. index)
         return
       end
     else
       -- Neither pattern nor index, find first saved command, if exists
-      for _, cmd in ipairs(self.saved_commands) do
+      for _, cmd in ipairs(rerun_command.saved_commands) do
         if cmd then
           command = cmd
           break
@@ -196,7 +196,7 @@ vim.api.nvim_create_user_command(
     end
 
     for _, index in ipairs(indices) do
-      self.saved_commands[index] = nil
+      rerun_command.saved_commands[index] = nil
     end
   end,
   {
@@ -209,7 +209,7 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
   "RL",
   function()
-    for i, command in ipairs(self.saved_commands) do
+    for i, command in ipairs(rerun_command.saved_commands) do
       if command then
         print(i, command)
       end
