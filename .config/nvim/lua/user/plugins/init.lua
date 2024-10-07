@@ -19,7 +19,7 @@ return {
     },
   },
 
-  -- {{{1 bronson/vim-visual-star-search
+  -- {{{1 exec
 
   {
     "exec",
