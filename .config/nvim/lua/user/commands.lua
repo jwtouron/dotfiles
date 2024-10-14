@@ -125,7 +125,8 @@ vim.api.nvim_create_user_command(
       -- Search for pattern in history
       local history = vim.fn.split(vim.fn.execute('silent history'), '\n')
       for i = #history, 1, -1 do
-        if history[i]:find(pattern) and not history[i]:find('%d*R .*' .. pattern) then
+        if vim.fn.match(history[i], pattern) >= 0 and vim.fn.match(history[i], '\\d*R .*' .. pattern) < 0 then
+        -- if history[i]:find(pattern) and not history[i]:find('%d*R .*' .. pattern) then
           command = history[i]:gsub("^>?%s*%d+%s*", "")
           break
         end
@@ -178,7 +179,7 @@ vim.api.nvim_create_user_command(
     local indices = {}
 
     for _, arg in ipairs(arg.fargs) do
-      if not arg:find("^%d(-%d)?$") then
+      if vim.fn.match(arg, "^\\d\\+\\(-\\d\\+\\)\\?$") < 0 then
         vim.api.nvim_err_writeln("Arguments for RD must be in the form: RD 1-2 3")
         return
       end
