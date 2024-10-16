@@ -53,7 +53,8 @@ return {
 
   {
     "neovim/nvim-lspconfig",
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'williamboman/mason.nvim' },
+    dependencies = 'williamboman/mason.nvim',
+    -- dependencies = { 'hrsh7th/cmp-nvim-lsp', 'williamboman/mason.nvim' },
     event = "FileType",
     -- event = "VeryLazy",
     init = function()
@@ -64,7 +65,7 @@ return {
           local client = vim.lsp.get_client_by_id(ev.data.client_id)
           client.server_capabilities.semanticTokensProvider = nil
 
-          vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+          -- vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
           local mappings = {
             {'n', 'gD', 'declaration'},
@@ -92,14 +93,21 @@ return {
       })
     end,
     config = function()
+      local handlers =  {
+        ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, {border = 'rounded'}),
+        ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = 'rounded'}),
+      }
+
+      local capabilities = {}
+      -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
       -- Setup servers
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require("lspconfig")
       local mason_registry = require("mason-registry")
       local package_names = mason_registry.get_installed_package_names()
       for _, package_name in pairs(package_names) do
         local lspconfig_name = package_to_lspconfig[package_name] or package_name
-        local config = { capabilities = capabilities }
+        local config = { capabilities = capabilities, handlers = handlers, }
         if server_configs[lspconfig_name] then
           config = vim.tbl_extend("error", server_configs[lspconfig_name], config)
         end
