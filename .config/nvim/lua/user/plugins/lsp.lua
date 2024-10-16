@@ -69,15 +69,8 @@ return {
 
           local mappings = {
             {'n', 'gD', 'declaration'},
-            {'n', 'gd', 'definition'},
+            {'n', 'gd', 'definition'},  -- Also, C-]
             {'n', 'gri', 'implementation'},
-
-            -- Default mappings in Neovim nightly
-            -- TODO: Remove after new Neovim release
-            {'n', 'grn', 'rename'},
-            {{ 'n', 'x' }, 'gra', 'code_action'},
-            {'n', 'grr', 'references'},
-            {'i', '<C-S>', 'signature_help'},
           }
 
           for _, mapping in ipairs(mappings) do
