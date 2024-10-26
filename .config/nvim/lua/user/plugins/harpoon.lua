@@ -12,6 +12,7 @@ end
 
 return {
   'ThePrimeagen/harpoon',
+  enabled = false,
   dependencies = 'nvim-lua/plenary.nvim',
   keys = {
     { "<A-a>", mark("add_file()"),        desc = desc("Add File") },

@@ -135,6 +135,18 @@ return {
     end,
   },
 
+  -- {{1 otavioschwanck/arrow.nvim
+
+  {
+    "otavioschwanck/arrow.nvim",
+    dependencies = "nvim-tree/nvim-web-devicons",
+    opts = {
+      show_icons = true,
+      leader_key = '<leader>a', -- Recommended to be a single key
+      buffer_leader_key = '<localleader>a', -- Per Buffer Mappings
+    }
+  },
+
   -- {{{1 preservim/vim-markdown
 
   {
