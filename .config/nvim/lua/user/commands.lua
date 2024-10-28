@@ -56,7 +56,7 @@ vim.api.nvim_create_user_command(
       buffer = vim.api.nvim_create_buf(true, true)
       local bufnr = vim.fn.bufnr(buffer)
       -- vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
-      -- vim.keymap.set('n', 'q', '<cmd>b#<cr>', { buffer = bufnr })
+      vim.keymap.set('n', 'q', '<cmd>b#<cr>', { buffer = bufnr })
 
       vim.cmd("b " .. bufnr)
       vim.cmd("silent 0file | silent keepalt noautocmd file exec:///" .. command)
