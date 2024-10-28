@@ -46,26 +46,25 @@ vim.api.nvim_create_user_command(
         command = arg.args
       end
 
-      local ok, output = pcall(vim.fn.execute, command)
-      if ok then
-        if buffer and vim.api.nvim_buf_is_valid(buffer) then
-          vim.api.nvim_buf_delete(buffer, { force = true })
-          buffer = nil
-        end
+      local output = vim.fn.execute(command)
+      -- local ok, output = pcall(vim.fn.execute, command)
 
-        buffer = vim.api.nvim_create_buf(false, true)
-        local bufnr = vim.fn.bufnr(buffer)
-        vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
-        vim.keymap.set('n', 'q', '<cmd>b#<cr>', { buffer = bufnr })
-
-        vim.cmd("b " .. bufnr)
-        vim.cmd("silent 0file | silent keepalt noautocmd file exec:///" .. command)
-
-        vim.api.nvim_buf_set_lines(buffer, 0, -1, true, vim.split(output, '\n'))
-        vim.api.nvim_set_option_value('modifiable', false, { buf = bufnr })
-
-        last_command = command
+      if buffer and vim.api.nvim_buf_is_valid(buffer) then
+        vim.api.nvim_buf_delete(buffer, { force = true })
       end
+
+      buffer = vim.api.nvim_create_buf(true, true)
+      local bufnr = vim.fn.bufnr(buffer)
+      -- vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
+      -- vim.keymap.set('n', 'q', '<cmd>b#<cr>', { buffer = bufnr })
+
+      vim.cmd("b " .. bufnr)
+      vim.cmd("silent 0file | silent keepalt noautocmd file exec:///" .. command)
+
+      vim.api.nvim_buf_set_lines(buffer, 0, -1, true, vim.split(output, '\n'))
+      vim.api.nvim_set_option_value('modifiable', false, { buf = bufnr })
+
+      last_command = command
     end
   end)(),
   {
