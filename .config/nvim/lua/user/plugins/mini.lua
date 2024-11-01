@@ -81,22 +81,22 @@ local clue_spec = {
 }
 
 local files_spec = {
-  opts = {},
   keys = {
     { "<leader>ff", "<cmd>lua require('mini.files').open()<cr>", desc = "Mini Files" },
   },
   config = function()
-    vim.api.nvim_create_autocmd("FileType", {
+    local mini_files = require('mini.files')
+    mini_files.setup()
+    vim.api.nvim_create_autocmd("User", {
       group = augroup,
-      pattern = "minifiles",
-      callback = function()
+      pattern = "MiniFilesWindowOpen",
+      callback = function(args)
         vim.keymap.set("n", "!", function()
           local cword = vim.fn.expand('<cWORD>')
-          require('mini.files').close()
           return ":grep" .. cword .. "<Home><Right><Right><Right><Right><Del>  <Left>"
         end,
-        { buffer = true, expr = true, })
-      end,
+        { buffer = args.data.buf_id, expr = true })
+      end
     })
   end,
 }
@@ -118,7 +118,7 @@ return {
   mini('bufremove', bufremove_spec),
   mini('clue', clue_spec),
   -- mini('comment'),
-  -- mini('files', files_spec),
+  mini('files', files_spec),
   -- mini('statusline', { opts = {} }),
   mini('trailspace', trailspace_spec),
 }
