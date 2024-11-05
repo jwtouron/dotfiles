@@ -82,7 +82,7 @@ local clue_spec = {
 
 local files_spec = {
   keys = {
-    { "<leader>ff", "<cmd>lua require('mini.files').open()<cr>", desc = "Mini Files" },
+    { "<leader>f", "<cmd>lua require('mini.files').open()<cr>", desc = "Mini Files" },
   },
   config = function()
     local mini_files = require('mini.files')
