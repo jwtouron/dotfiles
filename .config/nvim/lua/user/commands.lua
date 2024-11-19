@@ -34,7 +34,7 @@ vim.api.nvim_create_user_command(
         return
       end
 
-      if arg.bang then
+      if arg.bang or vim.o.autowrite then
         pcall(function(x) vim.cmd(x) end, "silent write")  -- pcall in case buffer isn't writable... just ignore
       end
 
