@@ -4,21 +4,6 @@ local augroup = vim.api.nvim_create_augroup("user.plugins.init", { clear = true 
 
 return {
 
-  -- {{{1 adigitoleo/haunt.nvim
-
-  {
-    "adigitoleo/haunt.nvim",
-    cmd = { "HauntTerm", "HauntHelp", "HauntMan", "HauntLs" },
-    init = function()
-      vim.cmd("cabbrev h HauntHelp")
-      vim.cmd("cabbrev ht HauntTerm")
-      vim.cmd("cabbrev man HauntHelp")
-    end,
-    opts = {
-      window = { winblend = 0 }
-    },
-  },
-
   -- {{{1 exec
 
   {
