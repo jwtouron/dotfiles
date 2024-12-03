@@ -12,14 +12,14 @@ vim.opt.listchars =  { tab = "» " }
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 4
-vim.opt.shiftwidth = 0
+vim.opt.shiftwidth = 0  -- When 0, use value of tabstop
 vim.opt.sidescrolloff = 8
 vim.opt.smartcase = true
-vim.opt.softtabstop = 0
+-- vim.opt.softtabstop = 0  -- Default is 0, 0 means off
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.tabstop = 4
-vim.opt.termguicolors = true
+-- vim.opt.termguicolors = true  -- Neovim will automatically detect and enable
 vim.opt.wrap = false
 
 vim.g.netrw_winsize = 25

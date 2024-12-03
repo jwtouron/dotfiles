@@ -62,8 +62,10 @@ return {
         group = augroup,
         pattern = "*",
         callback = function(ev)
+          vim.opt_local.signcolumn = 'yes'
+
           local client = vim.lsp.get_client_by_id(ev.data.client_id)
-          client.server_capabilities.semanticTokensProvider = nil
+          if client then client.server_capabilities.semanticTokensProvider = nil end
 
           -- vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
@@ -87,8 +89,6 @@ return {
               vim.lsp.buf[mapping[3]],
               { desc = 'vim.lsp.buf.' .. mapping[3] .. '()', buffer = ev.buf })
           end
-
-          vim.opt_local.signcolumn = 'yes'
         end,
       })
     end,

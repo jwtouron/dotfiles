@@ -78,7 +78,7 @@ return {
 
   {
     "lmburns/lf.nvim",
-    disabled = true,
+    enabled = false,
     dependencies = "akinsho/toggleterm.nvim",
     cmd = "Lf",
     opts = {

@@ -28,6 +28,16 @@ vim.api.nvim_create_user_command(
     local last_command = ""
     local buffer = nil
 
+    local goto_file_line_col = function()
+      local line = vim.fn.getline('.')
+      local pattern = "^(.-):(%d+):(%d+):.*"
+      local file, line_num, col_num = string.match(line, pattern)
+      if file and line_num and col_num and vim.fn.filereadable(file) == 1 then
+        vim.cmd("silent edit " .. file)
+        vim.fn.cursor(tonumber(line_num), tonumber(col_num))
+      end
+    end
+
     return function(arg)
       if arg.args == "" and last_command == "" then
         vim.api.nvim_err_writeln("Argument required.")
@@ -57,6 +67,7 @@ vim.api.nvim_create_user_command(
       local bufnr = vim.fn.bufnr(buffer)
       -- vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
       vim.keymap.set('n', 'q', '<cmd>b#<cr>', { buffer = bufnr })
+      vim.keymap.set('n', '<cr>', goto_file_line_col, { buffer = bufnr })
 
       vim.cmd("b " .. bufnr)
       vim.cmd("silent 0file | silent keepalt noautocmd file exec:///" .. command)
