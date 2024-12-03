@@ -41,7 +41,7 @@ return {
   colorscheme("hardselius/warlock"),
   colorscheme("jacoborus/tender.vim"),
   colorscheme("jnurmine/Zenburn"),
-  colorscheme("dheepak/monochrome.nvim"),
+  colorscheme("kdheepak/monochrome.nvim"),
   colorscheme("kvrohit/rasmus.nvim"),
   colorscheme("mellow-theme/mellow.nvim"),
   colorscheme("miikanissi/modus-themes.nvim"),
