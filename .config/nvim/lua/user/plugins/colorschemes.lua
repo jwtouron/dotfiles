@@ -36,6 +36,7 @@ return {
   colorscheme("antonk52/lake.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
   colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
+  colorscheme("cpwrs/americano.nvim"),
   colorscheme("dgox16/oldworld.nvim"),
   colorscheme("folke/tokyonight.nvim"),
   colorscheme("hardselius/warlock"),
