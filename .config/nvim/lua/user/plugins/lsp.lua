@@ -62,7 +62,7 @@ return {
         group = augroup,
         pattern = "*",
         callback = function(ev)
-          vim.opt_local.signcolumn = 'yes'
+          vim.opt_local.signcolumn = 'yes:1'
 
           local client = vim.lsp.get_client_by_id(ev.data.client_id)
           if client then client.server_capabilities.semanticTokensProvider = nil end

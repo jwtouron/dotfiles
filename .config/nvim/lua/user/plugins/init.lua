@@ -8,22 +8,14 @@ return {
 
   {
     "exec",
-    enabled = false,
     dir = vim.fn.stdpath("config") .. '/lua/user/exec.nvim',
     keys = function()
       local exec = require("exec")
       return {
-        { "<leader>ee", function() vim.api.nvim_feedkeys(":Exec " .. ((exec.last_command() or {})[1] or ""), '', true) end, mode = { 'n', 'v' } },
-        { "<leader>eh", function() exec.open_history() end },
-        { "<leader>er", function() exec.rerun() end },
-        { "<leader>eo", function() exec.toggle_output() end },
-        {
-          "<leader>ev",
-          function()
-            vim.cmd("normal! vip")
-            vim.api.nvim_feedkeys(":Exec " .. ((exec.last_command() or {})[1] or ""), '', true)
-          end
-        },
+        { '<leader>ee', function() exec.run() end },
+        { '<leader>eh', function() exec.history() end },
+        { '<leader>el', function() exec.show_last() end },
+        { '<leader>er', function() exec.run_last() end },
       }
     end,
     config = true,
