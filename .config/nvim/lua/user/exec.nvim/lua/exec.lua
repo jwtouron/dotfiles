@@ -111,6 +111,10 @@ local function run(command, stdin)
   pcall(vim.api.nvim_buf_delete, output_buf, { force = true })
   output_buf = nil
 
+  if vim.o.autowrite then
+    pcall(function(x) vim.cmd(x) end, "silent write")  -- pcall in case buffer isn't writable... just ignore
+  end
+
   local output = vim.fn.system(command, stdin)
 
   output_buf = create_buf(output)
