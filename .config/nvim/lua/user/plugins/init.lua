@@ -12,10 +12,10 @@ return {
     keys = function()
       local exec = require("exec")
       return {
-        { '<leader>ee', function() exec.run() end },
-        { '<leader>eh', function() exec.history() end },
-        { '<leader>el', function() exec.show_last() end },
-        { '<leader>er', function() exec.run_last() end },
+        { '<leader>ee', exec.run },
+        { '<leader>eh', exec.history },
+        { '<leader>el', exec.show_last },
+        { '<leader>er', exec.run_last },
       }
     end,
     config = true,
