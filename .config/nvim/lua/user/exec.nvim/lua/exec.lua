@@ -112,7 +112,7 @@ local function run(command, stdin)
   output_buf = nil
 
   if vim.o.autowrite then
-    pcall(function(x) vim.cmd(x) end, "silent wall")  -- pcall in case buffer isn't writable... just ignore
+    vim.cmd("bufdo try | silent w | catch | endtry")
   end
 
   local output = vim.fn.system(command, stdin)
