@@ -112,7 +112,7 @@ local function run(command, stdin)
   output_buf = nil
 
   if vim.o.autowrite then
-    vim.cmd("bufdo try | silent w | catch | endtry")
+    vim.cmd("silent! wall")
   end
 
   local output = vim.fn.system(command, stdin)
