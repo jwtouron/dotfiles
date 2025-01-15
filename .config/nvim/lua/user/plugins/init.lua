@@ -12,20 +12,13 @@ return {
     keys = function()
       local exec = require("exec")
       return {
-        { '<leader>ee', exec.run },
-        { '<leader>eh', exec.history },
-        { '<leader>el', exec.show_last },
-        { '<leader>er', exec.run_last },
+        { '<leader>ee', exec.run, desc = "Exec [R]un" },
+        { '<leader>eh', exec.history, desc = 'Exec [H]istory' },
+        { '<leader>el', exec.show_last, desc = 'Exec Show [L]ast' },
+        { '<leader>er', exec.run_last, desc = 'Exec [R]un Last' },
       }
     end,
     config = true,
-  },
-
-  -- {{{1 godlygeek/tabular'
-
-  {
-    'godlygeek/tabular',
-    cmd = { "Tabularize", "Tab", },
   },
 
   -- {{{1 jeetsukumaran/vim-indentwise
@@ -49,22 +42,6 @@ return {
       -- {"<c-k>", "<Plug>(IndentWisePreviousEqualIndent)", mode = {"n", "x", "o"}},
       -- {"<c-l>", "<Plug>(IndentWiseNextGreaterIndent)", mode = {"n", "x", "o"}},
     },
-  },
-
-  -- {{{1 lmburns/lf.nvim
-
-  {
-    "lmburns/lf.nvim",
-    enabled = false,
-    dependencies = "akinsho/toggleterm.nvim",
-    cmd = "Lf",
-    opts = {
-      border = "rounded",
-      width = 9999,
-      height = 9999,
-      default_file_manager = true,
-    },
-    init = function() vim.g.lf_netrw = 1 end,
   },
 
   -- {{{1 max397574/better-escape.nvim
@@ -98,7 +75,7 @@ return {
     "norcalli/nvim-colorizer.lua",
     name = "colorizer",
     init = function() vim.opt.termguicolors = true end,
-    config = function() require("colorizer").setup() end,
+    config = function() require("colorizer").setup({}) end,
   },
 
   -- {{{1 nvim-zh/better-escape.vim
@@ -124,22 +101,11 @@ return {
     }
   },
 
-  -- {{{1 preservim/vim-markdown
-
-  {
-    'preservim/vim-markdown',
-    dependencies = 'godlygeek/tabular',
-    ft = "markdown",
-    init = function()
-      vim.g.vim_markdown_folding_disabled = 1
-      vim.g.vim_markdown_conceal_code_blocks = 0
-    end,
-  },
-
   -- {{{1 quick-history
 
   {
     "quick-history",
+    enabled = false,
     dir = vim.fn.stdpath("config") .. '/lua/user/quick-history.nvim',
     cmd = "QuickHistory",
     keys = function()
