@@ -21,6 +21,10 @@ alias egrep='egrep --color=auto'
 alias config='git --git-dir=$HOME/.local/share/dotfiles/ --work-tree=$HOME'
 alias config-sync='GIT_DIR=$HOME/.local/share/dotfiles GIT_WORK_TREE=$HOME git-sync'
 
+if command -v trash-put >/dev/null; then
+    alias rm='echo "This is not the command you are looking for."; false'
+fi
+
 # Nix
 alias nix-install='nix-env -iA'  # packagename
 alias nix-query='nix-env -q'

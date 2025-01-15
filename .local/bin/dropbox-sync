@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -euxo pipefail
 
-rclone bisync ~/Documents/notes ~/Dropbox/notes --verbose "$@"
+if ! command -v rclone >/dev/null; then
+    echo ERROR: rclone not found
+    exit 1
+fi
+
+rclone bisync ~/Documents/Notes mydropbox:Notes --verbose "$@"
 
 # vim: set ft=bash
