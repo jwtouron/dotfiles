@@ -1,3 +1,12 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-rclone mount mydropbox: "$HOME/Dropbox" >/dev/null
+if ! command -v rclone >/dev/null; then
+    echo ERROR: rclone not found
+    exit 1
+fi
+
+if ! rclone config show | grep -q '\[dropbox\]'; then
+    rclone config create dropbox dropbox
+fi
+
+rclone mount dropbox: "$HOME/Dropbox" >/dev/null

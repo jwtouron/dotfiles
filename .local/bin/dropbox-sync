@@ -7,6 +7,10 @@ if ! command -v rclone >/dev/null; then
     exit 1
 fi
 
-rclone bisync ~/Documents/Notes mydropbox:Notes --verbose "$@"
+if ! rclone config show | grep -q '\[dropbox\]'; then
+    rclone config create dropbox dropbox
+fi
+
+rclone bisync ~/Documents/Notes dropbox:Notes --verbose "$@"
 
 # vim: set ft=bash
