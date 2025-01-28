@@ -11,14 +11,9 @@ vim.keymap.set("x", "P", [["_dP]], { desc = "Paste in visual mode without overwr
 -- Don't move cursor when joining lines (uses 'z' mark)
 vim.keymap.set("n", "J", "mzJ`z", { silent = true, desc = "Join lines" })
 
--- TODO: Fix this
--- -- Clean whitespace at end of line with <cr>
--- vim.keymap.set(
---   "i",
---   "<cr>",
---   "<cr><c-o>:let mbak=@m | let hlsearchbak=&hlsearch | set nohlsearch<CR><c-o>mm<c-o>:-1s/\\s*$//e<cr><c-o>`m<right><c-o>:let @m=mbak | let &hlsearch=hlsearchbak<cr>",
---   { silent = true }
--- )
+-- Create empty line above/below current line
+vim.keymap.set("n", "[<space>", "<cmd>normal! O<cr>")
+vim.keymap.set("n", "]<space>", "<cmd>normal! o<cr>")
 
 --------------------------------------------------------------------------------
 -- Navigation
@@ -43,11 +38,12 @@ vim.keymap.set("x", "#", [[y?\V<C-R>=escape(@",'/\')<CR><CR>]])
 -- Tabs
 --------------------------------------------------------------------------------
 
--- vim.keymap.set("n", "<tab><tab>", "<cmd>tabnew<cr>", { silent = true })
--- vim.keymap.set("n", "<tab>c", "<cmd>tabclose<cr>", { silent = true })
--- vim.keymap.set("n", "<tab>n", "<cmd>tabnext<cr>", { silent = true })
--- vim.keymap.set("n", "<tab>p", "<cmd>tabprevious<cr>", { silent = true })
--- vim.keymap.set("n", "<tab>o", "<cmd>tabonly<cr>", { silent = true })
+vim.keymap.set("n", "<tab><tab>", "<cmd>tabnew<cr>",      { silent = true })
+vim.keymap.set("n", "<tab>c",     "<cmd>tabclose<cr>",    { silent = true })
+vim.keymap.set("n", "<tab>m",     ":tabmove ",            { silent = true })
+vim.keymap.set("n", "<tab>n",     "<cmd>tabnext<cr>",     { silent = true })
+vim.keymap.set("n", "<tab>o",     "<cmd>tabonly<cr>",     { silent = true })
+vim.keymap.set("n", "<tab>p",     "<cmd>tabprevious<cr>", { silent = true })
 
 --------------------------------------------------------------------------------
 -- Windows

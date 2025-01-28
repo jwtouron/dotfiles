@@ -11,6 +11,11 @@ local function mini(name, spec)
   return ret
 end
 
+local bracketed_spec = {
+  event = "VeryLazy",
+  opts = { comment = { suffix = '', }, file = { suffix = '', }, },
+}
+
 local bufremove_spec = {
   event = "CmdlineEnter",
   opts = {},
@@ -114,7 +119,7 @@ local trailspace_spec = {
 
 return {
   mini('ai'),
-  mini('bracketed'),
+  mini('bracketed', bracketed_spec),
   mini('bufremove', bufremove_spec),
   mini('clue', clue_spec),
   -- mini('comment'),

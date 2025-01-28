@@ -176,10 +176,6 @@ return {
   {
     "tpope/vim-rsi",
     event = { "InsertEnter", "CmdlineEnter" },
-    keys = {
-      { "[<space>", function() vim.cmd [[normal! O]] end },
-      { "]<space>", function() vim.cmd [[normal! o]] end },
-    },
   },
 
   -- {{{1 tpope/vim-sleuth
