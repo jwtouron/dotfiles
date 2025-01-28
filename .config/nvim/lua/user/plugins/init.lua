@@ -69,6 +69,18 @@ return {
     cmd = { "UndotreeShow", "UndotreeToggle" }
   },
 
+  -- {{{1 michaeljsmith/vim-indent-object
+
+  {
+    "michaeljsmith/vim-indent-object",
+    keys = {
+      { "ai", nil, mode = { "o", "x" } },
+      { "ii", nil, mode = { "o", "x" } },
+      { "aI", nil, mode = { "o", "x" } },
+      { "iI", nil, mode = { "o", "x" } },
+    },
+  },
+
   -- {{{1 norcalli/nvim-colorizer.lua
 
   {
@@ -145,9 +157,17 @@ return {
     "romainl/vim-qf",
     event = "VeryLazy",
     init = function()
-      vim.g.qf_auto_resize = 0
-      vim.g.qf_max_height = 0
+      vim.api.nvim_create_autocmd("QuickFixCmdPre", {
+        pattern = "*",
+        callback = function()
+          vim.g.qf_max_height = math.floor(vim.o.lines / 2)
+        end,
+      })
     end,
+    -- init = function()
+    --   vim.g.qf_auto_resize = 0
+    --   vim.g.qf_max_height = 0
+    -- end,
   },
 
   -- {{{1 jwtouron/odin.vim
@@ -162,6 +182,14 @@ return {
         command = "setlocal tabstop=8 noexpandtab errorformat=%f(%l:%c)\\ %m indentkeys+=<:>,0=},0=)",
       })
     end,
+  },
+
+  -- {{{1 redo-command
+  {
+    "redo-command",
+    dir = vim.fn.stdpath("config") .. '/lua/user/redo-command.nvim',
+    cmd = { "RC", "RL", "RD" },
+    config = true,
   },
 
   -- {{{1 tpope/vim-fugitive

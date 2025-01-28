@@ -85,7 +85,7 @@ vim.api.nvim_create_user_command(
   }
 )
 
--- {{{1  ReadDate
+-- {{{1 ReadDate
 
 vim.api.nvim_create_user_command(
   "ReadDate",
