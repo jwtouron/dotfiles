@@ -15,6 +15,9 @@ vim.keymap.set("n", "J", "mzJ`z", { silent = true, desc = "Join lines" })
 vim.keymap.set("n", "[<space>", "<cmd>normal! O<cr>")
 vim.keymap.set("n", "]<space>", "<cmd>normal! o<cr>")
 
+-- Select last pasted text
+vim.keymap.set("n", "gp", "`[v`]", { silent = true })
+
 --------------------------------------------------------------------------------
 -- Miscellaneous
 --------------------------------------------------------------------------------

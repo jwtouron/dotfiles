@@ -189,6 +189,18 @@ return {
     "redo-command",
     dir = vim.fn.stdpath("config") .. '/lua/user/redo-command.nvim',
     cmd = { "RC", "RL", "RD" },
+    keys =  {
+      { "<leader>rr", "<cmd>RC<cr>", desc = "[R]edo Command" },
+      { "<leader>rc", "<cmd>RC<cr>", desc = "[R]edo Command" },
+      { "<leader>r1", "<cmd>1RC<cr>", desc = "[R]edo Command" },
+      { "<leader>r2", "<cmd>2RC<cr>", desc = "[R]edo Command" },
+      { "<leader>r3", "<cmd>3RC<cr>", desc = "[R]edo Command" },
+      { "<leader>r4", "<cmd>4RC<cr>", desc = "[R]edo Command" },
+      { "<leader>r5", "<cmd>5RC<cr>", desc = "[R]edo Command" },
+      { "<leader>r6", "<cmd>6RC<cr>", desc = "[R]edo Command" },
+      { "<leader>rl", "<cmd>RL<cr>", desc = "[L]ist Saved Commands" },
+      { "<leader>rd", ":RD ", desc = "[D]elete Saved Commands" },
+    },
     config = true,
   },
 

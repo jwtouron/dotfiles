@@ -2,15 +2,17 @@ local function warn(msg)
   vim.notify("[RedoCommand] " .. msg, vim.log.levels.WARN)
 end
 
-local function _error(msg)
-  error("[RedoCommand] " .. msg)
+local luaerror = error
+
+local function error(msg)
+  luaerror("[RedoCommand] " .. msg)
 end
 
 local function print_commands(commands, limit)
   limit = limit or #commands
   for i = 1, limit do
     if commands[i] then
-      print(i .. ") " .. commands[i])
+      print(string.format("%2d. %s", i, commands[i]))
     end
   end
 end
@@ -28,30 +30,21 @@ function Saved:reset()
 end
 
 function Saved:set(i, c)
-  if i > self.limit then
-    _error("Index greater than limit: index: " .. i .. ", limit: " .. self.limit)
+  if i < 1 or i > self.limit then
+    error(string.format("Invalid index: %d", i))
   end
   self.commands[i] = c
 end
 
 function Saved:get(i)
-  if i > self.limit then
-    _error("Index greater than limit: index: " .. i .. ", limit: " .. self.limit)
+  if i < 1 or i > self.limit then
+    error(string.format("Invalid index: %d", i))
   end
   return self.commands[i]
 end
 
 function Saved:print()
   print_commands(self.commands, self.limit)
-end
-
-function Saved:is_empty()
-  for i = 1, self.limit do
-    if self.commands[i] then
-      return false
-    end
-  end
-  return true
 end
 
 local History = {}
@@ -82,88 +75,107 @@ local saved = Saved.new()
 
 local M = {}
 
+M.redo_command = function(pattern, limit)
+  pattern = pattern or "."
+  limit = limit or 10
+
+  local last_command = vim.fn.histget('cmd', -1)
+  if last_command:find('RC') then
+    vim.fn.histdel('cmd', -1)
+  -- else
+  --   error("Last command doesn't contain `RC`: " .. last_command)
+  end
+
+  local history = History.new()
+  local command = nil
+
+  local commands = history:find(pattern, limit)
+  if #commands == 0 then
+    warn("No matching commands found")
+    return
+  end
+
+  command = commands[1]
+
+  if #commands > 1 then
+    print_commands(commands)
+    local index = nil
+    while not commands[index] do
+      local ok = false
+      ok, index = pcall(vim.fn.input, "Type number and <Enter>: ", '1')
+      if not ok then return nil end
+      index = tonumber(index)
+    end
+    vim.cmd("redraw")
+    command = commands[index]
+  end
+
+  if not command then
+    error("Empty command")
+    return
+  end
+
+  vim.cmd(command)
+
+  return command
+end
+
+M.save_command = function(command, index)
+  saved:set(index, command)
+end
+
+M.delete_saved_commands = function(indices)
+  if not indices then
+    saved:reset()
+  else
+    for _, index in ipairs(indices) do
+      saved:set(index, nil)
+    end
+  end
+end
+
+M.list_saved_commands = function()
+  saved:print()
+end
+
 M.setup = function()
   vim.api.nvim_create_user_command(
     "RC",
     function(arg)
-      local last_command = vim.fn.histget('cmd', -1)
-      if last_command:find('RC') then
-        vim.fn.histdel('cmd', -1)
-      else
-        _error("Last command doesn't contain `RC`: " .. last_command)
+      if arg.count > saved.limit then
+        warn("Invalid index: " .. arg.count)
+        return
       end
 
-      local history = History.new()
-      local command = nil
-
       if arg.args ~= "" then
-        local commands = history:find(arg.args, 10)
-        if #commands == 0 then
-          warn("No matching commands found")
-          return
-        end
-
-        command = commands[1]
-
-        if #commands > 1 then
-          print_commands(commands)
-
-          local index = nil
-          while not commands[index] do
-            local ok = false
-            ok, index = pcall(vim.fn.input, "Type number and <Enter>: ", '1')
-            if not ok then return end
-            index = tonumber(index)
-          end
-          command = commands[index]
-          vim.cmd("redraw")
-        end
-
-        if arg.count >= 1 and arg.count <= saved.limit then
+        local command = M.redo_command(arg.args)
+        if arg.count > 0 then
           saved:set(arg.count, command)
         end
       else
-        if arg.count then
-          command = saved:get(arg.count)
+        if arg.count == 0 then
+          M.redo_command('.', 1)
+        else
+          local command = saved:get(arg.count)
           if not command then
             warn("Invalid index: " .. arg.count)
             return
           end
-        else
-          local commands = history:find('.', 1)
-          if #commands == 0 then
-            warn("Empty history")
-            return
-          end
-          command = commands[1]
+          M.redo_command(command, 1)
         end
       end
-
-      if not command then
-        _error("Empty command")
-        return
-      end
-
-      vim.cmd(command)
     end,
     {
       count = 0,
       nargs = "?",
+      desc = "Redo Command",
     }
   )
 
   vim.api.nvim_create_user_command(
     "RL",
-    function()
-      if not saved:is_empty() then
-        saved:print()
-      else
-        warn("No saved commands")
-      end
-    end,
-    {
-      nargs = 0,
-    }
+    M.list_saved_commands,
+    { nargs = 0, desc = "List Saved Commands", }
   )
 
   vim.api.nvim_create_user_command(
@@ -173,7 +185,7 @@ M.setup = function()
 
       for _, a in ipairs(arg.fargs) do
         if a == '*' then
-          saved:reset()
+          M.delete_saved_commands()
           return
         end
 
@@ -187,19 +199,19 @@ M.setup = function()
           e = tonumber(a)
         end
         if not (s and e and s <= e) then
-          _error("Invalid arguments: Arguments must be in the form: RD 1 2-4 5 6-7")
+          warn("Invalid arguments: Arguments must be in the form: RD 1 2-4 5 6-7")
+          return
         end
         for i = s, e do
           table.insert(indices, i)
         end
       end
 
-      for _, index in ipairs(indices) do
-        saved:set(index, nil)
-      end
+      M.delete_saved_commands(indices)
     end,
     {
       nargs = '+',
+      desc = "Delete Saved Commands",
     }
   )
 end

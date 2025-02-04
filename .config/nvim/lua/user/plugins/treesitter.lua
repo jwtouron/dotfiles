@@ -1,6 +1,6 @@
 ---@class TextObject
 ---@field name string
----@field select_keymap string | string[]
+---@field select_keymap string
 ---@field goto_next_start string | nil
 ---@field goto_next_end string | nil
 ---@field goto_previous_start string | nil
@@ -49,13 +49,11 @@ local text_objects = {
   {
     name = "@parameter.outer",
     select_keymap = "aa",
-    selection_mode = "v",
   },
 
   {
     name = "@parameter.inner",
     select_keymap = "ia",
-    selection_mode = "v",
   },
 }
 
@@ -70,13 +68,12 @@ return {
         "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline",  -- MUST always be installed
         "go", "python",  -- Additional langauges
       }
-      require("nvim-treesitter").setup {
+
+      require("nvim-treesitter.configs").setup {
         ensure_installed = ensure_installed,
         sync_install = false,
         auto_install = true,
-      }
 
-      require("nvim-treesitter.configs").setup {
         incremental_selection = {
           enable = true,
           keymaps = {
@@ -92,30 +89,23 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
-    event = "VeryLazy",
     dependences = "nvim-treesitter/nvim-treesitter",
-    -- keys = function()
-    --   local keys = {}
-    --
-    --   for _, to in ipairs(text_objects) do
-    --     local select_keymap = to.select_keymap
-    --     if type(select_keymap) == 'string' then
-    --       select_keymap = { select_keymap }
-    --     end
-    --     for _, km in ipairs(select_keymap) do
-    --       table.insert(keys, { km, nil, mode = { "o", "x", } })
-    --     end
-    --
-    --     for _, f in ipairs({ "goto_next_start", "goto_next_end", "goto_previous_start", "goto_previous_end" }) do
-    --       if to[f] then
-    --         table.insert(keys, { to[f], nil, mode = { "n", "x" } })
-    --       end
-    --     end
-    --   end
-    --
-    --   return keys
-    -- end,
-    config = function()
+    keys = function()
+      local keys = {}
+
+      for _, to in ipairs(text_objects) do
+        table.insert(keys, { to.select_keymap, nil, mode = { "o", "x", } })
+
+        for _, f in ipairs({ "goto_next_start", "goto_next_end", "goto_previous_start", "goto_previous_end" }) do
+          if to[f] then
+            table.insert(keys, { to[f], nil, mode = { "n", "x" } })
+          end
+        end
+      end
+
+      return keys
+    end,
+    config = function(foo, bar)
       local keymaps = {}
       local goto_next_start = {}
       local goto_next_end = {}
@@ -123,13 +113,7 @@ return {
       local goto_previous_end = {}
 
       for _, to in ipairs(text_objects) do
-        local select_keymap = to.select_keymap
-        if type(select_keymap) == 'string' then
-          select_keymap = { select_keymap }
-        end
-        for _, km in ipairs(select_keymap) do
-          keymaps[km] = to.name
-        end
+        keymaps[to.select_keymap] = to.name
 
         if to.goto_next_start     then goto_next_start[to.goto_next_start] = to.name         end
         if to.goto_next_end       then goto_next_end[to.goto_next_end] = to.name             end

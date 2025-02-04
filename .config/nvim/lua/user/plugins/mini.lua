@@ -79,6 +79,7 @@ local clue_spec = {
         { mode = "n", keys = "<leader>h", desc = "Quick [H]istory" },
         { mode = "n", keys = "<leader>l", desc = "[L]SP" },
         { mode = "n", keys = "<leader>o", desc = "[O]il" },
+        { mode = "n", keys = "<leader>r", desc = "[R]edoCommand" },
         { mode = "n", keys = "<leader>z", desc = "F[Z]F" },
       },
     })
