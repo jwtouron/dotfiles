@@ -44,6 +44,20 @@ return {
     },
   },
 
+  -- {{{1 jwtouron/odin.vim
+
+  {
+    "jwtouron/odin.vim",
+    ft = "odin",
+    config = function()
+      vim.api.nvim_create_autocmd({ "FileType" }, {
+        group = augroup,
+        pattern = "odin",
+        command = "setlocal tabstop=8 noexpandtab errorformat=%f(%l:%c)\\ %m indentkeys+=<:>,0=},0=)",
+      })
+    end,
+  },
+
   -- {{{1 max397574/better-escape.nvim
 
   {
@@ -168,20 +182,6 @@ return {
     --   vim.g.qf_auto_resize = 0
     --   vim.g.qf_max_height = 0
     -- end,
-  },
-
-  -- {{{1 jwtouron/odin.vim
-
-  {
-    "jwtouron/odin.vim",
-    ft = "odin",
-    config = function()
-      vim.api.nvim_create_autocmd({ "FileType" }, {
-        group = augroup,
-        pattern = "odin",
-        command = "setlocal tabstop=8 noexpandtab errorformat=%f(%l:%c)\\ %m indentkeys+=<:>,0=},0=)",
-      })
-    end,
   },
 
   -- {{{1 redo-command
