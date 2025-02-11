@@ -2,28 +2,27 @@ local function desc(s)
   return "Harpoon: "..s
 end
 
-local function mark(f)
-  return "<cmd>lua require('harpoon.mark')." .. f .. "<cr>"
-end
-
-local function ui(f)
-  return "<cmd>lua require('harpoon.ui')." .. f .. "<cr>"
-end
-
 return {
   'ThePrimeagen/harpoon',
-  enabled = false,
+  branch = "harpoon2",
   dependencies = 'nvim-lua/plenary.nvim',
-  keys = {
-    { "<A-a>", mark("add_file()"),        desc = desc("Add File") },
-    { "<A-m>", ui("toggle_quick_menu()"), desc = desc("Toggle Quick Menu") },
-    { "<A-l>", ui('nav_next()'),          desc = desc("Nav Next") },
-    { "<A-h>", ui('nav_prev()'),          desc = desc("Nav Prev") },
-    { "<A-1>", ui("nav_file(1)"),         desc = desc("Nav File 1") },
-    { "<A-2>", ui("nav_file(2)"),         desc = desc("Nav File 2") },
-    { "<A-3>", ui("nav_file(3)"),         desc = desc("Nav File 3") },
-    { "<A-4>", ui("nav_file(4)"),         desc = desc("Nav File 4") },
-    { "<A-5>", ui("nav_file(5)"),         desc = desc("Nav File 5") },
-    { "<A-6>", ui("nav_file(6)"),         desc = desc("Nav File 6") },
+  keys = function()
+    local harpoon = require("harpoon")
+    local keys = {
+      { "<A-a>", function() harpoon:list():add() end,                         desc = desc("Add File") },
+      { "<A-m>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = desc("Toggle Quick Menu") },
+      { "<A-l>", function() harpoon:list():next() end,                        desc = desc("Nav Next") },
+      { "<A-h>", function() harpoon:list():prev() end,                        desc = desc("Nav Prev") },
+      { "<A-1>", function() harpoon:list():select(1) end,                     desc = desc("Nav File 1") },
+      { "<A-2>", function() harpoon:list():select(2) end,                     desc = desc("Nav File 2") },
+      { "<A-3>", function() harpoon:list():select(3) end,                     desc = desc("Nav File 3") },
+      { "<A-4>", function() harpoon:list():select(4) end,                     desc = desc("Nav File 4") },
+      { "<A-5>", function() harpoon:list():select(5) end,                     desc = desc("Nav File 5") },
+      { "<A-6>", function() harpoon:list():select(6) end,                     desc = desc("Nav File 6") },
+    }
+    return keys
+  end,
+  keys2 = {
   },
+  config = true,
 }

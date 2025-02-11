@@ -105,7 +105,7 @@ return {
 
       return keys
     end,
-    config = function(foo, bar)
+    config = function()
       local keymaps = {}
       local goto_next_start = {}
       local goto_next_end = {}

@@ -85,6 +85,13 @@ vim.api.nvim_create_user_command(
   }
 )
 
+-- {{{1 Helptags
+vim.api.nvim_create_user_command(
+  "Helptags",
+  function() vim.cmd("helptags " .. vim.fn.stdpath('config') .. "/doc") end,
+  {}
+)
+
 -- {{{1 ReadDate
 
 vim.api.nvim_create_user_command(
