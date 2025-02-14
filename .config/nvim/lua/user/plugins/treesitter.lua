@@ -1,3 +1,5 @@
+local augroup = vim.api.nvim_create_augroup("user.plugins.treesitter", { clear = true })
+
 ---@class TextObject
 ---@field name string
 ---@field select_keymap string
@@ -60,14 +62,12 @@ local text_objects = {
 return {
   {
     'nvim-treesitter/nvim-treesitter',
+    event = "FileType",
     keys = {
       { "<c-=>", nil, mode = { "n", "o", "x" } },
     },
     config = function()
-      local ensure_installed = {
-        "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline",  -- MUST always be installed
-        "go", "python",  -- Additional langauges
-      }
+      local ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" }
 
       require("nvim-treesitter.configs").setup {
         ensure_installed = ensure_installed,
@@ -90,9 +90,20 @@ return {
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
     dependences = "nvim-treesitter/nvim-treesitter",
-    event = { "BufNew", "FileType" },
+    event = "FileType",
     init = function()
-      vim.api.nvim_create_autocmd({ "BufNew", "FileType" }, {
+      local needs_reparse = {}
+
+      vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
+        group = augroup,
+        pattern = '*',
+        callback = function()
+          needs_reparse[vim.fn.bufnr()] = true
+        end
+      })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        group = augroup,
         pattern = '*',
         callback = function()
           local ok, parser = pcall(vim.treesitter.get_parser)
@@ -102,15 +113,29 @@ return {
             local move = require('nvim-treesitter.textobjects.move')
             local bufnr = vim.fn.bufnr()
 
+            local check_reparse = function()
+              if needs_reparse[bufnr] then
+                parser:parse()
+                needs_reparse[bufnr] = nil
+              end
+            end
+
             for _, to in ipairs(text_objects) do
               if to.select_keymap then
-                vim.keymap.set("o", to.select_keymap, function() parser:parse(); select.select_textobject(to.name, nil, "o") end, { buffer = bufnr })
-                vim.keymap.set("x", to.select_keymap, function() parser:parse(); select.select_textobject(to.name, nil, "x") end, { buffer = bufnr })
+                for _, op in ipairs({ "o", "x" }) do
+                  vim.keymap.set(op, to.select_keymap, function()
+                    check_reparse()
+                    select.select_textobject(to.name, nil, op)
+                  end, { buffer = bufnr })
+                end
               end
 
               for _, f in ipairs({ 'goto_next_start', 'goto_next_end', 'goto_previous_start', 'goto_previous_end' }) do
                 if to[f] then
-                  vim.keymap.set({ "n", "x" }, to[f], function() parser:parse(); move[f](to.name) end, { buffer = bufnr })
+                  vim.keymap.set({ "n", "x" }, to[f], function()
+                    check_reparse()
+                    move[f](to.name)
+                  end, { buffer = bufnr })
                 end
               end
             end
