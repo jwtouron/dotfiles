@@ -90,52 +90,79 @@ return {
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
     dependences = "nvim-treesitter/nvim-treesitter",
-    keys = function()
-      local keys = {}
+    event = { "BufNew", "FileType" },
+    init = function()
+      vim.api.nvim_create_autocmd({ "BufNew", "FileType" }, {
+        pattern = '*',
+        callback = function()
+          local ok, parser = pcall(vim.treesitter.get_parser)
 
-      for _, to in ipairs(text_objects) do
-        table.insert(keys, { to.select_keymap, nil, mode = { "o", "x", } })
+          if ok then
+            local select = require('nvim-treesitter.textobjects.select')
+            local move = require('nvim-treesitter.textobjects.move')
+            local bufnr = vim.fn.bufnr()
 
-        for _, f in ipairs({ "goto_next_start", "goto_next_end", "goto_previous_start", "goto_previous_end" }) do
-          if to[f] then
-            table.insert(keys, { to[f], nil, mode = { "n", "x" } })
+            for _, to in ipairs(text_objects) do
+              if to.select_keymap then
+                vim.keymap.set("o", to.select_keymap, function() parser:parse(); select.select_textobject(to.name, nil, "o") end, { buffer = bufnr })
+                vim.keymap.set("x", to.select_keymap, function() parser:parse(); select.select_textobject(to.name, nil, "x") end, { buffer = bufnr })
+              end
+
+              for _, f in ipairs({ 'goto_next_start', 'goto_next_end', 'goto_previous_start', 'goto_previous_end' }) do
+                if to[f] then
+                  vim.keymap.set({ "n", "x" }, to[f], function() parser:parse(); move[f](to.name) end, { buffer = bufnr })
+                end
+              end
+            end
           end
-        end
-      end
-
-      return keys
+        end,
+      })
     end,
+    -- keys = function()
+    --   local keys = {}
+    --
+    --   for _, to in ipairs(text_objects) do
+    --     table.insert(keys, { to.select_keymap, nil, mode = { "o", "x", } })
+    --
+    --     for _, f in ipairs({ "goto_next_start", "goto_next_end", "goto_previous_start", "goto_previous_end" }) do
+    --       if to[f] then
+    --         table.insert(keys, { to[f], nil, mode = { "n", "x" } })
+    --       end
+    --     end
+    --   end
+    --
+    --   return keys
+    -- end,
     config = function()
-      local keymaps = {}
-      local goto_next_start = {}
-      local goto_next_end = {}
-      local goto_previous_start = {}
-      local goto_previous_end = {}
-
-      for _, to in ipairs(text_objects) do
-        keymaps[to.select_keymap] = to.name
-
-        if to.goto_next_start     then goto_next_start[to.goto_next_start] = to.name         end
-        if to.goto_next_end       then goto_next_end[to.goto_next_end] = to.name             end
-        if to.goto_previous_start then goto_previous_start[to.goto_previous_start] = to.name end
-        if to.goto_previous_end   then goto_previous_end[to.goto_previous_end] = to.name     end
-      end
+      -- local keymaps = {}
+      -- local goto_next_start = {}
+      -- local goto_next_end = {}
+      -- local goto_previous_start = {}
+      -- local goto_previous_end = {}
+      --
+      -- for _, to in ipairs(text_objects) do
+      --   keymaps[to.select_keymap] = to.name
+      --
+      --   if to.goto_next_start     then goto_next_start[to.goto_next_start] = to.name         end
+      --   if to.goto_next_end       then goto_next_end[to.goto_next_end] = to.name             end
+      --   if to.goto_previous_start then goto_previous_start[to.goto_previous_start] = to.name end
+      --   if to.goto_previous_end   then goto_previous_end[to.goto_previous_end] = to.name     end
+      -- end
 
       require('nvim-treesitter.configs').setup {
         textobjects = {
           select = {
             enable = true,
             lookahead = true,
-            keymaps = keymaps,
-            -- include_surrounding_whitespace = true,
+            -- keymaps = keymaps,
           },
 
           move = {
             enable = true,
-            goto_next_start = goto_next_start,
-            goto_next_end = goto_next_end,
-            goto_previous_start = goto_previous_start,
-            goto_previous_end = goto_previous_end,
+            -- goto_next_start = goto_next_start,
+            -- goto_next_end = goto_next_end,
+            -- goto_previous_start = goto_previous_start,
+            -- goto_previous_end = goto_previous_end,
           },
         }
       }

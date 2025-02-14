@@ -55,6 +55,7 @@ return {
   colorscheme("oonamo/ef-themes.nvim"),
   colorscheme("ramojus/mellifluous.nvim"),
   colorscheme("rebelot/kanagawa.nvim"),
+  colorscheme("rjshkhr/shadow.nvim"),
   colorscheme("romainl/Apprentice"),
   colorscheme("rose-pine/neovim", { name = "rose-pine" }),
   colorscheme("sainnhe/edge", { init = function() vim.g.edge_better_performance = 1 end }),
