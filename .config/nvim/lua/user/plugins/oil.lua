@@ -8,14 +8,15 @@ local function toggle_oil()
   end
 end
 
-local detail = false
+-- local detail = false
 
 return {
   'stevearc/oil.nvim',
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "CmdlineEnter",
   cmd = "Oil",
-  keys = { { "<leader>o", toggle_oil, desc = "Oil" } },
+  keys = { { "<leader>o", function() require('oil').toggle_float() end, desc = "Oil" } },
+  -- keys = { { "<leader>o", toggle_oil, desc = "Oil" } },
   opts = {
     delete_to_trash = true,
     float = { padding = 4 },
@@ -33,14 +34,17 @@ return {
       },
       ["gd"] = {
         desc = "Toggle file detail view",
-        callback = function()
-          detail = not detail
-          if detail then
-            require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
-          else
-            require("oil").set_columns({ "icon" })
+        callback = (function()
+          local detail = false
+          return function()
+            detail = not detail
+            if detail then
+              require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
+            else
+              require("oil").set_columns({ "icon" })
+            end
           end
-        end,
+        end)()
       },
       ["gg"] = {
         desc = "Execute grep on file",
