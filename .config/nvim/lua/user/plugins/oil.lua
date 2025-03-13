@@ -8,8 +8,6 @@ local function toggle_oil()
   end
 end
 
--- local detail = false
-
 return {
   'stevearc/oil.nvim',
   dependencies = { "nvim-tree/nvim-web-devicons" },
