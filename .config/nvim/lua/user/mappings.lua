@@ -7,7 +7,6 @@ vim.keymap.set("n", "cg*", "*Ncgn", { desc = "Change word under cursor, '.' to c
 -- Don't overwrite paste register when pasting in visual mode
 vim.keymap.set("x", "p", [["_dp]], { desc = "Paste in visual mode without overwriting paste register." })
 vim.keymap.set("x", "P", [["_dP]], { desc = "Paste in visual mode without overwriting paste register." })
-
 -- Don't move cursor when joining lines (uses 'z' mark)
 vim.keymap.set("n", "J", "mzJ`z", { silent = true, desc = "Join lines" })
 

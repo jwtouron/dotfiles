@@ -34,6 +34,7 @@ return {
   colorscheme("akinsho/horizon.nvim", { version = "*" }),
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
   colorscheme("AlexvZyl/nordic.nvim"),
+  colorscheme("alexxGmZ/e-ink.nvim"),
   colorscheme("antonk52/lake.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
   colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
