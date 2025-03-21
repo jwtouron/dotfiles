@@ -31,10 +31,8 @@ local function colorscheme(name, spec)
 end
 
 return {
-  colorscheme("akinsho/horizon.nvim", { version = "*" }),
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
   colorscheme("AlexvZyl/nordic.nvim"),
-  colorscheme("alexxGmZ/e-ink.nvim"),
   colorscheme("antonk52/lake.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
   colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
@@ -42,8 +40,6 @@ return {
   colorscheme("datsfilipe/vesper.nvim"),
   colorscheme("dgox16/oldworld.nvim"),
   colorscheme("drewxs/ash.nvim"),
-  colorscheme("ficcdaf/ashen.nvim"),
-  colorscheme("folke/tokyonight.nvim"),
   colorscheme("hardselius/warlock"),
   colorscheme("jacoborus/tender.vim"),
   colorscheme("jnurmine/Zenburn"),
@@ -66,5 +62,4 @@ return {
   colorscheme("scottmckendry/cyberdream.nvim"),
   colorscheme("slugbyte/lackluster.nvim"),
   colorscheme("vague2k/vague.nvim"),
-  colorscheme("water-sucks/darkrose.nvim"),
 }

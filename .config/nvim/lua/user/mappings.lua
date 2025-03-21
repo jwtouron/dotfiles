@@ -54,12 +54,12 @@ vim.keymap.set("x", "#", [[y?\V<C-R>=escape(@",'/\')<CR><CR>]])
 -- Tabs
 --------------------------------------------------------------------------------
 
-vim.keymap.set("n", "<tab><tab>", "<cmd>tabnew<cr>",      { silent = true })
-vim.keymap.set("n", "<tab>c",     "<cmd>tabclose<cr>",    { silent = true })
-vim.keymap.set("n", "<tab>m",     ":tabmove ",            { silent = true })
-vim.keymap.set("n", "<tab>n",     "<cmd>tabnext<cr>",     { silent = true })
-vim.keymap.set("n", "<tab>o",     "<cmd>tabonly<cr>",     { silent = true })
-vim.keymap.set("n", "<tab>p",     "<cmd>tabprevious<cr>", { silent = true })
+-- vim.keymap.set("n", "<tab><tab>", "<cmd>tabnew<cr>",      { silent = true })
+-- vim.keymap.set("n", "<tab>c",     "<cmd>tabclose<cr>",    { silent = true })
+-- vim.keymap.set("n", "<tab>m",     ":tabmove ",            { silent = true })
+-- vim.keymap.set("n", "<tab>n",     "<cmd>tabnext<cr>",     { silent = true })
+-- vim.keymap.set("n", "<tab>o",     "<cmd>tabonly<cr>",     { silent = true })
+-- vim.keymap.set("n", "<tab>p",     "<cmd>tabprevious<cr>", { silent = true })
 
 --------------------------------------------------------------------------------
 -- Windows
