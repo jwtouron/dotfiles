@@ -1,14 +1,14 @@
 keybinds clear-defaults=true {
+    normal {
+        bind "Ctrl g" { SwitchToMode "tmux"; }
+    }
+
     shared_except "normal" {
         bind "Ctrl g" { SwitchToMode "normal"; }
     }
 
     shared_among "pane" "resize" "scroll" "tab" "tmux" {
         bind "q" { SwitchToMode "normal"; }
-    }
-
-    normal {
-        bind "Ctrl g" { SwitchToMode "tmux"; }
     }
 
     pane {
@@ -51,13 +51,17 @@ keybinds clear-defaults=true {
     tmux {
         bind "e" { EditScrollback; SwitchToMode "normal"; }
         bind "f" { ToggleFloatingPanes; SwitchToMode "normal"; }
+        bind "l" { NextSwapLayout; }
         bind "p" { SwitchToMode "pane"; }
+        bind "P" { NewPane; }
         bind "r" { SwitchToMode "resize"; }
         bind "R" { SwitchToMode "renametab"; }
+        bind "q" { Quit; }
         bind "s" { SwitchToMode "scroll"; }
         bind "S" { SwitchToMode "search"; }
         bind "t" { SwitchToMode "tab"; }
-        bind "T" { SwitchToMode "renametab"; }
+        bind "T" { NewTab; }
+        bind "x" { Quit; }
     }
 }
 
