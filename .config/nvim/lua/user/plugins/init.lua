@@ -170,19 +170,22 @@ return {
 
   {
     "romainl/vim-qf",
-    event = "VeryLazy",
-    init = function()
-      vim.api.nvim_create_autocmd("QuickFixCmdPre", {
-        pattern = "*",
-        callback = function()
-          vim.g.qf_max_height = math.floor(vim.o.lines / 2)
-        end,
-      })
-    end,
+    event = "QuickFixCmdPre",
+    -- event = "VeryLazy",
     -- init = function()
-    --   vim.g.qf_auto_resize = 0
-    --   vim.g.qf_max_height = 0
+    --   vim.api.nvim_create_autocmd("QuickFixCmdPre", {
+    --     pattern = "*",
+    --     callback = function()
+    --       vim.g.qf_max_height = math.floor(vim.o.lines * 0.4)
+    --     end,
+    --   })
     -- end,
+    init = function()
+      vim.g.qf_auto_open_loclist = 0
+      vim.g.qf_auto_open_quickfix = 0
+      vim.g.qf_auto_resize = 0
+      vim.g.qf_max_height = 0
+    end,
   },
 
   -- {{{1 redo-command

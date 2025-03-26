@@ -14,6 +14,26 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   command = "lua vim.highlight.on_yank()",
 })
 
+-- autocmd QuickFixCmdPost [^l]* nested cwindow
+vim.api.nvim_create_autocmd("QuickFixCmdPost", {
+  group = augroup,
+  pattern = "[^l]*",
+  nested = true,
+  callback = function()
+    vim.cmd("cwindow " .. tostring(math.floor(vim.o.lines * 0.4)))
+  end,
+})
+
+-- autocmd QuickFixCmdPost    l* nested lwindow
+vim.api.nvim_create_autocmd("QuickFixCmdPost", {
+  group = augroup,
+  pattern = "l*",
+  nested = true,
+  callback = function()
+    vim.cmd("lwindow " .. tostring(math.floor(vim.o.lines * 0.4)))
+  end,
+})
+
 -- FileType autocommands
 
 local function create_filetype_autocmd(pattern, command)
