@@ -1,5 +1,5 @@
 vim.opt.autowrite = true
-vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect', 'popup', }
+vim.opt.completeopt = { 'fuzzy', 'menu', 'menuone', 'noinsert', 'noselect', 'popup', }
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = 'number'
 vim.opt.expandtab = true
@@ -20,6 +20,7 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.tabstop = 4
 -- vim.opt.termguicolors = true  -- Neovim will automatically detect and enable
+vim.opt.winborder = 'rounded'
 vim.opt.wrap = false
 
 vim.g.netrw_winsize = 25

@@ -20,8 +20,8 @@ local bufremove_spec = {
   event = "CmdlineEnter",
   opts = {},
   init = function()
-    vim.cmd.cabbr "bdd lua require('mini.bufremove').delete()<Left>"
-    vim.cmd.cabbr "bww lua require('mini.bufremove').wipeout()<Left>"
+    vim.cmd.cabbr "bd lua require('mini.bufremove').delete()<Left>"
+    vim.cmd.cabbr "bw lua require('mini.bufremove').wipeout()<Left>"
   end,
 }
 
@@ -120,7 +120,7 @@ local trailspace_spec = {
 
 return {
   mini('ai'),
-  mini('bracketed', bracketed_spec),
+  -- mini('bracketed', bracketed_spec),
   mini('bufremove', bufremove_spec),
   mini('clue', clue_spec),
   -- mini('comment'),
