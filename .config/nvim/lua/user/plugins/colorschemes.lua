@@ -32,7 +32,6 @@ end
 
 return {
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
-  colorscheme("AlexvZyl/nordic.nvim"),
   colorscheme("antonk52/lake.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
   colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
@@ -41,7 +40,6 @@ return {
   colorscheme("dgox16/oldworld.nvim"),
   colorscheme("drewxs/ash.nvim"),
   colorscheme("hardselius/warlock"),
-  colorscheme("jacoborus/tender.vim"),
   colorscheme("jnurmine/Zenburn"),
   colorscheme("kdheepak/monochrome.nvim"),
   colorscheme("kvrohit/rasmus.nvim"),
@@ -55,11 +53,7 @@ return {
   colorscheme("rjshkhr/shadow.nvim"),
   colorscheme("romainl/Apprentice"),
   colorscheme("rose-pine/neovim", { name = "rose-pine" }),
-  colorscheme("sainnhe/edge", { init = function() vim.g.edge_better_performance = 1 end }),
   colorscheme("sainnhe/gruvbox-material", { init = function() vim.g.gruvbox_material_better_performance = 1 end }),
-  colorscheme("sainnhe/sonokai", { init = function() vim.g.sonokai_better_performance = 1 end }),
-  colorscheme("samharju/serene.nvim"),
   colorscheme("scottmckendry/cyberdream.nvim"),
   colorscheme("slugbyte/lackluster.nvim"),
-  colorscheme("vague2k/vague.nvim"),
 }
