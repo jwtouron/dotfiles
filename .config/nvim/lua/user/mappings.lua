@@ -18,6 +18,16 @@ vim.keymap.set("n", "]<space>", "<cmd>normal! o<cr>")
 -- Select last pasted text
 vim.keymap.set("n", "gp", "`[v`]", { silent = true })
 
+-- Copy lines and comment out
+vim.keymap.set("n", "ycc", function()
+  local count = vim.v.count1
+  vim.cmd("normal! " .. count .. "yy")
+  vim.cmd("normal! P")
+  vim.cmd("normal! " .. count .. "j")
+  vim.cmd("normal " .. count .. "gcc")
+  vim.cmd("normal! " .. count .. "k")
+end)
+
 --------------------------------------------------------------------------------
 -- Miscellaneous
 --------------------------------------------------------------------------------

@@ -2,13 +2,13 @@ format = """
 $username\
 $hostname\
 $directory\
-$git_branch\
-$git_state\
-$git_status\
 $line_break\
 ${custom.ZSH_PRIV}\
 $python\
 $character"""
+# $git_branch\
+# $git_state\
+# $git_status\
 
 add_newline = true
 

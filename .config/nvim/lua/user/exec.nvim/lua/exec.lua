@@ -1,179 +1,120 @@
--- TODO: conceal for history (long stdin/commands) ?
--- TODO: Edit history, then run?
--- TODO: Use numbers to select items in history?
--- TODO: Handle window resize
+local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
-local window_margin = 0.05
+local Autocmds = {}
+Autocmds.__index = Autocmds
 
-local function calculate_window_width()
-  return math.floor(vim.o.columns * (1 - window_margin * 2))
+function Autocmds.new()
+  local self = setmetatable({ autocmds = {} }, Autocmds)
+  return self
 end
 
-local function win_is_valid(win)
-  return win and vim.api.nvim_win_is_valid(win)
+---@param autocmd integer
+function Autocmds:add(autocmd)
+  table.insert(self.autocmds, autocmd)
 end
 
-local function win_close(win, force)
-  vim.api.nvim_win_close(win[1], force)
-  win[1] = nil
-end
-
-local function start_job(command, on_line, on_exit, stdin)
-  local opts = {}
-
-  if on_line then
-    local new_handler = function()
-      local line = ''
-      return function(_, data)
-        on_line(line .. data[1])
-        for i = 2, #data - 1 do
-          on_line(data[i])
-        end
-        line = data[#data]
-      end
-    end
-
-    opts.on_stdout = new_handler()
-    opts.on_stderr = new_handler()
-    opts.stderr_buffered = false
-    opts.stdout_buffered = false
+function Autocmds:delete()
+  for _, autocmd in ipairs(self.autocmds) do
+    vim.api.nvim_del_autocmd(autocmd)
   end
-
-  if on_exit then
-    opts.on_exit = on_exit
-  end
-
-  local job_id = vim.fn.jobstart(command, opts)
-
-  if stdin then
-    vim.fn.chansend(job_id, stdin)
-    vim.fn.chanclose(job_id, 'stdin')
-  end
-
-  return job_id
-end
-
-local function totitle(s, limit)
-  limit = limit or 40
-  local title = s
-  if #title > limit then
-    title = title:sub(1, limit - 3) .. '...'
-  end
-  return title
-end
-
-local function table_to_string(tbl, indent)
-  indent = indent or 0
-  local result = ""
-  for k, v in pairs(tbl) do
-    result = result .. string.rep("  ", indent) .. tostring(k) .. " = "
-    if type(v) == "table" then
-      result = result .. "\n" .. table_to_string(v, indent + 1) .. '\n'
-    else
-      result = result .. tostring(v) .. "\n"
-    end
-  end
-  if indent == 0 then
-    result = result:sub(1, #result - 1)
-  end
-  return result
-end
-
-local function create_buf(lines)
-  lines = lines or {}
-  if type(lines) == 'string' then
-    lines = vim.split(lines, '\n')
-  end
-  local buf = vim.api.nvim_create_buf(false, true)
-  local bufnr = vim.fn.bufnr(buf)
-  vim.api.nvim_buf_set_lines(buf, 0, -1, true, lines)
-  vim.api.nvim_set_option_value('modifiable', false, { buf = bufnr })
-  vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = bufnr })
-  return buf
-end
-
-local function open_win(buf, title)
-  local row = math.floor(vim.o.lines * window_margin)
-  local col = math.floor(vim.o.columns * window_margin)
-  local win_config = {
-    relative = 'editor',
-    width = calculate_window_width(),
-    height = math.floor(vim.o.lines * (1 - window_margin * 2)),
-    row = row,
-    col = col,
-    style = 'minimal',
-    border = 'rounded',
-  }
-  if title then
-    win_config.title = title
-    win_config.title_pos = 'center'
-  end
-  return vim.api.nvim_open_win(buf, true, win_config)
 end
 
 local function goto_file_line_col()
   local patterns = {
-    '^(.-):(%d+):(%d+):.*',  -- Multiple
+    '^(.-):(%d+):(%d+):.*',                  -- Multiple
+    '^(.-):(%d+):.*',                        -- Multiple
+    '^--> (.-):(%d+):(%d+)',                 -- Rust
     '^  File "([^"]+)", line (%d+), in .*',  -- Python
-    '^--> (.*):(%d+):(%d+)',  -- Rust
   }
 
   local line = vim.fn.getline('.')
 
   for _, pattern in ipairs(patterns) do
     local file, line_num, col_num = string.match(line, pattern)
-    if file and vim.fn.filereadable(file) == 1 then
-      col_num = col_num or '1'
-      return function()
-        vim.cmd("silent edit " .. file)
-        vim.fn.cursor(tonumber(line_num), tonumber(col_num))  -- luacheck: ignore param-type-mismatch
-      end
+    line_num, col_num = tonumber(line_num), tonumber(col_num)
+    if file and vim.fn.filereadable(file) == 1 and line_num then
+      col_num = col_num or 1
+      vim.cmd("silent q! | silent edit " .. file)
+      vim.fn.cursor(line_num, col_num)
+      return
     end
   end
-
-  return function() end
 end
 
---------------------------------------------------------------------------------
---- Job
---------------------------------------------------------------------------------
+---@param cmd string
+---@param opts { on_line: fun(string)?, on_exit: fun(integer, integer)?, stdin: string? }?
+---@return integer
+local function jobstart(cmd, opts)
+  opts = opts or {}
+  local job_opts = { stdin = "pipe" }
 
+  if opts.stdin == nil or opts.stdin == "" then
+    opts.stdin = nil
+    job_opts.stdin = "null"
+  end
+
+  if opts.on_line then
+    local new_handler = function()
+      local line = ''
+      return function(_, data)
+        opts.on_line(line .. data[1])
+        for i = 2, #data - 1 do
+          opts.on_line(data[i])
+        end
+        line = data[#data]
+      end
+    end
+
+    job_opts.on_stdout = new_handler()
+    job_opts.on_stderr = new_handler()
+    job_opts.stdout_buffered = false
+    job_opts.stderr_buffered = false
+  end
+
+  if opts.on_exit then
+    job_opts.on_exit = opts.on_exit
+  end
+
+  local job_id = vim.fn.jobstart(cmd, job_opts)
+
+  if opts.stdin then
+    vim.fn.chansend(job_id, opts.stdin)
+    vim.fn.chanclose(job_id, 'stdin')
+  end
+
+  return job_id
+end
+
+---@class Job
+---@field cmd string
+---@field stdin string?
+---@field buf integer
+---@field job_id integer
+---@field status string
+---@field win integer?
 local Job = {}
 Job.__index = Job
 
-function Job.run(command, stdin)
-  -- Check input
+---@param cmd string
+---@param stdin string?
+---@return Job
+function Job.start(cmd, stdin)
+  local self = setmetatable({ cmd = cmd, stdin = stdin, status = 'Running', }, Job)  ---@type Job
 
-  command = vim.fn.trim(command)
-  if command == "" then
-    error("[Exec] Empty command")
-  end
+  self.buf = vim.api.nvim_create_buf(false, true)
+  local bufnr = vim.fn.bufnr(self.buf)
+  vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = bufnr })
+  vim.api.nvim_set_option_value("modifiable", false, { buf = bufnr })
 
-  stdin = stdin or ""
+  local row = 0
+  local function on_line(line)
+    vim.api.nvim_set_option_value("modifiable", true, { buf = bufnr })
+    vim.api.nvim_buf_set_lines(self.buf, row, -1, true, { line })
+    vim.api.nvim_set_option_value("modifiable", false, { buf = bufnr })
 
-  -- Initialize instance
-
-  local self = setmetatable({ command = command, stdin = stdin}, Job)
-
-  -- Setup buffer
-
-  self.buffer = create_buf()
-  local bufnr = vim.fn.bufnr(self.buffer)
-  vim.keymap.set('n', '<C-c>', function() self:cancel() end, { buffer = bufnr })
-  vim.keymap.set('n', '<cr>',
-  function()
-    local goto = goto_file_line_col()
-    self:close_window()
-    goto()
-  end,
-  { buffer = bufnr })
-
-  -- Run command
-
-  local on_line = function(line)
-    vim.api.nvim_set_option_value('modifiable', true, { buf = bufnr })
-    vim.api.nvim_buf_set_lines(self.buffer, -1, -1, true, { line })
-    vim.api.nvim_set_option_value('modifiable', false, { buf = bufnr })
+    if row == 0 then
+      row = -1
+    end
   end
 
   local on_exit = function(_, exit_code)
@@ -182,174 +123,369 @@ function Job.run(command, stdin)
     else
       self.status = 'Done'
     end
-    self:set_window_title()
+    pcall(vim.api.nvim_win_set_config, self.win, { title = self.status })
   end
 
-  self.job_id = start_job(command, on_line, on_exit, stdin)
-  self.status = 'Running'
+  self.job_id = jobstart(cmd, { on_line = on_line, on_exit = on_exit, stdin = stdin })
 
-  -- Open window
+  vim.keymap.set("n", "<C-c>", function() print('jobstop:', vim.fn.jobstop(self.job_id)) end, { buffer = bufnr })
 
-  self.window = open_win(self.buffer, self:window_title())
+  vim.keymap.set("n", "<cr>", goto_file_line_col, { buffer = bufnr })
 
   return self
 end
 
-function Job:cancel()
-  if self.job_id then
-    vim.fn.jobstop(self.job_id)
-    self.job_id = nil
-  end
+function Job:open_win()
+  local title = self.status
+
+  local row_margin, col_margin = math.floor(vim.o.lines * 0.05), math.floor(vim.o.columns * 0.05)
+  local win_config = {
+    row = row_margin,
+    col = col_margin,
+    height = vim.o.lines - row_margin * 2 - 2,
+    width = vim.o.columns - col_margin * 2 - 2,
+    style = 'minimal',
+    border = 'rounded',
+    title = title,
+    title_pos = 'center',
+    relative = 'editor',
+  }
+
+  self.win = vim.api.nvim_open_win(self.buf, true, win_config)
+
+  vim.api.nvim_create_autocmd("WinEnter", {
+    group = augroup,
+    callback = function()
+      pcall(vim.api.nvim_win_close, self.win, true)
+    end,
+    once = true,
+  })
 end
 
-function Job:set_window_title()
-  if self.window then
-    pcall(vim.api.nvim_win_set_config, self.window, { title = self:window_title(), title_pos = 'center' })
-  end
-end
-
-function Job:window_title()
-  return totitle(self.status .. ': ' .. self.command, math.floor(calculate_window_width() / 2))
-end
-
-function Job:open_window()
-  if not win_is_valid(self.window) then
-    self.window = open_win(self.buffer, self:window_title())
-  end
-end
-
-function Job:close_window()
-  if win_is_valid(self.window) then
-    win_close({ self.window }, true)
-  end
-end
-
---------------------------------------------------------------------------------
---- History
---------------------------------------------------------------------------------
-
+---@class History
+---@field jobs Job[]
+---@field limit integer
 local History = {}
 History.__index = History
 
+---@param limit integer?
+---@return History
 function History.new(limit)
-  limit = limit or 10
-  return setmetatable({ jobs = {}, limit = limit }, History)
+  return setmetatable({ jobs = {}, limit = limit or 10, }, History)
 end
 
-function History:open_window()
-  if not win_is_valid(self.window) then
-    local buf = create_buf(table_to_string(self.jobs))
-    local bufnr = vim.fn.bufnr(buf)
-    vim.api.nvim_set_option_value('bufhidden', 'wipe', { buf = bufnr })
-
-    vim.keymap.set('n', '<cr>', function()
-      local line = vim.fn.line('.')
-      local item = math.floor(line / 8 - 0.1) + 1
-      self:close_window()
-      local job = Job.run(self.jobs[item].command, self.jobs[item].stdin)
-      self:add(job)
-    end, { buffer = bufnr })
-
-    self.window = open_win(buf, 'History')
-  end
-end
-
-function History:close_window()
-  if win_is_valid(self.window) then
-    win_close({ self.window }, true)
-  end
-end
-
+---@param job Job
 function History:add(job)
-  local new_jobs = { job }
-  for i = 1, #self.jobs do
-    if #self.jobs == 10 then
-      break
-    end
-    if not (job.command == self.jobs[i].command and job.stdin == self.jobs[i].stdin) then
-      table.insert(new_jobs, self.jobs[i])
-    end
-  end
-  self.jobs = new_jobs
+  self.jobs[self.limit] = nil
+  table.insert(self.jobs, 1, job)
 end
-
-function History:most_recent()
-  return self.jobs[1]
-end
-
---------------------------------------------------------------------------------
---- Module
---------------------------------------------------------------------------------
-
-local history = History.new()
 
 local M = {}
+local history = History.new()
 
-local function run_new(command, stdin)
-  command = vim.fn.trim(command)
-  if command == "" then
-    vim.notify("[Exec] Empty command", vim.log.levels.WARN)
-    return
-  end
-  stdin = stdin or ""
-
-  local most_recent = history:most_recent()
-
-  if most_recent then
-    most_recent:close_window()
-    most_recent:cancel()
-  end
-  history:close_window()
-
-  if vim.o.autowrite then
-    vim.cmd("silent! wall")
-  end
-
-  local job = Job.run(command, stdin)
+---@param cmd string
+---@param stdin string?
+local function run(cmd, stdin)
+  local job = Job.start(cmd, stdin)
   history:add(job)
+  job:open_win()
 end
 
-M.run = function()
-  local command_text = ""
-  local stdin_text = ""
-  local most_recent = history:most_recent()
-  if most_recent then
-    command_text = most_recent.command
-    stdin_text = most_recent.stdin
+local function prompt_run()
+
+  local row_margin, col_margin = math.floor(vim.o.lines * 0.2), math.floor(vim.o.columns * 0.2)
+
+  -- Command Window
+
+  local cmd_buf = vim.api.nvim_create_buf(false, true)
+  local cmd_bufnr = vim.fn.bufnr(cmd_buf)
+
+  local win_config = {
+    row = row_margin,
+    col = col_margin,
+    height = math.floor((vim.o.lines - row_margin * 2 - 4) / 2),
+    width = vim.o.columns - col_margin * 2 - 2,
+    title = 'Command',
+    title_pos = 'center',
+    style = 'minimal',
+    border = 'rounded',
+    relative = 'editor',
+  }
+
+  local cmd_win = vim.api.nvim_open_win(cmd_buf, true, win_config)
+
+  -- Stdin Window
+
+  local stdin_buf = vim.api.nvim_create_buf(false, true)
+  local stdin_bufnr = vim.fn.bufnr(stdin_buf)
+
+  win_config.row = win_config.height + row_margin + 2
+  win_config.height = vim.o.lines - win_config.height - row_margin * 2 - 4
+  win_config.title = 'Stdin'
+
+  local stdin_win = vim.api.nvim_open_win(stdin_buf, false, win_config)
+
+  -- Options
+
+  vim.api.nvim_set_option_value('bufhidden', 'wipe', { buf = cmd_bufnr })
+  vim.api.nvim_set_option_value('bufhidden', 'wipe', { buf = stdin_bufnr })
+
+  -- Mappings
+
+  vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = cmd_bufnr })
+  vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = stdin_bufnr })
+
+  local function switch_windows()
+    local id = vim.fn.win_getid()
+    if id == cmd_win then
+      vim.api.nvim_set_current_win(stdin_win)
+    elseif id == stdin_win then
+      vim.api.nvim_set_current_win(cmd_win)
+    end
   end
 
-  local ok, command = pcall(vim.fn.input, "Command: ", command_text)
-  if not ok then return end
+  vim.keymap.set("n", "<tab>", switch_windows, { buffer = cmd_bufnr })
+  vim.keymap.set("n", "<tab>", switch_windows, { buffer = stdin_bufnr })
 
-  local ok, stdin = pcall(vim.fn.input, "Stdin: ", stdin_text)
-  if not ok then return end
-
-  run_new(command, stdin)
-end
-
-M.run_last = function()
-  local most_recent = history:most_recent()
-  if not most_recent then
-    vim.notify("[Exec] Empty history", vim.log.levels.WARN)
-    return
+  local _run = function()
+    local cmd = vim.fn.join(vim.api.nvim_buf_get_lines(cmd_buf, 0, -1, true), '\n')
+    local stdin = vim.fn.join(vim.api.nvim_buf_get_lines(stdin_buf, 0, -1, true), '\n')
+    run(cmd, stdin)
   end
 
-  run_new(most_recent.command, most_recent.stdin)
+  vim.keymap.set('n', '<cr>', _run,{ buffer = cmd_bufnr })
+  vim.keymap.set('n', '<cr>', _run,{ buffer = stdin_bufnr })
+
+  -- Autocmds
+
+  local function close_windows()
+    pcall(vim.api.nvim_win_close, cmd_win, true)
+    pcall(vim.api.nvim_win_close, stdin_win, true)
+  end
+
+  local autocmds = Autocmds.new()
+
+  local autocmd = vim.api.nvim_create_autocmd("WinEnter", {
+    group = augroup,
+    callback = function()
+      local win_id = vim.fn.win_getid()
+      if not (win_id == cmd_win or win_id == stdin_win) then
+        close_windows()
+      end
+    end
+  })
+  autocmds:add(autocmd)
+
+  autocmd = vim.api.nvim_create_autocmd("WinClosed", {
+    group = augroup,
+    pattern = string.format("%d,%d", cmd_win, stdin_win),
+    callback = function()
+      autocmds:delete()
+      close_windows()
+    end
+  })
+  autocmds:add(autocmd)
 end
 
-M.history = function()
-  history:open_window()
+---@param cmd string?
+---@param stdin string?
+M.run = function(cmd, stdin)
+  if cmd ~= nil then
+    run(cmd, stdin)
+  else
+    prompt_run()
+  end
 end
 
 M.show_last = function()
-  local most_recent = history:most_recent()
-  if not most_recent then
+  if #history.jobs == 0 then
     vim.notify("[Exec] Empty history", vim.log.levels.WARN)
     return
   end
 
-  history:close_window()
-  most_recent:open_window()
+  history.jobs[1]:open_win()
+end
+
+M.rerun_last = function()
+  if #history.jobs == 0 then
+    vim.notify("[Exec] Empty history", vim.log.levels.WARN)
+    return
+  end
+
+  run(history.jobs[1].cmd, history.jobs[1].stdin)
+end
+
+M.show_history = function()
+  -- History Window
+
+  local history_buf = vim.api.nvim_create_buf(false, true)
+  local history_bufnr = vim.fn.bufnr(history_buf)
+
+  local row_margin, col_margin = math.floor(vim.o.lines * 0.05), math.floor(vim.o.columns * 0.05)
+  local win_config = {
+    row = row_margin,
+    col = col_margin,
+    height = vim.o.lines - row_margin * 2 - 2,
+    width = math.floor((vim.o.columns - col_margin * 2 - 4) * 0.4),
+    title = 'History',
+    title_pos = 'center',
+    style = 'minimal',
+    border = 'rounded',
+    relative = 'editor',
+  }
+
+  local history_win = vim.api.nvim_open_win(history_buf, true, win_config)
+
+  -- Command Window
+
+  local cmd_buf = vim.api.nvim_create_buf(false, true)
+  local cmd_bufnr = vim.fn.bufnr(cmd_buf)
+
+  win_config.title = 'Command'
+  win_config.col = col_margin + win_config.width + 2
+  win_config.width = vim.o.columns - col_margin * 2 - win_config.width - 4
+  win_config.height = math.floor((vim.o.lines - row_margin * 2 - 6) / 3)
+
+  local cmd_win = vim.api.nvim_open_win(cmd_buf, false, win_config)
+
+  -- Stdin Window
+
+  local stdin_buf = vim.api.nvim_create_buf(false, true)
+  local stdin_bufnr = vim.fn.bufnr(stdin_buf)
+
+  win_config.title = 'Stdin'
+  win_config.row = win_config.row + win_config.height + 2
+
+  local stdin_win = vim.api.nvim_open_win(stdin_buf, false, win_config)
+
+  -- Output Window
+
+  local output_buf = vim.api.nvim_create_buf(false, true)
+  local output_bufnr = vim.fn.bufnr(output_buf)
+
+  win_config.title = 'Output'
+  win_config.row = win_config.row + win_config.height + 2
+  win_config.height = vim.o.lines - row_margin * 2 - win_config.height * 2 - 6
+
+  local output_win = vim.api.nvim_open_win(output_buf, false, win_config)
+
+  -- Update Windows
+
+  ---@param idx integer
+  local update_windows = function(idx)
+    local job = history.jobs[idx]
+    if job then
+      vim.api.nvim_set_option_value('modifiable', true, { buf = cmd_bufnr })
+      vim.api.nvim_buf_set_lines(cmd_buf, 0, -1, true, vim.fn.split(job.cmd, '\n'))
+      vim.api.nvim_set_option_value('modifiable', false, { buf = cmd_bufnr })
+
+      vim.api.nvim_set_option_value('modifiable', true, { buf = stdin_bufnr })
+      vim.api.nvim_buf_set_lines(stdin_buf, 0, -1, true, vim.fn.split(job.stdin, '\n'))
+      vim.api.nvim_set_option_value('modifiable', false, { buf = stdin_bufnr })
+
+      vim.api.nvim_set_option_value('modifiable', true, { buf = output_bufnr })
+      vim.api.nvim_buf_set_lines(output_buf, 0, -1, true, vim.api.nvim_buf_get_lines(history.jobs[idx].buf, 0, -1, true))
+      vim.api.nvim_set_option_value('modifiable', false, { buf = output_bufnr })
+    end
+  end
+
+  for i, job in ipairs(history.jobs) do
+    vim.api.nvim_buf_set_lines(history_buf, i - 1, -1, true, { vim.fn.split(job.cmd, '\n')[1] })
+  end
+
+  update_windows(1)
+
+  -- Options
+
+  vim.api.nvim_set_option_value('bufhidden', 'wipe', { buf = history_bufnr })
+  vim.api.nvim_set_option_value('bufhidden', 'wipe', { buf = cmd_bufnr })
+  vim.api.nvim_set_option_value('bufhidden', 'wipe', { buf = stdin_bufnr })
+  vim.api.nvim_set_option_value('bufhidden', 'wipe', { buf = output_bufnr })
+
+  vim.api.nvim_set_option_value('modifiable', false, { buf = history_bufnr })
+  vim.api.nvim_set_option_value('modifiable', false, { buf = cmd_bufnr })
+  vim.api.nvim_set_option_value('modifiable', false, { buf = stdin_bufnr })
+  vim.api.nvim_set_option_value('modifiable', false, { buf = output_bufnr })
+
+  -- Mappings
+
+  vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = history_bufnr })
+  vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = cmd_bufnr })
+  vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = stdin_bufnr })
+  vim.keymap.set('n', 'q', '<cmd>q<cr>', { buffer = output_bufnr })
+
+  local next_win = { [history_win] = cmd_win, [cmd_win] = stdin_win, [stdin_win] = output_win, [output_win] = history_win, }
+  local prev_win = { [history_win] = output_win, [output_win] = stdin_win, [stdin_win] = cmd_win, [cmd_win] = history_win, }
+  local function switch_windows(fwd)
+    local id = vim.fn.win_getid()
+    if fwd then
+      vim.api.nvim_set_current_win(next_win[id])
+    else
+      vim.api.nvim_set_current_win(prev_win[id])
+    end
+  end
+
+  vim.keymap.set("n", "<tab>", function() switch_windows(true) end, { buffer = history_bufnr })
+  vim.keymap.set("n", "<tab>", function() switch_windows(true) end, { buffer = cmd_bufnr })
+  vim.keymap.set("n", "<tab>", function() switch_windows(true) end, { buffer = stdin_bufnr })
+  vim.keymap.set("n", "<tab>", function() switch_windows(true) end, { buffer = output_bufnr })
+
+  vim.keymap.set("n", "<S-tab>", function() switch_windows(false) end, { buffer = history_bufnr })
+  vim.keymap.set("n", "<S-tab>", function() switch_windows(false) end, { buffer = cmd_bufnr })
+  vim.keymap.set("n", "<S-tab>", function() switch_windows(false) end, { buffer = stdin_bufnr })
+  vim.keymap.set("n", "<S-tab>", function() switch_windows(false) end, { buffer = output_bufnr })
+
+  local _run = function()
+    local cmd = vim.fn.join(vim.api.nvim_buf_get_lines(cmd_buf, 0, -1, true), '\n')
+    local stdin = vim.fn.join(vim.api.nvim_buf_get_lines(stdin_buf, 0, -1, true), '\n')
+    run(cmd, stdin)
+  end
+
+  vim.keymap.set('n', '<cr>', _run,{ buffer = history_bufnr })
+  vim.keymap.set('n', '<cr>', _run,{ buffer = cmd_bufnr })
+  vim.keymap.set('n', '<cr>', _run,{ buffer = stdin_bufnr })
+  vim.keymap.set('n', '<cr>', _run,{ buffer = output_bufnr })
+
+  -- Autocmds
+
+  local function close_windows()
+    pcall(vim.api.nvim_win_close, history_win, true)
+    pcall(vim.api.nvim_win_close, cmd_win, true)
+    pcall(vim.api.nvim_win_close, stdin_win, true)
+    pcall(vim.api.nvim_win_close, output_win, true)
+  end
+
+  local autocmds = Autocmds.new()
+
+  local autocmd = vim.api.nvim_create_autocmd("CursorMoved", {
+    group = augroup,
+    pattern = string.format("<buffer=%d>", history_bufnr),
+    callback = function()
+      update_windows(vim.fn.line('.'))
+    end
+  })
+  autocmds:add(autocmd)
+
+  autocmd = vim.api.nvim_create_autocmd("WinEnter", {
+    group = augroup,
+    callback = function()
+      local win_id = vim.fn.win_getid()
+      if not (win_id == history_win or win_id == cmd_win or win_id == stdin_win or win_id == output_win) then
+        close_windows()
+      end
+    end
+  })
+  autocmds:add(autocmd)
+
+  autocmd = vim.api.nvim_create_autocmd("WinClosed", {
+    group = augroup,
+    pattern = string.format("%d,%d,%d,%d", history_win, cmd_win, stdin_win, output_win),
+    callback = function()
+      autocmds:delete()
+      close_windows()
+    end
+  })
+  autocmds:add(autocmd)
 end
 
 M.setup = function()

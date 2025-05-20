@@ -1,8 +1,6 @@
 local function toggle_oil()
   if vim.bo.filetype == 'oil' then
-    -- vim.cmd("b#|bw#")
-    -- require('mini.bufremove').wipeout()
-    vim.api.nvim_buf_delete(0, { force = true })
+    require('oil').close()
   else
     require('oil').open()
   end
@@ -13,8 +11,7 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "CmdlineEnter",
   cmd = "Oil",
-  keys = { { "<leader>o", function() require('oil').toggle_float() end, desc = "Oil" } },
-  -- keys = { { "<leader>o", toggle_oil, desc = "Oil" } },
+  keys = { { "<leader>o", toggle_oil, desc = "Oil" } },
   opts = {
     delete_to_trash = true,
     float = { padding = 4 },

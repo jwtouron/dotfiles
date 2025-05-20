@@ -1,4 +1,4 @@
-local augroup = vim.api.nvim_create_augroup("user.plugins.treesitter", { clear = true })
+local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
 ---@class TextObject
 ---@field name string
@@ -62,33 +62,35 @@ local text_objects = {
 return {
   {
     'nvim-treesitter/nvim-treesitter',
+    cond = function() return vim.fn.has('macunix') ~= 1 end,
     event = "FileType",
-    keys = {
-      { "<c-=>", nil, mode = { "n", "o", "x" } },
-    },
+    -- keys = {
+    --   { "<c-=>", nil, mode = { "n", "o", "x" } },
+    -- },
     config = function()
       local ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" }
-
       require("nvim-treesitter.configs").setup {
         ensure_installed = ensure_installed,
         sync_install = false,
-        auto_install = true,
+        auto_install = false,
 
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "<c-=>",
-            node_incremental = "<c-=>",
-            scope_incremental = false,
-            node_decremental = "<c-->",
-          },
-        },
+        -- incremental_selection = {
+        --   enable = true,
+        --   keymaps = {
+        --     init_selection = "<c-=>",
+        --     node_incremental = "<c-=>",
+        --     scope_incremental = false,
+        --     node_decremental = "<c-->",
+        --   },
+        -- },
       }
     end,
   },
 
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    enabled = false,
+    cond = function() return vim.fn.has('macunix') ~= 1 end,
     dependences = "nvim-treesitter/nvim-treesitter",
     event = "FileType",
     init = function()
@@ -143,51 +145,17 @@ return {
         end,
       })
     end,
-    -- keys = function()
-    --   local keys = {}
-    --
-    --   for _, to in ipairs(text_objects) do
-    --     table.insert(keys, { to.select_keymap, nil, mode = { "o", "x", } })
-    --
-    --     for _, f in ipairs({ "goto_next_start", "goto_next_end", "goto_previous_start", "goto_previous_end" }) do
-    --       if to[f] then
-    --         table.insert(keys, { to[f], nil, mode = { "n", "x" } })
-    --       end
-    --     end
-    --   end
-    --
-    --   return keys
-    -- end,
     config = function()
-      -- local keymaps = {}
-      -- local goto_next_start = {}
-      -- local goto_next_end = {}
-      -- local goto_previous_start = {}
-      -- local goto_previous_end = {}
-      --
-      -- for _, to in ipairs(text_objects) do
-      --   keymaps[to.select_keymap] = to.name
-      --
-      --   if to.goto_next_start     then goto_next_start[to.goto_next_start] = to.name         end
-      --   if to.goto_next_end       then goto_next_end[to.goto_next_end] = to.name             end
-      --   if to.goto_previous_start then goto_previous_start[to.goto_previous_start] = to.name end
-      --   if to.goto_previous_end   then goto_previous_end[to.goto_previous_end] = to.name     end
-      -- end
 
       require('nvim-treesitter.configs').setup {
         textobjects = {
           select = {
             enable = true,
             lookahead = true,
-            -- keymaps = keymaps,
           },
 
           move = {
             enable = true,
-            -- goto_next_start = goto_next_start,
-            -- goto_next_end = goto_next_end,
-            -- goto_previous_start = goto_previous_start,
-            -- goto_previous_end = goto_previous_end,
           },
         }
       }

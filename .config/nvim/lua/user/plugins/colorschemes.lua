@@ -1,8 +1,7 @@
-local augroup = vim.api.nvim_create_augroup("user.plugins.colorschemes", { clear = true })
+local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
 vim.api.nvim_create_autocmd("ColorScheme", {
   group = augroup,
-  pattern = "*",
   command = "highlight MatchParen term=underline cterm=underline gui=underline ctermbg=NONE guibg=NONE",
 })
 
@@ -31,11 +30,11 @@ local function colorscheme(name, spec)
 end
 
 return {
+  colorscheme("EdenEast/nightfox.nvim"),
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
   colorscheme("antonk52/lake.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
   colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
-  colorscheme("cpwrs/americano.nvim"),
   colorscheme("datsfilipe/vesper.nvim"),
   colorscheme("dgox16/oldworld.nvim"),
   colorscheme("drewxs/ash.nvim"),
@@ -46,8 +45,6 @@ return {
   colorscheme("mellow-theme/mellow.nvim"),
   colorscheme("miikanissi/modus-themes.nvim"),
   colorscheme("navarasu/onedark.nvim"),
-  colorscheme("nyoom-engineering/oxocarbon.nvim"),
-  colorscheme("oonamo/ef-themes.nvim"),
   colorscheme("ramojus/mellifluous.nvim"),
   colorscheme("rebelot/kanagawa.nvim"),
   colorscheme("rjshkhr/shadow.nvim"),

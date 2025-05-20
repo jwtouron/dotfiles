@@ -1,4 +1,4 @@
-local augroup = vim.api.nvim_create_augroup("user.plugins.lsp", { clear = true })
+local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
 -- Reference: https://github.com/williamboman/mason-lspconfig.nvim/blob/main/lua/mason-lspconfig/mappings/server.lua
 local package_to_lspconfig = {
@@ -13,9 +13,11 @@ local package_to_lspconfig = {
 local server_configs = {
   lua_ls = {
     on_init = function(client)
-      local path = client.workspace_folders[1].name
-      if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
-        return
+      if client.workspace_folders then
+        local path = client.workspace_folders[1].name
+        if path ~= vim.fn.stdpath('config') and (vim.uv.fs_stat(path..'/.luarc.json') or vim.uv.fs_stat(path..'/.luarc.jsonc')) then
+          return
+        end
       end
 
       client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
@@ -33,7 +35,7 @@ local server_configs = {
             -- "${3rd}/luv/library"
             -- "${3rd}/busted/library",
           }
-          -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+          -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
           -- library = vim.api.nvim_get_runtime_file("", true)
         }
       })
@@ -41,12 +43,7 @@ local server_configs = {
     settings = {
       Lua = {}
     }
-  }
-
-  -- basedpyright = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
+  },
 }
 
 return {
@@ -54,67 +51,31 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = 'williamboman/mason.nvim',
-    -- dependencies = { 'hrsh7th/cmp-nvim-lsp', 'williamboman/mason.nvim' },
     event = "FileType",
-    -- event = "VeryLazy",
     init = function()
       vim.api.nvim_create_autocmd('LspAttach', {
         group = augroup,
-        pattern = "*",
         callback = function(ev)
           vim.opt_local.signcolumn = 'yes:1'
 
           local client = vim.lsp.get_client_by_id(ev.data.client_id)
           if client then client.server_capabilities.semanticTokensProvider = nil end
 
-          -- vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-          local mappings = {
-            {'n', 'gD', 'declaration'},
-            {'n', 'gd', 'definition'},  -- Also, C-]
-          }
-
-          for _, mapping in ipairs(mappings) do
-            vim.keymap.set(
-              mapping[1],
-              mapping[2],
-              vim.lsp.buf[mapping[3]],
-              { desc = 'vim.lsp.buf.' .. mapping[3] .. '()', buffer = ev.buf })
-          end
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP Goto definition" })
+          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "LSP Goto declaration" })
         end,
       })
     end,
     config = function()
-      local handlers =  {
-        ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, {border = 'rounded'}),
-        ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = 'rounded'}),
-      }
-
-      local capabilities = {}
-      -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-      -- Setup servers
-      local lspconfig = require("lspconfig")
       local mason_registry = require("mason-registry")
       local package_names = mason_registry.get_installed_package_names()
-      for _, package_name in pairs(package_names) do
+      for _, package_name in ipairs(package_names) do
         local lspconfig_name = package_to_lspconfig[package_name] or package_name
-        local config = { capabilities = capabilities, handlers = handlers, }
         if server_configs[lspconfig_name] then
-          config = vim.tbl_extend("error", server_configs[lspconfig_name], config)
+          vim.lsp.config(lspconfig_name, server_configs[lspconfig_name])
         end
-        lspconfig[lspconfig_name].setup(config)
+        vim.lsp.enable(lspconfig_name)
       end
-
-      vim.api.nvim_create_user_command('LspCodeAction', function()
-        vim.lsp.buf.code_action()
-      end,
-      {})
-
-      vim.api.nvim_create_user_command('LspRename', function(arg)
-        vim.lsp.buf.rename(arg.fargs[1])
-      end,
-      { nargs = '?' })
     end,
   },
 

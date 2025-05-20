@@ -20,6 +20,7 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.tabstop = 4
 -- vim.opt.termguicolors = true  -- Neovim will automatically detect and enable
+vim.opt.updatetime = 1000  -- Needed for CursorHold
 vim.opt.winborder = 'rounded'
 vim.opt.wrap = false
 

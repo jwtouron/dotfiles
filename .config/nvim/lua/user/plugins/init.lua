@@ -1,6 +1,6 @@
 -- vim: set foldenable foldmethod=marker:
 
-local augroup = vim.api.nvim_create_augroup("user.plugins.init", { clear = true })
+local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
 return {
 
@@ -12,13 +12,45 @@ return {
     keys = function()
       local exec = require("exec")
       return {
-        { '<leader>ee', exec.run, desc = "Exec [R]un" },
-        { '<leader>eh', exec.history, desc = 'Exec [H]istory' },
+        { '<leader>ee', exec.run, desc = "[E]xec Run" },
+        { '<leader>eh', exec.show_history, desc = 'Exec Show [H]istory' },
         { '<leader>el', exec.show_last, desc = 'Exec Show [L]ast' },
-        { '<leader>er', exec.run_last, desc = 'Exec [R]un Last' },
+        { '<leader>er', exec.rerun_last, desc = 'Exec [R]erun Last' },
       }
     end,
     config = true,
+  },
+
+  -- {{{1 folke/flash.nvim
+
+  {
+    "folke/flash.nvim",
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+
+      { "f", nil },
+      { "F", nil },
+      { "t", nil },
+      { "T", nil },
+    },
+    config = function()
+      require ("flash").setup {
+        prompt = { enabled = false },
+        highlight = { backdrop = false },
+        modes = { char = { highlight = { backdrop = false } } },
+      }
+
+      vim.api.nvim_command("highlight clear FlashMatch")
+      vim.api.nvim_command("highlight clear FlashCurrent")
+      vim.api.nvim_command("highlight clear FlashLabel")
+
+      vim.api.nvim_command("highlight FlashMatch guibg=#4A47A3 guifg=#B8B5FF") -- Emerald background
+      vim.api.nvim_command("highlight FlashCurrent guibg=#456268 guifg=#D0E8F2")
+      vim.api.nvim_command("highlight FlashLabel guibg=#A25772 guifg=#EEF5FF")
+    end,
   },
 
   -- {{{1 jeetsukumaran/vim-indentwise
@@ -153,8 +185,9 @@ return {
 
   {
     "rlane/pounce.nvim",
+    enabled = false,
     keys = {
-      { "s", function() require'pounce'.pounce { } end, mode = { "n", "x" }, desc = "Pounce" },
+      { "s", function() require'pounce'.pounce { } end, mode = { "n", "x", "o" }, desc = "Pounce" },
       { "S", function() require'pounce'.pounce { do_repeat = true } end, desc = "Pounce Repeat" },
     },
   },
@@ -171,20 +204,8 @@ return {
   {
     "romainl/vim-qf",
     event = "QuickFixCmdPre",
-    -- event = "VeryLazy",
-    -- init = function()
-    --   vim.api.nvim_create_autocmd("QuickFixCmdPre", {
-    --     pattern = "*",
-    --     callback = function()
-    --       vim.g.qf_max_height = math.floor(vim.o.lines * 0.4)
-    --     end,
-    --   })
-    -- end,
     init = function()
-      vim.g.qf_auto_open_loclist = 0
-      vim.g.qf_auto_open_quickfix = 0
       vim.g.qf_auto_resize = 0
-      vim.g.qf_max_height = 0
     end,
   },
 

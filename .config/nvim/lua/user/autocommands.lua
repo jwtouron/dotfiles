@@ -1,7 +1,8 @@
-local augroup = vim.api.nvim_create_augroup("user.autocommands", { clear = true })
+local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
 -- Jump to last location when opening a buffer.
 vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+  group = augroup,
   pattern = "*",
   callback = function()
     vim.api.nvim_exec2('silent! normal! g`"zvzz', {})
@@ -12,26 +13,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup,
   pattern = "*",
   command = "lua vim.highlight.on_yank()",
-})
-
--- autocmd QuickFixCmdPost [^l]* nested cwindow
-vim.api.nvim_create_autocmd("QuickFixCmdPost", {
-  group = augroup,
-  pattern = "[^l]*",
-  nested = true,
-  callback = function()
-    vim.cmd("cwindow " .. tostring(math.floor(vim.o.lines * 0.4)))
-  end,
-})
-
--- autocmd QuickFixCmdPost    l* nested lwindow
-vim.api.nvim_create_autocmd("QuickFixCmdPost", {
-  group = augroup,
-  pattern = "l*",
-  nested = true,
-  callback = function()
-    vim.cmd("lwindow " .. tostring(math.floor(vim.o.lines * 0.4)))
-  end,
 })
 
 -- FileType autocommands

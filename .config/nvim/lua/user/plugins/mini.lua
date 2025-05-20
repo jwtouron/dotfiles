@@ -1,4 +1,4 @@
-local augroup = vim.api.nvim_create_augroup("user.plugins.mini", { clear = true })
+local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
 local function mini(name, spec)
   local ret = {
@@ -125,6 +125,7 @@ return {
   mini('clue', clue_spec),
   -- mini('comment'),
   -- mini('files', files_spec),
+  -- mini('jump2d', { keys = { "s", nil }, opts = { mappings = { start_jumping = 's' } } }),
   -- mini('statusline', { opts = {} }),
   mini('trailspace', trailspace_spec),
 }

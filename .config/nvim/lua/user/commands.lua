@@ -10,15 +10,13 @@ for _, cmd in ipairs({ "Bw", "BW" }) do
   vim.api.nvim_create_user_command(cmd, [[b#|bw#]], {})
 end
 
--- {{{1 Cdf, CDF: Change to directory of current file
+-- {{{1 CDC = Change to Directory of Current file
 
-for _, cmd in ipairs({ "Cdf", "CDF" }) do
-  vim.api.nvim_create_user_command(
-    cmd,
-    [[execute 'cd' expand('%:p:h')]],
-    { desc = "cd to the directory of the current file" }
-  )
-end
+vim.api.nvim_create_user_command(
+  'CDC',
+  function() vim.cmd("cd %:p:h | pwd") end,
+  { desc = "cd to the directory of the current file" }
+)
 
 -- {{{1 E: Execute a command and put the output in a new buffer.
 
