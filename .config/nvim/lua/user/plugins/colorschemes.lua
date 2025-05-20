@@ -37,7 +37,6 @@ return {
   colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
   colorscheme("datsfilipe/vesper.nvim"),
   colorscheme("dgox16/oldworld.nvim"),
-  colorscheme("drewxs/ash.nvim"),
   colorscheme("hardselius/warlock"),
   colorscheme("jnurmine/Zenburn"),
   colorscheme("kdheepak/monochrome.nvim"),
@@ -52,5 +51,4 @@ return {
   colorscheme("rose-pine/neovim", { name = "rose-pine" }),
   colorscheme("sainnhe/gruvbox-material", { init = function() vim.g.gruvbox_material_better_performance = 1 end }),
   colorscheme("scottmckendry/cyberdream.nvim"),
-  colorscheme("slugbyte/lackluster.nvim"),
 }
