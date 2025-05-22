@@ -6,9 +6,9 @@ local config = {
 
   hide_tab_bar_if_only_one_tab = true,
 
-  prefer_to_spawn_tabs = true,
-
   use_fancy_tab_bar = false,
+
+  warn_about_missing_glyphs = false,
 
   window_padding = {
     left = 0, right = 0, top = 0, bottom = 0
