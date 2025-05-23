@@ -150,9 +150,7 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_autocmd("TermClose", {
   group = vim.api.nvim_create_augroup("user-tui", { clear = true }),
   command = "b#|bw#",
-  -- callback = function()
-  --   require('mini.bufremove').wipeout(0)
-  -- end
+  once = true,
 })
 --
 for _, name in ipairs({ "Tui", "TUI" }) do
