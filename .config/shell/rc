@@ -25,27 +25,20 @@ if command -v trash-put >/dev/null; then
     alias rm='echo "This is not the command you are looking for."; false'
 fi
 
-# Nix
-alias nix-install='nix-env -iA'  # packagename
-alias nix-query='nix-env -q'
-alias nix-search='nix search nixpkgs'  # packagename
-alias nix-uninstall='nix-env -e'  # packagename
-alias nix-upgrade='nix-env -u'
-
 source ~/.config/fzf/aliases
 source ~/.config/fzf/functions
 
 source ~/.config/shell/man
 
 # https://wezfurlong.org/wezterm/faq.html#how-do-i-enable-undercurl-curly-underlines
-if [[ "$TERM_PROGRAM" == "WezTerm" ]] || [[ "$(ps -o 'cmd=' -p $(ps -o 'ppid=' -p $$))" == *"/wezterm" ]]; then
-    [[ ! -f "$HOME/.terminfo/w/wezterm" ]] \
-        && tempfile=$(mktemp) \
-        && curl -s -o $tempfile https://raw.githubusercontent.com/wez/wezterm/master/termwiz/data/wezterm.terminfo \
-        && tic -x -o "$HOME/.terminfo" $tempfile \
-        && rm $tempfile
-
-    [ -f "$HOME/.terminfo/w/wezterm" ] && alias nvim='env TERM=wezterm nvim'
-fi
+# if [[ "$TERM_PROGRAM" == "WezTerm" ]] || [[ "$(ps -o 'cmd=' -p $(ps -o 'ppid=' -p $$))" == *"/wezterm" ]]; then
+#     [[ ! -f "$HOME/.terminfo/w/wezterm" ]] \
+#         && tempfile=$(mktemp) \
+#         && curl -s -o $tempfile https://raw.githubusercontent.com/wez/wezterm/master/termwiz/data/wezterm.terminfo \
+#         && tic -x -o "$HOME/.terminfo" $tempfile \
+#         && rm $tempfile
+#
+#     [ -f "$HOME/.terminfo/w/wezterm" ] && alias nvim='env TERM=wezterm nvim'
+# fi
 
 # vim: ft=sh:

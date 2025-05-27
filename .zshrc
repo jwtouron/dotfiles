@@ -31,6 +31,8 @@ autoload -Uz compinit && compinit
 
 eval "$(starship init zsh)"
 
+eval "$(zoxide init --cmd cd zsh)"
+
 # source $HOME/.config/zsh/git.zsh
 # # source $HOME/.config/zsh/termsupport.zsh
 #
