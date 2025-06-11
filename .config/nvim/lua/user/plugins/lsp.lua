@@ -80,7 +80,7 @@ return {
   },
 
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     event = "FileType",
     cmd = "Mason",
     -- event = "VeryLazy",

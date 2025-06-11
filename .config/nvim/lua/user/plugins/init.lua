@@ -25,6 +25,7 @@ return {
 
   {
     "folke/flash.nvim",
+    enabled = false,
     -- stylua: ignore
     keys = {
       { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
@@ -186,11 +187,41 @@ return {
 
   {
     "rlane/pounce.nvim",
-    enabled = false,
     keys = {
       { "s", function() require'pounce'.pounce { } end, mode = { "n", "x", "o" }, desc = "Pounce" },
       { "S", function() require'pounce'.pounce { do_repeat = true } end, desc = "Pounce Repeat" },
     },
+    init = function()
+      local hls = {
+        PounceAccept = {
+          -- bold = true,
+          underline = true,
+          ctermfg = "green",
+          fg = "#00bf00",
+        },
+        PounceAcceptBest = {
+          -- bold = true,
+          underline = true,
+          ctermfg = "lightgreen",
+          fg = "#00ff00",
+        },
+        PounceGap = {
+          -- bold = true,
+          underline = true,
+          ctermfg = "cyan",
+          fg = "#00bfff",
+        },
+        PounceMatch = {
+          -- bold = true,
+          underline = true,
+          ctermfg = "cyan",
+          fg = "#00bfff",
+        },
+      }
+      for hl, spec in pairs(hls) do
+        vim.api.nvim_set_hl(0, hl, spec)
+      end
+    end,
   },
 
   -- {{{1 romainl/vim-cool
