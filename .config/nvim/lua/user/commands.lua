@@ -167,7 +167,3 @@ for _, name in ipairs({ "Tui", "TUI" }) do
   )
 end
 
--- {{{1 Abbreviations
-
-vim.cmd.cabbr("cw exec 'cwindow' float2nr(floor(&lines * 0.4))")
-vim.cmd.cabbr("cope exec 'copen' float2nr(floor(&lines * 0.4))")
