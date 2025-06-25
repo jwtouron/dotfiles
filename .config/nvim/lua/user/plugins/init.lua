@@ -202,25 +202,39 @@ return {
         PounceAcceptBest = {
           bold = true,
           underline = true,
-          ctermfg = "cyan",
-          fg = "#00ffff",
+          ctermfg = "white",
+          fg = "#ffffff",
         },
         PounceGap = {
           -- bold = true,
           underline = true,
-          ctermfg = "yellow",
-          fg = "#ffd902",
+          ctermfg = "lightblue",
+          fg = "#009fff",
         },
         PounceMatch = {
           -- bold = true,
           underline = true,
-          ctermfg = "yellow",
-          fg = "#ffd902",
+          ctermfg = "lightblue",
+          fg = "#009fff",
+        },
+        PounceUnmatched = {
+          ctermfg = 'gray',
+          fg = '#666666',
         },
       }
-      for hl, spec in pairs(hls) do
-        vim.api.nvim_set_hl(0, hl, spec)
+
+      local setup_hls = function()
+        for hl, spec in pairs(hls) do
+          vim.api.nvim_set_hl(0, hl, spec)
+        end
       end
+
+      setup_hls()
+
+      vim.api.nvim_create_autocmd('Colorscheme', {
+        group = augroup,
+        callback = setup_hls,
+      })
     end,
   },
 
@@ -237,6 +251,7 @@ return {
     "romainl/vim-qf",
     event = "QuickFixCmdPre",
     init = function()
+      vim.g.qf_mapping_ack_style = 1
       vim.g.qf_auto_resize = 0
     end,
   },

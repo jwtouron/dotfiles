@@ -13,6 +13,7 @@ end
 
 return {
   "ibhagwan/fzf-lua",
+  enabled = false,
   dependencies = "nvim-tree/nvim-web-devicons",
   cmd = "FzfLua",
   keys = function()

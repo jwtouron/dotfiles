@@ -4,6 +4,7 @@ end
 
 return {
   'ThePrimeagen/harpoon',
+  eanbled = false,
   branch = "harpoon2",
   dependencies = 'nvim-lua/plenary.nvim',
   keys = function()
