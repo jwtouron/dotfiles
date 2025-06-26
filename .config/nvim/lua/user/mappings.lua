@@ -60,8 +60,10 @@ vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set("x", "*", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]])
 vim.keymap.set("x", "#", [[y?\V<C-R>=escape(@",'/\')<CR><CR>]])
 
-vim.keymap.set("n", "<leader>b", ":ls<cr>:b *")
-vim.keymap.set("n", "<leader>f", ":find **/*")
+vim.keymap.set("n", "<leader>b", ":ls<cr>:b ")
+vim.keymap.set("n", "<leader>,", ":ls<cr>:b ")
+vim.keymap.set("n", "<leader>f", ":find *")
+vim.keymap.set("n", "<leader><leader>", ":find *")
 
 --------------------------------------------------------------------------------
 -- Tabs
