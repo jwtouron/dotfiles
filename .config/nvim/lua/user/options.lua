@@ -10,7 +10,6 @@ vim.opt.jumpoptions = { "stack" }
 vim.opt.list = true
 vim.opt.listchars =  { tab = "» " }
 vim.opt.number = true
-vim.opt.path:append('**')
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 4
 vim.opt.shiftwidth = 0  -- When 0, use value of tabstop
