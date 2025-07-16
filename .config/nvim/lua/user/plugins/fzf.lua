@@ -53,6 +53,7 @@ return {
         vim.keymap.set("t", "<C-b>", "<Left>", opts)
         vim.keymap.set("t", "<C-f>", "<Right>", opts)
       end,
+      preview = { hidden = true },
     },
     files = { no_ignore = true }
   },

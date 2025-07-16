@@ -1,6 +1,5 @@
 return {
   font_size = 14,
-  font = require'wezterm'.font_with_fallback({ 'Hack Nerd Font Mono', 'Noto Color Emoji' }),
+  font = require'wezterm'.font 'Hack Nerd Font Mono',
   color_scheme = "Tomorrow Night Bright",
-  enable_wayland = false,
 }
