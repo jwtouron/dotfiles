@@ -1,3 +1,5 @@
+local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
+
 vim.opt.autowrite = true
 vim.opt.completeopt = { 'fuzzy', 'menu', 'menuone', 'noinsert', 'noselect', 'popup', }
 vim.opt.cursorline = true
@@ -21,7 +23,34 @@ vim.opt.splitright = true
 vim.opt.tabstop = 4
 -- vim.opt.termguicolors = true  -- Neovim will automatically detect and enable
 vim.opt.updatetime = 1000  -- Needed for CursorHold
+vim.opt.wildmode = { 'noselect:lastused', 'full' }
+vim.opt.wildoptions:append('fuzzy')
 vim.opt.winborder = 'rounded'
 vim.opt.wrap = false
 
 vim.g.netrw_winsize = 25
+
+vim.api.nvim_create_autocmd("CmdlineEnter", {
+  group = augroup,
+  callback = function()
+    if vim.fn.executable('rg') == 1 then
+      local grepprg = 'rg --vimgrep -uu $*'
+      for _, path in ipairs(vim.opt.path:get()) do
+        if path ~= "" then
+          grepprg = grepprg .. ' ' .. path
+        end
+      end
+      vim.opt.grepprg = grepprg
+      vim.opt.grepformat = '%f:%l:%c:%m'
+    else
+      local grepprg = 'grep -HIrn $*'
+      for _, path in ipairs(vim.opt.path:get()) do
+        if path ~= "" then
+          grepprg = grepprg .. ' ' .. path
+        end
+      end
+      vim.opt.grepprg = grepprg
+      vim.opt.grepformat = '%f:%l:%m'
+    end
+  end
+})

@@ -194,31 +194,27 @@ return {
     config = function()
       local hls = {
         PounceAccept = {
-          bold = true,
-          underline = true,
-          ctermfg = "lightgreen",
-          fg = "#00ff00",
+          ctermfg = "lightblue",
+          fg = "#AADDFF",
+          -- fg = "#00bfff",
         },
         PounceAcceptBest = {
-          bold = true,
-          underline = true,
-          ctermfg = "white",
-          fg = "#ffffff",
+          ctermfg = "lightgreen",
+          fg = "#FFDDAA",
+          -- fg = "#bfff00",
         },
         PounceGap = {
-          -- bold = true,
-          underline = true,
-          ctermfg = "lightblue",
-          fg = "#009fff",
+          ctermfg = "magenta",
+          fg = "#DDAAFF",
+          -- fg = "#ff00bf",
         },
         PounceMatch = {
-          -- bold = true,
-          underline = true,
-          ctermfg = "lightblue",
-          fg = "#009fff",
+          ctermfg = "magenta",
+          fg = "#DDAAFF",
+          -- fg = "#ff00bf",
         },
         PounceUnmatched = {
-          ctermfg = 'gray',
+          ctermfg = 'lightgray',
           fg = '#666666',
         },
       }
@@ -281,6 +277,12 @@ return {
   {
     "tpope/vim-fugitive",
     cmd = { "G", "Git" },
+  },
+
+  -- {{{1 tpope/vim-repeat
+
+  {
+    "tpope/vim-repeat"
   },
 
   -- {{{1 tpope/vim-rsi

@@ -1,0 +1,16 @@
+[user]
+	name = John Touron
+[alias]
+	adog = log --all --decorate --oneline --graph
+	dog = log --decorate --oneline --graph
+	co = checkout
+	lg = log --first-parent --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lgtree = log --graph --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	st = status
+[init]
+	defaultBranch = master
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

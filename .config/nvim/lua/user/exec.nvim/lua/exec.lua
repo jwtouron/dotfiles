@@ -192,7 +192,6 @@ local function run(cmd, stdin)
 end
 
 local function prompt_run()
-
   local row_margin, col_margin = math.floor(vim.o.lines * 0.2), math.floor(vim.o.columns * 0.2)
 
   -- Command Window
