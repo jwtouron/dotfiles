@@ -15,6 +15,11 @@ local function grep_file()
   vim.api.nvim_feedkeys(keys, 'm', true)
 end
 
+local function feedkeys(keys)
+  local escaped_keys = vim.api.nvim_replace_termcodes(keys, true, false, true)
+  vim.api.nvim_feedkeys(escaped_keys, 'm', true)
+end
+
 return {
   'stevearc/oil.nvim',
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -32,8 +37,7 @@ return {
           local dir = oil.get_current_dir()
           local entry = oil.get_cursor_entry().name
           local path = vim.fn.fnamemodify(dir, ':p') .. entry
-          local keys = vim.api.nvim_replace_termcodes(':! ' .. path .. "<Home><Right>", true, false, true)
-          vim.api.nvim_feedkeys(keys, 'm', true)
+          feedkeys(':! ' .. path .. "<Home><Right>")
         end,
       },
       ["gd"] = {
@@ -57,6 +61,25 @@ return {
       ["gG"] = {
         desc = "Execute grep on file",
         callback = grep_file,
+      },
+      ["gt"] = {
+        desc = "Open terminal in directory",
+        callback = function()
+          vim.cmd("term")
+          vim.cmd("startinsert")
+          -- feedkeys('Acd ' .. dir .. '<Cr> ' .. path .. '<C-a>')
+        end,
+      },
+      ["gT"] = {
+        desc = "Open terminal in directory",
+        callback = function()
+          local oil = require("oil")
+          local dir = oil.get_current_dir()
+          local entry = oil.get_cursor_entry().name
+          local path = vim.fn.fnamemodify(dir, ':p') .. entry
+          vim.cmd("term")
+          feedkeys('Acd ' .. dir .. '<Cr> ' .. path .. '<C-a>')
+        end,
       },
     },
     view_options = { show_hidden = true },

@@ -1,0 +1,111 @@
+// -*- mode: jsonc -*-
+{
+    "height": 30, // Waybar height (to be removed for auto height)
+    "modules-left": [
+        "hyprland/workspaces",
+    ],
+    "modules-center": [
+        "clock",
+        "custom/weather",
+    ],
+    "modules-right": [
+        "tray",
+        "custom/battery",
+        "pulseaudio",
+        // "custom/pacman",
+        "cpu",
+        "memory"
+    ],
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        // "format" "{name}: {icon}",
+        "format-icons": {
+            "urgent": "",
+            "persistent": "",
+            "active": "⚪",
+            "empty": "",
+        },
+        "persistent-workspaces": { "*": 6 },
+    },
+    "clock": {
+        // "timezone": "America/New_York",
+        "exec-if": "command -v yad >/dev/null",
+        "format": "{:%a, %d %b | %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        // "format-alt": "{:%Y-%m-%d}"
+        "on-click": "yad --calendar --close-on-unfocus --no-buttons --mouse --title CLOCK_POPUP",
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{icon}   {volume}%",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol",
+        "on-click": "pavucontrol"
+    },
+    "cpu": {
+        "format": "   {usage}%",
+        "tooltip": false,
+        "states:": [1, 2, 3],
+    },
+    "memory": {
+        "format": "   {}%"
+    },
+    "tray": {
+        "icon-size": 20,
+        "spacing": 10,
+        // "icons": {
+        //   "blueman": "bluetooth",
+        //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
+        // }
+    },
+    "battery": {
+        "interval": 60,
+        "states": {
+            "full": 100,
+            "warning": 30,
+            "critical": 15,
+        },
+        "format": "{icon}",
+        // "format": "{capacity}% {icon}",
+        "format-icons": ["", "", "", "", ""],
+        // "format-icons": ["", "", "", "", ""],
+        "max-length": 25
+    },
+    "custom/battery": {
+        "exec": "~/.config/waybar/custom/battery.sh",
+        "exec-if": "command -v acpi >/dev/null && acpi | grep -q 'Battery [0-9]'",
+        "hide-empty-text": false,
+        "format": "{}",
+        "return-type": "json",
+        "interval": 60,
+    },
+    "custom/pacman": {
+        "exec": "~/.config/waybar/custom/pacman.sh",
+        "exec-if": "command -v pacman >/dev/null && command -v checkupdates >/dev/null",
+        "format": "   {}",
+        "hide-empty-text": true,
+        "return-type": "json",
+        "interval": 86400,
+    },
+    "custom/weather": {
+        "exec": "wttrbar --location \"$(curl ipinfo.io | jq -r '.loc')\" --fahrenheit --mph",
+        "exec-if": "command -v wttrbar >/dev/null && command -v jq >/dev/null",
+        "format": "{}",
+        "return-type": "json",
+        "interval": 1800,
+        "on-click": "xdg-open https://wunderground.com/weather/$(curl ipinfo.io | jq -r '.loc')",
+    },
+}
