@@ -11,10 +11,6 @@ vim.keymap.set("n", "cg*", "*Ncgn", { desc = "Change word under cursor, '.' to c
 -- Don't move cursor when joining lines (uses 'z' mark)
 vim.keymap.set("n", "J", "mzJ`z", { silent = true, desc = "Join lines" })
 
--- Create empty line above/below current line
-vim.keymap.set("n", "[<space>", "<cmd>normal! O<cr>")
-vim.keymap.set("n", "]<space>", "<cmd>normal! o<cr>")
-
 -- Select last pasted text
 vim.keymap.set("n", "gp", "`[v`]", { silent = true })
 

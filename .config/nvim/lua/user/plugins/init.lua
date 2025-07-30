@@ -195,22 +195,26 @@ return {
       local hls = {
         PounceAccept = {
           ctermfg = "lightblue",
-          fg = "#AADDFF",
+          fg = "#00CCFF",
+          -- fg = "#AADDFF",
           -- fg = "#00bfff",
         },
         PounceAcceptBest = {
           ctermfg = "lightgreen",
-          fg = "#FFDDAA",
+          fg = "#CCFF00",
+          -- fg = "#FFDDAA",
           -- fg = "#bfff00",
         },
         PounceGap = {
           ctermfg = "magenta",
-          fg = "#DDAAFF",
+          fg = "#CC00FF",
+          -- fg = "#DDAAFF",
           -- fg = "#ff00bf",
         },
         PounceMatch = {
           ctermfg = "magenta",
-          fg = "#DDAAFF",
+          fg = "#CC00FF",
+          -- fg = "#DDAAFF",
           -- fg = "#ff00bf",
         },
         PounceUnmatched = {
