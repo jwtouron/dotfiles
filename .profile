@@ -46,4 +46,9 @@ if command -v xrdb >/dev/null; then
     [ -f "$x11_path/Xresources-dmenu" ] && xrdb -merge "$x11_path/Xresources-dmenu"
 fi
 
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:=$HOME/.config}"
+XDG_DATA_HOME="${XDG_DATA_HOME:=$HOME/.local/share}"
+
+ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
  # vim: ft=bash:

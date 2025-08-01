@@ -57,10 +57,3 @@ style = "#6c6c6c"
 command = ''' echo '[PRIVATE]' '''
 style = "yellow"
 when = ''' test -n "$ZSH_PRIV" '''
-
-# Unused
-[env_var.ZSH_PRIV]
-default = ''
-format = "[(\\[PRIVATE\\])]($style)"
-style = "yellow"
-variable = "ZSH_PRIV"
