@@ -1,15 +1,24 @@
-local function files_opts()
-  local fzf_lua = require('fzf-lua')
-
-  local fd_opts = fzf_lua.defaults.files.fd_opts
-
+local function calculate_path_dirs()
+  local seen = {}
+  local dirs = {}
   for _, path in ipairs(vim.opt.path:get()) do
-    if path == "." then
-    elseif path == "" then
-      fd_opts = fd_opts .. " --search-path ."
-    else
-      fd_opts = fd_opts .. " --search-path " .. path
+    if path == "." or seen[path] then goto continue end
+    seen[path] = true
+    if path == "" then
+      path = "."
     end
+    table.insert(dirs, path)
+    ::continue::
+  end
+  return dirs
+end
+
+local function files_opts()
+  local fd_opts = require('fzf-lua').defaults.files.fd_opts
+  local dirs = calculate_path_dirs()
+
+  for _, dir in ipairs(dirs) do
+    fd_opts = fd_opts .. " --search-path " .. dir
   end
 
   return { fd_opts = fd_opts }
@@ -18,17 +27,11 @@ end
 local function live_grep()
   return function()
     local fzf_lua = require('fzf-lua')
-
     local rg_opts = fzf_lua.defaults.grep.rg_opts
-    local path = vim.opt.path:get()
+    local dirs = calculate_path_dirs()
 
-    for i = #path, 1, -1 do
-      if path[i] == "." then
-      elseif path[i] == "" then
-        rg_opts = '. ' ..rg_opts
-      else
-        rg_opts = path[i] .. " " .. rg_opts
-      end
+    for i = #dirs, 1, -1 do
+      rg_opts = dirs[i] .. ' ' .. rg_opts
     end
 
     fzf_lua.live_grep { rg_opts = rg_opts, }
@@ -104,7 +107,7 @@ return {
 ---@field handlers table<string, fun(completions: string[])>
 
 
----@param args FzfRunArgs
+-- ---@param args FzfRunArgs
 -- local function fzf_run(args)
 --   args.fzfopts = args.fzfopts or ''
 --   if type(args.fzfopts) == 'function' then

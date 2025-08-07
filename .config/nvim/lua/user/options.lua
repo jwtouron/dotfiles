@@ -31,24 +31,34 @@ vim.opt.wrapscan = false
 
 vim.g.netrw_winsize = 25
 
+local function calculate_path_dirs()
+  local seen = {}
+  local dirs = {}
+  for _, path in ipairs(vim.opt.path:get()) do
+    if path == "." or seen[path] then goto continue end
+    seen[path] = true
+    if path == "" then
+      path = "."
+    end
+    table.insert(dirs, path)
+    ::continue::
+  end
+  return dirs
+end
+
 vim.api.nvim_create_autocmd("CmdlineEnter", {
   group = augroup,
   callback = function()
-    local dirs = ''
-    for _, path in ipairs(vim.opt.path:get()) do
-      if path == "." then
-      elseif path == "" then
-        dirs = dirs .. " ."
-      else
-        dirs = dirs .. " " .. path
-      end
+    local dirstr = ''
+    for _, dir in ipairs(calculate_path_dirs()) do
+      dirstr = dirstr .. " " .. dir
     end
 
     if vim.fn.executable('rg') == 1 then
-      vim.o.grepprg = vim.o.grepprg .. " $*" .. dirs
+      vim.o.grepprg = vim.o.grepprg .. " $*" .. dirstr
       vim.opt.grepformat = '%f:%l:%c:%m'
     else
-      vim.o.grepprg = string.gsub(vim.o.grepprg, '[$][*].*', '-r $*' .. dirs)
+      vim.o.grepprg = string.gsub(vim.o.grepprg, '[$][*].*', '-r $*' .. dirstr)
       print(vim.o.grepprg)
       vim.opt.grepformat = '%f:%l:%m'
     end
