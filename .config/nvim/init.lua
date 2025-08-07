@@ -7,5 +7,6 @@ require("user.diagnostic")
 require("user.lazy")
 require("user.mappings")
 require("user.options")
+-- require("user.completion")
 
 pcall(require, "user.custom")

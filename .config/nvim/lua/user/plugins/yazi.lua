@@ -5,18 +5,24 @@ return {
     { "nvim-lua/plenary.nvim", lazy = true },
   },
   keys = {
-    -- 👇 in this section, choose your own keymappings!
-    {
-      "<leader>yc",
-      mode = { "n", "v" },
-      "<cmd>Yazi<cr>",
-      desc = "Open yazi at the current file",
-    },
     {
       -- Open in the current working directory
       "<leader>yy",
       "<cmd>Yazi cwd<cr>",
       desc = "Open the file manager in nvim's working directory",
+    },
+    -- Open in the current file's directory
+    {
+      "<leader>yY",
+      mode = { "n", "v" },
+      "<cmd>Yazi<cr>",
+      desc = "Open yazi at the current file",
+    },
+    {
+      "<leader>yc",
+      mode = { "n", "v" },
+      "<cmd>Yazi<cr>",
+      desc = "Open yazi at the current file",
     },
   },
   ---@type YaziConfig | {}

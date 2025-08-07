@@ -51,10 +51,10 @@ end,
 -- Navigation
 --------------------------------------------------------------------------------
 
-vim.keymap.set("n", "n", [[v:searchforward?'n':'N']], { expr = true, silent = true })
-vim.keymap.set("x", "n", [[v:searchforward?'n':'N']], { expr = true, silent = true })
-vim.keymap.set("n", "N", [[v:searchforward?'N':'n']], { expr = true, silent = true })
-vim.keymap.set("x", "N", [[v:searchforward?'N':'n']], { expr = true, silent = true })
+-- vim.keymap.set("n", "n", [[v:searchforward?'n':'N']], { expr = true, silent = true })
+-- vim.keymap.set("x", "n", [[v:searchforward?'n':'N']], { expr = true, silent = true })
+-- vim.keymap.set("n", "N", [[v:searchforward?'N':'n']], { expr = true, silent = true })
+-- vim.keymap.set("x", "N", [[v:searchforward?'N':'n']], { expr = true, silent = true })
 
 -- vim.keymap.set("n", "{", function() vim.fn.search('^\\s*$', 'Wb') end, { silent = true })
 -- vim.keymap.set("n", "}", function() vim.fn.search('^\\s*$', 'W') end, { silent = true })

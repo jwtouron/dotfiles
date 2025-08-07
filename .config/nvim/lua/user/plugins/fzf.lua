@@ -1,9 +1,46 @@
+local function files_opts()
+  local fzf_lua = require('fzf-lua')
+
+  local fd_opts = fzf_lua.defaults.files.fd_opts
+
+  for _, path in ipairs(vim.opt.path:get()) do
+    if path == "." then
+    elseif path == "" then
+      fd_opts = fd_opts .. " --search-path ."
+    else
+      fd_opts = fd_opts .. " --search-path " .. path
+    end
+  end
+
+  return { fd_opts = fd_opts }
+end
+
+local function live_grep()
+  return function()
+    local fzf_lua = require('fzf-lua')
+
+    local rg_opts = fzf_lua.defaults.grep.rg_opts
+    local path = vim.opt.path:get()
+
+    for i = #path, 1, -1 do
+      if path[i] == "." then
+      elseif path[i] == "" then
+        rg_opts = '. ' ..rg_opts
+      else
+        rg_opts = path[i] .. " " .. rg_opts
+      end
+    end
+
+    fzf_lua.live_grep { rg_opts = rg_opts, }
+  end
+end
+
 return {
   "ibhagwan/fzf-lua",
   dependencies = "nvim-tree/nvim-web-devicons",
   cmd = "FzfLua",
   keys = {
-    { "<leader><space>", function() require('fzf-lua').files() end, desc = "FZF Files" },
+    { "<leader><space>", function() require('fzf-lua').files(files_opts) end, desc = "FZF Files" },
     { "<leader>,", function() require('fzf-lua').buffers() end, desc = "FZF Buffers" },
     { "<leader>/", function() require('fzf-lua').blines() end, desc = "FZF Buffer Lines" },
     { "<leader>]", function() require('fzf-lua').tags() end, desc = "FZF Tags" },
@@ -11,8 +48,8 @@ return {
     { "<leader>zc", function() require('fzf-lua').command_history() end, desc = "FZF Command History" },
     { "<leader>zd", function() require('fzf-lua').diagnostics_document() end, desc = "FZF Diagnostics Document" },
     { "<leader>zD", function() require('fzf-lua').diagnostics_workspace() end, desc = "FZF Diagnostics Workspace" },
-    { "<leader>zf", function() require('fzf-lua').files() end, desc = "FZF Files" },
-    { "<leader>zg", function() require('fzf-lua').live_grep() end, desc = "FZF Live Grep Glob" },
+    { "<leader>zf", function() require('fzf-lua').files(files_opts) end, desc = "FZF Files" },
+    { "<leader>zg", live_grep(), desc = "FZF Live Grep" },
     { "<leader>zh", function() require('fzf-lua').helptags() end, desc = "FZF Help Tags" },
     { "<leader>zk", function() require('fzf-lua').keymaps() end, desc = "FZF Keymaps" },
     { "<leader>zl", function() require('fzf-lua').loclist() end, desc = "FZF Loclist" },
@@ -27,56 +64,29 @@ return {
 
     { "<leader>lc", function() require('fzf-lua').lsp_code_actions() end, desc = "FZF LSP Code Actions" },
   },
-  config = function()
-    local fzf_lua = require('fzf-lua')
-
-    local fd_opts = fzf_lua.defaults.files.fd_opts
-
-    for _, path in ipairs(vim.opt.path:get()) do
-      if path ~= "" then
-        fd_opts = fd_opts .. " --search-path " .. path
-      end
-    end
-
-    local rg_opts = ''
-
-    for _, path in ipairs(vim.opt.path:get()) do
-      if path ~= "" then
-        rg_opts = rg_opts .. path .. ' '
-      end
-    end
-
-    rg_opts = rg_opts .. fzf_lua.defaults.grep.rg_opts
-
-    fzf_lua.setup {
-      files = {
-        fd_opts = fd_opts,
-        no_ignore = true,
-      },
-      grep = {
-        query_delay = 300,
-        rg_glob = true,
-        rg_glob_fn = function(query)
-          local regex, flags = query:match("^(.-)%s%-%-(.*)$")
-          -- If no separator is detected will return the original query
-          return (regex or query), flags
-        end,
-        rg_opts = rg_opts,
-      },
-      winopts = {
-        on_create = function()
-          local opts = { nowait = true, buffer = true }
-          vim.keymap.set("t", "<C-b>", "<Left>", opts)
-          vim.keymap.set("t", "<C-f>", "<Right>", opts)
-        end,
-        preview = { hidden = true },
-      },
-    }
-  end
+  opts = {
+    files = {
+      no_ignore = true,
+    },
+    grep = {
+      query_delay = 300,
+      rg_glob = true,
+      rg_glob_fn = function(query)
+        local regex, flags = query:match("^(.-)%s%-%-(.*)$")
+        -- If no separator is detected will return the original query
+        return (regex or query), flags
+      end,
+    },
+    winopts = {
+      on_create = function()
+        local opts = { nowait = true, buffer = true }
+        vim.keymap.set("t", "<C-b>", "<Left>", opts)
+        vim.keymap.set("t", "<C-f>", "<Right>", opts)
+      end,
+      preview = { hidden = true },
+    },
+  }
 }
-
-
-
 
 
 
@@ -94,21 +104,14 @@ return {
 ---@field handlers table<string, fun(completions: string[])>
 
 
--- ---@param args FzfRunArgs
+---@param args FzfRunArgs
 -- local function fzf_run(args)
 --   args.fzfopts = args.fzfopts or ''
 --   if type(args.fzfopts) == 'function' then
 --     args.fzfopts = args.fzfopts()
 --   end
 --
---   local stdin = nil  ---@type (string|string[])?
---   if type(args.stdin) == 'function' then
---     stdin = args.stdin()
---   end
---
 --   local buf = vim.api.nvim_create_buf(false, true)
---
---   vim.api.nvim_set_option_value('bufhidden', 'wipe', { buf = buf })
 --
 --   local win_config = {
 --     relative = 'editor',
@@ -117,15 +120,17 @@ return {
 --     row = 5,
 --     col = 5,
 --     style = 'minimal',
---     border = 'rounded',
+--     -- border = 'rounded',
 --   }
 --
 --   local win = vim.api.nvim_open_win(buf, true, win_config)
 --
+--   local default_fzfopts = '--print-query --expect=enter --reverse --border'
 --   local tmpfile = vim.fn.tempname()
---   local fzfcmd = string.format('fzf --print-query --expect=enter --reverse %s > %s', args.fzfopts, tmpfile)
+--   local fzfcmd = string.format('fzf %s %s > %s', default_fzfopts, args.fzfopts, tmpfile)
 --   local cmd = nil
---   if stdin then
+--   if args.stdin then
+--     local stdin = args.stdin()
 --     if type(stdin) == 'table' then
 --       cmd = string.format("cat << 'EOF' | %s\n%s\nEOF\n", fzfcmd, vim.fn.join(stdin, '\n'))
 --     else
@@ -136,16 +141,19 @@ return {
 --   end
 --
 --   -- print(cmd)
---   vim.fn.jobstart(cmd, {
+--   local jobid = vim.fn.jobstart(cmd, {
 --     term = true,
---     on_exit = function()
+--     on_exit = function(_, exit_code)
 --       pcall(vim.api.nvim_win_close, win, true)
 --       pcall(vim.api.nvim_buf_delete, buf, { force = true })
 --
 --       local ok, result = pcall(vim.fn.readfile, tmpfile)
 --       vim.fn.delete(tmpfile)
 --       if not ok then
---         vim.api.nvim_echo({ { result } }, true, { err = true })
+--         error(vim.inspect(result))
+--       end
+--
+--       if exit_code > 128 then
 --         return
 --       end
 --
@@ -173,7 +181,7 @@ return {
 --       end
 --       return input
 --     end,
---     fzfopts = "--multi",
+--     fzfopts = "--multi --border-label=Files",
 --     handlers = {
 --       enter = function(selections)
 --         for _, s in ipairs(selections) do
@@ -231,7 +239,7 @@ return {
 --       end
 --       return bufnames
 --     end,
---     fzfopts = '--header-lines=1',
+--     fzfopts = '--header-lines=1 --border-label=Buffers',
 --     handlers = {
 --       enter = function(selections)
 --         vim.cmd("b " .. selections[1])
@@ -244,10 +252,10 @@ return {
 --
 -- local fzf_oldfiles = function()
 --   fzf_run {
---     window = { title = 'Oldfiles' },
 --     stdin = function()
 --       return vim.v.oldfiles
 --     end,
+--     fzfopts = '--sync --border-label=Oldfiles',
 --     handlers = {
 --       enter = function(selections)
 --         for _, s in ipairs(selections) do
@@ -313,7 +321,9 @@ return {
 -- end
 --
 -- vim.keymap.set('n', '<leader>/', fzf_lines)
-
--- lines
-
--- resume
+--
+-- -- lines
+--
+-- -- resume
+--
+-- return {}

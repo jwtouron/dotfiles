@@ -166,4 +166,3 @@ for _, name in ipairs({ "Tui", "TUI" }) do
     }
   )
 end
-

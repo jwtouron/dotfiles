@@ -27,30 +27,31 @@ vim.opt.wildmode = { 'noselect:lastused', 'full' }
 vim.opt.wildoptions:append('fuzzy')
 vim.opt.winborder = 'rounded'
 vim.opt.wrap = false
+vim.opt.wrapscan = false
 
 vim.g.netrw_winsize = 25
 
 vim.api.nvim_create_autocmd("CmdlineEnter", {
   group = augroup,
   callback = function()
-    if vim.fn.executable('rg') == 1 then
-      local grepprg = 'rg --vimgrep -uu $*'
-      for _, path in ipairs(vim.opt.path:get()) do
-        if path ~= "" then
-          grepprg = grepprg .. ' ' .. path
-        end
+    local dirs = ''
+    for _, path in ipairs(vim.opt.path:get()) do
+      if path == "." then
+      elseif path == "" then
+        dirs = dirs .. " ."
+      else
+        dirs = dirs .. " " .. path
       end
-      vim.opt.grepprg = grepprg
+    end
+
+    if vim.fn.executable('rg') == 1 then
+      vim.o.grepprg = vim.o.grepprg .. " $*" .. dirs
       vim.opt.grepformat = '%f:%l:%c:%m'
     else
-      local grepprg = 'grep -HIrn $*'
-      for _, path in ipairs(vim.opt.path:get()) do
-        if path ~= "" then
-          grepprg = grepprg .. ' ' .. path
-        end
-      end
-      vim.opt.grepprg = grepprg
+      vim.o.grepprg = string.gsub(vim.o.grepprg, '[$][*].*', '-r $*' .. dirs)
+      print(vim.o.grepprg)
       vim.opt.grepformat = '%f:%l:%m'
     end
-  end
+  end,
+  once = true,
 })

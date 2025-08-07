@@ -40,7 +40,6 @@ return {
   colorscheme("jnurmine/Zenburn"),
   colorscheme("kdheepak/monochrome.nvim"),
   colorscheme("kvrohit/rasmus.nvim"),
-  colorscheme("lunacookies/vim-colors-xcode"),
   colorscheme("mellow-theme/mellow.nvim"),
   colorscheme("miikanissi/modus-themes.nvim"),
   colorscheme("navarasu/onedark.nvim"),
