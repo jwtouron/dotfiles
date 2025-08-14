@@ -3,10 +3,17 @@
 --------------------------------------------------------------------------------
 
 vim.keymap.set("n", "cg*", "*Ncgn", { desc = "Change word under cursor, '.' to continue." })
-
--- Don't overwrite paste register when pasting in visual mode
--- vim.keymap.set("x", "p", [["_dp]], { desc = "Paste in visual mode without overwriting paste register." })
--- vim.keymap.set("x", "P", [["_dP]], { desc = "Paste in visual mode without overwriting paste register." })
+vim.keymap.set("x", "<leader>cg*", function()
+  local tmp = vim.fn.getreg("v")
+  vim.cmd('normal! "vy')
+  local pattern = vim.fn.escape(vim.fn.getreg("v"), "\\/.*$^~[]")
+  vim.fn.setreg("/", pattern)
+  vim.fn.setreg("v", tmp)
+  vim.api.nvim_input("cgn")
+end,
+{
+  desc = "Change word under cursor, '.' to continue."
+})
 
 -- Don't move cursor when joining lines (uses 'z' mark)
 vim.keymap.set("n", "J", "mzJ`z", { silent = true, desc = "Join lines" })
@@ -37,6 +44,11 @@ end, { desc = "Duplicate and comment out line." })
 --------------------------------------------------------------------------------
 -- Miscellaneous
 --------------------------------------------------------------------------------
+
+vim.keymap.set("i",
+  "<cr>", [[ getline('.')[col('.') -2] =~# '\s' ? "<esc>ciw<cr>" : "<cr>" ]],
+  { expr = true, desc = "Clear whitespace at end of line on enter" }
+)
 
 vim.keymap.set("c", "<c-p>", function()
   if vim.fn.pumvisible() ~= 0 then
