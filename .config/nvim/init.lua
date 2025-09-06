@@ -9,4 +9,10 @@ require("user.mappings")
 require("user.options")
 -- require("user.completion")
 
+-- exec.nvim
+-- cfilter
+-- auto-update qflist
+-- mini.hues
+-- ft filse
+
 pcall(require, "user.custom")

@@ -1,4 +1,4 @@
-local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
+local augroup = vim.api.nvim_create_augroup("exec.nvim", {})
 
 local Autocmds = {}
 Autocmds.__index = Autocmds

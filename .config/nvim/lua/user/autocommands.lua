@@ -32,8 +32,10 @@ end
 
 local ft_commands = {
   c3        = "setlocal smartindent errorformat=(%f:%l:%c)\\ %m",
+  css       = "setlocal tabstop=2",
   go        = "setlocal tabstop=8 noexpandtab",
   -- help      = "nnoremap <buffer> q <cmd>q<cr>",
+  html      = "setlocal tabstop=2",
   lua       = "setlocal tabstop=2",
   markdown  = "setlocal wrap linebreak breakindent tabstop=2 conceallevel=2 concealcursor= nofoldenable",
   text      = "setlocal wrap linebreak breakindent",
