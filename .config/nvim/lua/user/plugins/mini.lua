@@ -87,24 +87,24 @@ local clue_spec = {
 }
 
 local files_spec = {
-  keys = {
-    { "<leader>f", "<cmd>lua require('mini.files').open()<cr>", desc = "Mini Files" },
-  },
-  config = function()
-    local mini_files = require('mini.files')
-    mini_files.setup()
-    vim.api.nvim_create_autocmd("User", {
-      group = augroup,
-      pattern = "MiniFilesWindowOpen",
-      callback = function(args)
-        vim.keymap.set("n", "!", function()
-          local cword = vim.fn.expand('<cWORD>')
-          return ":grep" .. cword .. "<Home><Right><Right><Right><Right><Del>  <Left>"
-        end,
-        { buffer = args.data.buf_id, expr = true })
-      end
-    })
-  end,
+  keys = { "<leader>f", "<cmd>lua require('mini.files').open()<cr>", desc = "Mini Files" },
+  dependencies = "nvim-tree/nvim-web-devicons",
+  config = true,
+  -- config = function()
+  --   local mini_files = require('mini.files')
+  --   mini_files.setup()
+  --   vim.api.nvim_create_autocmd("User", {
+  --     group = augroup,
+  --     pattern = "MiniFilesWindowOpen",
+  --     callback = function(args)
+  --       vim.keymap.set("n", "!", function()
+  --         local cword = vim.fn.expand('<cWORD>')
+  --         return ":grep" .. cword .. "<Home><Right><Right><Right><Right><Del>  <Left>"
+  --       end,
+  --       { buffer = args.data.buf_id, expr = true })
+  --     end
+  --   })
+  -- end,
 }
 
 local trailspace_spec = {
@@ -124,7 +124,7 @@ return {
   mini('bufremove', bufremove_spec),
   mini('clue', clue_spec),
   -- mini('comment'),
-  -- mini('files', files_spec),
+  mini('files', files_spec),
   -- mini('jump2d', { keys = { "s", nil }, opts = { mappings = { start_jumping = 's' }, } }),
   -- mini('statusline', { opts = {} }),
   mini('trailspace', trailspace_spec),

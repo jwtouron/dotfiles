@@ -28,10 +28,9 @@ unsetopt beep
 # bindings
 #
 
-bindkey -e
-
 autoload -Uz edit-command-line
 zle -N edit-command-line
+
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 
@@ -44,6 +43,16 @@ bindkey '^x^p' push-line
 HISTFILE="$XDG_DATA_HOME/zsh/.zsh_history"
 HISTSIZE=1000
 SAVEHIST=1000
+
+# Vim Mode
+#
+
+_clone jeffreytse zsh-vi-mode
+ZVM_CURSOR_STYLE_ENABLED=false
+source "$ZDOTDIR/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+# export KEYTIMEOUT=20
+bindkey -M viins -s 'jk' $'\e'
+bindkey -M viins -s 'kj' $'\e'
 
 # Completion
 #
@@ -94,6 +103,11 @@ command -v starship >/dev/null && eval "$(starship init zsh)"
 
 alias priv='ZSH_PRIV=1 zsh -il'
 [ -n "$ZSH_PRIV" ] && unset HISTFILE
+
+# Zoxide
+#
+
+command -v zoxide >/dev/null && eval "$(zoxide init --cmd cd zsh)"
 
 # Syntax highlighting
 #

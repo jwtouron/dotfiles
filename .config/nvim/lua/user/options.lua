@@ -20,6 +20,7 @@ vim.opt.smartcase = true
 -- vim.opt.softtabstop = 0  -- Default is 0, 0 means off
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+vim.opt.swapfile = false
 vim.opt.tabstop = 4
 -- vim.opt.termguicolors = true  -- Neovim will automatically detect and enable
 vim.opt.updatetime = 1000  -- Needed for CursorHold
@@ -27,7 +28,6 @@ vim.opt.wildmode = { 'noselect:lastused', 'full' }
 vim.opt.wildoptions:append('fuzzy')
 vim.opt.winborder = 'rounded'
 vim.opt.wrap = false
-vim.opt.wrapscan = false
 
 vim.g.netrw_winsize = 25
 

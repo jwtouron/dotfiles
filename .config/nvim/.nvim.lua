@@ -1,1 +1,1 @@
-vim.opt.path:append "~/.local/share/nvim"
+vim.opt.path:append("~/.local/share/nvim")

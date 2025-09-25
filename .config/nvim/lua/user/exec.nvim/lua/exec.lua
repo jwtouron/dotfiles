@@ -1,3 +1,121 @@
+-- local Job = {}
+-- Job.__index = Job
+--
+-- local BatchedAppender = {}
+-- BatchedAppender.__index = BatchedAppender
+--
+-- function BatchedAppender.new(buf)
+--   return setmetatable({ pending = {}, scheduled = false, buf = buf, }, BatchedAppender)
+-- end
+--
+-- function BatchedAppender:append(line)
+--   self.pending[#self.pending + 1] = line
+--
+--   if #self.pending >= 100 then
+--     vim.schedule(function() self:flush() end)
+--   elseif not self.scheduled then
+--     self.scheduled = true
+--     vim.defer_fn(function() self.scheduled = false; self:flush() end, 10)
+--   end
+-- end
+--
+-- function BatchedAppender:flush()
+--   if #self.pending > 0 and vim.api.nvim_buf_is_valid(self.buf) then
+--     local batch = self.pending
+--     self.pending = {}
+--     vim.api.nvim_set_option_value("modifiable", true, { buf = self.buf })
+--     vim.api.nvim_buf_set_lines(self.buf, -1, -1, true, batch)
+--     vim.api.nvim_set_option_value("modifiable", false, { buf = self.buf })
+--   end
+-- end
+--
+-- ---@param cmd string
+-- ---@param stdin string?
+-- ---@param buf integer
+-- ---@param on_exit fun(integer, integer)
+-- ---@return integer
+-- local function jobstart(cmd, stdin, buf, on_exit)
+--   local opts = {
+--     pty = true,
+--     stdin = (stdin and stdin ~= "") and "pipe" or "null",
+--   }
+--
+--   local carry = ""
+--   local batched_appender = BatchedAppender.new(buf)
+--
+--   opts.on_stdout = function(_, data)
+--     local repl = function (s)
+--       return s:gsub("\r$", "")
+--     end
+--
+--     if #data == 1 then
+--       if data[1] == "" then
+--         batched_appender:append(carry)
+--         carry = ""
+--       else
+--         carry = carry .. repl(data[1])
+--       end
+--     else
+--       data[1] = carry .. data[1]
+--       for i = 1, #data - 1 do
+--         batched_appender:append(repl(data[i]))
+--       end
+--       carry = repl(data[#data])
+--     end
+--   end
+--
+--   opts.on_exit = function(job_id, exit_code)
+--     if carry ~= "" then
+--       batched_appender:append(carry)
+--     end
+--     vim.schedule(function()
+--       batched_appender:flush()
+--       on_exit(job_id, exit_code)
+--     end)
+--   end
+--
+--   local job_id = vim.fn.jobstart(cmd, opts)
+--
+--   if opts.stind == "pipe" then
+--     vim.fn.chansend(job_id, stdin)  ---@diagnostic disable-line
+--     vim.fn.chanclose(job_id, 'stdin')
+--   end
+--
+--   return job_id
+-- end
+--
+-- function Job.start(cmd, stdin)
+--   local self = setmetatable({}, Job)
+--   self.buf = vim.api.nvim_create_buf(false, true)
+--   jobstart(cmd, stdin, self.buf, function() end)
+--   return self
+-- end
+--
+-- function Job:open_win()
+--   local row_margin, col_margin = math.floor(vim.o.lines * 0.05), math.floor(vim.o.columns * 0.05)
+--   local win_config = {
+--     row = row_margin,
+--     col = col_margin,
+--     height = vim.o.lines - row_margin * 2 - 2,
+--     width = vim.o.columns - col_margin * 2 - 2,
+--     style = 'minimal',
+--     border = 'rounded',
+--     title = title,
+--     title_pos = 'center',
+--     relative = 'editor',
+--   }
+-- end
+--
+-- vim.keymap.set("n", "<leader>e", function() Job.start('find ~/Library -maxdepth 3') end)
+-- -- Job.start('find ~/Library')
+--
+-- local M = {}
+--
+-- M.setup = function()
+-- end
+--
+-- return M
+
 local augroup = vim.api.nvim_create_augroup("exec.nvim", {})
 
 local Autocmds = {}

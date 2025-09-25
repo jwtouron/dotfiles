@@ -2,12 +2,15 @@
 
 local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
+vim.cmd [[packadd cfilter]]
+
 return {
 
   -- {{{1 exec
 
   {
     "exec",
+    enabled = false,
     dir = vim.fn.stdpath("config") .. '/lua/user/exec.nvim',
     keys = function()
       local exec = require("exec")
@@ -25,23 +28,17 @@ return {
 
   {
     "folke/flash.nvim",
-    enabled = false,
     -- stylua: ignore
     keys = {
       { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
       { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-
-      { "f", nil },
-      { "F", nil },
-      { "t", nil },
-      { "T", nil },
     },
     config = function()
       require ("flash").setup {
         prompt = { enabled = false },
         highlight = { backdrop = false },
-        modes = { char = { highlight = { backdrop = false } } },
+        modes = { char = { enabled = false, } },
       }
 
       vim.api.nvim_command("highlight clear FlashMatch")
@@ -187,6 +184,7 @@ return {
 
   {
     "rlane/pounce.nvim",
+    enabled = false,
     keys = {
       { "s", function() require'pounce'.pounce { } end, mode = { "n", "x", "o" }, desc = "Pounce" },
       { "S", function() require'pounce'.pounce { do_repeat = true } end, desc = "Pounce Repeat" },
@@ -249,6 +247,7 @@ return {
 
   {
     "romainl/vim-qf",
+    enabled = false,
     event = "QuickFixCmdPre",
     init = function()
       vim.g.qf_mapping_ack_style = 1
