@@ -87,7 +87,7 @@ local clue_spec = {
 }
 
 local files_spec = {
-  keys = { "<leader>f", "<cmd>lua require('mini.files').open()<cr>", desc = "Mini Files" },
+  keys = { { "<leader>f", "<cmd>lua require('mini.files').open()<cr>", desc = "Mini Files" } },
   dependencies = "nvim-tree/nvim-web-devicons",
   config = true,
   -- config = function()

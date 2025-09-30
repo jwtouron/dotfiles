@@ -41,13 +41,39 @@ return {
         modes = { char = { enabled = false, } },
       }
 
-      vim.api.nvim_command("highlight clear FlashMatch")
-      vim.api.nvim_command("highlight clear FlashCurrent")
-      vim.api.nvim_command("highlight clear FlashLabel")
+      -- vim.api.nvim_command("highlight clear FlashMatch")
+      -- vim.api.nvim_command("highlight clear FlashCurrent")
+      -- vim.api.nvim_command("highlight clear FlashLabel")
 
-      vim.api.nvim_command("highlight FlashMatch guibg=#4A47A3 guifg=#B8B5FF") -- Emerald background
-      vim.api.nvim_command("highlight FlashCurrent guibg=#456268 guifg=#D0E8F2")
-      vim.api.nvim_command("highlight FlashLabel guibg=#A25772 guifg=#EEF5FF")
+      local set_hls = function()
+        -- Purple for general matches
+        vim.api.nvim_set_hl(0, "FlashMatch", {
+          bg = "#5A3FFF",
+          fg = "#E6E6FF",
+          bold = true,
+        })
+
+        -- Teal for the current match
+        vim.api.nvim_set_hl(0, "FlashCurrent", {
+          bg = "#2E8B85",
+          fg = "#E8FAF9",
+          bold = true,
+        })
+
+        -- Warm magenta for labels
+        vim.api.nvim_set_hl(0, "FlashLabel", {
+          bg = "#B3415F",
+          fg = "#FFEFF5",
+          bold = true,
+        })
+      end
+
+      set_hls()
+      vim.api.nvim_create_autocmd("ColorScheme", { group = augroup, callback = set_hls, })
+
+      -- vim.api.nvim_command("highlight FlashMatch guibg=#4A47A3 guifg=#B8B5FF") -- Emerald background
+      -- vim.api.nvim_command("highlight FlashCurrent guibg=#456268 guifg=#D0E8F2")
+      -- vim.api.nvim_command("highlight FlashLabel guibg=#A25772 guifg=#EEF5FF")
     end,
   },
 
