@@ -1,0 +1,11 @@
+set hidden
+set ignorecase
+set incsearch
+set nocompatible
+set showmode
+set smartcase
+
+nnoremap q ZZ
+nnoremap <cr> ZZ
+inoremap <expr> jk "\<esc>"
+inoremap <expr> kj "\<esc>"

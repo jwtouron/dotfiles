@@ -87,7 +87,20 @@ local clue_spec = {
 }
 
 local files_spec = {
-  keys = { { "<leader>f", "<cmd>lua require('mini.files').open()<cr>", desc = "Mini Files" } },
+  keys = function()
+    local open_current_file = function()
+      local files, file_name = require('mini.files'), vim.api.nvim_buf_get_name(0)
+      if file_name == "" then
+        files.open()
+      else
+        files.open(file_name, false)
+      end
+    end
+    return {
+      { "<leader>f", function() require('mini.files').open() end, desc = "Mini Files" },
+      { "<leader>F", open_current_file, desc = "Mini Files (current file)" },
+    }
+  end,
   dependencies = "nvim-tree/nvim-web-devicons",
   config = true,
   -- config = function()
@@ -108,14 +121,17 @@ local files_spec = {
 }
 
 local trailspace_spec = {
-  opts = {},
-  init = function()
+  config = function()
+    require("mini.trailspace").setup()
+    local setup_highlight = function()
+      vim.api.nvim_set_hl(0, "MiniTrailspace", { sp = "#FA8072", undercurl = true, force = true, nocombine = true, })
+    end
+    setup_highlight()
     vim.api.nvim_create_autocmd("ColorScheme", {
       group = augroup,
-      pattern = "*",
-      command = "highlight MiniTrailspace guifg=salmon guisp=salmon gui=undercurl cterm=undercurl guibg=NONE ctermbg=NONE"
+      callback = function() vim.schedule(setup_highlight) end,
     })
-  end,
+  end
 }
 
 return {

@@ -28,11 +28,16 @@ unsetopt beep
 # bindings
 #
 
+bindkey -e
+
+zstyle ':zle:edit-command-line' editor vim -u "$ZDOTDIR/vimrc"
 autoload -Uz edit-command-line
 zle -N edit-command-line
 
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
+bindkey '^]' edit-command-line
+bindkey -M emacs '^[;' edit-command-line      # Alt-;   (^[ is ESC)
 
 bindkey '^xp' push-line
 bindkey '^x^p' push-line
@@ -44,24 +49,13 @@ HISTFILE="$XDG_DATA_HOME/zsh/.zsh_history"
 HISTSIZE=1000
 SAVEHIST=1000
 
-# Vim Mode
-#
-
-_clone jeffreytse zsh-vi-mode
-ZVM_CURSOR_STYLE_ENABLED=false
-source "$ZDOTDIR/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
-# export KEYTIMEOUT=20
-bindkey -M viins -s 'jk' $'\e'
-bindkey -M viins -s 'kj' $'\e'
-
 # Completion
 #
 
 if command -v fzf >/dev/null; then
-    eval "$(fzf --zsh)"
+    source <(fzf --zsh)
 
     _clone Aloxaf fzf-tab
-    # [ ! -d "$ZDOTDIR/fzf-tab" ] && command -v git >/dev/null && git clone https://github.com/Aloxaf/fzf-tab "$ZDOTDIR/fzf-tab"
 
     if [ -d "$ZDOTDIR/fzf-tab" ]; then
         # disable sort when completing `git checkout`
@@ -73,7 +67,7 @@ if command -v fzf >/dev/null; then
         zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
         # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
         zstyle ':completion:*' menu no
-        # preview directory's content with eza when completing cd
+        # preview directory's content with ls when completing cd
         zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 --color=always $realpath'
         # custom fzf flags
         # NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default

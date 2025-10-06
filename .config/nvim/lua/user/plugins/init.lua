@@ -34,47 +34,53 @@ return {
       { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
-    config = function()
-      require ("flash").setup {
-        prompt = { enabled = false },
-        highlight = { backdrop = false },
-        modes = { char = { enabled = false, } },
-      }
+    opts = {
+      prompt = { enabled = false },
+      highlight = { backdrop = false },
+      modes = { char = { enabled = false, } },
+    },
+  },
 
-      -- vim.api.nvim_command("highlight clear FlashMatch")
-      -- vim.api.nvim_command("highlight clear FlashCurrent")
-      -- vim.api.nvim_command("highlight clear FlashLabel")
+  -- {{{1 folke/sidekick.nvim
 
-      local set_hls = function()
-        -- Purple for general matches
-        vim.api.nvim_set_hl(0, "FlashMatch", {
-          bg = "#5A3FFF",
-          fg = "#E6E6FF",
-          bold = true,
-        })
-
-        -- Teal for the current match
-        vim.api.nvim_set_hl(0, "FlashCurrent", {
-          bg = "#2E8B85",
-          fg = "#E8FAF9",
-          bold = true,
-        })
-
-        -- Warm magenta for labels
-        vim.api.nvim_set_hl(0, "FlashLabel", {
-          bg = "#B3415F",
-          fg = "#FFEFF5",
-          bold = true,
-        })
-      end
-
-      set_hls()
-      vim.api.nvim_create_autocmd("ColorScheme", { group = augroup, callback = set_hls, })
-
-      -- vim.api.nvim_command("highlight FlashMatch guibg=#4A47A3 guifg=#B8B5FF") -- Emerald background
-      -- vim.api.nvim_command("highlight FlashCurrent guibg=#456268 guifg=#D0E8F2")
-      -- vim.api.nvim_command("highlight FlashLabel guibg=#A25772 guifg=#EEF5FF")
-    end,
+  {
+    "folke/sidekick.nvim",
+    keys = {
+      {
+        "<leader>aa",
+        function() require("sidekick.cli").toggle() end,
+        desc = "Sidekick Toggle CLI",
+      },
+      {
+        "<leader>as",
+        function() require("sidekick.cli").select({ filter = { installed = true } }) end,
+        desc = "Select CLI",
+      },
+      {
+        "<leader>at",
+        function() require("sidekick.cli").send({ msg = "{this}" }) end,
+        mode = { "x", "n" },
+        desc = "Send This",
+      },
+      {
+        "<leader>av",
+        function() require("sidekick.cli").send({ msg = "{selection}" }) end,
+        mode = { "x" },
+        desc = "Send Visual Selection",
+      },
+      {
+        "<leader>ap",
+        function() require("sidekick.cli").prompt() end,
+        mode = { "n", "x" },
+        desc = "Sidekick Select Prompt",
+      },
+      {
+        "<c-.>",
+        function() require("sidekick.cli").focus() end,
+        mode = { "n", "x", "i", "t" },
+        desc = "Sidekick Switch Focus",
+      },
+    },
   },
 
   -- {{{1 jeetsukumaran/vim-indentwise
@@ -218,31 +224,18 @@ return {
     config = function()
       local hls = {
         PounceAccept = {
-          ctermfg = "lightblue",
           fg = "#00CCFF",
-          -- fg = "#AADDFF",
-          -- fg = "#00bfff",
         },
         PounceAcceptBest = {
-          ctermfg = "lightgreen",
           fg = "#CCFF00",
-          -- fg = "#FFDDAA",
-          -- fg = "#bfff00",
         },
         PounceGap = {
-          ctermfg = "magenta",
-          fg = "#CC00FF",
-          -- fg = "#DDAAFF",
-          -- fg = "#ff00bf",
+          link = "Search",
         },
         PounceMatch = {
-          ctermfg = "magenta",
-          fg = "#CC00FF",
-          -- fg = "#DDAAFF",
-          -- fg = "#ff00bf",
+          link = "Search",
         },
         PounceUnmatched = {
-          ctermfg = 'lightgray',
           fg = '#666666',
         },
       }
@@ -257,7 +250,7 @@ return {
 
       vim.api.nvim_create_autocmd('Colorscheme', {
         group = augroup,
-        callback = setup_hls,
+        callback = function() vim.schedule(setup_hls) end,
       })
     end,
   },

@@ -1,49 +1,9 @@
-local function calculate_path_dirs()
-  local seen = {}
-  local dirs = {}
-  for _, path in ipairs(vim.opt.path:get()) do
-    if path == "." or seen[path] then goto continue end
-    seen[path] = true
-    if path == "" then
-      path = "."
-    end
-    table.insert(dirs, path)
-    ::continue::
-  end
-  return dirs
-end
-
-local function files_opts()
-  local fd_opts = require('fzf-lua').defaults.files.fd_opts
-  local dirs = calculate_path_dirs()
-
-  for _, dir in ipairs(dirs) do
-    fd_opts = fd_opts .. " --search-path " .. dir
-  end
-
-  return { fd_opts = fd_opts }
-end
-
-local function live_grep()
-  return function()
-    local fzf_lua = require('fzf-lua')
-    local rg_opts = fzf_lua.defaults.grep.rg_opts
-    local dirs = calculate_path_dirs()
-
-    for i = #dirs, 1, -1 do
-      rg_opts = dirs[i] .. ' ' .. rg_opts
-    end
-
-    fzf_lua.live_grep { rg_opts = rg_opts, }
-  end
-end
-
 return {
   "ibhagwan/fzf-lua",
   dependencies = "nvim-tree/nvim-web-devicons",
   cmd = "FzfLua",
   keys = {
-    { "<leader><space>", function() require('fzf-lua').files(files_opts) end, desc = "FZF Files" },
+    { "<leader><space>", function() require('fzf-lua').files() end, desc = "FZF Files" },
     { "<leader>,", function() require('fzf-lua').buffers() end, desc = "FZF Buffers" },
     { "<leader>/", function() require('fzf-lua').blines() end, desc = "FZF Buffer Lines" },
     { "<leader>]", function() require('fzf-lua').tags() end, desc = "FZF Tags" },
@@ -51,8 +11,8 @@ return {
     { "<leader>zc", function() require('fzf-lua').command_history() end, desc = "FZF Command History" },
     { "<leader>zd", function() require('fzf-lua').diagnostics_document() end, desc = "FZF Diagnostics Document" },
     { "<leader>zD", function() require('fzf-lua').diagnostics_workspace() end, desc = "FZF Diagnostics Workspace" },
-    { "<leader>zf", function() require('fzf-lua').files(files_opts) end, desc = "FZF Files" },
-    { "<leader>zg", live_grep(), desc = "FZF Live Grep" },
+    { "<leader>zf", ":FzfLuaFiles ", desc = "FZF Files" },
+    { "<leader>zg", function() require('fzf-lua').live_grep() end, desc = "FZF Live Grep" },
     { "<leader>zh", function() require('fzf-lua').helptags() end, desc = "FZF Help Tags" },
     { "<leader>zk", function() require('fzf-lua').keymaps() end, desc = "FZF Keymaps" },
     { "<leader>zl", function() require('fzf-lua').loclist() end, desc = "FZF Loclist" },
@@ -88,18 +48,26 @@ return {
       end,
       preview = { hidden = true },
     },
-  }
+  },
+  config = function()
+    require('fzf-lua').setup()
+    vim.api.nvim_create_user_command('FzfLuaFiles', function(arg)
+      local dir = arg.args
+      if dir == "" then
+        dir = "."
+      end
+      require('fzf-lua').files { cwd = dir }
+    end,
+    {
+      complete = function(arglead)
+        local abspath = vim.fs.abspath(arglead)
+        local dirname, basename = vim.fs.dirname(abspath), vim.fs.basename(abspath)
+        return vim.fn.systemlist(string.format('fd --type dir --unrestricted . %s | fzf -f %s', vim.fn.shellescape(dirname), vim.fn.shellescape(basename)))
+      end,
+      nargs = '?',
+    })
+  end,
 }
-
-
-
-
-
-
-
-
-
-
 
 ---@class FzfRunArgs
 ---@field stdin (fun(): (string|string[]))?
