@@ -147,12 +147,6 @@ vim.api.nvim_create_user_command(
 
 -- {{{1 Tui, TUI: Run a TUI application using :term
 
-vim.api.nvim_create_autocmd("TermClose", {
-  group = vim.api.nvim_create_augroup("user-tui", { clear = true }),
-  command = "b#|bw#",
-  once = true,
-})
---
 for _, name in ipairs({ "Tui", "TUI" }) do
   vim.api.nvim_create_user_command(
     name,

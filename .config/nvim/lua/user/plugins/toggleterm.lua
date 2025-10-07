@@ -12,9 +12,8 @@ local function goto_file_line_col()
     local file, line_num, col_num = string.match(line, pattern)
     line_num, col_num = tonumber(line_num), tonumber(col_num)
     if file and vim.fn.filereadable(file) == 1 and line_num then
-      file = vim.fn.fnameescape(file)
       col_num = col_num or 1
-      vim.cmd("silent close | silent edit " .. file)
+      vim.cmd("silent close | silent edit " .. vim.fn.fnameescape(file))
       vim.fn.cursor(line_num, col_num)
       return
     end
