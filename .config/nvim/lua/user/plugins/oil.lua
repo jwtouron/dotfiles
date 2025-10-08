@@ -22,7 +22,7 @@ end
 
 return {
   'stevearc/oil.nvim',
-  enabled = false,
+  -- enabled = false,
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "CmdlineEnter",
   cmd = "Oil",

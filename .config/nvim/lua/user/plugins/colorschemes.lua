@@ -32,8 +32,10 @@ end
 return {
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
   colorscheme("antonk52/lake.nvim"),
+  colorscheme("bettervim/yugen.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
   colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
+  colorscheme("darkvoid-theme/darkvoid.nvim"),
   colorscheme("datsfilipe/vesper.nvim"),
   colorscheme("dgox16/oldworld.nvim"),
   colorscheme("hardselius/warlock"),

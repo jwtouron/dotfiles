@@ -140,7 +140,7 @@ return {
   mini('bufremove', bufremove_spec),
   mini('clue', clue_spec),
   -- mini('comment'),
-  mini('files', files_spec),
+  -- mini('files', files_spec),
   -- mini('jump2d', { keys = { "s", nil }, opts = { mappings = { start_jumping = 's' }, } }),
   -- mini('statusline', { opts = {} }),
   mini('trailspace', trailspace_spec),
