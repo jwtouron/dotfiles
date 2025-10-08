@@ -93,7 +93,7 @@ local files_spec = {
       if file_name == "" then
         files.open()
       else
-        files.open(file_name, false)
+        files.open(file_name)
       end
     end
     return {
