@@ -34,11 +34,14 @@ return {
     grep = {
       query_delay = 300,
       rg_glob = true,
+      -- first returned string is the new search query
+      -- second returned string are (optional) additional rg flags
+      -- @return string, string?
       rg_glob_fn = function(query)
         local regex, flags = query:match("^(.-)%s%-%-(.*)$")
         -- If no separator is detected will return the original query
         return (regex or query), flags
-      end,
+      end
     },
     winopts = {
       on_create = function()
@@ -49,8 +52,9 @@ return {
       preview = { hidden = true },
     },
   },
-  config = function()
-    require('fzf-lua').setup()
+  config = function(_, opts)
+    require('fzf-lua').setup(opts)
+
     vim.api.nvim_create_user_command('FzfLuaFiles', function(arg)
       local dir = arg.args
       if dir == "" then
@@ -59,15 +63,16 @@ return {
       require('fzf-lua').files { cwd = dir }
     end,
     {
-      complete = function(arglead)
-        local abspath = vim.fs.abspath(arglead)
-        local dirname, basename = vim.fs.dirname(abspath), vim.fs.basename(abspath)
-        return vim.fn.systemlist(string.format('fd --type dir --unrestricted . %s | fzf -f %s', vim.fn.shellescape(dirname), vim.fn.shellescape(basename)))
-      end,
-      nargs = '?',
-    })
-  end,
-}
+      complete = 'dir',
+      -- complete = function(arglead)
+        --   local abspath = vim.fs.abspath(arglead)
+        --   local dirname, basename = vim.fs.dirname(abspath), vim.fs.basename(abspath)
+        --   return vim.fn.systemlist(string.format('fd --type dir --unrestricted . %s | fzf -f %s', vim.fn.shellescape(dirname), vim.fn.shellescape(basename)))
+        -- end,
+        nargs = '?',
+      })
+    end,
+  }
 
 ---@class FzfRunArgs
 ---@field stdin (fun(): (string|string[]))?
