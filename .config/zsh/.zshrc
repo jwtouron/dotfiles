@@ -6,7 +6,7 @@ _clone() {
 # Functionality common to bash and zsh
 #
 
-source ~/.config/shell/rc
+[ -r "$HOME/.config/shell/env.sh" ] && . "$HOME/.config/shell/env.sh"
 
 # options (man zshoptions)
 #

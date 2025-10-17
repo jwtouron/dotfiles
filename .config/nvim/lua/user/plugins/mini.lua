@@ -17,11 +17,37 @@ local bracketed_spec = {
 }
 
 local bufremove_spec = {
-  event = "CmdlineEnter",
-  opts = {},
+  cmd = { "Bdelete", "Bwipeout", },
   init = function()
-    vim.cmd.cabbr "bd lua require('mini.bufremove').delete()<Left>"
-    vim.cmd.cabbr "bw lua require('mini.bufremove').wipeout()<Left>"
+    vim.cmd.cabbr("bd", "Bdelete")
+    vim.cmd.cabbr("bw", "Bwipeout")
+  end,
+  config = function()
+    require('mini.bufremove').setup()
+
+    local function create_user_command(name, func)
+      vim.api.nvim_create_user_command(
+        name,
+        function(arg)
+          local buf_id = 0  ---@type number?
+          if arg.args ~= "" then
+            buf_id = tonumber(arg.args) or vim.fn.bufnr(arg.args)
+            if buf_id == -1 then
+              error(string.format("Invalid buffer: %s", arg.args))
+            end
+          end
+          require("mini.bufremove")[func](buf_id, arg.bang)
+        end,
+        {
+          complete = "buffer",
+          nargs = "?",
+          bang = true,
+        }
+      )
+    end
+
+    create_user_command("Bdelete", "delete")
+    create_user_command("Bwipeout", "wipeout")
   end,
 }
 
@@ -76,10 +102,10 @@ local clue_spec = {
         { mode = "n", keys = "<leader>,", desc = "FZF Buffers" },
 
         { mode = "n", keys = "<leader>e", desc = "[E]xec" },
-        { mode = "n", keys = "<leader>h", desc = "Quick [H]istory" },
         { mode = "n", keys = "<leader>l", desc = "[L]SP" },
         { mode = "n", keys = "<leader>o", desc = "[O]il" },
-        { mode = "n", keys = "<leader>r", desc = "[R]edoCommand" },
+        { mode = "n", keys = "<leader>t", desc = "[T]oggleterm" },
+        { mode = "x", keys = "<leader>t", desc = "[T]oggleterm" },
         { mode = "n", keys = "<leader>z", desc = "F[Z]F" },
       },
     })
@@ -135,7 +161,7 @@ local trailspace_spec = {
 }
 
 return {
-  mini('ai'),
+  -- mini('ai'),
   -- mini('bracketed', bracketed_spec),
   mini('bufremove', bufremove_spec),
   mini('clue', clue_spec),

@@ -52,6 +52,7 @@ return {
   colorscheme("rjshkhr/shadow.nvim"),
   colorscheme("rose-pine/neovim", { name = "rose-pine" }),
   colorscheme("sainnhe/gruvbox-material", { init = function() vim.g.gruvbox_material_better_performance = 1 end }),
+  colorscheme("santhosh-tekuri/silence.nvim"),
   colorscheme("scottmckendry/cyberdream.nvim"),
   colorscheme("webhooked/kanso.nvim"),
 }

@@ -1,0 +1,11 @@
+[ -r "$HOME/.config/shell/env.sh" ] && . "$HOME/.config/shell/env.sh"
+[ -r "$HOME/.config/shell/login.sh" ] && . "$HOME/.config/shell/login.sh"
+
+# Xresources
+if command -v xrdb >/dev/null; then
+    x11_path="$HOME/.config/x11"
+    ([ -f "$x11_path/Xresources-colors" ] && xrdb -merge "$x11_path/Xresources-colors") \
+        || xrdb -merge "$x11_path/colors/default"
+    [ -f "$x11_path/Xresources-st" ] && xrdb -merge "$x11_path/Xresources-st"
+    [ -f "$x11_path/Xresources-dmenu" ] && xrdb -merge "$x11_path/Xresources-dmenu"
+fi

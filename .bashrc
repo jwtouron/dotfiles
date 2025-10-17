@@ -1,7 +1,8 @@
-# vim: ft=bash
+[ -r "$HOME/.config/shell/env.sh" ] && . "$HOME/.config/shell/env.sh"
 
 [[ $- != *i* ]] && return
-[[ "$(whoami)" = "root" ]] && return
+
+[ -r "$HOME/.config/shell/interactive.sh" ] && . "$HOME/.config/shell/interactive.sh"
 
 [[ -z "$FUNCNEST" ]] && export FUNCNEST=100          # limits recursive functions, see 'man bash'
 
@@ -31,9 +32,6 @@ eval "$(fzf --bash)"
 _fzf_setup_completion path ag git kubectl
 _fzf_setup_completion dir tree
 _fzf_setup_completion path config
-
-# Functionality common to bash and zsh
-source "$HOME/.config/shell/rc"
 
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
 
