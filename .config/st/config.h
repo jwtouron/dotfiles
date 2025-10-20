@@ -5,13 +5,9 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
-/* Spare fonts */
-static char *font2[] = {
-/*	"Inconsolata for Powerline:pixelsize=12:antialias=true:autohint=true", */
-/*	"Hack Nerd Font Mono:pixelsize=11:antialias=true:autohint=true", */
-};
-
+// static char *font = "RobotoMono Nerd Font Mono:pixelsize=16:antialias=true:autohint=true";
+static char *font = "Noto Sans Mono:pixelsize=16:antialias=true:autohint=true";
+static char *font2[] = { "Noto Color Emoji:pixelsize=16:antialias=true:autohint=true" };
 static int borderpx = 2;
 
 /*
@@ -102,32 +98,32 @@ unsigned int tabspaces = 8;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	"black",
-	"red3",
-	"green3",
-	"yellow3",
-	"blue2",
-	"magenta3",
-	"cyan3",
-	"gray90",
+	"#000000",
+	"#f17779",
+	"#99cc99",
+	"#ffcc66",
+	"#6699cc",
+	"#cc99cc",
+	"#66cccc",
+	"#fffefe",
 
 	/* 8 bright colors */
-	"gray50",
-	"red",
-	"green",
-	"yellow",
-	"#5c5cff",
-	"magenta",
-	"cyan",
-	"white",
+	"#000000",
+	"#f17779",
+	"#99cc99",
+	"#ffcc66",
+	"#6699cc",
+	"#cc99cc",
+	"#66cccc",
+	"#fffefe",
 
 	[255] = 0,
 
 	/* more colors can be added after 255 to use with DefaultXX */
 	"#cccccc",
 	"#555555",
-	"gray90", /* default foreground colour */
-	"black", /* default background colour */
+	"#cccccc", /* default foreground colour */
+	"#2c2c2c", /* default background colour */
 };
 
 

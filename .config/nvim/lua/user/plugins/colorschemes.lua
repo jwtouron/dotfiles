@@ -48,6 +48,7 @@ return {
   colorscheme("mellow-theme/mellow.nvim"),
   colorscheme("miikanissi/modus-themes.nvim"),
   colorscheme("navarasu/onedark.nvim"),
+  colorscheme("nyoom-engineering/oxocarbon.nvim"),
   colorscheme("rafamadriz/neon"),
   colorscheme("ramojus/mellifluous.nvim"),
   colorscheme("rebelot/kanagawa.nvim"),
@@ -56,5 +57,6 @@ return {
   colorscheme("sainnhe/gruvbox-material", { init = function() vim.g.gruvbox_material_better_performance = 1 end }),
   colorscheme("santhosh-tekuri/silence.nvim"),
   colorscheme("scottmckendry/cyberdream.nvim"),
+  colorscheme("vague2k/vague.nvim"),
   colorscheme("webhooked/kanso.nvim"),
 }

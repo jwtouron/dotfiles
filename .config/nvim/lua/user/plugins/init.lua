@@ -3,6 +3,7 @@
 local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
 vim.cmd [[packadd cfilter]]
+vim.cmd [[packadd nohlsearch]]
 
 return {
 
@@ -217,6 +218,7 @@ return {
 
   {
     "romainl/vim-cool",
+    enabled = false,
     event = "CmdlineEnter",
   },
 

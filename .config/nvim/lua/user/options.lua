@@ -8,13 +8,14 @@ vim.opt.expandtab = true
 vim.opt.exrc = true
 vim.opt.ignorecase = true
 -- vim.opt.inccommand = 'split'
-vim.opt.jumpoptions = { "stack" }
+vim.opt.jumpoptions = { "stack", "clean", }
 vim.opt.list = true
 vim.opt.listchars =  { tab = "» " }
 vim.opt.number = true
 vim.opt.pumblend = 10
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 4
+vim.opt.shiftround = true
 vim.opt.shiftwidth = 0  -- When 0, use value of tabstop
 vim.opt.sidescrolloff = 8
 vim.opt.smartcase = true

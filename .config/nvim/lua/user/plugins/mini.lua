@@ -2,7 +2,7 @@ local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
 local function mini(name, spec)
   local ret = {
-    "echasnovski/mini." .. name,
+    "nvim-mini/mini." .. name,
     version = false,
   }
   for k, v in pairs(spec or { event = "VeryLazy", opts = {} }) do

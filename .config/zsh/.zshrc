@@ -101,7 +101,10 @@ alias priv='ZSH_PRIV=1 zsh -il'
 # Zoxide
 #
 
-command -v zoxide >/dev/null && eval "$(zoxide init --cmd cd zsh)"
+if command -v zoxide >/dev/null; then
+    eval "$(zoxide init --cmd cd zsh)"
+    unsetopt auto_cd
+fi
 
 # Syntax highlighting
 #

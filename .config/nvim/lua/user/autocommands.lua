@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup,
   pattern = "*",
-  command = "lua vim.highlight.on_yank()",
+  command = "lua vim.hl.on_yank()",
 })
 
 vim.api.nvim_create_autocmd('QuickFixCmdPost', {
