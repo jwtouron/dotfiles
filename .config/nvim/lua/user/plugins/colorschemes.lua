@@ -30,7 +30,9 @@ local function colorscheme(name, spec)
 end
 
 return {
+  colorscheme("WTFox/jellybeans.nvim"),
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
+  colorscheme("alexkotusenko/nightgem.nvim"),
   colorscheme("antonk52/lake.nvim"),
   colorscheme("bettervim/yugen.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
