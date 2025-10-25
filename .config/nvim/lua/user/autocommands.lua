@@ -50,6 +50,7 @@ local ft_commands = {
   html      = "setlocal tabstop=2",
   lua       = "setlocal tabstop=2",
   markdown  = "setlocal wrap linebreak breakindent tabstop=2 conceallevel=2 concealcursor= nofoldenable",
+  template  = "setlocal tabstop=2",
   text      = "setlocal wrap linebreak breakindent",
   vim       = "setlocal tabstop=2",
   zig       = "let g:zig_fmt_autosave = 0",
