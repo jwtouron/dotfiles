@@ -82,10 +82,10 @@ vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
 vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]])
 
 -- Make the arglist more like harpoon
-vim.keymap.set('n', '<M-h>', function() vim.cmd "silent 1argument" end)
-vim.keymap.set('n', '<M-j>', function() vim.cmd "silent 2argument" end)
-vim.keymap.set('n', '<M-k>', function() vim.cmd "silent 3argument" end)
-vim.keymap.set('n', '<M-l>', function() vim.cmd "silent 4argument" end)
+vim.keymap.set('n', '<M-j>', function() vim.cmd "silent! 1argument" end)
+vim.keymap.set('n', '<M-k>', function() vim.cmd "silent! 2argument" end)
+vim.keymap.set('n', '<M-l>', function() vim.cmd "silent! 3argument" end)
+vim.keymap.set('n', '<M-;>', function() vim.cmd "silent! 4argument" end)
 
 --------------------------------------------------------------------------------
 -- Tabs
