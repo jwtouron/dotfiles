@@ -28,7 +28,8 @@ return {
     local diffcmd = "If you propose edits, reply ONLY with a unified diff (udiff) with correct paths (---/+++), no extra commentary."
     local Terminal = require('toggleterm.terminal').Terminal
     local t = Terminal:new {
-      cmd = "codex --ask-for-approval on-request --search " .. vim.fn.shellescape(diffcmd) .. " || read",
+      cmd = "codex --ask-for-approval on-request || read",
+      -- cmd = "codex --ask-for-approval on-request --search " .. vim.fn.shellescape(diffcmd) .. " || read",
       direction = 'float',
     }
 
