@@ -1,6 +1,7 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    enabled = false,
     event = "FileType",
     config = function()
       require("nvim-treesitter.configs").setup {
@@ -24,6 +25,7 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    enabled = false,
     dependencies = "nvim-treesitter/nvim-treesitter",
     event = "FileType",
     config = function()
