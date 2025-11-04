@@ -6,7 +6,7 @@ _clone() {
 # Functionality common to bash and zsh
 #
 
-[ -r "$HOME/.config/shell/env.sh" ] && . "$HOME/.config/shell/env.sh"
+[ -r "$HOME/.config/shell/interactive.sh" ] && . "$HOME/.config/shell/interactive.sh"
 
 # options (man zshoptions)
 #
