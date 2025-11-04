@@ -46,6 +46,7 @@ return {
   colorscheme("mellow-theme/mellow.nvim"),
   colorscheme("miikanissi/modus-themes.nvim"),
   colorscheme("navarasu/onedark.nvim"),
+  colorscheme("p00f/alabaster.nvim"),
   colorscheme("rafamadriz/neon"),
   colorscheme("ramojus/mellifluous.nvim"),
   colorscheme("rebelot/kanagawa.nvim"),
