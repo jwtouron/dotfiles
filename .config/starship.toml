@@ -2,11 +2,11 @@ format = """
 $username\
 $hostname\
 $directory\
+$git_branch\
+$python\
 $line_break\
 ${custom.ZSH_PRIV}\
-$python\
 $character"""
-# $git_branch\
 # $git_state\
 # $git_status\
 
@@ -27,10 +27,10 @@ success_symbol = "[❯](purple)"
 error_symbol = "[❯](red)"
 vimcmd_symbol = "[❮](green)"
 
-[git_branch]
-format = "[$branch]($style)"
-style = "#6c6c6c"
-# style = "bright-black"
+# [git_branch]
+# format = "[$branch]($style)"
+# style = "#6c6c6c"
+# # style = "bright-black"
 
 [git_status]
 format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
@@ -49,8 +49,10 @@ style = "#6c6c6c"
 # style = "bright-black"
 
 [python]
-format = "[(\\($symbol$virtualenv\\) )]($style)"
-style = "#6c6c6c"
+detect_extensions = []
+# format = "[(\\($symbol$virtualenv\\) )]($style)"
+# format = '[${symbol}(${version} )(\($virtualenv\) )]($style)'
+# style = "#6c6c6c"
 # style = "bright-black"
 
 [custom.ZSH_PRIV]

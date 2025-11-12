@@ -28,6 +28,7 @@ return {
     local diffcmd = "If you propose edits, reply ONLY with a unified diff (udiff) with correct paths (---/+++), no extra commentary."
     local Terminal = require('toggleterm.terminal').Terminal
     local t = Terminal:new {
+      id = 10,
       cmd = "codex --ask-for-approval on-request --sandbox workspace-write --enable web_search_request  || read",
       direction = 'float',
     }
