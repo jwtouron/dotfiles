@@ -1,0 +1,42 @@
+! ~/.Xresources — xterm cyberpunk theme for class "i3-app-popup"
+
+i3-app-menu*faceName: monospace:size=13:antialias=true
+i3-app-menu*scrollBar: false
+i3-app-menu*internalBorder: 10
+i3-app-menu*cursorBlink: true
+i3-app-menu*bellIsUrgent: true
+i3-app-menu*cursorColor: #00FFFF
+i3-app-menu*cursorColor2: #FF00FF
+i3-app-menu*pointerColorBackground: #0A0A0A
+i3-app-menu*pointerColorForeground: #00FFFF
+
+! background / foreground
+i3-app-menu*background: #0A0A0F
+i3-app-menu*foreground: #F8F8F2
+i3-app-menu*color0:  #0A0A0F
+i3-app-menu*color7:  #CCCCCC
+
+! Bright / Neon cyberpunk colors
+i3-app-menu*color1:  #FF0066
+i3-app-menu*color2:  #39FF14
+i3-app-menu*color3:  #FFD700
+i3-app-menu*color4:  #00FFFF
+i3-app-menu*color5:  #FF00FF
+i3-app-menu*color6:  #00FFCC
+i3-app-menu*color7:  #EAEAEA
+
+! Bright versions
+i3-app-menu*color8:  #555555
+i3-app-menu*color9:  #FF4081
+i3-app-menu*color10: #66FF33
+i3-app-menu*color11: #FFFF00
+i3-app-menu*color12: #33CCFF
+i3-app-menu*color13: #FF66FF
+i3-app-menu*color14: #66FFFF
+i3-app-menu*color15: #FFFFFF
+
+! Options for better appearance
+i3-app-menu*dynamicColors: true
+i3-app-menu*visualBell: false
+i3-app-menu*loginShell: true
+i3-app-menu*saveLines: 10000

@@ -1,0 +1,162 @@
+#!/bin/sh
+
+set -eu
+
+cd "$(dirname "$(realpath "$0")")"
+
+LAUNCH_APP=""
+if command -v dex >/dev/null; then
+    LAUNCH_APP=dex
+elif command -v exo-open >/dev/null; then
+    LAUNCH_APP=exo-open
+elif command -v gtk-launch >/dev/null; then
+    LAUNCH_APP=gtk-launch
+else
+    echo "Required, one of: dex, exo-open, gtk-launch"
+    exit 1
+fi
+
+USER_APPS_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/applications"
+FIND_DIRS=""
+for dir in "$USER_APPS_DIR" /usr/share/applications; do
+    [ -d "$dir" ] && FIND_DIRS="$FIND_DIRS $dir"
+done
+
+[ -z "$FIND_DIRS" ] && echo No application directories found && exit 1
+
+tmpfile="$(mktemp)"
+trap "rm $tmpfile 2>/dev/null || true" INT TERM HUP EXIT
+
+name="$(
+    find $FIND_DIRS -maxdepth 1 -name \*.desktop -exec awk -F ' *= *' '
+        function flush() {
+            if (entry["Exec"] &&
+                entry["Hidden"] != "true" &&
+                entry["NoDisplay"] != "true" &&
+                entry["Type"] == "Application")
+            {
+                printf "%s\n", entry["Name"]
+                printf "%s\n", entry["Exec"]
+                printf "%s\n", entry["Comment"]
+                printf "%s", FILENAME
+                printf "%c", 0
+                delete entry
+            }
+        }
+
+        /^[[:space:]]*\[[[:space:]]*Desktop (Entry|Action).*\]/ { flush(); next }
+        # /^[[:space:]]*\[[[:space:]]*Desktop Entry[[:space:]]*\]/ { flush(); next }
+
+        { entry[$1] = $2; next }
+
+        END { flush() }
+        ' {} \; \
+    | ./frecency -0 i3-app-menu fzf --delimiter="\n" --gap=1 --read0 --with-nth='1,2' \
+        --no-sort --list-label=Apps --prompt='Run ❯ ' \
+        --style=full --reverse --accept-nth="$(printf '{1}\n{2}\n{3}\n{4}')" \
+        --color='border:bright-red,gap-line:dim,list-label:bright-blue,preview-label:bright-blue' \
+        --preview 'echo {3}' --preview-label='Comment' --preview-window=down,1 \
+    | awk 'NR == 4 { print $0 }'
+)"
+
+[ -z "$name" ] && exit 0
+
+setsid -f "$LAUNCH_APP" "$name"
+
+
+exit 0
+
+
+find $FIND_DIRS -maxdepth 1 -name \*.desktop -exec \
+    awk -v desktop="$XDG_CURRENT_DESKTOP" -F ' *= *' '
+        function trim(str) {
+            sub(/^[[:space:]]+/, "", str)
+            sub(/[[:space:]]+$/, "", str)
+            return str
+        }
+
+        function desktop_allowed() {
+            if (!desktop || !entry["OnlyShowIn"])
+                return 1
+            return entry["OnlyShowIn"] ~ "(^|;)" desktop "(;|$)"
+        }
+
+        function tryexec_available() {
+            if (!entry["TryExec"])
+                return 1
+            return system("command -v " entry["TryExec"] " >/dev/null 2>&1") == 0
+        }
+
+        function flush() {
+            if (entry["Type"] == "Application" &&
+                entry["Hidden"] != "true" &&
+                entry["NoDisplay"] != "true" &&
+                tryexec_available() &&
+                desktop_allowed())
+            {
+                gsub(/%[fFuUiIckd]/, "", entry["Exec"])
+                gsub(/%%/, "%", entry["Exec"])
+                print entry["Name"] SUBSEP entry["Exec"] SUBSEP entry["Comment"] SUBSEP entry["Terminal"] SUBSEP entry["Path"] SUBSEP FILENAME
+            }
+            delete entry
+        }
+
+        /^[[:space:]]*\[[[:space:]]*Desktop Entry[[:space:]]*\]/ { flush(); next }
+
+        /^[[:space:]]*#/ { next }
+
+        /^[[:space:]]*$/ { next }
+
+        # /^[[:space:]]*[^[]/ {
+        {
+            key = trim($1)
+            $1 = ""
+            value = trim($0)
+            entry[key] = trim(value)
+            next
+        }
+
+        END { flush() }
+        ' {} \; 2>/dev/null > "$tmpfile"
+
+name="$(
+    awk '{
+        split($0, A, SUBSEP)
+        print A[1] SUBSEP A[3] SUBSEP A[6]
+    }' "$tmpfile" \
+    | fzf --delimiter "$(printf '\034')" --no-sort --with-nth=1 \
+        --style=full --color='border:#f57800' --reverse --accept-nth=1 \
+        --preview 'echo {2}' --preview-label='Comment' --preview-window=down,1
+)"
+
+[ -z "$name" ] && exit 0
+
+awk -v shell="${SHELL:-/bin/sh}" -v name="$name" -v terminal="${TERMINAL:-xterm}" '{
+    split($0, A, SUBSEP)
+    if (A[1] == name) {
+        if (system("command -v dex >/dev/null") == 0) {
+            system("dex " A[6])
+        } else if (system("command -v exo-open >/dev/null") == 0) {
+            system("exo-open " A[6])
+        } else if (system("command -v gtk-launch >/dev/null") == 0) {
+            system("gtk-launch " A[6])
+        } else {
+            path = ""
+            if (A[5]) {
+                path = "cd " A[5] "; "
+            }
+            cmd = "'\''" path A[2] "'\''"
+            if (A[4] == "true") {
+                system(terminal " " cmd)
+            } else {
+                system(shell " -c " cmd)
+            }
+        }
+        exit
+    }
+}' "$tmpfile"
+
+# function shellq(s) { gsub(/["\\]/, "\\\\&", s); return "\"" s "\"" }
+
+# vim: set ft=bash
+

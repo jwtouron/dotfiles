@@ -24,8 +24,8 @@ alias egrep='egrep --color=auto'
 alias config='git --git-dir=$HOME/.local/share/dotfiles/ --work-tree=$HOME'
 alias config-sync='GIT_DIR=$HOME/.local/share/dotfiles GIT_WORK_TREE=$HOME git-sync'
 
+source ~/.config/shell/man
+
 if command -v trash-put >/dev/null; then
     alias rm='echo "This is not the command you are looking for."; false'
 fi
-
-source ~/.config/shell/man

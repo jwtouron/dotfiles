@@ -6,7 +6,7 @@ _clone() {
 # Functionality common to bash and zsh
 #
 
-[ -r "$HOME/.config/shell/env.sh" ] && . "$HOME/.config/shell/env.sh"
+[ -r "$HOME/.config/shell/interactive.sh" ] && . "$HOME/.config/shell/interactive.sh"
 
 # options (man zshoptions)
 #
@@ -45,7 +45,6 @@ bindkey '^x^p' push-line
 # Variables (man zshparam)
 #
 
-HISTFILE="$XDG_DATA_HOME/zsh/.zsh_history"
 HISTSIZE=1000
 SAVEHIST=1000
 

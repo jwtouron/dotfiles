@@ -1,0 +1,109 @@
+#!/usr/bin/env python3
+
+import os, sys, sqlite3, subprocess, time
+
+if len(sys.argv) <= 2:
+    sys.stderr.write(f"Usage: {sys.argv[0]} [-0] CONTEXT PROGRAM [ARGS...]")
+    sys.exit(1)
+
+if sys.argv[1] == "-0":
+    if len(sys.argv) <= 3:
+        sys.stderr.write(f"Usage: {sys.argv[0]} [-0] CONTEXT PROGRAM [ARGS...]")
+        sys.exit(1)
+    delimiter = "\0"
+    context = sys.argv[2]
+    command = sys.argv[3:]
+else:
+    delimiter = "\n"
+    context = sys.argv[1]
+    command = sys.argv[2:]
+
+state_Home = os.environ.get("XDG_STATE_HOME", os.path.expanduser("~/.local/state"))
+db_path = os.path.join(state_Home, "frecency", "db.sqlite")
+os.makedirs(os.path.dirname(db_path), exist_ok=True)
+
+with sqlite3.connect(db_path) as conn:
+    conn.execute("""CREATE TABLE IF NOT EXISTS entries(
+        context TEXT, entry TEXT, last INTEGER, score INTEGER,
+        PRIMARY KEY(context,entry)
+    )""")
+
+    # read items from stdin
+    items = []
+    for item in sys.stdin.read().split(delimiter):
+        item = item.rstrip("\n")
+        if item:
+            items.append(item)
+
+    if not items:
+        sys.stderr.write("No input\n")
+        sys.exit(1)
+
+    # fetch frecency info
+    now = int(time.time())
+    rows = {r[1]: (r[2], r[3]) for r in conn.execute(
+        "SELECT context,entry,last,score FROM entries WHERE context=?", (context,)
+    )}
+
+    # sys.stderr.write(f"rows: {rows}\n")
+
+    def frecency(entry):
+        last, score = rows.get(entry, (0, 0))
+        if not score: return 0
+        age = now - last
+        if age <= 3600:   return score * 4
+        if age <= 86400:  return score * 2
+        if age <= 604800: return score / 2
+        return score / 4
+
+    # TODO: For large number of items, we could make a heap, and take the n largest values.
+    items_sorted = sorted(items, key=frecency, reverse=True)
+
+    # sys.stderr.write(f"items_sorted: {items_sorted}\n")
+
+    # sys.stderr.write(f"command: {command}\n")
+
+    # run dmenu
+    completed_proc = subprocess.run(
+            command,
+            input=delimiter.join(items_sorted).encode(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+    )
+    if completed_proc.returncode != 0:
+        if completed_proc.stderr:
+            sys.stderr.write(completed_proc.stderr.decode())
+        sys.exit(completed_proc.returncode)
+
+    sels = []
+    for sel in completed_proc.stdout.decode().split(delimiter):
+        sel = sel.rstrip("\n")
+        if sel:
+            sels.append(sel)
+    if not sels:
+        sys.exit(0)
+
+    # update DB
+    sql = """INSERT INTO entries(context,entry,last,score)
+            VALUES(?,?,?,1)
+            ON CONFLICT(context,entry)
+            DO UPDATE SET last=?, score=score+1"""
+    conn.executemany(sql, [(context, s, now, now) for s in sels])
+
+    # sys.stderr.write(f"output: {delimiter.join(sels)}\n")
+
+    print(delimiter.join(sels))
+
+"""
+  
+  - Add --limit N (optional). If set, stream stdin and keep a min-heap of the
+    top N scored items; this avoids holding all input in memory.
+  - Stream-safe delimiter handling for both \n and \0 (no full read()).
+  - Add a simple aging/prune step inspired by zoxide: (a) optional max-score
+    budget that scales scores down when the total exceeds a threshold, (b) drop
+    entries older than 90 days.
+  - Remove the stray triple-quoted notes block.
+
+"""
+
+# vim: set ft=python:

@@ -1,0 +1,76 @@
+local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = augroup,
+  callback = function()
+    vim.schedule(function()
+      vim.cmd "highlight CursorLine gui=underline guibg=NONE"
+      vim.cmd "highlight MatchParen gui=underline guibg=NONE"
+    end)
+  end,
+})
+
+local function create_colorscheme_autocmd(pattern, callback)
+  local opts = {
+    group = augroup,
+    pattern = pattern,
+  }
+  if type(callback) == 'function' then
+    opts.callback = callback
+  else
+    opts.command = callback
+  end
+  vim.api.nvim_create_autocmd("ColorScheme", opts)
+end
+
+local function colorscheme(name, spec)
+  local ret = {
+    name,
+    lazy = true,
+  }
+  for k, v in pairs(spec or {}) do
+    ret[k] = v
+  end
+  return ret
+end
+
+create_colorscheme_autocmd("zen", "highlight MsgArea guifg=#e0e0e0")
+
+return {
+  colorscheme("oskarnurm/koda.nvim"),
+
+  colorscheme("aktersnurra/no-clown-fiesta.nvim"),
+  colorscheme("alexkotusenko/nightgem.nvim"),
+  colorscheme("AlexvZyl/nordic.nvim"),
+  colorscheme("antonk52/lake.nvim"),
+  colorscheme("bettervim/yugen.nvim"),
+  colorscheme("blazkowolf/gruber-darker.nvim"),
+  colorscheme("catppuccin/nvim", { name = 'catppuccin' }),
+  colorscheme("darkvoid-theme/darkvoid.nvim"),
+  colorscheme("datsfilipe/vesper.nvim"),
+  colorscheme("dgox16/oldworld.nvim"),
+  colorscheme("hardselius/warlock"),
+  colorscheme("jnurmine/Zenburn"),
+  colorscheme("kdheepak/monochrome.nvim"),
+  colorscheme("kvrohit/rasmus.nvim"),
+  colorscheme("mcauley-penney/techbase.nvim"),
+  colorscheme("mellow-theme/mellow.nvim"),
+  colorscheme("miikanissi/modus-themes.nvim"),
+  colorscheme("mitch1000/backpack.nvim"),
+  colorscheme("navarasu/onedark.nvim"),
+  colorscheme("nendix/zen.nvim"),
+  colorscheme("nyoom-engineering/oxocarbon.nvim"),
+  colorscheme("p00f/alabaster.nvim"),
+  colorscheme("rafamadriz/neon"),
+  colorscheme("ramojus/mellifluous.nvim"),
+  colorscheme("rebelot/kanagawa.nvim"),
+  colorscheme("rjshkhr/shadow.nvim"),
+  colorscheme("rose-pine/neovim", { name = "rose-pine" }),
+  colorscheme("sainnhe/gruvbox-material", { init = function() vim.g.gruvbox_material_better_performance = 1 end }),
+  colorscheme("santhosh-tekuri/silence.nvim"),
+  colorscheme("scottmckendry/cyberdream.nvim"),
+  colorscheme("shaunsingh/nord.nvim"),
+  colorscheme("vague2k/vague.nvim"),
+  colorscheme("webhooked/kanso.nvim"),
+  colorscheme("WTFox/jellybeans.nvim"),
+}

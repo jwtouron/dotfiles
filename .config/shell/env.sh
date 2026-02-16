@@ -8,6 +8,7 @@ __command() {
 }
 
 : "${XDG_CONFIG_HOME:=$HOME/.config}"
+: "${XDG_STATE_HOME:=$HOME/.local/state}"
 
 PATH="$HOME/.local/bin:$HOME/bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$HOME/.nimble/bin:$HOME/.cargo/bin:$PATH"
 
@@ -39,3 +40,6 @@ elif __command fd; then
 elif __command rg; then
     export FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/*'"
 fi
+
+[ -x /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
