@@ -70,10 +70,8 @@ vim.pack.add({
   colorscheme("yonatan-perel/lake-dweller.nvim", lake_dweller_config),
 
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
-  colorscheme("alexkotusenko/nightgem.nvim"),
   colorscheme("AlexvZyl/nordic.nvim"),
   colorscheme("antonk52/lake.nvim"),
-  colorscheme("bettervim/yugen.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
   colorscheme("darkvoid-theme/darkvoid.nvim"),
   colorscheme("dgox16/oldworld.nvim"),
