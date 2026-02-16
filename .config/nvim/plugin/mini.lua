@@ -1,7 +1,7 @@
 local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
 local function mini(name)
-  return { src = "https://github.com/nvim-mini/mini." .. name, version = "*" }
+  return { src = "https://github.com/nvim-mini/mini." .. name, version = "stable" }
 end
 
 vim.pack.add(
