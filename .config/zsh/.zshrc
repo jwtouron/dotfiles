@@ -3,6 +3,8 @@ _clone() {
     [ ! -d "$destdir" ] && command -v git >/dev/null && git clone "https://github.com/${1}/${2}" "$destdir"
 }
 
+: "${XDG_STATE_HOME:=$HOME/.local/state}"
+
 # Functionality common to bash and zsh
 #
 
@@ -47,6 +49,8 @@ bindkey '^x^p' push-line
 
 HISTSIZE=1000
 SAVEHIST=1000
+HISTFILE="$XDG_STATE_HOME/zsh/history"
+[[ ! -d "${HISTFILE:h}" ]] && mkdir -p -- "${HISTFILE:h}"
 
 # Completion
 #
