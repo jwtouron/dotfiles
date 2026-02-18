@@ -10,9 +10,10 @@ vim.pack.add(
   { confirm = false, load = function() end }
 )
 
+vim.cmd.packadd('nvim-treesitter')
+
 local setup
 setup = function()
-  vim.cmd.packadd('nvim-treesitter')
   vim.cmd.packadd('nvim-treesitter-textobjects')
   vim.cmd.packadd('treesitter-modules.nvim')
   vim.cmd.packadd('treewalker.nvim')
