@@ -3,39 +3,41 @@ vim.pack.add(
   { confirm = false }
 )
 
-InstallPreload('fzf-lua', function(mod)
-mod.setup {
-  buffers = {
-    file_icons = false,
-  },
-  files = {
-    no_ignore = true,
-    git_icons = false,
-    file_icons = false,
-  },
-  grep = {
-    file_icons = false,
-    query_delay = 300,
-    rg_glob = true,
-    -- first returned string is the new search query
-    -- second returned string are (optional) additional rg flags
-    -- @return string, string?
-    rg_glob_fn = function(query)
-      local regex, flags = query:match("^(.-)%s%-%-(.*)$")
-      -- If no separator is detected will return the original query
-      return (regex or query), flags
-    end
-  },
-  winopts = {
-    on_create = function()
-      local opts = { nowait = true, buffer = true }
-      vim.keymap.set("t", "<C-b>", "<Left>", opts)
-      vim.keymap.set("t", "<C-f>", "<Right>", opts)
-    end,
-    preview = { hidden = true },
-  },
-}
-end)
+local setup
+setup = function()
+  require('fzf-lua').setup {
+    buffers = {
+      file_icons = false,
+    },
+    files = {
+      no_ignore = true,
+      git_icons = false,
+      file_icons = false,
+    },
+    grep = {
+      file_icons = false,
+      query_delay = 300,
+      rg_glob = true,
+      -- first returned string is the new search query
+      -- second returned string are (optional) additional rg flags
+      -- @return string, string?
+      rg_glob_fn = function(query)
+        local regex, flags = query:match("^(.-)%s%-%-(.*)$")
+        -- If no separator is detected will return the original query
+        return (regex or query), flags
+      end
+    },
+    winopts = {
+      on_create = function()
+        local opts = { nowait = true, buffer = true }
+        vim.keymap.set("t", "<C-b>", "<Left>", opts)
+        vim.keymap.set("t", "<C-f>", "<Right>", opts)
+      end,
+      preview = { hidden = true },
+    },
+  }
+  setup = function() end
+end
 
 for _, cmd in ipairs({ { "Files", "files" }, { "LiveGrep", "live_grep", } }) do
   vim.api.nvim_create_user_command('FzfLua' .. cmd[1], function(arg)
@@ -51,31 +53,43 @@ for _, cmd in ipairs({ { "Files", "files" }, { "LiveGrep", "live_grep", } }) do
   })
 end
 
-vim.keymap.set('n', "<leader><space>", function() require('fzf-lua').files() end, { desc = "FZF Files" })
-vim.keymap.set('n', "<leader>,", function() require('fzf-lua').buffers() end, { desc = "FZF Buffers" })
-vim.keymap.set('n', "<leader>/", function() require('fzf-lua').blines() end, { desc = "FZF Buffer Lines" })
-vim.keymap.set('n', "<leader>]", function() require('fzf-lua').tags() end, { desc = "FZF Tags" })
+local function keymap_set(mode, lhs, rhs, opts)
+  local rhs2
+  if type(rhs) == 'string' then
+    opts = opts or {}
+    opts.expr = true
+    rhs2 = function() setup(); return rhs end
+  else
+    rhs2 = function() setup(); rhs() end
+  end
+  vim.keymap.set(mode, lhs, rhs2, opts)
+end
 
-vim.keymap.set('n', "<leader>zc", function() require('fzf-lua').command_history() end, { desc = "FZF Command History" })
-vim.keymap.set('n', "<leader>zd", function() require('fzf-lua').diagnostics_document() end, { desc = "FZF Diagnostics Document" })
-vim.keymap.set('n', "<leader>zD", function() require('fzf-lua').diagnostics_workspace() end, { desc = "FZF Diagnostics Workspace" })
-vim.keymap.set('n', "<leader>zf", function() require('fzf-lua').files() end, { desc = "FZF Files" })
-vim.keymap.set('n', "<leader>zF", ":FzfLuaFiles ", { desc = "FZF Files (custom dir)" })
-vim.keymap.set('n', "<leader>zg", function() require('fzf-lua').live_grep() end, { desc = "FZF Live Grep" })
-vim.keymap.set('n', "<leader>zG", ":FzfLuaLiveGrep ", { desc = "FZF Live Grep (custom dir)" })
-vim.keymap.set('n', "<leader>zh", function() require('fzf-lua').helptags() end, { desc = "FZF Help Tags" })
-vim.keymap.set('n', "<leader>zk", function() require('fzf-lua').keymaps() end, { desc = "FZF Keymaps" })
-vim.keymap.set('n', "<leader>zl", function() require('fzf-lua').loclist() end, { desc = "FZF Loclist" })
-vim.keymap.set('n', "<leader>zm", function() require('fzf-lua').marks() end, { desc = "FZF Marks" })
-vim.keymap.set('n', "<leader>zM", function() require('fzf-lua').manpages() end, { desc = "FZF Man Pages" })
-vim.keymap.set('n', "<leader>zo", function() require('fzf-lua').oldfiles() end, { desc = "FZF Old Files" })
-vim.keymap.set('n', "<leader>zq", function() require('fzf-lua').quickfix() end, { desc = "FZF Quickfix" })
-vim.keymap.set('n', "<leader>zr", function() require('fzf-lua').registers() end, { desc = "FZF Registers" })
-vim.keymap.set('n', "<leader>zR", function() require('fzf-lua').resume() end, { desc = "FZF Resume" })
-vim.keymap.set('n', "<leader>zs", function() require('fzf-lua').spell_suggest() end, { desc = "FZF Spell Suggest" })
-vim.keymap.set('n', "<leader>zz", function() require('fzf-lua').builtin() end, { desc = "FZF Builtin" })
+keymap_set('n', "<leader><space>", function() require('fzf-lua').files() end, { desc = "FZF Files" })
+keymap_set('n', "<leader>,", function() require('fzf-lua').buffers() end, { desc = "FZF Buffers" })
+keymap_set('n', "<leader>/", function() require('fzf-lua').blines() end, { desc = "FZF Buffer Lines" })
+keymap_set('n', "<leader>]", function() require('fzf-lua').tags() end, { desc = "FZF Tags" })
 
-vim.keymap.set('n', "<leader>lc", function() require('fzf-lua').lsp_code_actions() end, { desc = "FZF LSP Code Actions" })
+keymap_set('n', "<leader>zc", function() require('fzf-lua').command_history() end, { desc = "FZF Command History" })
+keymap_set('n', "<leader>zd", function() require('fzf-lua').diagnostics_document() end, { desc = "FZF Diagnostics Document" })
+keymap_set('n', "<leader>zD", function() require('fzf-lua').diagnostics_workspace() end, { desc = "FZF Diagnostics Workspace" })
+keymap_set('n', "<leader>zf", function() require('fzf-lua').files() end, { desc = "FZF Files" })
+keymap_set('n', "<leader>zF", ":FzfLuaFiles ", { desc = "FZF Files (custom dir)" })
+keymap_set('n', "<leader>zg", function() require('fzf-lua').live_grep() end, { desc = "FZF Live Grep" })
+keymap_set('n', "<leader>zG", ":FzfLuaLiveGrep ", { desc = "FZF Live Grep (custom dir)" })
+keymap_set('n', "<leader>zh", function() require('fzf-lua').helptags() end, { desc = "FZF Help Tags" })
+keymap_set('n', "<leader>zk", function() require('fzf-lua').keymaps() end, { desc = "FZF Keymaps" })
+keymap_set('n', "<leader>zl", function() require('fzf-lua').loclist() end, { desc = "FZF Loclist" })
+keymap_set('n', "<leader>zm", function() require('fzf-lua').marks() end, { desc = "FZF Marks" })
+keymap_set('n', "<leader>zM", function() require('fzf-lua').manpages() end, { desc = "FZF Man Pages" })
+keymap_set('n', "<leader>zo", function() require('fzf-lua').oldfiles() end, { desc = "FZF Old Files" })
+keymap_set('n', "<leader>zq", function() require('fzf-lua').quickfix() end, { desc = "FZF Quickfix" })
+keymap_set('n', "<leader>zr", function() require('fzf-lua').registers() end, { desc = "FZF Registers" })
+keymap_set('n', "<leader>zR", function() require('fzf-lua').resume() end, { desc = "FZF Resume" })
+keymap_set('n', "<leader>zs", function() require('fzf-lua').spell_suggest() end, { desc = "FZF Spell Suggest" })
+keymap_set('n', "<leader>zz", function() require('fzf-lua').builtin() end, { desc = "FZF Builtin" })
+
+keymap_set('n', "<leader>lc", function() require('fzf-lua').lsp_code_actions() end, { desc = "FZF LSP Code Actions" })
 
 
 -- local function fzf(args)

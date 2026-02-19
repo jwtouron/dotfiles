@@ -1,3 +1,5 @@
+if true then return end
+
 local function find_real_loader(modname)
   local searchers = package.searchers or package.loaders
   for _, searcher in ipairs(searchers) do

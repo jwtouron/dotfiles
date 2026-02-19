@@ -18,6 +18,7 @@ local setup_term_codex
 setup_term_codex = function()
   setup()
   term_codex = Terminal:new {
+    id = 7,
     cmd = "codex --sandbox workspace-write --ask-for-approval on-request --search",
     direction = "float",
   }
@@ -49,18 +50,22 @@ local function send_visual()
   send(lnum1, lnum2)
 end
 
-vim.keymap.set("n", "<leader>tcc", function()
-  setup_term_codex()
-  term_codex:toggle()
-end)
+local function keymap_set(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, function() setup(); rhs() end, opts)
+end
 
-vim.keymap.set("n", "<leader>tcf", function() setup_term_codex(); send() end)
-vim.keymap.set("n", "<leader>tcl", function() setup_term_codex(); send(vim.fn.line('.')) end)
-vim.keymap.set("x", "<leader>tcl", function() setup_term_codex(); send_visual() end)
+local function keymap_set_codex(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, function() setup_term_codex(); rhs() end, opts)
+end
 
-vim.keymap.set("n", "<leader>t1", function() setup(); vim.cmd("1ToggleTerm direction=float") end)
-vim.keymap.set("n", "<leader>t2", function() setup(); vim.cmd("2ToggleTerm direction=float") end)
-vim.keymap.set("n", "<leader>t3", function() setup(); vim.cmd("3ToggleTerm direction=float") end)
-vim.keymap.set("n", "<leader>t4", function() setup(); vim.cmd("4ToggleTerm direction=float") end)
-vim.keymap.set("n", "<leader>t5", function() setup(); vim.cmd("5ToggleTerm direction=float") end)
-vim.keymap.set("n", "<leader>t6", function() setup(); vim.cmd("6ToggleTerm direction=float") end)
+keymap_set_codex("n", "<leader>tcc", function() term_codex:toggle() end)
+keymap_set_codex("n", "<leader>tcf", send)
+keymap_set_codex("n", "<leader>tcl", function() send(vim.fn.line('.')) end)
+keymap_set_codex("x", "<leader>tcl", send_visual)
+
+keymap_set("n", "<leader>t1", function() vim.cmd("1ToggleTerm direction=float") end)
+keymap_set("n", "<leader>t2", function() vim.cmd("2ToggleTerm direction=float") end)
+keymap_set("n", "<leader>t3", function() vim.cmd("3ToggleTerm direction=float") end)
+keymap_set("n", "<leader>t4", function() vim.cmd("4ToggleTerm direction=float") end)
+keymap_set("n", "<leader>t5", function() vim.cmd("5ToggleTerm direction=float") end)
+keymap_set("n", "<leader>t6", function() vim.cmd("6ToggleTerm direction=float") end)
