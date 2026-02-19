@@ -1,5 +1,4 @@
 -- notifications
--- fuzzel
 -- wlogout
 -- wallpapers
 -- noctalia
