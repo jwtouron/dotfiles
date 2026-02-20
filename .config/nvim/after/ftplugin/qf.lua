@@ -1,1 +1,1 @@
-vim.opt.cursorlineopt = 'both'
+vim.opt_local.cursorlineopt = 'both'
