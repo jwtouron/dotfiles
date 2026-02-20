@@ -1,0 +1,9 @@
+[Unit]
+Description=Set a random wallpaper daily
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

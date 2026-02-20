@@ -1,0 +1,8 @@
+[Unit]
+Description=Set a random wallpaper using waypaper (custom script)
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/niri/waypaper/random.sh
+SyslogIdentifier=waypaper
+KillMode=process

@@ -1,0 +1,134 @@
+{
+  "audio": {
+    "volumeOverdrive": true
+  },
+  "bar": {
+    "barType": "floating",
+    "density": "comfortable",
+    "floating": true,
+    "hideOnOverview": true,
+    "marginHorizontal": 16,
+    "marginVertical": 8,
+    "widgets": {
+      "center": [
+        {
+          "clockColor": "none",
+          "customFont": "",
+          "formatHorizontal": "HH:mm ddd, MMM dd",
+          "formatVertical": "HH mm - dd MM",
+          "id": "Clock",
+          "tooltipFormat": "HH:mm ddd, MMM dd",
+          "useCustomFont": false
+        }
+      ],
+      "left": [
+        {
+          "characterCount": 2,
+          "colorizeIcons": false,
+          "emptyColor": "secondary",
+          "enableScrollWheel": true,
+          "focusedColor": "primary",
+          "followFocusedScreen": false,
+          "groupedBorderOpacity": 1,
+          "hideUnoccupied": false,
+          "iconScale": 0.8,
+          "id": "Workspace",
+          "labelMode": "index",
+          "occupiedColor": "secondary",
+          "pillSize": 0.6,
+          "reverseScroll": false,
+          "showApplications": false,
+          "showBadge": true,
+          "showLabelsOnlyWhenOccupied": true,
+          "unfocusedIconsOpacity": 1
+        }
+      ],
+      "right": [
+        {
+          "blacklist": [],
+          "chevronColor": "none",
+          "colorizeIcons": true,
+          "drawerEnabled": true,
+          "hidePassive": false,
+          "id": "Tray",
+          "pinned": []
+        },
+        {
+          "hideWhenZero": false,
+          "hideWhenZeroUnread": false,
+          "iconColor": "none",
+          "id": "NotificationHistory",
+          "showUnreadBadge": true,
+          "unreadBadgeColor": "primary"
+        },
+        {
+          "displayMode": "onhover",
+          "iconColor": "none",
+          "id": "Volume",
+          "middleClickCommand": "pwvucontrol || pavucontrol",
+          "textColor": "none"
+        },
+        {
+          "compactMode": true,
+          "diskPath": "/",
+          "iconColor": "none",
+          "id": "SystemMonitor",
+          "showCpuFreq": false,
+          "showCpuTemp": true,
+          "showCpuUsage": true,
+          "showDiskAvailable": false,
+          "showDiskUsage": false,
+          "showDiskUsageAsPercent": false,
+          "showGpuTemp": false,
+          "showLoadAverage": false,
+          "showMemoryAsPercent": false,
+          "showMemoryUsage": true,
+          "showNetworkStats": false,
+          "showSwapUsage": false,
+          "textColor": "none",
+          "useMonospaceFont": true
+        },
+        {
+          "deviceNativePath": "__default__",
+          "displayMode": "graphic-clean",
+          "hideIfIdle": false,
+          "hideIfNotDetected": true,
+          "id": "Battery",
+          "showNoctaliaPerformance": false,
+          "showPowerProfiles": false
+        },
+        {
+          "colorizeDistroLogo": false,
+          "colorizeSystemIcon": "none",
+          "customIconPath": "",
+          "enableColorization": false,
+          "icon": "noctalia",
+          "id": "ControlCenter",
+          "useDistroLogo": false
+        }
+      ]
+    }
+  },
+  "colorSchemes": {
+    "useWallpaperColors": true
+  },
+  "dock": {
+    "enabled": false
+  },
+  "general": {
+    "enableShadows": false
+  },
+  "location": {
+    "firstDayOfWeek": 0,
+    "name": "san antonio",
+    "useFahrenheit": true
+  },
+  "ui": {
+    "fontDefaultScale": 1.1,
+    "fontFixedScale": 1.1,
+    "panelBackgroundOpacity": 1
+  },
+  "wallpaper": {
+    "enabled": false
+  }
+}
