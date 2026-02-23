@@ -8,4 +8,5 @@ systemctl --user link \
   "$SRC/waypaper.timer"
 
 systemctl --user daemon-reload
-systemctl --user enable --now waypaper.timer
+systemctl --user enable waypaper.timer
+systemctl --user start waypaper.service
