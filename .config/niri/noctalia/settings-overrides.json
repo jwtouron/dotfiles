@@ -9,6 +9,7 @@
     "hideOnOverview": true,
     "marginHorizontal": 16,
     "marginVertical": 8,
+    "showCapsule": false,
     "widgets": {
       "center": [
         {
