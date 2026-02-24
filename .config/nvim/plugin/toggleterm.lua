@@ -50,10 +50,6 @@ local function send_visual()
   send(lnum1, lnum2)
 end
 
-local function keymap_set(mode, lhs, rhs, opts)
-  vim.keymap.set(mode, lhs, function() setup(); rhs() end, opts)
-end
-
 local function keymap_set_codex(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, function() setup_term_codex(); rhs() end, opts)
 end
@@ -63,9 +59,57 @@ keymap_set_codex("n", "<leader>tcf", send)
 keymap_set_codex("n", "<leader>tcl", function() send(vim.fn.line('.')) end)
 keymap_set_codex("x", "<leader>tcl", send_visual)
 
-keymap_set("n", "<leader>t1", function() vim.cmd("1ToggleTerm direction=float") end)
-keymap_set("n", "<leader>t2", function() vim.cmd("2ToggleTerm direction=float") end)
-keymap_set("n", "<leader>t3", function() vim.cmd("3ToggleTerm direction=float") end)
-keymap_set("n", "<leader>t4", function() vim.cmd("4ToggleTerm direction=float") end)
-keymap_set("n", "<leader>t5", function() vim.cmd("5ToggleTerm direction=float") end)
-keymap_set("n", "<leader>t6", function() vim.cmd("6ToggleTerm direction=float") end)
+
+local function goto_file_line_col(efm)
+  return function()
+    local line = vim.fn.getline('.')
+
+    -- Try using errorformat
+    local items = vim.fn.getqflist({ lines = { line }, efm = efm, })
+    for _, item in ipairs(items) do
+      if item.valid and item.bufnr > 0 and item.lnum > 0 then
+        local col = item.col > 0 and item.col or 1
+        vim.cmd("silent close | silent b " .. tostring(item.bufnr))
+        vim.fn.setcursorcharpos(item.lnum, col)
+        return
+      end
+    end
+
+    -- if that fails, try custom formats
+    local patterns = {
+      '^(.-):(%d+):(%d+):.*',                  -- Multiple
+      '^(.-):(%d+):.*',                        -- Multiple
+      '^--> (.-):(%d+):(%d+)',                 -- Rust
+      '^  File "([^"]+)", line (%d+), in .*',  -- Python
+    }
+    for _, pattern in ipairs(patterns) do
+      local file, line_num, col_num = string.match(line, pattern)
+      line_num, col_num = tonumber(line_num), tonumber(col_num)
+      if file then
+        file = vim.fn.fnameescape(file)
+        if vim.fn.filereadable(file) == 1 and line_num then
+          col_num = col_num or 1
+          vim.cmd("silent close | silent e " .. file)
+          vim.fn.setcursorcharpos(line_num, col_num)
+          return
+        end
+      end
+    end
+  end
+end
+
+local function keymap_set_term(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, function()
+    setup()
+    local efm = vim.bo.errorformat ~= '' and vim.bo.errorformat or vim.o.errorformat
+    rhs()
+    vim.keymap.set('n', '<cr>', goto_file_line_col(efm), { buffer = true })
+  end, opts)
+end
+
+keymap_set_term("n", "<leader>t1", function() vim.cmd("1ToggleTerm direction=float") end)
+keymap_set_term("n", "<leader>t2", function() vim.cmd("2ToggleTerm direction=float") end)
+keymap_set_term("n", "<leader>t3", function() vim.cmd("3ToggleTerm direction=float") end)
+keymap_set_term("n", "<leader>t4", function() vim.cmd("4ToggleTerm direction=float") end)
+keymap_set_term("n", "<leader>t5", function() vim.cmd("5ToggleTerm direction=float") end)
+keymap_set_term("n", "<leader>t6", function() vim.cmd("6ToggleTerm direction=float") end)

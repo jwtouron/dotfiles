@@ -76,7 +76,7 @@ _G.my_statusline = function()
     diag_counts(),
     filetype(),
     line_percent(),
-    '%v:%l',
+    '%l:%v',
   }, " ")
 end
 
