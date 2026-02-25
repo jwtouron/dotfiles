@@ -2,7 +2,8 @@
 Description=Set a random wallpaper daily
 
 [Timer]
-OnCalendar=daily
+OnCalendar=08:00
+# OnCalendar=daily
 Persistent=true
 
 [Install]
