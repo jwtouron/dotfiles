@@ -3,6 +3,7 @@ local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 local mason_to_lsp_name = setmetatable(
   {
     ["lua-language-server"] = "lua_ls",
+    ["json-lsp"] = "jsonls",
   },
   { __index = function(_, s) return s end }
 )
