@@ -32,7 +32,7 @@ unsetopt beep
 
 bindkey -e
 
-zstyle ':zle:edit-command-line' editor vim -u "$ZDOTDIR/vimrc"
+zstyle ':zle:edit-command-line' editor "$EDITOR"
 autoload -Uz edit-command-line
 zle -N edit-command-line
 
