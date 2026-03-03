@@ -39,6 +39,12 @@ setup = function()
   setup = function() end
 end
 
+vim.ui.select = function(items, opts, on_choice)
+  setup()
+  require('fzf-lua').register_ui_select()
+  vim.ui.select(items, opts, on_choice)
+end
+
 for _, cmd in ipairs({ { "Files", "files" }, { "LiveGrep", "live_grep", } }) do
   vim.api.nvim_create_user_command('FzfLua' .. cmd[1], function(arg)
     local dir = arg.args

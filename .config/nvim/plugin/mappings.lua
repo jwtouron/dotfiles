@@ -52,5 +52,4 @@ vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window 
 vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
 
-vim.keymap.set("c", "<C-q>", function() vim.api.nvim_input('q:k') end)
-vim.keymap.set("n", "q:", function() vim.api.nvim_input('q:?') end)
+vim.keymap.set("c", "<C-q>", "<Esc>q:k")

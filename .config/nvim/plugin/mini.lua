@@ -8,6 +8,8 @@ vim.pack.add(
   {
     mini("bufremove"),
     mini("hipatterns"),
+    { src = "https://github.com/rafamadriz/friendly-snippets" },
+    mini("snippets"),
     mini("trailspace"),
   }, { confirm = false }
 )
@@ -47,6 +49,15 @@ hipatterns.setup {
     hex_color = hipatterns.gen_highlighter.hex_color(),
   },
 }
+
+local gen_loader = require('mini.snippets').gen_loader
+require('mini.snippets').setup({
+  snippets = {
+    -- gen_loader.from_file('~/.config/nvim/snippets/global.json'),
+    -- "snippets/" subdirectories from 'runtimepath' directories.
+    gen_loader.from_lang(),
+  },
+})
 
 require("mini.trailspace").setup()
 local setup_highlight = function()

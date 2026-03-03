@@ -32,7 +32,7 @@ vim.opt.wrap = false
 
 if vim.env.WAYLAND_DISPLAY
   and vim.env.WAYLAND_DISPLAY ~= ''
-  and vim.fn.executable('wl-copy')
+  and vim.fn.executable('wl-copy') == 1
 then
   vim.g.clipboard = {
     name = 'wl-copy',
