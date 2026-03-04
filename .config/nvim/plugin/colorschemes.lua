@@ -67,12 +67,10 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 end
 
 vim.pack.add({
-  colorscheme("yonatan-perel/lake-dweller.nvim", lake_dweller_config),
-  colorscheme("aymenhafeez/doric-themes.nvim"),
-
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
   colorscheme("AlexvZyl/nordic.nvim"),
   colorscheme("antonk52/lake.nvim"),
+  colorscheme("aymenhafeez/doric-themes.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
   colorscheme("darkvoid-theme/darkvoid.nvim"),
   colorscheme("dgox16/oldworld.nvim"),
@@ -96,4 +94,5 @@ vim.pack.add({
   colorscheme("shaunsingh/nord.nvim"),
   colorscheme("vague2k/vague.nvim"),
   colorscheme("webhooked/kanso.nvim"),
+  colorscheme("yonatan-perel/lake-dweller.nvim", lake_dweller_config),
 }, { confirm = false, load = function(plugin) by_path[plugin.path] = plugin.spec.name end})
