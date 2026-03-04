@@ -1,3 +1,5 @@
+if true then return end
+
 local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
 vim.pack.add(
