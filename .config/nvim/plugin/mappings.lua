@@ -10,7 +10,7 @@ vim.keymap.set("n", "gp", "`[v`]", { silent = true })
 -- Easy repeat editing
 vim.keymap.set("n", "cg*", "*Ncgn", { desc = "Change word under cursor, '.' to continue." })
 vim.keymap.set("x", "c", function()
-  if vim.fn.visualmode() ~= 'v' then
+  if vim.fn.mode() ~= 'v' then
     vim.api.nvim_feedkeys('c', 'n', false)
     return
   end
