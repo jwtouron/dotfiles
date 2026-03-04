@@ -19,7 +19,7 @@ setup_term_codex = function()
   setup()
   term_codex = Terminal:new {
     id = 7,
-    cmd = "codex --sandbox workspace-write --ask-for-approval on-request --search",
+    cmd = "codex --sandbox workspace-write --ask-for-approval untrusted --search",
     direction = "float",
   }
   setup_term_codex = function() end
