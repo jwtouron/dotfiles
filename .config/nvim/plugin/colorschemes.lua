@@ -68,6 +68,7 @@ end
 
 vim.pack.add({
   colorscheme("yonatan-perel/lake-dweller.nvim", lake_dweller_config),
+  colorscheme("aymenhafeez/doric-themes.nvim"),
 
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
   colorscheme("AlexvZyl/nordic.nvim"),
