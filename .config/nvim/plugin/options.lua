@@ -24,6 +24,7 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.tabstop = 4
 vim.opt.updatetime = 1000  -- Affects CursorHold
+vim.opt.virtualedit = { 'block' }
 vim.opt.wildignorecase = true
 vim.opt.wildmode = { 'noselect:lastused:full', 'full' }
 vim.opt.wildoptions:append('fuzzy')
