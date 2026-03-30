@@ -109,6 +109,22 @@ if command -v zoxide >/dev/null; then
     unsetopt auto_cd
 fi
 
+## Vi-mode
+#
+
+zvm_config() {
+    ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+    ZVM_READKEY_ENGINE=$ZVM_READKEY_ENGINE_ZLE
+    ZVM_CURSOR_STYLE_ENABLED=false
+}
+zvm_after_init() {
+    bindkey -M viins 'kj' vi-cmd-mode
+    [ -x "$(which fzf)" ] && source <(fzf --zsh)
+    [ -d "$ZDOTDIR/fzf-tab" ] && source "$ZDOTDIR/fzf-tab/fzf-tab.plugin.zsh"
+}
+_clone jeffreytse zsh-vi-mode
+source "$ZDOTDIR/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+
 # Syntax highlighting
 #
 
