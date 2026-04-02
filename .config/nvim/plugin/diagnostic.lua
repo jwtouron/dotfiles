@@ -1,14 +1,38 @@
+local signs = {
+  [vim.diagnostic.severity.ERROR] = "󰅚",
+  [vim.diagnostic.severity.WARN] = "󰀪",
+  [vim.diagnostic.severity.HINT] = "󰌶",
+  [vim.diagnostic.severity.INFO] = "",
+}
+
+local hl_map = {
+  [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+  [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+  [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+  [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+}
+
 vim.diagnostic.config {
   severity_sort = true,
   signs = false,
   -- signs = {
-  --   text = {
-  --     [vim.diagnostic.severity.ERROR] = "󰅚",
-  --     [vim.diagnostic.severity.WARN] = "󰀪",
-  --     [vim.diagnostic.severity.HINT] = "󰌶",
-  --     [vim.diagnostic.severity.INFO] = "",
-  --   },
+  --   text = signs,
   -- },
+  status = {
+    format = function(counts)
+      local items = {}
+      for level in ipairs(vim.diagnostic.severity) do
+        local count = counts[level]
+        if count then
+          table.insert(
+            items,
+            ("%%#%s#%s %s"):format(hl_map[level], signs[level], count)
+          )
+        end
+      end
+      return table.concat(items, " ")
+    end
+  },
   underline = false,
   virtual_text = { prefix = '●', },
 }

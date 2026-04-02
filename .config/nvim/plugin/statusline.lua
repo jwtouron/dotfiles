@@ -1,3 +1,5 @@
+if true then return end
+
 local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
 local getcwd = function()
@@ -13,33 +15,6 @@ local getcwd = function()
     end
   end
   return vim.fn.join(parts, '/')
-end
-
-local diag_counts = function()
-  local winid = vim.g.statusline_winid
-
-  local b = vim.api.nvim_win_get_buf(winid)
-  local d = vim.diagnostic
-
-  local err = #d.get(b, { severity = d.severity.ERROR })
-  local warn = #d.get(b, { severity = d.severity.WARN })
-  local info = #d.get(b, { severity = d.severity.INFO })
-  local hint = #d.get(b, { severity = d.severity.HINT })
-
-  if err == 0 and warn == 0 and info == 0 and hint == 0 then
-    return ""
-  end
-
-  local parts = {}
-  if err  > 0 then parts[#parts+1] = ("%%#DiagnosticError#󰅚 %d%%*"):format(err) end
-  if warn > 0 then parts[#parts+1] = ("%%#DiagnosticWarn#󰀪 %d%%*"):format(warn) end
-  if info > 0 then parts[#parts+1] = ("%%#DiagnosticInfo#󰌶 %d%%*"):format(info) end
-  if hint > 0 then parts[#parts+1] = ("%%#DiagnosticHint# %d%%*"):format(hint) end
-  local diags = table.concat(parts, " ")
-  if diags ~= '' then
-     diags = diags .. " ·"
-   end
-  return diags
 end
 
 local filetype = function()
@@ -73,7 +48,7 @@ _G.my_statusline = function()
 
     '%=',
 
-    diag_counts(),
+    vim.diagnostic.status(),
     filetype(),
     line_percent(),
     '%l:%v',
