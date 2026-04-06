@@ -2,7 +2,18 @@ vim.cmd.packadd('cfilter')
 vim.cmd.packadd('nohlsearch')
 vim.cmd.packadd('nvim.undotree')
 
-require('vim._core.ui2').enable {}
+require('vim._core.ui2').enable {
+  msg = {
+    target = 'cmd',
+    targets = {
+      bufwrite = 'msg',
+      echo = 'msg',
+      echomsg = 'msg',
+      lua_print = 'msg',
+      wmsg = 'msg',
+    },
+  }
+}
 
 vim.g.better_escape_shortcut = { 'jk', 'kj' }
 vim.pack.add({ "https://github.com/nvim-zh/better-escape.vim" }, { confirm = false, })
