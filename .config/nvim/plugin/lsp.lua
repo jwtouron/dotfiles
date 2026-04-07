@@ -25,6 +25,9 @@ end
 
 local setup
 setup = function()
+  vim.lsp.document_color.enable(false)
+  vim.lsp.semantic_tokens.enable(false)
+
   require('fidget').setup()
   setup = function() end
 end
@@ -37,9 +40,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.opt_local.complete = "o"
 
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-    client.server_capabilities.semanticTokensProvider = nil
-
-    vim.lsp.document_color.enable(false)
 
     vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = true, desc = "LSP Goto definition" })
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = true, desc = "LSP Goto declaration" })
