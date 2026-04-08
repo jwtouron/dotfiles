@@ -19,9 +19,6 @@ require('vim._core.ui2').enable {}
 vim.g.better_escape_shortcut = { 'jk', 'kj' }
 vim.pack.add({ "https://github.com/nvim-zh/better-escape.vim" }, { confirm = false, })
 
-vim.pack.add { "https://github.com/yorickpeterse/nvim-jump" }
-vim.keymap.set({ 'n', 'x', 'o' }, 's', require('jump').start, {})
-
 vim.pack.add(
   {
     "https://github.com/tpope/vim-repeat",

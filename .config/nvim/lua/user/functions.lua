@@ -1,4 +1,6 @@
-function SetFindFunc(...)
+local M = {}
+
+M.SetFindFunc = function(...)
   local dirs = {...}
   local dirstr = '.'
   for _, dir in ipairs(dirs) do
@@ -7,9 +9,9 @@ function SetFindFunc(...)
     end
   end
 
-  local cmd = 'find ' .. dirstr .. " -type f -not -path '*/.git/*'"
+  local cmd = 'find ' .. dirstr .. " -path '*/.git' -prune -o -type f -print"
   if vim.fn.executable('fd') == 1 then
-    cmd = "fd --type file --unrestricted --exclude '.git' . " .. dirstr
+    cmd = "fd --type file --unrestricted --exclude '.git' '' " .. dirstr
   end
 
   local has_fzf = vim.fn.executable('fzf') == 1
@@ -32,3 +34,13 @@ function SetFindFunc(...)
 
   vim.opt.findfunc = 'v:lua.MyFindFunc'
 end
+
+M.setup = function()
+  for f in pairs(M) do
+    if f:match("^[A-Z]") then
+      _G[f] = M[f]
+    end
+  end
+end
+
+return M
