@@ -15,12 +15,15 @@ end
 
 local term_codex
 local setup_term_codex
+local term_codex_created = false
 setup_term_codex = function()
   setup()
   term_codex = Terminal:new {
     id = 7,
     cmd = "codex --sandbox workspace-write --ask-for-approval untrusted --search",
     direction = "float",
+    on_create = function() term_codex_created = true end,
+    on_exit = function() term_codex_created = false end,
   }
   setup_term_codex = function() end
 end
@@ -32,8 +35,11 @@ local function send(first_line, last_line)
   local filename = vim.api.nvim_buf_get_name(0)
   if filename ~= "" and vim.fn.filereadable(filename) ~= 0 then
     filename = vim.fn.fnamemodify(filename, ':.')
+    local delay = term_codex_created and 0 or 500
     term_codex:open()
-    term_codex:send(string.format("%s%s%s", filename, first_line and ":" .. first_line or "", last_line and "-" .. last_line or ""))
+    vim.defer_fn(function()
+      term_codex:send(string.format("%s%s%s", filename, first_line and ":" .. first_line or "", last_line and "-" .. last_line or ""))
+    end, delay)
   else
     vim.notify("No readable file associated with buffer.", vim.log.levels.INFO)
   end
