@@ -93,7 +93,5 @@ vim.pack.add({
   colorscheme("sainnhe/gruvbox-material", function() vim.g.gruvbox_material_better_performance = 1 end),
   colorscheme("scottmckendry/cyberdream.nvim"),
   colorscheme("shaunsingh/nord.nvim"),
-  colorscheme("vague2k/vague.nvim"),
   colorscheme("webhooked/kanso.nvim"),
-  colorscheme("yonatan-perel/lake-dweller.nvim", lake_dweller_config),
 }, { confirm = false, load = function(plugin) by_path[plugin.path] = plugin.spec.name end})
