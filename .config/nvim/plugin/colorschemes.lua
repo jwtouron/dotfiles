@@ -67,6 +67,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 end
 
 vim.pack.add({
+  colorscheme("ember-theme/nvim"),
   colorscheme("Aejkatappaja/sora"),
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
   colorscheme("AlexvZyl/nordic.nvim"),
