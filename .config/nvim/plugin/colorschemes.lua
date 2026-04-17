@@ -94,4 +94,5 @@ vim.pack.add({
   colorscheme("scottmckendry/cyberdream.nvim"),
   colorscheme("shaunsingh/nord.nvim"),
   colorscheme("webhooked/kanso.nvim"),
+  colorscheme("yonatanperel/lake-dweller.nvim"),
 }, { confirm = false, load = function(plugin) by_path[plugin.path] = plugin.spec.name end})
