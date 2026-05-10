@@ -13,39 +13,65 @@ setup = function()
   setup = function() end
 end
 
-local term_codex
-local setup_term_codex
-local term_codex_created = false
-setup_term_codex = function()
-  setup()
-  term_codex = Terminal:new {
+local Codex = {}
+Codex.__index = Codex
+
+function Codex.new()
+  local self = setmetatable({}, Codex)
+  self.ready = false
+  self.pending = {}
+  self.term = Terminal:new {
     id = 7,
     cmd = "codex --sandbox workspace-write --ask-for-approval untrusted --search",
     direction = "float",
-    on_create = function() term_codex_created = true end,
-    on_exit = function() term_codex_created = false end,
+    auto_scroll = false,
+    on_stdout = function(_, _, lines)
+      if self.ready then return end
+      for _, line in ipairs(lines) do
+        if line:find("›") then
+          self.ready = true
+          self:flush_pending()
+          return
+        end
+      end
+    end,
+    on_exit = function()
+      self.ready = false
+      self.pending = {}
+    end,
   }
-  setup_term_codex = function() end
+  return self
 end
 
-local function send(first_line, last_line)
+function Codex:flush_pending()
+  if not self.ready then return end
+  local pending = self.pending
+  self.pending = {}
+  for _, line in ipairs(pending) do
+    self.term:send(line)
+  end
+end
+
+function Codex:send_file_lines(first_line, last_line)
   if first_line and last_line and first_line > last_line then
     first_line, last_line = last_line, first_line
   end
   local filename = vim.api.nvim_buf_get_name(0)
   if filename ~= "" and vim.fn.filereadable(filename) ~= 0 then
     filename = vim.fn.fnamemodify(filename, ':.')
-    local delay = term_codex_created and 0 or 500
-    term_codex:open()
-    vim.defer_fn(function()
-      term_codex:send(string.format("%s%s%s", filename, first_line and ":" .. first_line or "", last_line and "-" .. last_line or ""))
-    end, delay)
+    local line = string.format("%s%s%s", filename, first_line and ":" .. first_line or "", last_line and "-" .. last_line or "")
+    if not self.ready then
+      table.insert(self.pending, line)
+    else
+      self.term:send(line)
+    end
+    self.term:open()
   else
     vim.notify("No readable file associated with buffer.", vim.log.levels.INFO)
   end
 end
 
-local function send_visual()
+function Codex:send_file_lines_visual()
   local pos1 = vim.fn.getpos('.')
   local pos2 = vim.fn.getpos('v')
   local lnum1 = pos1[2]
@@ -53,18 +79,26 @@ local function send_visual()
   if not (lnum1 and lnum1 > 0 and lnum2 and lnum2 > 0) then
     error(string.format("invalid line numbers: %s %s", lnum1, lnum2))
   end
-  send(lnum1, lnum2)
+  self:send_file_lines(lnum1, lnum2)
+end
+
+local term_codex
+local setup_term_codex
+
+setup_term_codex = function()
+  setup()
+  term_codex = Codex.new()
+  setup_term_codex = function() end
 end
 
 local function keymap_set_codex(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, function() setup_term_codex(); rhs() end, opts)
 end
 
-keymap_set_codex("n", "<leader>tcc", function() term_codex:toggle() end)
-keymap_set_codex("n", "<leader>tcf", send)
-keymap_set_codex("n", "<leader>tcl", function() send(vim.fn.line('.')) end)
-keymap_set_codex("x", "<leader>tcl", send_visual)
-
+keymap_set_codex("n", "<leader>tcc", function() term_codex.term:toggle() end)
+keymap_set_codex("n", "<leader>tcf", function() term_codex:send_file_lines() end)
+keymap_set_codex("n", "<leader>tcl", function() term_codex:send_file_lines(vim.fn.line('.')) end)
+keymap_set_codex("x", "<leader>tcl", function() term_codex:send_file_lines_visual() end)
 
 local function goto_file_line_col(efm)
   return function()

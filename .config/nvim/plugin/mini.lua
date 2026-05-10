@@ -18,18 +18,21 @@ for _, cmd in ipairs({ "delete", "wipeout" }) do
   vim.api.nvim_create_user_command(
     "B" .. cmd,
     function(arg)
-      local buf_id = 0
-      if arg.args ~= "" then
-        buf_id = tonumber(arg.args) or vim.fn.bufnr(arg.args)
-        if buf_id == -1 then
-          error(string.format("Invalid buffer: %s", arg.args))
+      if #arg.fargs == 0 then arg.fargs = { "0" } end
+      for _, a in ipairs(arg.fargs) do
+        local buf_id = 0
+        if a ~= "" then
+          buf_id = tonumber(a) or vim.fn.bufnr(a)
+          if buf_id == -1 then
+            error(string.format("Invalid buffer: %s", a))
+          end
         end
+        require("mini.bufremove")[cmd](buf_id, arg.bang)
       end
-      require("mini.bufremove")[cmd](buf_id, arg.bang)
     end,
     {
       complete = "buffer",
-      nargs = "?",
+      nargs = "*",
       bang = true,
     }
   )
