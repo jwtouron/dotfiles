@@ -42,6 +42,15 @@ local keymaps = {
       vim.cmd("startinsert")
     end,
   },
+  ["gz"] = {
+    desc = "Run fzf from the current directory.",
+    callback = function()
+      SetupFZF()
+      local oil = require("oil")
+      local dir = oil.get_current_dir()
+      require('fzf-lua').files { cwd = dir }
+    end,
+  },
 }
 
 require('oil').setup {

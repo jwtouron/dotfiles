@@ -3,8 +3,7 @@ vim.pack.add(
   { confirm = false }
 )
 
-local setup
-setup = function()
+SetupFZF = function()
   require('fzf-lua').setup {
     buffers = {
       file_icons = false,
@@ -36,11 +35,11 @@ setup = function()
       preview = { hidden = true },
     },
   }
-  setup = function() end
+  SetupFZF = function() end
 end
 
 vim.ui.select = function(items, opts, on_choice)
-  setup()
+  SetupFZF()
   require('fzf-lua').register_ui_select()
   vim.ui.select(items, opts, on_choice)
 end
@@ -64,9 +63,9 @@ local function keymap_set(mode, lhs, rhs, opts)
   if type(rhs) == 'string' then
     opts = opts or {}
     opts.expr = true
-    rhs2 = function() setup(); return rhs end
+    rhs2 = function() SetupFZF(); return rhs end
   else
-    rhs2 = function() setup(); rhs() end
+    rhs2 = function() SetupFZF(); rhs() end
   end
   vim.keymap.set(mode, lhs, rhs2, opts)
 end

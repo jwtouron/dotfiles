@@ -73,6 +73,7 @@ vim.pack.add({
   colorscheme("antonk52/lake.nvim"),
   colorscheme("aymenhafeez/doric-themes.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
+  colorscheme("danhat1020/silence.nvim"),
   colorscheme("darkvoid-theme/darkvoid.nvim"),
   colorscheme("dgox16/oldworld.nvim"),
   colorscheme("hardselius/warlock"),
