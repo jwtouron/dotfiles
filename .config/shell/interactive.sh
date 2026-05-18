@@ -6,15 +6,15 @@ _MY_INTERACTIVE_READ=1
 alias wl='wc -l'
 
 if command -v lsd >/dev/null; then
-    alias ls='lsd --icon never -F'
-    alias la='lsd --icon never -AFh'
-    alias ll='lsd --icon never -AFhl'
-    alias ltr='lsd --icon never -AFhltr'
+    alias  ls='lsd --icon never'
+    alias  la='lsd --icon never -A'
+    alias  ll='lsd --icon never -Alh'
+    alias ltr='lsd --icon never -Alhtr'
 else
-    alias ls='ls -F'
-    alias la='ls -AFh'
-    alias ll='ls -AFhl'
-    alias ltr='ls -AFhltr'
+    alias  ls='ls --color=auto'
+    alias  la='ls --color=auto -A'
+    alias  ll='ls --color=auto -Alh'
+    alias ltr='ls --color=auto -Alhtr'
 fi
 
 alias grep='grep --color=auto'

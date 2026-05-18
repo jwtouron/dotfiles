@@ -50,3 +50,12 @@ vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window he
 vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
 vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
+
+-- In cmdline, <tab> will either "accept" then entry if wildmode is active, otherwise act as <tab>
+vim.keymap.set("c", "<Tab>", function()
+  if vim.fn.wildmenumode() ~= 0 then
+    vim.cmd.call 'feedkeys("\\<C-y>")'
+  else
+    vim.fn.wildtrigger()
+  end
+end)
