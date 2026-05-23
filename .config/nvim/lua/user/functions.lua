@@ -2,54 +2,44 @@ local M = {}
 
 M.SetFindFunc = function(...)
   local default_dirs = {...}
-  local default_dirstr = vim.fn.join(
-    vim.fn.map(default_dirs, "v:val == '.' ? '.' : fnamemodify(v:val, ':p:.:S')"),
-    " "
-  )
+
+  local run_fd = function(pattern, paths, args)
+    args = args or ""
+    return vim.fn.systemlist(
+     string.format(
+       "fd --unrestricted --exclude '.git' --glob %s %s %s",
+       args,
+       vim.fn.shellescape(pattern),
+       vim.fn.join(
+         vim.fn.map(paths, "v:val == '.' ? '.' : fnamemodify(v:val, ':p:.:S')"),
+         " "
+       )
+      )
+    )
+  end
 
   function MyFindFunc(cmdarg)
     cmdarg = vim.fn.fnamemodify(cmdarg, ":p:.")
+    local filter = cmdarg
+    local result = {}
+
     if cmdarg:sub(1, 1) == "/" then
       local segments = vim.fn.split(cmdarg, "/", true)
       local paths = { "/" }
       for i = 2, #segments - 1 do
         local segment = vim.fn.escape(segments[i], "*")
-        local new_paths = {}
-        for _, path in ipairs(paths) do
-          new_paths = vim.fn.extend(
-            new_paths,
-            vim.fn.systemlist(
-              string.format(
-                "fd --unrestricted --max-depth 1 --type dir --exclude '.git' --glob %s %s",
-                vim.fn.shellescape("*"..segment.."*"),
-                vim.fn.shellescape(path)
-              )
-            )
-          )
-        end
-        paths = new_paths
+        paths = run_fd("*"..segment.."*", paths, "--max-depth 1 --type dir")
       end
-      local result = {}
-      for _, path in ipairs(paths) do
-        result = vim.fn.extend(
-          result,
-          vim.fn.systemlist(
-            string.format("fd --unrestricted --max-depth 1 --exclude '.git' --glob '*' %s", vim.fn.shellescape(path))
-          )
-        )
-      end
-      local filter = segments[#segments]
-      if filter ~= "" then
-        result = vim.fn.matchfuzzy(result, filter)
-      end
-      return result
+      filter = segments[#segments]
+      result = run_fd('*', paths)
     else
-      local cmd = string.format(
-        "fd --unrestricted --exclude '.git' . %s | fzf --filter %s",
-        default_dirstr, vim.fn.shellescape(cmdarg)
-      )
-      return vim.fn.systemlist(cmd)
+      result = run_fd('*', default_dirs)
     end
+
+    if filter ~= "" then
+      result = vim.fn.matchfuzzy(result, filter)
+    end
+    return result
   end
 
   vim.opt.findfunc = 'v:lua.MyFindFunc'
