@@ -60,5 +60,6 @@ vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increa
 --   end
 -- end)
 
+-- Navigation
 vim.keymap.set("n", "<leader><space>", ":find ")
 vim.keymap.set("n", "<leader>,", ":b ")
