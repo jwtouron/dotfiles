@@ -33,8 +33,16 @@ local keymaps = {
       end
     end)()
   },
+  ["gf"] = {
+    desc = "Run :find in current Oil directory.",
+    callback = function()
+      local oil = require("oil")
+      local dir = oil.get_current_dir()
+      vim.fn.feedkeys(string.format(":find %s", vim.fn.fnamemodify(dir, ":p")))
+    end,
+  },
   ["gt"] = {
-    desc = "Open terminal in current Oil directory)",
+    desc = "Open terminal in current Oil directory",
     callback = function()
       local oil = require("oil")
       local dir = oil.get_current_dir()
@@ -43,7 +51,7 @@ local keymaps = {
     end,
   },
   ["gz"] = {
-    desc = "Run fzf from the current directory.",
+    desc = "Run fzf from the current Oil directory.",
     callback = function()
       SetupFZF()
       local oil = require("oil")
