@@ -63,3 +63,13 @@ vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increa
 -- Navigation
 vim.keymap.set("n", "<leader><space>", ":find ")
 vim.keymap.set("n", "<leader>,", ":b ")
+
+vim.keymap.set("c", "/", function()
+  if vim.fn.getcmdline():sub(vim.fn.getcmdpos() - 1) == "/"
+    and vim.fn.wildmenumode() ~= 0
+  then
+    return "<C-y>"
+  else
+    return "/"
+  end
+end, { expr = true })
