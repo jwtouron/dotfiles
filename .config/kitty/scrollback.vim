@@ -3,7 +3,6 @@ set clipboard=unnamed,unnamedplus
 set ignorecase
 set incsearch
 set keywordprg=man\ -s
-set nomodifiable
 set readonly
 set smartcase
 
