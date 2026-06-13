@@ -60,10 +60,11 @@ local lake_dweller_config = function()
 end
 
 local zen_config = function()
-vim.api.nvim_create_autocmd("ColorScheme", {
-  group = augroup,
-  command =  "highlight MsgArea guifg=#e0e0e0",
-})
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    group = augroup,
+    pattern = "zen",
+    command =  "highlight MsgArea guifg=#e0e0e0",
+  })
 end
 
 vim.pack.add({
@@ -94,6 +95,8 @@ vim.pack.add({
   colorscheme("sainnhe/gruvbox-material", function() vim.g.gruvbox_material_better_performance = 1 end),
   colorscheme("scottmckendry/cyberdream.nvim"),
   colorscheme("shaunsingh/nord.nvim"),
+  colorscheme("vague-theme/vague.nvim"),
   colorscheme("webhooked/kanso.nvim"),
   colorscheme("yonatanperel/lake-dweller.nvim"),
+  colorscheme("zenbones-theme/zenbones.nvim", function() vim.g.zenbones_compat = 1 end),
 }, { confirm = false, load = function(plugin) by_path[plugin.path] = plugin.spec.name end})

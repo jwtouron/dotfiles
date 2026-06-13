@@ -1,7 +1,8 @@
 #!/bin/sh
+
 set -eu
 
-SRC="$HOME/.config/niri/waypaper"
+SRC="$HOME/.config/waypaper"
 
 systemctl --user link \
   "$SRC/waypaper.service" \

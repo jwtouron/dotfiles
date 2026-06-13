@@ -37,8 +37,8 @@ layout {
     }
 }
 
-spawn-sh-at-startup "XDG_CONFIG_HOME=~/.config/niri qs -c noctalia-shell --no-duplicate"
-spawn-sh-at-startup "~/.config/niri/waypaper/init.sh"
+spawn-sh-at-startup "noctalia"
+spawn-sh-at-startup "~/.config/waypaper/init.sh"
 
 prefer-no-csd
 

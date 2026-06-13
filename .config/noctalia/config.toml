@@ -1,0 +1,46 @@
+[audio]
+enable_overdrive = true
+
+[bar.main]
+margin_ends = 20
+scale = 1.25
+widget_spacing = 18
+
+start  = ["workspaces"]
+center = ["clock", "weather"]
+end    = ["tray", "volume", "cpu", "ram", "network", "bluetooth", "battery", "control-center", "session"]
+
+[location]
+auto_locate = true
+
+[wallpaper]
+enabled = false
+
+[widget.battery]
+display_mode = "graphic"
+show_label = false
+
+[widget.clock]
+format = "%H:%M %a, %b %d"
+
+[widget.cpu]
+type = "sysmon"
+stat = "cpu_usage"
+show_label = false
+
+[widget.network]
+show_label = false
+
+[widget.ram]
+type = "sysmon"
+stat = "ram_used"
+show_label = false
+
+[widget.volume]
+show_label = false
+
+[widget.weather]
+unit = "fahrenheit"
+
+[widget.workspaces]
+display = "none"
