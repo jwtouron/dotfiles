@@ -50,12 +50,14 @@ local function colorscheme(name, config)
   return { src = "https://github.com/" .. name }
 end
 
-local lake_dweller_config = function()
+local function everforest_config()
   vim.api.nvim_create_autocmd("ColorSchemePre", {
     group = augroup,
-    pattern = "lake-dweller",
+    pattern = "everforest",
     once = true,
-    callback = function() require("lake-dweller").setup() end
+    callback = function()
+      require("everforest").setup { background = 'hard' }
+    end
   })
 end
 
@@ -84,6 +86,7 @@ vim.pack.add({
   colorscheme("mcauley-penney/techbase.nvim"),
   colorscheme("mellow-theme/mellow.nvim"),
   colorscheme("miikanissi/modus-themes.nvim"),
+  colorscheme("neanias/everforest-nvim", everforest_config),
   colorscheme("nendix/zen.nvim", zen_config),
   colorscheme("oskarnurm/koda.nvim"),
   colorscheme("p00f/alabaster.nvim"),
