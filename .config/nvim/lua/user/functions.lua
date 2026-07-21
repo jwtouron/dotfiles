@@ -1,6 +1,6 @@
 local M = {}
 
-M.SetFindFunc = function(...)
+M.SetFindFuncOld = function(...)
   local default_dirs = {...}
 
   local run_fd = function(pattern, paths, args)

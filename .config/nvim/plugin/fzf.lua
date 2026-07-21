@@ -1,3 +1,24 @@
+vim.api.nvim_create_user_command(
+  "FzfFiles",
+  function(arg)
+    local dirs = nil
+    if #arg.fargs > 0 then dirs = arg.fargs end
+    require("user.fzf").files(dirs)
+  end,
+  {
+    nargs = "?",
+    complete = "dir",
+  }
+)
+
+vim.keymap.set("n", "<leader><space>", function() require("user.fzf").files() end)
+vim.keymap.set("n", "<leader>ff", ":FzfFiles ")
+vim.keymap.set("n", "<leader>fo", function() require("user.fzf").odlfiles() end)
+
+
+
+
+
 if true then return end
 
 vim.pack.add(
@@ -116,7 +137,7 @@ keymap_set('n', "<leader>lc", function() require('fzf-lua').lsp_code_actions() e
 --     row = 5,
 --     col = 5,
 --     height = vim.o.lines - 5 * 2 - 2,
---     width = vim.o.columns - 5 * 2 - 2,
+--     width = vim.o.columns - 4 * 2 - 2,
 --     style = 'minimal',
 --     border = 'none',
 --     relative = 'editor',
@@ -383,4 +404,3 @@ keymap_set('n', "<leader>lc", function() require('fzf-lua').lsp_code_actions() e
 -- -- resume
 --
 -- return {}
-

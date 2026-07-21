@@ -34,11 +34,11 @@ local keymaps = {
     end)()
   },
   ["gf"] = {
-    desc = "Run :find in current Oil directory.",
+    desc = "Run fzf from the current Oil directory.",
     callback = function()
       local oil = require("oil")
       local dir = oil.get_current_dir()
-      vim.fn.feedkeys(string.format(":find %s", vim.fn.fnamemodify(dir, ":p")))
+      require("user.fzf").files({ dir })
     end,
   },
   ["gt"] = {
@@ -48,15 +48,6 @@ local keymaps = {
       local dir = oil.get_current_dir()
       vim.cmd(string.format("term sh -c 'cd %s; exec $SHELL -i'", vim.fn.shellescape(dir)))
       vim.cmd("startinsert")
-    end,
-  },
-  ["gz"] = {
-    desc = "Run fzf from the current Oil directory.",
-    callback = function()
-      SetupFZF()
-      local oil = require("oil")
-      local dir = oil.get_current_dir()
-      require('fzf-lua').files { cwd = dir }
     end,
   },
 }

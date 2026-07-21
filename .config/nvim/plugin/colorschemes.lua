@@ -70,18 +70,15 @@ local zen_config = function()
 end
 
 vim.pack.add({
-  colorscheme("Aejkatappaja/sora"),
   colorscheme("aktersnurra/no-clown-fiesta.nvim"),
   colorscheme("AlexvZyl/nordic.nvim"),
-  colorscheme("antonk52/lake.nvim"),
   colorscheme("aymenhafeez/doric-themes.nvim"),
   colorscheme("blazkowolf/gruber-darker.nvim"),
-  colorscheme("danhat1020/silence.nvim"),
   colorscheme("darkvoid-theme/darkvoid.nvim"),
   colorscheme("dgox16/oldworld.nvim"),
+  colorscheme("e-ink-colorscheme/e-ink.nvim"),
   colorscheme("hardselius/warlock"),
   colorscheme("jnurmine/Zenburn"),
-  colorscheme("kdheepak/monochrome.nvim"),
   colorscheme("kvrohit/rasmus.nvim"),
   colorscheme("mcauley-penney/techbase.nvim"),
   colorscheme("mellow-theme/mellow.nvim"),
@@ -89,8 +86,6 @@ vim.pack.add({
   colorscheme("neanias/everforest-nvim", everforest_config),
   colorscheme("nendix/zen.nvim", zen_config),
   colorscheme("oskarnurm/koda.nvim"),
-  colorscheme("p00f/alabaster.nvim"),
-  colorscheme("rafamadriz/neon"),
   colorscheme("ramojus/mellifluous.nvim"),
   colorscheme("rebelot/kanagawa.nvim"),
   colorscheme("rjshkhr/shadow.nvim"),
@@ -100,6 +95,5 @@ vim.pack.add({
   colorscheme("shaunsingh/nord.nvim"),
   colorscheme("vague-theme/vague.nvim"),
   colorscheme("webhooked/kanso.nvim"),
-  colorscheme("yonatanperel/lake-dweller.nvim"),
   colorscheme("zenbones-theme/zenbones.nvim", function() vim.g.zenbones_compat = 1 end),
 }, { confirm = false, load = function(plugin) by_path[plugin.path] = plugin.spec.name end})

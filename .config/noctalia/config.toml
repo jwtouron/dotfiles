@@ -1,14 +1,20 @@
+# Overriden by: ~/.local/state/noctalia/*
+
+[accessibility]
+ui_scale = 1.2
+
 [audio]
 enable_overdrive = true
 
 [bar.main]
+margin_edge = 10
 margin_ends = 20
 scale = 1.2
-widget_spacing = 18
+widget_spacing = 20
 
-start  = ["workspaces"]
+start  = ["control-center", "workspaces"]
 center = ["clock", "weather"]
-end    = ["tray", "volume", "cpu", "ram", "network", "bluetooth", "battery", "control-center", "session"]
+end    = ["tray", "volume", "cpu", "ram", "network", "bluetooth", "battery", "session"]
 
 [location]
 auto_locate = true
