@@ -87,6 +87,7 @@ hl.config({
     groupbar = {
       col = {
         active = "rgb(FAC000)",
+        inactive = "rgb(801100)",
       },
       font_size = 0,
       height = 0,
@@ -96,6 +97,19 @@ hl.config({
 
   misc = {
     disable_hyprland_logo = true,
+  },
+
+  plugin = {
+    borders_plus_plus = {
+      add_borders = 1,
+      natural_rounding = true,
+
+      col = {
+        border_1 = "rgb(444444)"
+      },
+
+      border_size_1 = 2
+    }
   },
 })
 
