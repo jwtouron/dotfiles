@@ -99,6 +99,7 @@ hl.config({
     disable_hyprland_logo = true,
   },
 
+  -- Update with 'hyprpm update'
   plugin = {
     borders_plus_plus = {
       add_borders = 1,

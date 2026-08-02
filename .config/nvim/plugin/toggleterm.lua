@@ -1,3 +1,5 @@
+if true then return end
+
 vim.pack.add(
   { "https://github.com/akinsho/toggleterm.nvim", },
   { confirm = false, load = function() end }
