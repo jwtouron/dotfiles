@@ -1,24 +1,3 @@
-vim.api.nvim_create_user_command(
-  "FzfFiles",
-  function(arg)
-    local dirs = nil
-    if #arg.fargs > 0 then dirs = arg.fargs end
-    require("user.fzf").files(dirs)
-  end,
-  {
-    nargs = "?",
-    complete = "dir",
-  }
-)
-
-vim.keymap.set("n", "<leader><space>", function() require("user.fzf").files() end)
-vim.keymap.set("n", "<leader>ff", ":FzfFiles ")
-vim.keymap.set("n", "<leader>fo", function() require("user.fzf").oldfiles() end)
-
-
-
-
-
 if true then return end
 
 vim.pack.add(

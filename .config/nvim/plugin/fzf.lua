@@ -127,9 +127,10 @@ for _, path in ipairs(vim.opt.path:get()) do
   end
 end
 
-local function files(dirs)
+function FZFFiles(dirs)
   if not dirs then dirs = default_dirs end
-  fzf( string.format(
+  fzf(
+    string.format(
       "fd --unrestricted --exclude '.git' --type file . %s",
       vim.fn.join(vim.fn.map(dirs, "v:val == '.' ? '.' : fnamemodify(v:val, ':p:.:S')"), " ")
     ),
@@ -151,7 +152,7 @@ vim.api.nvim_create_user_command(
   function(arg)
     local dirs = nil
     if #arg.fargs > 0 then dirs = arg.fargs end
-    files(dirs)
+    FZFFiles(dirs)
   end,
   {
     nargs = "?",
@@ -159,7 +160,7 @@ vim.api.nvim_create_user_command(
   }
 )
 
-vim.keymap.set("n", "<leader><space>", files)
+vim.keymap.set("n", "<leader><space>", FZFFiles)
 vim.keymap.set("n", "<leader>ff", ":FzfFiles ")
 
 local function oldfiles()

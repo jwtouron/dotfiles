@@ -38,7 +38,7 @@ local keymaps = {
     callback = function()
       local oil = require("oil")
       local dir = oil.get_current_dir()
-      require("user.fzf").files({ dir })
+      FZFFiles({ dir })
     end,
   },
   ["gt"] = {
