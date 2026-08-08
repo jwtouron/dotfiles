@@ -95,5 +95,6 @@ vim.pack.add({
   colorscheme("shaunsingh/nord.nvim"),
   colorscheme("vague-theme/vague.nvim"),
   colorscheme("webhooked/kanso.nvim"),
+  colorscheme("WTFox/luna.nvim"),
   colorscheme("zenbones-theme/zenbones.nvim", function() vim.g.zenbones_compat = 1 end),
 }, { confirm = false, load = function(plugin) by_path[plugin.path] = plugin.spec.name end})

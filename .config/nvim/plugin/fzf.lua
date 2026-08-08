@@ -129,11 +129,10 @@ end
 
 function FZFFiles(dirs)
   if not dirs then dirs = default_dirs end
+  dirs = vim.fn.map(dirs, "fnamemodify(v:val, ':p:.')")
+  dirs = vim.fn.map(dirs, "v:val == '' || v:val == '.' ? '.' : shellescape(v:val)")
   fzf(
-    string.format(
-      "fd --unrestricted --exclude '.git' --type file . %s",
-      vim.fn.join(vim.fn.map(dirs, "v:val == '.' ? '.' : fnamemodify(v:val, ':p:.:S')"), " ")
-    ),
+    string.format("fd --unrestricted --exclude '.git' --type file . %s", vim.fn.join(dirs, " ")),
     "--style=full --border --reverse --multi --border-label=Files",
     {
       enter = function(lines)
