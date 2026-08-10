@@ -98,20 +98,6 @@ hl.config({
   misc = {
     disable_hyprland_logo = true,
   },
-
-  -- Update with 'hyprpm update'
-  plugin = {
-    borders_plus_plus = {
-      add_borders = 1,
-      natural_rounding = true,
-
-      col = {
-        border_1 = "rgb(444444)"
-      },
-
-      border_size_1 = 2
-    }
-  },
 })
 
 --------------------------------
