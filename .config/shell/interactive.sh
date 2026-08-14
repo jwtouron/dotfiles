@@ -1,5 +1,5 @@
 if [ -n "${_MY_INTERACTIVE_READ+x}" ]; then
-  return 0 2>/dev/null || exit 0
+    return 0 2>/dev/null || exit 0
 fi
 _MY_INTERACTIVE_READ=1
 
@@ -29,3 +29,9 @@ source ~/.config/shell/man
 if command -v trash-put >/dev/null; then
     alias rm='echo "This is not the command you are looking for."; false'
 fi
+
+ssh-agent-help() {
+    printf 'ssh-keygen -t ed25519 -C "your_email@example.com"\n'
+    printf 'eval "$(ssh-agent -s)"\n'
+    printf 'ssh-add ~/.ssh/id_ed25519\n'
+}
