@@ -225,6 +225,7 @@ function Agent:open()
 end
 
 function Agent:send_file_lines(file, line1, line2)
+  file = vim.fn.fnamemodify(file, ":p:.")
   if not vim.uv.fs_stat(file) then return end
 
   local data = file
