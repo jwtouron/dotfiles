@@ -93,6 +93,7 @@ vim.pack.add({
   colorscheme("sainnhe/gruvbox-material", function() vim.g.gruvbox_material_better_performance = 1 end),
   colorscheme("scottmckendry/cyberdream.nvim"),
   colorscheme("shaunsingh/nord.nvim"),
+  colorscheme("ThorstenRhau/token"),
   colorscheme("vague-theme/vague.nvim"),
   colorscheme("webhooked/kanso.nvim"),
   colorscheme("WTFox/luna.nvim"),
