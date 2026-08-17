@@ -74,6 +74,7 @@ set { "DiagnosticWarn",  fg = c.yellow }
 
 -- Plugin-specific
 
+set { "OilEmpty",     fg = c.light_gray }
 set { "OilHidden",    fg = c.light_gray }
 set { "OilDir",       fg = c.white }
 set { "OilDirHidden", fg = c.light_gray }
