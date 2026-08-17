@@ -10,6 +10,7 @@ local c = {
   light_gray = "#b8c1c5",
   -- light_gray = "#aeb8bd",
   -- light_gray = "#a4afb4",
+  dark_gray =  "#30383e",
   red =        "#d36f72",
   green =      "#68c174",
   yellow =     "#d0b66a",
@@ -65,6 +66,8 @@ local syntax = {
 for _, name in ipairs(syntax) do
   set { name, fg = c.light_gray }
 end
+
+set { "StatusLine", bg = c.dark_gray }
 
 set { "DiagnosticError", fg = c.red }
 set { "DiagnosticHint",  fg = c.cyan }
