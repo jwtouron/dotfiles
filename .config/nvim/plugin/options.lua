@@ -3,6 +3,7 @@ vim.opt.completeopt = { 'fuzzy', 'menu', 'menuone', 'noinsert', 'noselect', 'pop
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = 'number'
 vim.opt.expandtab = true
+vim.opt.helpheight = 0
 vim.opt.ignorecase = true
 vim.opt.jumpoptions = { 'stack', 'clean', }
 vim.opt.list = true
