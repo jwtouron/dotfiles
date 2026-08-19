@@ -18,7 +18,8 @@ local c = {
   blue =        "#5eacd3",
   magenta =     "#b889d3",
   cyan =        "#63c0ba",
-  maroon =      "#824a4f",
+  maroon =      "#925359",
+  -- maroon =      "#824a4f",
   -- maroon =      "#7a464b",
   -- maroon =      "#704146",
   -- maroon =      "#663c41",
@@ -32,7 +33,7 @@ local function set(opts)
 end
 
 set { "Normal",    fg = c.white, bg = c.black }
-set { "Comment",   fg = c.medium_gray }
+set { "Comment",   fg = c.maroon, }
 set { "Constant",  fg = c.magenta }
 set { "Number",    fg = c.blue }
 set { "Special",   fg = c.cyan }
@@ -75,3 +76,10 @@ set { "DiagnosticHint",  fg = c.cyan }
 set { "DiagnosticInfo",  fg = c.blue }
 set { "DiagnosticOk",    fg = c.green }
 set { "DiagnosticWarn",  fg = c.yellow }
+
+-- Plugin-specific
+
+set { "OilEmpty",     fg = c.light_gray }
+set { "OilHidden",    fg = c.light_gray }
+set { "OilDir",       fg = c.white }
+set { "OilDirHidden", fg = c.light_gray }
