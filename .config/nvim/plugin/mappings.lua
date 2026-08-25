@@ -73,3 +73,9 @@ vim.keymap.set("c", "/", function()
     return "/"
   end
 end, { expr = true })
+
+vim.keymap.set("n", "ZR", function()
+  local count = vim.v.count
+  vim.cmd.write()
+  vim.cmd.normal { bang = true, args = { (count > 0 and count or "") .. "ZR" } }
+end, { desc = "Write and restart Neovim" })

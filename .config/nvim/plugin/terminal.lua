@@ -69,12 +69,19 @@ function Terminal:open()
   self.win = open_win(self.buf)
   self.job_id = vim.fn.jobstart(vim.fn.extendnew({ self.cmd }, self.args), {
     term = true,
-    on_exit = function()
-      self:close()  -- Close window
-
-      if self.buf and vim.api.nvim_buf_is_valid(self.buf) then
-        vim.api.nvim_buf_delete(self.buf, { force = true })
-        self.buf = nil
+    on_exit = function(_, exit_code)
+      if exit_code == 0 then
+        self:win_close()
+        self:buf_delete()
+      else
+        vim.api.nvim_create_autocmd("WinLeave", {
+          buf = self.buf,
+          once = true,
+          callback = function()
+            self:win_close()
+            self:buf_delete()
+          end,
+        })
       end
 
       self.job_id = nil
@@ -85,7 +92,7 @@ function Terminal:open()
   vim.api.nvim_create_autocmd("WinLeave", {
     callback = function()
       if vim.fn.bufnr() == self.buf then
-        self:close()
+        self:win_close()
       end
     end,
     buffer = self.buf,
@@ -103,10 +110,17 @@ function Terminal:open()
   vim.keymap.set("n", "<cr>", goto_file_line_col, { buf = self.buf })
 end
 
-function Terminal:close()
+function Terminal:win_close()
   if self.win and vim.api.nvim_win_is_valid(self.win) then
     vim.api.nvim_win_close(self.win, true)
     self.win = nil
+  end
+end
+
+function Terminal:buf_delete()
+  if self.buf and vim.api.nvim_buf_is_valid(self.buf) then
+    vim.api.nvim_buf_delete(self.buf, { force = true })
+    self.buf = nil
   end
 end
 
@@ -137,13 +151,13 @@ end
 -----------------------------
 
 local agent_specs = {
-  codex = {
+  {
     name = "codex",
     command = "codex",
     args = { "--sandbox",  "workspace-write", "--ask-for-approval", "on-request", "--search", },
     ready_regex =  "OpenAI Codex.*\n›",
   },
-  claude = {
+  {
     name = "claude",
     command = "claude",
     args = { "--permission-mode", "acceptEdits", },
@@ -155,7 +169,7 @@ local session_agent = nil
 
 local function select_agent()
   local available_agents = {}
-  for _, spec in pairs(agent_specs) do
+  for _, spec in ipairs(agent_specs) do
     if vim.fn.executable(spec.command) == 1 then
       table.insert(available_agents, spec)
     end
@@ -169,14 +183,13 @@ local function select_agent()
   vim.ui.select(
     vim.fn.map(available_agents, "v:val.name"),
     { prompt = "Agent: ", },
-    function(name)
+    function(name, idx)
       if not name or name == "" then
         vim.notify("No agent selected", vim.log.levels.INFO)
         return
       end
-      assert(agent_specs[name])
 
-      session_agent = agent_specs[name]
+      session_agent = agent_specs[idx]
     end
   )
 end
@@ -205,6 +218,13 @@ function Agent:open()
 
   local wait_for_prompt
   wait_for_prompt = function()
+    if not (self:is_running()
+      and self.buf
+      and vim.api.nvim_buf_is_valid(self.buf))
+    then
+      return
+    end
+
     local lines = vim.api.nvim_buf_get_lines(self.buf, 0, -1, true)
     if string.find(vim.fn.join(lines, "\n"), self.agent_spec.ready_regex) then  -- NOTE: This code may break on more complicated regexes.
       self.ready = true
