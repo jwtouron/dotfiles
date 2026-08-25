@@ -49,4 +49,4 @@ show_value = false
 show_label = false
 
 [widget.workspaces]
-display = "none"
+show_labels = false
