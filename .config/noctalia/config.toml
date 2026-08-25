@@ -35,7 +35,7 @@ format = "%H:%M %a, %b %d"
 [widget.cpu]
 type = "sysmon"
 stat = "cpu_usage"
-show_label = false
+show_value = false
 
 [widget.network]
 show_label = false
@@ -43,7 +43,7 @@ show_label = false
 [widget.ram]
 type = "sysmon"
 stat = "ram_used"
-show_label = false
+show_value = false
 
 [widget.volume]
 show_label = false
