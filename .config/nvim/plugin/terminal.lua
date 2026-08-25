@@ -140,7 +140,7 @@ local agent_specs = {
   codex = {
     name = "codex",
     command = "codex",
-    args = { "--sandbox",  "workspace-write", "--ask-for-approval", "untrusted", "--search", },
+    args = { "--sandbox",  "workspace-write", "--ask-for-approval", "on-request", "--search", },
     ready_regex =  "OpenAI Codex.*\n›",
   },
   claude = {
