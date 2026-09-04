@@ -12,7 +12,7 @@ vim.keymap.set("n", "cg*", "*Ncgn", { desc = "Change word under cursor, '.' to c
 vim.keymap.set("x", "c", function()
   if vim.fn.mode() == 'v' then
     vim.cmd 'norm! y'
-    vim.cmd 'let @/=@"'
+    vim.fn.setreg("/", "\\V" .. vim.fn.escape(vim.fn.getreg('"'), "\\"))
     vim.fn.feedkeys("cgn", "n")
   else
     vim.fn.feedkeys("c", "n")

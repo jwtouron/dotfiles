@@ -77,6 +77,11 @@ set { "DiagnosticInfo",  fg = c.blue }
 set { "DiagnosticOk",    fg = c.green }
 set { "DiagnosticWarn",  fg = c.yellow }
 
+-- Language-specific
+
+vim.g.python_constant_highlight = true
+set { "pythonBoolean", fg = c.magenta }
+
 -- Plugin-specific
 
 set { "OilEmpty",     fg = c.light_gray }

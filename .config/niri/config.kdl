@@ -17,7 +17,7 @@ input {
     }
 
     warp-mouse-to-focus
-    focus-follows-mouse
+    focus-follows-mouse max-scroll-amount="0%"
 }
 
 layout {
@@ -91,8 +91,8 @@ binds {
     Mod+Shift+I         { move-column-to-workspace-down; }
     Mod+Shift+U         { move-column-to-workspace-up; }
 
-    Mod+Ctrl+I         { move-workspace-down; }
-    Mod+Ctrl+U         { move-workspace-up; }
+    Mod+Ctrl+I          { move-workspace-down; }
+    Mod+Ctrl+U          { move-workspace-up; }
 
     Mod+1       { focus-workspace 1; }
     Mod+2       { focus-workspace 2; }
