@@ -11,6 +11,7 @@ margin_edge = 10
 margin_ends = 20
 scale = 1.2
 widget_spacing = 20
+radius = 8
 
 start  = ["control-center", "workspaces"]
 center = ["clock", "weather"]

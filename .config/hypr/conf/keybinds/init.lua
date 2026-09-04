@@ -68,9 +68,9 @@ local function focus_or_cycle(direction)
 end
 
 hl.bind("SUPER + Return", hl.dsp.exec_cmd("kitty"))
-hl.bind("SUPER + C", hl.dsp.window.close())
-hl.bind("SUPER + SHIFT + C", hl.dsp.window.kill())
-hl.bind("SUPER + q", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
+hl.bind("SUPER + Q", hl.dsp.window.close())
+hl.bind("SUPER + SHIFT + Q", hl.dsp.window.kill())
+hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
 hl.bind("SUPER + SHIFT + f", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER + Space", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
 hl.bind("SUPER + SHIFT + P", hl.dsp.window.pseudo())

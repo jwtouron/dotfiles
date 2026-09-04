@@ -57,11 +57,13 @@ hl.config({
       },
     },
 
+    gaps_out = { top = 10, right = 20, bottom = 20, left = 20, },
+
     resize_on_border = true,
   },
 
   decoration = {
-    rounding = 10,
+    rounding = 8,
 
     shadow = {
       enabled = true,
@@ -89,6 +91,7 @@ hl.config({
         active = "rgb(FAC000)",
         inactive = "rgb(801100)",
       },
+      disable_when_only = true,
       font_size = 0,
       height = 0,
       keep_upper_gap = false,
