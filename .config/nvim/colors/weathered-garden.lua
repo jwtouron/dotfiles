@@ -1,29 +1,22 @@
 vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.cmd.highlight "clear"
-vim.g.colors_name = "mine"
+vim.g.colors_name = "weathered-garden"
 
 local c = {
-  black =       "#1d2328",
-  white =       "#e1e7e9",
-  -- light_gray =  "#c0c8cc",
-  light_gray =  "#b8c1c5",
-  -- light_gray =  "#aeb8bd",
-  -- light_gray =  "#a4afb4",
-  medium_gray = "#747d82",
-  dark_gray =   "#30383e",
-  red =         "#d36f72",
-  green =       "#68c174",
-  yellow =      "#d0b66a",
-  blue =        "#5eacd3",
-  magenta =     "#b889d3",
-  cyan =        "#63c0ba",
-  maroon =      "#925359",
-  -- maroon =      "#824a4f",
-  -- maroon =      "#7a464b",
-  -- maroon =      "#704146",
-  -- maroon =      "#663c41",
-  debug =       "#FF0000",
+  black =       "#222020",
+  white =       "#D8CFC4",
+  light_gray =  "#C6B8AA",
+  medium_gray = "#92917B",
+  dark_gray =   "#393535",
+  red =         "#D45C4F",
+  green =       "#979B72",
+  yellow =      "#D1B078",
+  blue =        "#91ABC4",
+  magenta =     "#C58F9D",
+  cyan =        "#81B4B0",
+  maroon =      "#A17F6C",
+  debug =       "#EF7565",
 }
 
 local function set(opts)
@@ -33,12 +26,11 @@ local function set(opts)
 end
 
 set { "Normal",    fg = c.white, bg = c.black }
-set { "Comment",   fg = c.maroon, }
+set { "Comment",   fg = c.maroon }
 set { "Constant",  fg = c.magenta }
 set { "Number",    fg = c.blue }
 set { "Special",   fg = c.cyan }
 set { "String",    fg = c.green }
--- set { "@string.lua",    fg = c.green, priority = 50 }
 
 set { "Function",   fg = c.white }
 set { "Identifier", fg = c.white }

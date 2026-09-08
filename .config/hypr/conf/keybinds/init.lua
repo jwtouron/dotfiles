@@ -15,49 +15,16 @@ local function move_into_or_out_of_group(direction)
   end
 end
 
-local function smart_focus(direction)
-  local is_backward = direction == "left" or direction == "up"
-
-  return function()
-    local w = hl.get_active_window()
-    if w == nil then return end
-
-    if not w.group then
-      hl.dispatch(hl.dsp.focus({ direction = direction }))
-      return
-    end
-
-    local at_edge
-    if is_backward then
-      at_edge = w.group.current_index == 1
-    else
-      at_edge = w.group.current_index == w.group.size
-    end
-
-    if at_edge then
-      hl.dispatch(hl.dsp.focus({ direction = direction }))
-      return
-    end
-
-    local step = is_backward
-      and hl.dsp.group.prev()
-      or hl.dsp.group.next()
-    hl.dispatch(step)
-  end
-end
-
 local function focus_or_cycle(direction)
   return function()
-    local workspace = hl.get_active_workspace()
-    if hl.get_active_special_workspace() then
-      workspace = hl.get_active_special_workspace()
-    end
+    local workspace =
+      hl.get_active_special_workspace() or hl.get_active_workspace()
 
     if not workspace then
       return
     end
 
-    local monocle_dirs = { up = true, left = true, right = false, down = false }
+    local monocle_dirs = { up = false, left = false, right = true, down = true, }
 
     if workspace.tiled_layout == "dwindle" then
       hl.dispatch(hl.dsp.focus({ direction = direction }))
@@ -71,11 +38,12 @@ hl.bind("SUPER + Return", hl.dsp.exec_cmd("kitty"))
 hl.bind("SUPER + Q", hl.dsp.window.close())
 hl.bind("SUPER + SHIFT + Q", hl.dsp.window.kill())
 hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
-hl.bind("SUPER + SHIFT + f", hl.dsp.window.float({ action = "toggle" }))
+hl.bind("SUPER + ALT + f", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER + Space", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
 hl.bind("SUPER + SHIFT + P", hl.dsp.window.pseudo())
 
-hl.bind("SUPER + f", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
+hl.bind("SUPER + f", hl.dsp.window.fullscreen({ mode = "maximized" }))
+hl.bind("SUPER + SHIFT + f", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 
 hl.bind("SUPER + h", focus_or_cycle("left"))
 hl.bind("SUPER + l", focus_or_cycle("right"))

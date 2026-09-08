@@ -29,7 +29,6 @@ hl.monitor({
 hl.on("hyprland.start", function ()
   hl.exec_cmd("noctalia")
   hl.exec_cmd("~/.config/waypaper/init.sh")
---   hl.exec_cmd("waybar & hyprpaper & firefox")
 end)
 
 
@@ -91,7 +90,6 @@ hl.config({
         active = "rgb(FAC000)",
         inactive = "rgb(801100)",
       },
-      disable_when_only = true,
       font_size = 0,
       height = 0,
       keep_upper_gap = false,
