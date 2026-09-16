@@ -1,5 +1,6 @@
 vim.opt.autowrite = true
 vim.opt.completeopt = { 'fuzzy', 'menu', 'menuone', 'noinsert', 'noselect', 'popup', }
+vim.opt.confirm = true
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = 'number'
 vim.opt.expandtab = true
