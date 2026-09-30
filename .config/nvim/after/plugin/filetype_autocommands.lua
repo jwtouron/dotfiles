@@ -49,6 +49,11 @@ local autocmds = {
     command = "setlocal cursorlineopt=both"
   },
 
+  {
+    filetype = "sh",
+    command = "setlocal tabstop=4"
+  },
+
 }
 
 for _, autocmd in ipairs(autocmds) do
