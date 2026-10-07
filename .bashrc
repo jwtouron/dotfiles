@@ -33,11 +33,13 @@ _fzf_setup_completion path ag git kubectl
 _fzf_setup_completion dir tree
 _fzf_setup_completion path config
 
-[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
-
 # Prompt
 
 eval "$(starship init bash)"
+
+# mise
+
+command -v mise >/dev/null && eval "$(mise activate bash)"
 
 # PROMPT_COMMAND=__prompt_command
 # __prompt_command() {

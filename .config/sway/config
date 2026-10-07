@@ -1,4 +1,11 @@
 ########################################
+# Initialization
+########################################
+
+exec dbus-update-activation-environment --systemd \
+    WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
+
+########################################
 # Startup Programs
 ########################################
 
@@ -9,12 +16,9 @@ exec "~/.config/waypaper/init.sh"
 # Appearance
 ########################################
 
-gaps inner 10
-
-gaps top 0
-gaps right 10
-gaps bottom 10
-gaps left 10
+# gaps inner 20
+gaps inner 20
+gaps outer 0
 
 font monospace 1
 titlebar_border_thickness 0

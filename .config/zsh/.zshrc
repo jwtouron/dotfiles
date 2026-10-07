@@ -110,6 +110,11 @@ if command -v zoxide >/dev/null; then
     unsetopt auto_cd
 fi
 
+# mise
+#
+
+command -v mise >/dev/null && eval "$(mise activate zsh)"
+
 ## Vi-mode
 #
 

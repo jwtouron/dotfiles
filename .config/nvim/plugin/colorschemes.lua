@@ -78,6 +78,7 @@ vim.pack.add({
   colorscheme("dgox16/oldworld.nvim"),
   colorscheme("e-ink-colorscheme/e-ink.nvim"),
   colorscheme("hardselius/warlock"),
+  colorscheme("HarshK200/cold.nvim"),
   colorscheme("jnurmine/Zenburn"),
   colorscheme("kvrohit/rasmus.nvim"),
   colorscheme("mcauley-penney/techbase.nvim"),

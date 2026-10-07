@@ -1,27 +1,14 @@
 local augroup = vim.api.nvim_create_augroup(debug.getinfo(1, "S").source, {})
 
-local mason_to_lsp_name = setmetatable(
-  {
-    ["lua-language-server"] = "lua_ls",
-    ["json-lsp"] = "jsonls",
-  },
-  { __index = function(_, s) return s end }
-)
-
 vim.pack.add(
   {
     'https://github.com/neovim/nvim-lspconfig',
-    'https://github.com/mason-org/mason.nvim',
     'https://github.com/j-hui/fidget.nvim',
   },
   { confirm = false, }
 )
 
-require('mason').setup()
-local mason_registry = require('mason-registry')
-for _, name in ipairs(mason_registry.get_installed_package_names()) do
-  vim.lsp.enable(mason_to_lsp_name[name])
-end
+vim.lsp.enable("lua_ls")
 
 local setup
 setup = function()
