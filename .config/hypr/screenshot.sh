@@ -14,10 +14,11 @@ ensure_command() {
     fi
 }
 
-ensure_command grim
 ensure_command fuzzel
-ensure_command slurp
+ensure_command grim
 ensure_command jq
+ensure_command slurp
+ensure_command wl-copy
 
 screenshot_dir="$HOME/Pictures/Screenshots"
 mkdir -p "$screenshot_dir"
@@ -53,6 +54,15 @@ case "$scope" in
 esac
 
 if [ "$?" -eq 0 ]; then
+    copy_to_clipboard="$(
+        printf 'No\nYes\n' \
+            | fuzzel --dmenu --mesg='Copy to Clipboard?' --lines=2 \
+                --selection-radius=20 --width 18
+    )"
+    if [ "$copy_to_clipboard" = "Yes" ]; then
+        setsid -f wl-copy --type image/png < "$screenshot_path"
+    fi
+
     action="$(
         notify-send \
             --action=open='Open Screenshot' \
@@ -60,6 +70,5 @@ if [ "$?" -eq 0 ]; then
             'Screenshot Saved' \
             "$screenshot_path"
     )"
-
     [ "$action" = open ] && xdg-open "$screenshot_path"
 fi
