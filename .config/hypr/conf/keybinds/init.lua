@@ -40,7 +40,6 @@ hl.bind("SUPER + SHIFT + Q", hl.dsp.window.kill())
 hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
 hl.bind("SUPER + ALT + f", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER + Space", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
-hl.bind("SUPER + SHIFT + P", hl.dsp.window.pseudo())
 
 hl.bind("SUPER + f", hl.dsp.window.fullscreen({ mode = "maximized" }))
 hl.bind("SUPER + SHIFT + f", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
@@ -90,6 +89,9 @@ hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = tr
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true }) -- Resizing
+
+hl.bind("Print", hl.dsp.exec_cmd("$HOME/.config/hypr/screenshot.sh"))
+hl.bind("SUPER + ALT + P", hl.dsp.exec_cmd("$HOME/.config/hypr/screenshot.sh"))
 
 hl.bind("SUPER + R", hl.dsp.submap("resize")) hl.define_submap("resize", function()
   hl.bind("h", hl.dsp.window.resize({ x = 50, y = 0, relative = true}), { repeating = true })

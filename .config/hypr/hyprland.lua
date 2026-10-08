@@ -111,8 +111,14 @@ hl.curve("easeOutQuint",   { type = "bezier", points = { {0.23, 1},    {0.32, 1}
 hl.animation({ leaf = "global", enabled = true,  speed = 5, bezier = "easeOutQuint" })
 
 --------------------------------
----- WINDOWS AND WORKSPACES ----
+---- RULES ---------------------
 --------------------------------
+
+hl.layer_rule({
+  name = "screenshot-picker-no-animation",
+  match = { namespace = "^screenshot-picker$" },
+  no_anim = true,
+})
 
 hl.window_rule({
   -- Ignore maximize requests from all apps. You'll probably like this.
