@@ -1,5 +1,5 @@
 local function goto_file_line_col()
-  local line = vim.fn.getline('.')
+local line = vim.fn.getline('.')
 
   -- if that fails, try custom formats
   local patterns = {
