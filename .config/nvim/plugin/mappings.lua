@@ -42,7 +42,6 @@ end, { desc = "Duplicate and comment out line." })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
-vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
 vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]])
 
 -- Resize window using <ctrl> arrow keys
