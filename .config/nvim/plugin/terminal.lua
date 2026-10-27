@@ -37,8 +37,8 @@ end
 
 function Terminal:open()
   local win_config = function()
-    local col_margin = math.floor(vim.o.columns * 0.1)
-    local row_margin = math.floor(vim.o.lines * 0.1)
+    local col_margin = math.floor(vim.o.columns * 0.05)
+    local row_margin = math.floor(vim.o.lines * 0.05)
     return {
       row = row_margin,
       col = col_margin,
