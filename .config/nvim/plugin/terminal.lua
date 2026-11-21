@@ -180,6 +180,11 @@ local function select_agent()
     return
   end
 
+  if #available_agents == 1 then
+    session_agent = agent_specs[1]
+    return
+  end
+
   vim.ui.select(
     vim.fn.map(available_agents, "v:val.name"),
     { prompt = "Agent: ", },

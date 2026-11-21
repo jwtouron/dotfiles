@@ -97,6 +97,10 @@ local function fzf(input, fzf_opts, handlers)
   })
 end
 
+----------------------------------------
+-- files
+----------------------------------------
+
 local default_dirs = {}
 
 local seen = {}
@@ -133,7 +137,7 @@ function FZFFiles(dirs)
   dirs = vim.fn.map(dirs, "v:val == '' || v:val == '.' ? '.' : shellescape(v:val)")
   fzf(
     string.format("fd --unrestricted --exclude '.git' --type file . %s | sed -e 's!^\\./!!' -e \"s!^${HOME}!~!\"", vim.fn.join(dirs, " ")),
-    "--style=full --border --reverse --multi --border-label=Files",
+    "--style=full --border --reverse --multi --border-label=Files --tiebreak=pathname,length --exact",
     {
       enter = function(lines)
         for _, line in ipairs(lines) do
@@ -162,10 +166,14 @@ vim.api.nvim_create_user_command(
 vim.keymap.set("n", "<leader><space>", FZFFiles)
 vim.keymap.set("n", "<leader>ff", ":FzfFiles ")
 
+----------------------------------------
+-- old files
+----------------------------------------
+
 local function oldfiles()
   fzf(
     vim.v.oldfiles,
-    "--style=full --border --reverse --border-label='Old Files'",
+    "--style=full --border --reverse --border-label='Old Files' --tiebreak=pathname,length --exact",
     {
       enter = function(lines)
         if lines[1] ~= "" then
@@ -177,3 +185,59 @@ local function oldfiles()
 end
 
 vim.keymap.set("n", "<leader>fo", oldfiles)
+
+----------------------------------------
+-- diagnostics
+----------------------------------------
+
+local signs = {
+  [vim.diagnostic.severity.ERROR] = "\27[31m󰅚\27[0m",
+  [vim.diagnostic.severity.WARN] = "\27[33m󰀪\27[0m",
+  [vim.diagnostic.severity.HINT] = "\27[36m󰌶\27[0m",
+  [vim.diagnostic.severity.INFO] = "\27[34m\27[0m",
+}
+
+local function diagnostics()
+  local lnum_col = function(d)
+    local lnum = (d.lnum or 0) + 1
+    local col = (d.col or 0) + 1
+    return lnum, col
+  end
+  local diags = vim.diagnostic.get(0)
+  local lines = {}
+  local len = 0
+  for _, d in pairs(diags) do
+    local lnum, col = lnum_col(d)
+    len = math.max(len, string.len(string.format("%s:%s", lnum, col)))
+  end
+  local fmtstr = string.format("%%s %%-%ds %%s", len)
+  for _, d in pairs(diags) do
+    local lnum, col = lnum_col(d)
+    table.insert(
+      lines,
+      string.format(
+        fmtstr,
+        signs[d.severity],
+        string.format("%s:%s", lnum, col),
+        d.message or ""
+      )
+    )
+  end
+  fzf(
+    lines,
+    "--ansi --style=full --border --reverse --border-label='Diagnostics (buffer)' --exact",
+    {
+      enter = function(lines)
+        if lines[1] ~= "" then
+          local lnum, col = string.match(lines[1], "^%S+ (%d+):(%d+) ")
+          lnum, col = tonumber(lnum), tonumber(col) or 1
+          if lnum then
+            vim.fn.cursor(lnum, col)
+          end
+        end
+      end
+    }
+  )
+end
+
+vim.keymap.set("n", "<leader>fd", diagnostics)

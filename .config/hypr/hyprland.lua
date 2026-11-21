@@ -91,9 +91,9 @@ hl.config({
         active = "rgb(FAC000)",
         inactive = "rgb(801100)",
       },
-      font_size = 0,
-      height = 0,
+      height = 1,
       keep_upper_gap = false,
+      render_titles = false,
     },
   },
 

@@ -9,7 +9,7 @@ case "$(printf '%s' "${XDG_CURRENT_DESKTOP:-}" | tr '[:upper:]' '[:lower:]')" in
     *hyprland*)
         backend=hyprpaper
         ;;
-    *sway*)
+    *sway*|*niri*)
         backend=swaybg
         ;;
     *)

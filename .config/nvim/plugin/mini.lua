@@ -6,7 +6,6 @@ end
 
 vim.pack.add(
   {
-    mini("align"),
     mini("bufremove"),
     mini("hipatterns"),
     { src = "https://github.com/rafamadriz/friendly-snippets" },
@@ -14,13 +13,6 @@ vim.pack.add(
     mini("trailspace"),
   }, { confirm = false }
 )
-
-require("mini.align").setup {
-  mappings = {
-    start = '',
-    start_with_preview = 'gA',
-  },
-}
 
 for _, cmd in ipairs({ "delete", "wipeout" }) do
   vim.api.nvim_create_user_command(
